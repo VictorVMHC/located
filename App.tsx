@@ -11,9 +11,19 @@ export const App = () => {
     i18n.changeLanguage(value);
     console.log(value);
   }
-  
   return (
     <SafeAreaView style = {{flex:1}}>
+     { 
+     /*
+     <View>
+      <Text> {t('Hello World')} </Text>
+      <Button
+      title={t('Hello World')}
+      onPress={() => changeLenguage('es')}
+      ></Button>
+    </View> 
+    */
+    }
       <SplasScreenView/>
     </SafeAreaView>
   )
