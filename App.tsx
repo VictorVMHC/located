@@ -24,7 +24,7 @@ export const App = () => {
     </View> 
     */
     }
-      <SplasScreenView/>
+     <SplasScreenView/>
     </SafeAreaView>
   )
 }
