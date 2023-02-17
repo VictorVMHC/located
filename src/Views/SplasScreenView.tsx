@@ -3,7 +3,6 @@ import { View, Image, StyleSheet, Text } from 'react-native';
 
 export const SplasScreenView = () => {
   return (
-    
     <View style={styles.container}>
         <View style={styles.colummView}>
             <View>
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     textView:{
-        top: -40,
+        top: -30,
         alignItems: 'center',
         flexDirection: 'row',
     },
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
         height: 260,
         width: 190,
         resizeMode: 'contain',
-        top: -50,
+        top: -20,
     },
     textStyle:{
         fontSize: 50,
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
         borderRadius: 175,
         alignSelf: 'stretch',
         left: -120,
-        bottom: -160,
+        bottom: -200,
     },
     ellipse2: {
         width: 500,
@@ -76,24 +75,25 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         right: -200,
         bottom: -300,
-    },ellipse3: {
-        width: 350,
-        height: 350,
-        backgroundColor: 'rgba(255, 198, 0, .20)',
-        position: 'absolute',
-        borderRadius: 175,
-        alignSelf: 'stretch',
-        left: -120,
-        bottom: -160,
     },
-    ellipse4: {
+    ellipse3: {
         width: 500,
         height: 500,
         backgroundColor: 'rgba(255, 198, 0, .20)',
         position: 'absolute',
         borderRadius: 250,
         alignSelf: 'stretch',
-        right: -200,
-        bottom: -300,
+        left: -100,
+        top: -350,
+    },
+    ellipse4: {
+        width: 350,
+        height: 350,
+        backgroundColor: 'rgba(255, 198, 0, .20)',
+        position: 'absolute',
+        borderRadius: 175,
+        alignSelf: 'stretch',
+        right: -120,
+        top: -250,
     }
 })
