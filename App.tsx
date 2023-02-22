@@ -4,6 +4,8 @@ import './src/Utils/i18m';
 import { useTranslation } from 'react-i18next';
 import { SplasScreenView } from './src/Views/SplasScreenView';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
+import { NavigationContainer } from '@react-navigation/native';
 
 export const App = () => {
   const {t, i18n} = useTranslation();
@@ -12,7 +14,7 @@ export const App = () => {
     console.log(value);
   }
   return (
-    <SafeAreaView style = {{flex:1}}>
+    <NavigationContainer>
      { 
      /*
      <View>
@@ -24,7 +26,7 @@ export const App = () => {
     </View> 
     */
     }
-      <SplasScreenView/>
-    </SafeAreaView>
+      <MainStackNavigator/>
+    </NavigationContainer>
   )
 }
