@@ -1,5 +1,5 @@
 import React , { useEffect } from 'react';
-import { Image , StyleSheet , Text , View } from 'react-native';
+import { ActivityIndicator, Image , StyleSheet , Text , View } from 'react-native';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -10,7 +10,7 @@ export const SplasScreenView = ({navigation}: Props) => {
   useEffect(() => {
     setTimeout(() => {
       goToMain();
-    }, 1000)
+    }, 3000)
   }, [])
 
   const goToMain = () => {
@@ -19,15 +19,16 @@ export const SplasScreenView = ({navigation}: Props) => {
   return (
   <View style={styles.container}>
     <View style={styles.colummView}>
-      <View>
-        <Image
-            style={styles.imageStyle}
-            source={require('../Assets/Images/logo_color.png')}
-        />
-      </View>
+      <Image
+          style={styles.imageStyle}
+          source={require('../Assets/Images/logo_color.png')}
+      />
       <View style={styles.textView}>
         <Text style={styles.textStyle }>Loca</Text>
         <Text style={{...styles.textStyle, color: '#FFC600'}}>ted</Text>
+      </View>
+      <View style={styles.activityIndicator}>
+        <ActivityIndicator size={'large'}/>
       </View>
     </View>
     <View style={styles.ellipse1} ></View>
@@ -58,6 +59,9 @@ const styles = StyleSheet.create({
         width: 190,
         resizeMode: 'contain',
         top: -20,
+    },
+    activityIndicator:{
+      top: -20,
     },
     textStyle:{
         fontSize: 50,
