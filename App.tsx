@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import './src/Utils/i18m';
 import { useTranslation } from 'react-i18next';
-import { SplasScreenView } from './src/Views/SplasScreenView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
 import { NavigationContainer } from '@react-navigation/native';

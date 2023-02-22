@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, {  useState } from 'react'
 import { View, Image, StyleSheet, Text, TextInput, TouchableHighlight} from 'react-native';
 
 
@@ -16,7 +16,7 @@ export const OlvideContrasena = () => {
                 <View>
                     <Image
                     style={styles.imageStyle}
-                    source={require('../Assets/Images/LogoLocated.png')}
+                    source={require('../Assets/Images/located.png')}
                     />
                 </View>
                     <Text style={styles.textos}>Olvide mi contraseña</Text>
