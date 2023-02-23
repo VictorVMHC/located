@@ -1,26 +1,41 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import React , { useEffect } from 'react';
+import { ActivityIndicator, Image , StyleSheet , Text , View } from 'react-native';
 
-export const SplasScreenView = () => {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+interface Props extends NativeStackScreenProps<any, any>{};
+
+export const SplasScreenView = ({navigation}: Props) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      goToMain();
+    }, 3000)
+  }, [])
+
+  const goToMain = () => {
+    navigation.replace("OlvideContrasena");
+  }
   return (
-    <View style={styles.container}>
-        <View style={styles.colummView}>
-            <View>
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../Assets/Images/logo_color.png')}
-                />
-            </View>
-            <View style={styles.textView}>
-                <Text style={styles.textStyle }>Loca</Text>
-                <Text style={{...styles.textStyle, color: '#FFC600'}}>ted</Text>
-            </View>
-        </View>
-        <View style={styles.ellipse1} ></View>
-        <View style={styles.ellipse2} ></View>
-        <View style={styles.ellipse3} ></View>
-        <View style={styles.ellipse4} ></View>
+  <View style={styles.container}>
+    <View style={styles.colummView}>
+      <Image
+          style={styles.imageStyle}
+          source={require('../Assets/Images/logo_color.png')}
+      />
+      <View style={styles.textView}>
+        <Text style={styles.textStyle }>Loca</Text>
+        <Text style={{...styles.textStyle, color: '#FFC600'}}>ted</Text>
+      </View>
+      <View style={styles.activityIndicator}>
+        <ActivityIndicator size={'large'}/>
+      </View>
     </View>
+    <View style={styles.ellipse1} ></View>
+    <View style={styles.ellipse2} ></View>
+    <View style={styles.ellipse3} ></View>
+    <View style={styles.ellipse4} ></View>
+  </View>
     
   )
 }
@@ -44,6 +59,9 @@ const styles = StyleSheet.create({
         width: 190,
         resizeMode: 'contain',
         top: -20,
+    },
+    activityIndicator:{
+      top: -20,
     },
     textStyle:{
         fontSize: 50,
