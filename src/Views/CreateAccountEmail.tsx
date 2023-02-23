@@ -2,29 +2,41 @@ import React, {  useState } from 'react'
 import { View, Image, StyleSheet, Text, TextInput, TouchableHighlight} from 'react-native';
 
 
-export const OlvideContrasena = () => {
+export const CreateAccountEmail = () => {
 
-        const[datos, setDatos] = useState({
-            correo:'',
-        })
-        
+       const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
+       const [Email,setEmail] = useState()
+       const [Tel,setTel] = useState()
+       const [Edad,setEdad] = useState()
    
   return (
     <View style={styles.container}>
         <View style={styles.colummView}>
-            <Text style={styles.textStyle}>Contraseña</Text>
+            <Text style={styles.textStyle}>Crear Cuenta</Text>
                 <View>
                     <Image
                     style={styles.imageStyle}
                     source={require('../Assets/Images/logo_located.png')}
                     />
                 </View>
-                    <Text style={styles.textos}>Olvide mi contraseña</Text>
+                    <Text style={styles.textos}>Ingrese datos personales</Text>
                       <TextInput style={styles.input}
-                        placeholder='Ingresa tu correo electronico'   
+                        placeholder='Nombre'   
+                       />
+                       <TextInput style={styles.input}
+                        placeholder='Correo Electronico'
+                        keyboardType='email-address'   
+                       />
+                       <TextInput style={styles.input}
+                        placeholder='Telefono'
+                        keyboardType="phone-pad"   
+                       />
+                       <TextInput style={styles.input}
+                        placeholder='Edad'
+                        keyboardType='number-pad'
                        />
             <TouchableHighlight style={styles.boton}>
-                <Text style={styles.txtbtn}>Recuperar</Text>
+                <Text style={styles.txtbtn}>Registrarse</Text>
             </TouchableHighlight>
         </View>
         <View style={styles.ellipse3} ></View>
@@ -47,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         letterSpacing:0,
         fontFamily: 'ExtraBold',
-        top: -115,
+        top: -40,
         left: -115,
         color:'black',
         textShadowColor: 'black',
@@ -61,8 +73,8 @@ const styles = StyleSheet.create({
     fontSize:20,
     fontFamily:'bold',
     color:'black',
-    top: -150,
-    left:-80,
+    top: -60,
+    left:-66,
     },
     ellipse3: {
         width: 500,
@@ -88,25 +100,26 @@ const styles = StyleSheet.create({
         height: 260,
         width: 190,
         resizeMode: 'contain',
-        top: -100,
+        top: -10,
     },
     input:{
         height: 40,
+        width: 355,
         borderColor: '#ccc',
         borderRadius: 6,
         borderWidth: 2,
-        paddingRight: 157,
+        margin: 4,
         textAlign:'left',
-        top: -140,
+        top: -60,
        
     },
     boton:{
         backgroundColor:'orange',
         height:40,
-        paddingLeft: 127,
-        paddingRight: 127,
+        paddingLeft: 125,
+        paddingRight: 125,
         borderRadius: 6,
-        top:-130,
+        top:-25,
         
     },
     txtbtn:{
