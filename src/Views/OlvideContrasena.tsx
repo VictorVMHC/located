@@ -16,7 +16,7 @@ export const OlvideContrasena = () => {
                 <View>
                     <Image
                     style={styles.imageStyle}
-                    source={require('../Assets/Images/located.png')}
+                    source={require('../Assets/Images/LogoLocated.png')}
                     />
                 </View>
                     <Text style={styles.textos}>Olvide mi contraseña</Text>
