@@ -1,25 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { Circles } from '../Components/Circles';
 
 export const SplasScreenView = () => {
   return (
     <View style={styles.container}>
-        <View style={styles.colummView}>
-            <View>
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../Assets/Images/logo_color.png')}
-                />
-            </View>
-            <View style={styles.textView}>
-                <Text style={styles.textStyle }>Loca</Text>
-                <Text style={{...styles.textStyle, color: '#FFC600'}}>ted</Text>
-            </View>
-        </View>
-        <View style={styles.ellipse1} ></View>
-        <View style={styles.ellipse2} ></View>
-        <View style={styles.ellipse3} ></View>
-        <View style={styles.ellipse4} ></View>
+      <Circles/>
+       
     </View>
     
   )

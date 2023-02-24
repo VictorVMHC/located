@@ -1,5 +1,6 @@
 import React, {  useState } from 'react'
 import { View, Image, StyleSheet, Text, TextInput, TouchableHighlight} from 'react-native';
+import { Circles } from '../Components/Circles';
 
 
 export const OlvideContrasena = () => {
@@ -27,8 +28,10 @@ export const OlvideContrasena = () => {
                 <Text style={styles.txtbtn}>Recuperar</Text>
             </TouchableHighlight>
         </View>
-        <View style={styles.ellipse3} ></View>
-        <View style={styles.ellipse4} ></View>
+        <Circles
+        position='top'
+        quantity={2}
+        />
     </View>
     
   )
@@ -63,26 +66,6 @@ const styles = StyleSheet.create({
     color:'black',
     top: -150,
     left:-80,
-    },
-    ellipse3: {
-        width: 500,
-        height: 500,
-        backgroundColor: 'rgba(255, 198, 0, .20)',
-        position: 'absolute',
-        borderRadius: 250,
-        alignSelf: 'stretch',
-        left: -100,
-        top: -350,
-    },
-    ellipse4: {
-        width: 350,
-        height: 350,
-        backgroundColor: 'rgba(255, 198, 0, .20)',
-        position: 'absolute',
-        borderRadius: 175,
-        alignSelf: 'stretch',
-        right: -120,
-        top: -250,
     },
     imageStyle:{
         height: 260,
