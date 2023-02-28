@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Text, TextInput, TouchableHighlight} from 'rea
 import { Circles } from '../Components/Circles';
 
 
-export const OlvideContrasena = () => {
+export const OlvideContrasenaView = () => {
 
         const[datos, setDatos] = useState({
             correo:'',
@@ -11,19 +11,19 @@ export const OlvideContrasena = () => {
         
    
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
         <View style={styles.colummView}>
             <Text style={styles.textStyle}>Contraseña</Text>
-                <View>
-                    <Image
+            <View>
+                <Image
                     style={styles.imageStyle}
                     source={require('../Assets/Images/logo_located.png')}
-                    />
-                </View>
-                    <Text style={styles.textos}>Olvide mi contraseña</Text>
-                      <TextInput style={styles.input}
-                        placeholder='Ingresa tu correo electronico'   
-                       />
+                />
+            </View>
+            <Text style={styles.textos}>Olvide mi contraseña</Text>
+            <TextInput style={styles.input}
+                placeholder='Ingresa tu correo electronico'   
+            />
             <TouchableHighlight style={styles.boton}>
                 <Text style={styles.txtbtn}>Recuperar</Text>
             </TouchableHighlight>
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         paddingRight: 157,
         textAlign:'left',
         top: -140,
+        paddingHorizontal: 5,
        
     },
     boton:{
