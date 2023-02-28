@@ -13,6 +13,7 @@ export const LogginView = () => {
         />
         <View style={Styles.headerView}>
             <Text style={Styles.textStyle}> Iniciar sesion</Text>
+            <Text style={FontStyles.SubTitles}>  Bienvenido!</Text>
         </View>
         <KeyboardAvoidingView
             behavior={'height'}
