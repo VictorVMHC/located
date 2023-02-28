@@ -12,8 +12,8 @@ export const FontStyles = {
     SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 20 },
     Links: { fontFamily: 'Outfit-ExtraLight', fontSize: 20 },
     Information: { fontFamily: 'Outfit-SemiBold', fontSize: 16, color: '#4E7098' },
-    Text: { fontFamily: 'Outfit.Regular', fontSize: 20 },
-    Alerts: {fontFamily: 'Outfit.Regular', fontSize: 20 }
+    Text: { fontFamily: 'Outfit.Light', fontSize: 20 },
+    Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 20 }
 };
 
 export const Styles = StyleSheet.create({
@@ -53,15 +53,13 @@ export const Styles = StyleSheet.create({
         color:'black',
     },
     imageStyle:{
-        position: 'absolute',
         height:70,
-        top: 110,
-        left:-100,
         resizeMode: 'contain',
     },
     input:{
         height: 40,
         width: 300,
+        backgroundColor: 'white',
         borderColor: '#ccc',
         borderRadius: 6,
         borderWidth: 2,
