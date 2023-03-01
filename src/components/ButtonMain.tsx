@@ -1,37 +1,36 @@
-import React from 'react'
+import React, { JSXElementConstructor } from 'react'
 import { Text, TouchableNativeFeedback, View, StyleSheet, Image, BackHandler, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
+interface Props {
+    text?: string,
+    iconName?: string,
+    properties?: {},
+    action?: () => {},
+    propertiesText?: {}
+}
 
-export const ButtonMain = () => {
+export const ButtonMain = ({text = '', iconName = '', properties= {}, propertiesText= {}, action }: Props)  => {
   return (
-    <View style={ styles.contenedorprincipal }>
-       
-            <TouchableOpacity  onPress={()=> console.log('click') } style={[
-            styles.contenedorBotonExp,styles.ButtonBt
-        ]}>
-                 <Image style={styles.imgwalking} source={require('../Assets/Images/walking.png')}/>
-                  <Text style={styles.textoExp}>Explorar</Text>
-
-            </TouchableOpacity>
-
-             <TouchableOpacity  onPress={()=> console.log('click') } style={[styles.contenedorBotonExp,
-            styles.ButtonBd,styles.ButtonBd
-        ]}>
-                  <Text style={styles.textoExp}>Iniciar Sesion</Text>
-            </TouchableOpacity>
+    <View style={styles.containerBtn}>
+    <TouchableOpacity style={{...styles.containerTochable,  ...properties}} onPress={action}>
+        {iconName != '' && <Icon name={iconName} size={30} color="#900" />} 
+        <Text style={propertiesText}>{text}</Text>
+    </TouchableOpacity>
     </View>
-
-
-    
-
-    
-  
-
   )
 }
 
 const styles = StyleSheet.create({
+    containerBtn: {
+        alignSelf: 'center',
+    },
+    containerTochable: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
     contenedorprincipal:{
         position: 'absolute',
         top: '52%',

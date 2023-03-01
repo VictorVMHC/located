@@ -1,42 +1,69 @@
 import React from 'react'
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
 import { Circles } from '../Components/Circles';
-import { FontStyles } from '../Themes/Styles';
+import { FontStyles, Styles, Colors } from '../Themes/Styles';
 
 const img = require('../Assets/Images/fondo_main.png');
 
 export const MainView = () => {
+  const {height, width} = useWindowDimensions();
   return (
     <View style={styles.container}>
       <ImageBackground
-      source={img}
-      resizeMode = 'cover'
-      style={styles.image} >
+        source={img}
+        resizeMode = 'cover'
+        style={{position: 'absolute', width, height}} 
+      >
         <Circles
-        quantity={1}
-        position='top'
+          quantity={1}
+          position='top'
         />
-        <View style={styles.recuadrologo}>
+        <View style={styles.recuadrologo} >
           <Image 
-           source={require('../Assets/Images/logo_located.png')}
-           style={styles.textoLogo}
+            source={require('../Assets/Images/logo_located.png')}
+            style={{...Styles.imageStyle, left: -100, top: 40}}
            />
+        </View>
+        <View style={styles.recuadroBody} >
+          <View style={{bottom: -250}}>
+            <ButtonMain 
+              text='Explorar'
+              iconName='walk-outline'
+              properties={{
+                width:300,
+                height:50,
+                backgroundColor: Colors.Yellow,
+                borderRadius: 20,
+                justifyContent: 'center',
+                marginVertical: 15,
+              }}
+            />
+            <ButtonMain 
+              text='Iniciar Sesión'
+              properties={{
+                width:300,
+                height:50,
+                backgroundColor: Colors.Yellow,
+                borderRadius: 20,
+                justifyContent: 'center',
+                marginVertical: 15,
+              }}
+            />
           </View>
-        <ButtonMain 
-        ></ButtonMain>
-        
-        <View style={styles.cuandroinferior}>
-          <Text style={styles.textoinferior}>No tienes una cuenta?</Text>
-          <TouchableOpacity>
-            <Text style={FontStyles.Links}>Registrate</Text>
-            </TouchableOpacity>
 
         </View>
-
+        <View style={styles.recuadroFooter}>
+          <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
+            <Text style={styles.textoinferior}>No tienes una cuenta?</Text>
+            <TouchableOpacity style={{height:40}}>
+              <Text style={styles.textoReg}> Registrate</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        
       </ImageBackground>
-
     </View>
 
   )
@@ -45,14 +72,18 @@ export const MainView = () => {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-  },
-  image: {
-    flex: 1,
-    opacity: 8
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   recuadrologo:{
-    width:'100%', 
-    height:'25%',
+    flex:2,
+  },
+  recuadroBody:{
+    flex: 7,
+  },
+  recuadroFooter:{
+    flex: 1,
+    backgroundColor: 'black',
   },
   textoLogo:{
     width: '100%',
@@ -60,19 +91,17 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
     opacity: 1
   },
-  cuandroinferior:{
-    position: 'absolute',
-    bottom:0,
-    width: '100%',
-    height: '7%',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(15,15,14,1)'
-
+  recuandroInferior:{
+   flex:1,
   },
   textoinferior:{
-    fontSize: 25,
-    textAlign: 'center',
-    color: 'rgba(255,254,254,0.7)'
+    ...FontStyles.SubTitles,
+    color: 'white',
+    textAlign:'center',
+  },
+  textoReg:{
+    top: 4,
+    ...FontStyles.Links,
+    color: Colors.Yellow
   }
-
 });
