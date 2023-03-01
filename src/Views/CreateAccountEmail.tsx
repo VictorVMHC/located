@@ -1,6 +1,8 @@
 import React, {  useState } from 'react'
-import { View, Image, StyleSheet, Text, TextInput, TouchableHighlight} from 'react-native';
-
+import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Circles } from '../Components/Circles';
+import { FontStyles, Styles } from '../Themes/Styles'
 
 export const CreateAccountEmail = () => {
 
@@ -10,129 +12,47 @@ export const CreateAccountEmail = () => {
        const [Edad,setEdad] = useState()
    
   return (
-    <View style={styles.container}>
-        <View style={styles.colummView}>
-            <Text style={styles.textStyle}>Crear Cuenta</Text>
-                <View>
-                    <Image
-                    style={styles.imageStyle}
-                    source={require('../Assets/Images/logo_located.png')}
-                    />
-                </View>
-                    <Text style={styles.textos}>Ingrese datos personales</Text>
-                      <TextInput style={styles.input}
+    <SafeAreaView style={Styles.container}>
+        <Circles
+        position='top'
+        quantity={2}
+        />
+        <Image
+            style={Styles.imageStyle}
+            source={require('../Assets/Images/logo_located.png')}
+        />
+         <View style={Styles.headerView}>
+            <Text style={Styles.textStyle}>Crear Cuenta</Text>
+        </View>
+            <View style={Styles.bodyView}>
+                    <Text style={Stylesingletext.onlytext}>Ingrese datos personales</Text>
+                      <TextInput style={Styles.input}
                         placeholder='Nombre'   
                        />
-                       <TextInput style={styles.input}
+                       <TextInput style={Styles.input}
                         placeholder='Correo Electronico'
                         keyboardType='email-address'   
                        />
-                       <TextInput style={styles.input}
+                       <TextInput style={Styles.input}
                         placeholder='Telefono'
                         keyboardType="phone-pad"   
                        />
-                       <TextInput style={styles.input}
+                       <TextInput style={Styles.input}
                         placeholder='Edad'
                         keyboardType='number-pad'
                        />
-            <TouchableHighlight style={styles.boton}>
-                <Text style={styles.txtbtn}>Registrarse</Text>
-            </TouchableHighlight>
-        </View>
-        <View style={styles.ellipse3} ></View>
-        <View style={styles.ellipse4} ></View>
-    </View>
+            <TouchableOpacity style={Styles.boton}>
+                <Text style={Styles.txtbtn}>Registrarse</Text>
+            </TouchableOpacity>
+            </View>
+    </SafeAreaView>
     
   )
 }
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-    },
-    colummView:{
-        flex:1,
-        alignItems: 'center',
-        justifyContent:'center',
-    },
-    textStyle:{
-        fontSize: 30,
-        letterSpacing:0,
-        fontFamily: 'ExtraBold',
-        top: -40,
-        left: -115,
-        color:'black',
-        textShadowColor: 'black',
-        textShadowRadius: 1,
-        textShadowOffset:{
-            width: 1,
-            height: 1,
-        }
-    },
-    textos:{
-    fontSize:20,
-    fontFamily:'bold',
-    color:'black',
-    top: -60,
-    left:-66,
-    },
-    ellipse3: {
-        width: 500,
-        height: 500,
-        backgroundColor: 'rgba(255, 198, 0, .20)',
-        position: 'absolute',
-        borderRadius: 250,
-        alignSelf: 'stretch',
-        left: -100,
-        top: -350,
-    },
-    ellipse4: {
-        width: 350,
-        height: 350,
-        backgroundColor: 'rgba(255, 198, 0, .20)',
-        position: 'absolute',
-        borderRadius: 175,
-        alignSelf: 'stretch',
-        right: -120,
-        top: -250,
-    },
-    imageStyle:{
-        height: 260,
-        width: 190,
-        resizeMode: 'contain',
-        top: -10,
-    },
-    input:{
-        height: 40,
-        width: 355,
-        borderColor: '#ccc',
-        borderRadius: 6,
-        borderWidth: 2,
-        margin: 4,
-        textAlign:'left',
-        top: -60,
-       
-    },
-    boton:{
-        backgroundColor:'orange',
-        height:40,
-        paddingLeft: 125,
-        paddingRight: 125,
-        borderRadius: 6,
-        top:-25,
-        
-    },
-    txtbtn:{
-        fontSize: 20,
-        letterSpacing:0,
-        fontFamily: 'ExtraBold',
-        top: 7,
-        left: 10,
-        color:'black',
-        textShadowColor: 'black',
-        textShadowRadius: 1,
-        textShadowOffset:{
-            width: 1,
-            height: 1,},        
+const Stylesingletext = StyleSheet.create({
+    onlytext:{
+        ...Styles.textos,
+        width: 300,
     }
-})
+});
