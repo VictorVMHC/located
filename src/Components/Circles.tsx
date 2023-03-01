@@ -1,12 +1,15 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, useWindowDimensions, View } from 'react-native'
 interface Props{
   quantity?: 1 | 2,
   position?: 'top' | 'bottom' | 'both'
 }
 export const Circles = ({quantity = 2, position = 'both'}: Props) => {
+
+  const {height, width} = useWindowDimensions();
+  
   return (
-    <View style={{flex:1}}>
+    <View style={{position: 'absolute', width: width, height: height}}>
       {quantity == 1 
         && (position == 'both' || position == 'bottom' ) 
         && <View style={styles.ellipse6} ></View>
