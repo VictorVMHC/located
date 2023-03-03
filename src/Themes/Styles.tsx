@@ -4,7 +4,9 @@ export const Colors = {
     orange: '#CD5F28',
     blue: "#2F76BC",
     black: "#0F0F0E",
-    Yellow: '#FFC600'
+    Yellow: '#FFC600',
+    YellowOpacity: 'rgba(255,198,0,0.4)',
+    white: '#FFFFFF'
 };
 
 export const FontStyles = {

@@ -30,25 +30,30 @@ export const MainView = () => {
           <View style={{bottom: -250}}>
             <ButtonMain 
               text='Explorar'
-              iconName='walk-outline'
+              iconName='walking'
               properties={{
-                width:300,
-                height:50,
-                backgroundColor: Colors.Yellow,
+                width:355,
+                height:63,
+                backgroundColor: Colors.YellowOpacity,
                 borderRadius: 20,
                 justifyContent: 'center',
-                marginVertical: 15,
+                marginVertical: 20,
+                borderWidth: 4,
+                borderColor:Colors.YellowOpacity,
               }}
             />
             <ButtonMain 
               text='Iniciar Sesión'
               properties={{
-                width:300,
-                height:50,
-                backgroundColor: Colors.Yellow,
+                width:355,
+                height:63,
+                backgroundColor: Colors.white,
                 borderRadius: 20,
                 justifyContent: 'center',
                 marginVertical: 15,
+                borderColor:  Colors.YellowOpacity,
+                borderWidth: 4,
+             
               }}
             />
           </View>

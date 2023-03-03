@@ -1,6 +1,6 @@
 import React, { JSXElementConstructor } from 'react'
 import { Text, TouchableNativeFeedback, View, StyleSheet, Image, BackHandler, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 interface Props {
@@ -15,8 +15,8 @@ export const ButtonMain = ({text = '', iconName = '', properties= {}, properties
   return (
     <View style={styles.containerBtn}>
     <TouchableOpacity style={{...styles.containerTochable,  ...properties}} onPress={action}>
-        {iconName != '' && <Icon name={iconName} size={30} color="#900" />} 
-        <Text style={propertiesText}>{text}</Text>
+        {iconName != '' && <Icon name={iconName} size={30} color="black" />} 
+        <Text style={[propertiesText, styles.textoExp]}>{text}</Text>
     </TouchableOpacity>
     </View>
   )
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '30%',
         justifyContent: 'space-around',
-        paddingTop:5
+        paddingTop:5,
     },
     contenedorBotonExp:{
         flexDirection: 'row',
@@ -46,9 +46,7 @@ const styles = StyleSheet.create({
         left: '5.5%',
         borderRadius: 20,
         justifyContent: 'center',
-        alignItems: 'center',
-        
-        
+        alignItems: 'center',  
     },
     ButtonTop:{
         flex:1,
@@ -65,12 +63,15 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'center',
         position: 'absolute',
-        left: '8%'
-
+        left: '8%',
     },
     textoExp:{
-      fontSize: 45,
-      color: 'black'
+      fontSize: 40,
+      color: 'black',
+      alignItems: 'center',
+      marginLeft: 20,
+      marginBottom: 3,
+
     },
     ButtonBd:{
         borderColor:  'rgba(255, 198, 0, 1)',
