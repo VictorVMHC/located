@@ -6,14 +6,19 @@ export const Colors = {
     black: "#0F0F0E",
     Yellow: '#FFC600',
     YellowOpacity: 'rgba(255,198,0,0.4)',
-    white: '#FFFFFF'
+    white: '#FFFFFF',
+    blueAqua: '#1DAEFF',
+    gray: '#F6F6F6',
+    blueText: '#4E7098',
+    whiteOpcaity: 'rgba(255,255,255,0.5)',
+    red: '#C25454'
 };
 
 export const FontStyles = {
     Title: { fontFamily: 'Outfit.SemiBold', fontSize: 30, },
     SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 20 },
     Links: { fontFamily: 'Outfit-ExtraLight', fontSize: 20, color: Colors.blue },
-    Information: { fontFamily: 'Outfit-SemiBold', fontSize: 16, color: '#4E7098' },
+    Information: { fontFamily: 'Outfit-SemiBold', fontSize: 16, color: Colors.blueText },
     Text: { fontFamily: 'Outfit.Light', fontSize: 20 },
     Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 20 }
 };

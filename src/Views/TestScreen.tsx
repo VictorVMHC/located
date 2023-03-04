@@ -4,7 +4,7 @@ import { Card } from '../Components/Card'
 
 export const TestScreen = () => {
   return (
-    <View style={{flex: 1, backgroundColor: 'gray'}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
         <Card />
     </View>
   )
