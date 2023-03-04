@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 export const MainStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='MainView'
+      initialRouteName='TestScreen'
     >
       <Stack.Screen name='SplashScreen' component={SplasScreenView} options={{headerShown: false}}/>
       <Stack.Screen name='OlvideContrasenaView' component={OlvideContrasenaView} options={{headerShown: false}}/>
