@@ -11,7 +11,7 @@ export const Colors = {
     gray: '#F6F6F6',
     blueText: '#4E7098',
     whiteOpcaity: 'rgba(255,255,255,0.5)',
-    red: '#C25454'
+    red: '#9C0505'
 };
 
 export const FontStyles = {

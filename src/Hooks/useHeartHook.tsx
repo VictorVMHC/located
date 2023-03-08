@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../Themes/Styles';
 
-export const useHeartHook = () => {
-    const [isActive, setActive] = useState(false)
+export const useHeartHook = (value: boolean) => {
+    const [isActive, setActive] = useState(value)
 
-    const check = ()  =>{
+    const check = ( )  =>{
       if(isActive)
       {
         setActive(false)

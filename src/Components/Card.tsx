@@ -1,74 +1,92 @@
-import React from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import React, { BlockquoteHTMLAttributes } from 'react';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Image } from 'react-native';
 import { default as FontAwsome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
+import { Tag } from './Tag';
 
+interface Props{
+    cardWidth: number,
+    cardHeight: number,
+    like: boolean,
+    local: Local, 
+}
 
-export const Card = () => {
+interface Local {
+    name: string,
+    adress: string,
+    uriImage: string,
+    isVerify: boolean,
+    schedules: Schedule[],
+    rate: number,
+    quantityRate: number,
+    tags: string[]
+}
+
+interface Schedule {
+    day1: string,
+    day2: string,
+    open: string,
+    close: string,
+}
+
+export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Props) => {
     const { width, height} = useWindowDimensions();
-    const {isActive, check} = useHeartHook();
+    const {isActive, check} = useHeartHook(like);
+    const {name, adress, uriImage, isVerify, schedules, rate, quantityRate, tags} = local;
 
     return (
     <View style={styles.container}>
-        <TouchableOpacity style={{width: width - (width/15), height: height - (height/1.8) , ...styles.tochableCard}}
+        <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.tochableCard}}
             onPress={() => console.log('tochable card')}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
-                    source={{uri:"https://i.blogs.es/87930e/comidas-ricas/840_560.jpg"}} 
+                    source={{ uri: uriImage }} 
                     style={styles.imageBackground} 
-                    resizeMode='cover' 
+                    resizeMode='cover'
                     borderTopRightRadius={20} 
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text>4.5</Text>
-                        <Text> * </Text>
-                        <Text>(999+)</Text>
+                        <Text>{rate}</Text>
+                        <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
+                        <Text>({quantityRate})</Text>
                     </View>
                     <TouchableOpacity style={styles.heartBtn}
                             onPress={() => {check()} }
-                        >
-                            {!isActive 
-                                ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
-                                : <IonIcon name='heart' size={35} color={Colors.red} />
-                            }
+                    >
+                        {!isActive 
+                            ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
+                            : <IonIcon name='heart' size={35} color={Colors.red} />
+                        }
                     </TouchableOpacity>
                 </ImageBackground>        
             </View>
             <View style={styles.bodyCard}>
                 <View style={styles.bodyCardHeader}>
                     <View style={styles.titleSection}>
-                        <Text style={styles.titleStyle}>Taco House </Text>
-                        <FontAwsome name={'check-circle'} size={17} color={Colors.blueAqua}  />
+                        <Text style={styles.titleStyle}>{name}</Text>
+                        {isVerify && <FontAwsome name={'check-circle'} size={17} color={Colors.blueAqua}/>}
                     </View>
                     <View style={styles.locationStyles}>
                         <FontAwsome name={'map-marked-alt'} size={20} color={Colors.blueAqua} style={{marginHorizontal: 5}} />
-                        <Text style={styles.textLocation}>Río reforma #1720</Text>
+                        <Text style={styles.textLocation}>{adress}</Text>
                     </View>
                     <View style={styles.calendarStyles}>
                         <View style={styles.iconCalendarStyles}>
                             <IonIcon name={'calendar-outline'} size={50} color={Colors.blueAqua} />
                         </View>
-                        <View style={{ flex: 8}}>
-                            <Text style={styles.textSchedule}>Lunes-jueves: 11:00-15:00 </Text>
-                            <Text style={styles.textSchedule}>viernes-sabado: 11:00-5:00  </Text>
-                            <Text style={styles.textSchedule}>domingo: cerrado</Text>
+                        <View style={{ flex: 8, alignContent: 'center', justifyContent: 'center'}}>
+                            {schedules.map( ({ day1, day2, open, close }: Schedule) => 
+                                <Text style={styles.textSchedule}>{day1}{day2 && `- ${day2}`}: {open}-{close} </Text>) 
+                            }
                         </View>
                     </View>
                 </View>
                 <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
-                    <View  style={styles.tagStyle} >
-                        <Text style={styles.textTag} >Mexicana</Text>
-                    </View>
-                    <View style={styles.tagStyle} >
-                        <Text style={styles.textTag}>Fonda</Text>
-                    </View>
-                    <View style={styles.tagStyle} >
-                        <Text style={styles.textTag}>Antojito</Text>
-                    </View>
+                    {tags.map( (tag) => <Tag text={ tag }/>)}
                 </View> 
             </View> 
         </TouchableOpacity>
@@ -79,7 +97,6 @@ export const Card = () => {
 const styles = StyleSheet.create({
     container:{
         marginVertical: 10,
-        padding: 10, 
     },
     tochableCard:{
         alignSelf: 'center', 
@@ -87,7 +104,7 @@ const styles = StyleSheet.create({
         borderColor: 'black', 
         borderWidth: 1,
         borderRadius: 20, 
-        shadowColor: "#000",
+        shadowColor: Colors.black,
         shadowOffset: {
             width: 0,
             height: 5,
@@ -97,8 +114,6 @@ const styles = StyleSheet.create({
         elevation: 50,  
     },
     imageBackground:{   
-        width:'100%',  
-        height:'100%', 
         flex: 1,
     },
     ratingTag: {
@@ -144,6 +159,7 @@ const styles = StyleSheet.create({
         ...FontStyles.Title,
         fontSize: 20,
         top: -5,
+        marginRight: 7,
         color: Colors.black
     },
     locationStyles:{
@@ -172,15 +188,5 @@ const styles = StyleSheet.create({
         marginHorizontal: 2, 
         width: '100%', 
         height: 20
-    },
-    tagStyle: {
-        backgroundColor: '#F6F6F6',
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        marginHorizontal: 5
-    },
-    textTag:{
-        ...FontStyles.Information,
     }
 });
