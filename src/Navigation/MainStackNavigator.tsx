@@ -8,6 +8,7 @@ import { TestScreen } from '../Views/TestScreen';
 import { CreateAccountEmail } from '../Views/CreateAccountEmail';
 import { LogginView } from '../Views/LogginView';
 import { MainView } from '../Views/MainView';
+import { CalistarjetaScreenView } from '../Views/CalistarjetaScreenView';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +16,7 @@ const Stack = createStackNavigator();
 export const MainStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='MainView'
+      initialRouteName='CalistarjetaScreenView'
     >
       <Stack.Screen name='SplashScreen' component={SplasScreenView} options={{headerShown: false}}/>
       <Stack.Screen name='OlvideContrasenaView' component={OlvideContrasenaView} options={{headerShown: false}}/>
@@ -23,6 +24,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen name='CreateAccountEmail' options={{ headerShown: false}} component={CreateAccountEmail}/>
       <Stack.Screen name='LogginView' options={{ headerShown: false}} component={LogginView}/>
       <Stack.Screen name='MainView' options={{ headerShown: false}} component={MainView}/>
+      <Stack.Screen name='CalistarjetaScreenView' options={{ headerShown: false}} component={CalistarjetaScreenView}/>
     </Stack.Navigator>
   )
 }
