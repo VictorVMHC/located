@@ -1,5 +1,5 @@
-import React, { JSXElementConstructor } from 'react'
-import { Text, TouchableNativeFeedback, View, StyleSheet, Image, BackHandler, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
@@ -7,7 +7,7 @@ interface Props {
     text?: string,
     iconName?: string,
     properties?: {},
-    action?: () => {},
+    action?: () => void,
     propertiesText?: {}
 }
 
