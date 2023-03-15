@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 
-export const CreateAccountEmail = () => {
+export const CreateAccountEmailView = () => {
 
        const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
        const [Email,setEmail] = useState()
@@ -17,13 +17,13 @@ export const CreateAccountEmail = () => {
         position='top'
         quantity={2}
         />
-        <Image
-            style={Styles.imageStyle}
-            source={require('../Assets/Images/logo_located.png')}
-        />
-         <View style={Styles.headerView}>
+        <View style={Styles.headerView}>
             <Text style={Styles.textStyle}>Crear Cuenta</Text>
         </View>
+            <Image
+                style={{...Styles.imageStyle, left: -100, top: 10}}
+                source={require('../Assets/Images/logo_located.png')}
+            />
             <View style={Styles.bodyView}>
                     <Text style={Stylesingletext.onlytext}>Ingrese datos personales</Text>
                       <TextInput style={Styles.input}

@@ -18,22 +18,22 @@ export const OlvideContrasenaView = () => {
         position='top'
         quantity={2}
         />
-        <Image
-            style={Styles.imageStyle}
-            source={require('../Assets/Images/logo_located.png')}
-        />
-        <View style={Styles.headerView}>
+         <View style={Styles.headerView}>
             <Text style={Styles.textStyle}>Contraseña</Text>
         </View>
-        <View style={Styles.bodyView}>
-            <Text style={Stylesingletext.onlytext}>Olvide mi contraseña</Text>
-            <TextInput style={Styles.input}
-                placeholder='Ingresa tu correo electronico'   
+            <Image
+                 style={{...Styles.imageStyle, left: -100, top: 10}}
+                source={require('../Assets/Images/logo_located.png')}
             />
-           <TouchableOpacity style={Styles.boton}>
-                <Text style={Styles.txtbtn}>Recuperar</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={Styles.bodyView}>
+                    <Text style={Stylesingletext.onlytext}>Olvide mi contraseña</Text>
+                    <TextInput style={Styles.input}
+                        placeholder='Ingresa tu correo electronico'   
+                    />
+                <TouchableOpacity style={Styles.boton}>
+                        <Text style={Styles.txtbtn}>Recuperar</Text>
+                    </TouchableOpacity>
+                </View>
     </SafeAreaView>
     
   )
