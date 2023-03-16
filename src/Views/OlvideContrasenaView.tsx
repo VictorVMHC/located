@@ -10,33 +10,30 @@ export const OlvideContrasenaView = () => {
         const[datos, setDatos] = useState({
             correo:'',
         })
-        
-   
-  return (
-    <SafeAreaView style={Styles.container}>
-        <Circles
-        position='top'
-        quantity={2}
-        />
-         <View style={Styles.headerView}>
-            <Text style={Styles.textStyle}>Contraseña</Text>
-        </View>
+    return (
+        <SafeAreaView style={Styles.container}>
+            <Circles
+                position='top'
+                quantity={2}
+            />
+            <View style={Styles.headerView}>
+                <Text style={Styles.textStyle}>Contraseña</Text>
+            </View>
             <Image
-                 style={{...Styles.imageStyle, left: -100, top: 10}}
+                style={{...Styles.imageStyle, left: -100, top: 10}}
                 source={require('../Assets/Images/logo_located.png')}
             />
-                <View style={Styles.bodyView}>
-                    <Text style={Stylesingletext.onlytext}>Olvide mi contraseña</Text>
-                    <TextInput style={Styles.input}
-                        placeholder='Ingresa tu correo electronico'   
-                    />
+            <View style={Styles.bodyView}>
+                <Text style={Stylesingletext.onlytext}>Olvide mi contraseña</Text>
+                <TextInput style={Styles.input}
+                    placeholder='Ingresa tu correo electronico'   
+                />
                 <TouchableOpacity style={Styles.boton}>
-                        <Text style={Styles.txtbtn}>Recuperar</Text>
-                    </TouchableOpacity>
-                </View>
-    </SafeAreaView>
-    
-  )
+                    <Text style={Styles.txtbtn}>Recuperar</Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView> 
+    )
 }
 
 const Stylesingletext = StyleSheet.create({
