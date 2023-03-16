@@ -24,7 +24,7 @@ export const MainView = () => {
           <Image 
             source={require('../Assets/Images/logo_located.png')}
             style={{...Styles.imageStyle, left: -100, top: 40}}
-           />
+          />
         </View>
         <View style={styles.recuadroBody} >
           <View style={{bottom: -250}}>
@@ -53,11 +53,9 @@ export const MainView = () => {
                 marginVertical: 15,
                 borderColor:  Colors.YellowOpacity,
                 borderWidth: 4,
-             
               }}
             />
           </View>
-
         </View>
         <View style={styles.recuadroFooter}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>

@@ -79,19 +79,19 @@ export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Pro
                             <IonIcon name={'calendar-outline'} size={50} color={Colors.blueAqua} />
                         </View>
                         <View style={{ flex: 8, alignContent: 'center', justifyContent: 'center'}}>
-                            {schedules.map( ({ day1, day2, open, close }: Schedule) => 
-                                <Text style={styles.textSchedule}>{day1}{day2 && `- ${day2}`}: {open}-{close} </Text>) 
+                            {schedules.map( ({ day1, day2, open, close }: Schedule, index) => 
+                                <Text key={index} style={styles.textSchedule}>{day1}{day2 && `- ${day2}`}: {open}-{close}</Text>) 
                             }
                         </View>
                     </View>
                 </View>
                 <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
-                    {tags.map( (tag) => <Tag text={ tag }/>)}
+                    {tags.map( (tag, index) => <Tag index={index} text={ tag }/>)}
                 </View> 
             </View> 
         </TouchableOpacity>
     </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({

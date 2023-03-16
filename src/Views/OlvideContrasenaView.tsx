@@ -9,32 +9,30 @@ export const OlvideContrasenaView = () => {
             correo:'',
         })
         
-   
-  return (
-    <View style={{flex: 1}}>
-        <View style={styles.colummView}>
-            <Text style={styles.textStyle}>Contraseña</Text>
-            <View>
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../Assets/Images/logo_located.png')}
+    return (
+        <View style={{flex: 1}}>
+            <View style={styles.colummView}>
+                <Text style={styles.textStyle}>Contraseña</Text>
+                <View>
+                    <Image
+                        style={styles.imageStyle}
+                        source={require('../Assets/Images/logo_located.png')}
+                    />
+                </View>
+                <Text style={styles.textos}>Olvide mi contraseña</Text>
+                <TextInput style={styles.input}
+                    placeholder='Ingresa tu correo electronico'   
                 />
+                <TouchableHighlight style={styles.boton}>
+                    <Text style={styles.txtbtn}>Recuperar</Text>
+                </TouchableHighlight>
             </View>
-            <Text style={styles.textos}>Olvide mi contraseña</Text>
-            <TextInput style={styles.input}
-                placeholder='Ingresa tu correo electronico'   
+            <Circles
+            position='top'
+            quantity={2}
             />
-            <TouchableHighlight style={styles.boton}>
-                <Text style={styles.txtbtn}>Recuperar</Text>
-            </TouchableHighlight>
         </View>
-        <Circles
-        position='top'
-        quantity={2}
-        />
-    </View>
-    
-  )
+    )
 }
 
 const styles = StyleSheet.create({
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
         textAlign:'left',
         top: -140,
         paddingHorizontal: 5,
-       
     },
     boton:{
         backgroundColor:'orange',
@@ -104,6 +101,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 1,
         textShadowOffset:{
             width: 1,
-            height: 1,},        
+            height: 1,
+        },        
     }
 })

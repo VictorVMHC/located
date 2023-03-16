@@ -4,6 +4,7 @@ import './src/Utils/i18m';
 import { useTranslation } from 'react-i18next';
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import {TabBarNavigator} from './src/Navigation/TabBarNavigatior'
 
 export const App = () => {
   const {t, i18n} = useTranslation();
@@ -13,18 +14,18 @@ export const App = () => {
   }
   return (
     <NavigationContainer>
-     { 
-     /*
-     <View>
-      <Text> {t('Hello World')} </Text>
-      <Button
-      title={t('Hello World')}
-      onPress={() => changeLenguage('es')}
-      ></Button>
-    </View> 
-    */
-    }
-     <MainStackNavigator/>
+      { 
+      /*
+      <View>
+        <Text> {t('Hello World')} </Text>
+        <Button
+        title={t('Hello World')}
+        onPress={() => changeLenguage('es')}
+        ></Button>
+      </View> 
+      */
+      }
+      <TabBarNavigator/>
     </NavigationContainer>
   )
 }
