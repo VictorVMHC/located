@@ -27,6 +27,7 @@ box:{
   borderTopWidth: 0,
   borderBottomStartRadius: 15,
   borderBottomEndRadius: 15,
+  paddingHorizontal: 15
 
 
 },
