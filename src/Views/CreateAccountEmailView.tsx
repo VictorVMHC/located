@@ -7,11 +7,11 @@ import { FontStyles, Styles } from '../Themes/Styles'
 export const CreateAccountEmailView = () => {
 
        const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
-       const [Email,setEmail] = useState()
-       const [Tel,setTel] = useState()
-       const [Edad,setEdad] = useState()
-   
-  return (
+    const [Email,setEmail] = useState()
+    const [Tel,setTel] = useState()
+    const [Edad,setEdad] = useState()
+
+return (
     <SafeAreaView style={Styles.container}>
         <Circles
         position='top'
@@ -26,28 +26,28 @@ export const CreateAccountEmailView = () => {
             />
             <View style={Styles.bodyView}>
                     <Text style={Stylesingletext.onlytext}>Ingrese datos personales</Text>
-                      <TextInput style={Styles.input}
+                    <TextInput style={Styles.input}
                         placeholder='Nombre'   
-                       />
-                       <TextInput style={Styles.input}
+                    />
+                    <TextInput style={Styles.input}
                         placeholder='Correo Electronico'
                         keyboardType='email-address'   
-                       />
-                       <TextInput style={Styles.input}
+                    />
+                    <TextInput style={Styles.input}
                         placeholder='Telefono'
                         keyboardType="phone-pad"   
-                       />
-                       <TextInput style={Styles.input}
+                    />
+                    <TextInput style={Styles.input}
                         placeholder='Edad'
                         keyboardType='number-pad'
-                       />
+                    />
             <TouchableOpacity style={Styles.boton}>
                 <Text style={Styles.txtbtn}>Registrarse</Text>
             </TouchableOpacity>
             </View>
     </SafeAreaView>
     
-  )
+)
 }
 
 const Stylesingletext = StyleSheet.create({

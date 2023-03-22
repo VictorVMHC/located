@@ -6,7 +6,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AntDisign from 'react-native-vector-icons/AntDesign';
 
 export const MainCreateAccountView = () => {
-   
+  
   return (
     <SafeAreaView style={Styles.container}>
         <Circles
@@ -17,7 +17,7 @@ export const MainCreateAccountView = () => {
             <Text style={Styles.textStyle}>Crear Cuenta</Text>
         </View>
         <Image
-         style={{...Styles.imageStyle, left: -100, top: 10}}
+        style={{...Styles.imageStyle, left: -100, top: 10}}
         source={require('../Assets/Images/logo_located.png')}
           />
         <View style={Styles.bodyView}>
@@ -28,7 +28,7 @@ export const MainCreateAccountView = () => {
               </TouchableOpacity>  
                 <TouchableOpacity>
                 <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
-                 <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
+                <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
                 </TouchableOpacity>
                   <TouchableOpacity>
                   <AntDisign name="mail"style={StylesLogging.IconMail}/>
