@@ -24,7 +24,7 @@ export const MainView = () => {
           <Image 
             source={require('../Assets/Images/logo_located.png')}
             style={{...Styles.imageStyle, left: -100, top: 40}}
-           />
+          />
         </View>
         <View style={styles.recuadroBody} >
           <View style={{bottom: -250}}>

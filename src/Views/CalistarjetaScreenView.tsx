@@ -1,20 +1,30 @@
-import React from 'react'
-import { View, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet , View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { CardCloseToMe } from '../Components/CardCloseToMe';
+import { tarjeta } from '../Utils/Data _Example';
 
 export const CalistarjetaScreenView = () => {
     return (
     <View style={styles.container}>
         <View style={styles.header}>
-
         </View>
         <View style={styles.body}>
-            <CardCloseToMe 
-                Img={'https://assets.unileversolutions.com/recipes-v2/164562.jpg'} 
-                Name={'La casa de la sopas'}
-                giro={'Restaurante'}
-                like={false} />
+            <FlatList
+                data={tarjeta}
+                renderItem={({ item }) => (
+                    <CardCloseToMe
+                        Img={item.img} 
+                        Name={item.name}
+                        categorie={item.categorie}
+                        like={item.like}
+                    /> 
+                )}
+                horizontal={false}
+                numColumns={2}
+            />
         </View>
         <View style={styles.footer}>
 
@@ -37,8 +47,6 @@ const styles = StyleSheet.create({
         flex: 8,
         backgroundColor: 'white',
         alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
     },
     footer:{
         flex: 1,
