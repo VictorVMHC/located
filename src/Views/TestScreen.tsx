@@ -1,8 +1,6 @@
 import React from 'react';
 import { Text , View } from 'react-native';
-
 import { Card } from '../Components/Card';
-import { CardAcordeon } from '../Components/CardAcordeon';
 import { local } from '../Utils/Data _Example';
 
 export const TestScreen = () => {

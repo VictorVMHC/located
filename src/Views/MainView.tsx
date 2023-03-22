@@ -53,11 +53,9 @@ export const MainView = () => {
                 marginVertical: 15,
                 borderColor:  Colors.YellowOpacity,
                 borderWidth: 4,
-             
               }}
             />
           </View>
-
         </View>
         <View style={styles.recuadroFooter}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
