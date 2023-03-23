@@ -27,10 +27,10 @@ export const LogginView = () => {
                 </View>
                 <View style={{flex: 4, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{flex: 2}}>
-                    {i18n.language === 'es'
-                    ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                    :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                    }
+                        {i18n.language === 'es'
+                        ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        }
                     </View>
                     <View style={{ flex: 8}}>
                         <PickerButon/>
@@ -74,7 +74,7 @@ export const LogginView = () => {
                 </View>
                 <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
                 <TouchableOpacity>
-                <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
+                    <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>     
         </SafeAreaView>    
@@ -107,7 +107,6 @@ const StylesLogging = StyleSheet.create({
     },
     btnIcon:{
         marginHorizontal: 10,
-        alignSelf:'baseline',
         width: 80,
         height:60,
         shadowColor: "#000",
