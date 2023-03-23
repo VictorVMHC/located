@@ -34,8 +34,7 @@ export const LogginView = () => {
                     </View>
                     <View style={{ flex: 8}}>
                         <PickerButon/>
-                    </View>
-                    
+                    </View>   
                 </View>
             </View>
             <KeyboardAvoidingView
