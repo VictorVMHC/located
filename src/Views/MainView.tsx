@@ -3,12 +3,15 @@ import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } f
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
 import { Circles } from '../Components/Circles';
+import { PickerButon } from '../Components/PickerButon';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
+import { useTranslation } from 'react-i18next';
 
 const img = require('../Assets/Images/fondo_main.png');
 
 export const MainView = () => {
   const {height, width} = useWindowDimensions();
+  const { i18n } = useTranslation();
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -21,9 +24,22 @@ export const MainView = () => {
           position='top'
         />
         <View style={styles.recuadrologo} >
+          <View
+            style={{ top: 5, width: 190, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
+          >
+            <View style={{flex: 2}}>
+                {i18n.language === 'es'
+                ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                }
+            </View>
+            <View style={{ flex: 8}}>
+                <PickerButon/>
+            </View>
+          </View>
           <Image 
             source={require('../Assets/Images/logo_located.png')}
-            style={{...Styles.imageStyle, left: -100, top: 40}}
+            style={{...Styles.imageStyle, left: -100, top: 60}}
           />
         </View>
         
