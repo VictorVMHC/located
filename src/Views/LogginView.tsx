@@ -2,25 +2,48 @@ import React from 'react';
 import { Image, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { PickerButon } from '../Components/PickerButon';
+import { useTranslation } from 'react-i18next';
+
+
 
 
 export const LogginView = () => {
-  return (
-    <SafeAreaView style={Styles.container}>
-        <Circles
-        position='top'
-        quantity={2}
-        />
-        <View style={Styles.headerView}>
-            <Text style={Styles.textStyle}> Iniciar sesion</Text>
-            <Text style={FontStyles.SubTitles}>  Bienvenido!</Text>
-        </View>
-        <KeyboardAvoidingView
-            behavior={'height'}
-            keyboardVerticalOffset={0}
-            enabled={true}
-            style={Styles.bodyView}
-        >
+    const { i18n } = useTranslation();
+    return (
+        <SafeAreaView style={Styles.container}>
+            <Circles
+                position='top'
+                quantity={2}
+            />
+            <View style={{...Styles.headerView, flexDirection: 'row'}}>
+                <View style={{flex: 6}} >
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={Styles.textStyle}> Iniciar sesion </Text>
+                        <Icon name='user' size={25} light />
+                    </View>
+                    <Text style={FontStyles.SubTitles}>  Bienvenido!</Text>
+                </View>
+                <View style={{flex: 4, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{flex: 2}}>
+                        {i18n.language === 'es'
+                        ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        }
+                    </View>
+                    <View style={{ flex: 8}}>
+                        <PickerButon/>
+                    </View>
+                    
+                </View>
+            </View>
+            <KeyboardAvoidingView
+                behavior={'height'}
+                keyboardVerticalOffset={0}
+                enabled={true}
+                style={Styles.bodyView}
+            >
                 <Image
                     style={Styles.imageStyle}
                     source={require('../Assets/Images/logo_located.png')}
@@ -33,7 +56,7 @@ export const LogginView = () => {
                 />
                 <View style={StylesLogging.viewText}>
                     <TouchableOpacity>
-                    <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
+                        <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={Styles.boton}>
@@ -51,16 +74,11 @@ export const LogginView = () => {
                 </View>
                 <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
                 <TouchableOpacity>
-                <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
+                    <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
                 </TouchableOpacity>
-        </KeyboardAvoidingView>   
-            
-        
-    </SafeAreaView>
-
-
-    
-  )
+            </KeyboardAvoidingView>     
+        </SafeAreaView>    
+    )
 }
 
 const StylesLogging = StyleSheet.create({
@@ -89,7 +107,6 @@ const StylesLogging = StyleSheet.create({
     },
     btnIcon:{
         marginHorizontal: 10,
-        alignSelf:'baseline',
         width: 80,
         height:60,
         shadowColor: "#000",
@@ -102,6 +119,5 @@ const StylesLogging = StyleSheet.create({
         elevation: 4,
         borderRadius: 5,
     }
-
 });
 
