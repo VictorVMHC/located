@@ -6,7 +6,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AntDisign from 'react-native-vector-icons/AntDesign';
 
 export const MainCreateAccountView = () => {
-   
   return (
     <SafeAreaView style={Styles.container}>
         <Circles
@@ -14,27 +13,27 @@ export const MainCreateAccountView = () => {
         quantity={2}
         />
         <View style={Styles.headerView}>
-            <Text style={Styles.textStyle}>Crear Cuenta</Text>
+            <Text style={{...Styles.textStyle, left: 10}}>Crear Cuenta</Text>
         </View>
         <Image
-         style={{...Styles.imageStyle, left: -100, top: 10}}
-        source={require('../Assets/Images/logo_located.png')}
-          />
+          style={{...Styles.imageStyle, left: -100, top: 10}}
+          source={require('../Assets/Images/logo_located.png')}
+        />
         <View style={Styles.bodyView}>
-            <View style={StylesLogging.viewText}>
-              <TouchableOpacity >
+          <View style={StylesLogging.viewText}>
+            <TouchableOpacity >
               <AntDisign name="google"style={StylesLogging.IconGoogle}/>
               <Text style= {StylesLogging.textInformation}>Continuar con Google</Text>
-              </TouchableOpacity>  
-                <TouchableOpacity>
-                <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
-                 <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
-                </TouchableOpacity>
-                  <TouchableOpacity>
-                  <AntDisign name="mail"style={StylesLogging.IconMail}/>
-                    <Text style= {StylesLogging.textInformation}>Registrarte con tu E-mail</Text>
-                  </TouchableOpacity>
-            </View>
+            </TouchableOpacity>  
+            <TouchableOpacity>
+              <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
+              <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <AntDisign name="mail"style={StylesLogging.IconMail}/>
+              <Text style= {StylesLogging.textInformation}>Registrarte con tu E-mail</Text>
+            </TouchableOpacity>
+          </View>
         </View>
     </SafeAreaView>
 
@@ -45,17 +44,16 @@ export const MainCreateAccountView = () => {
 
 const StylesLogging = StyleSheet.create({
     viewText: {
-        width: 300,
+      width: 300,
     },
     textInformation:{
-        alignSelf: 'flex-end',
-        top: -40,
-        ...FontStyles.Information,
-        color:'black',
-        width: 200,
-        height: 20
+      alignSelf: 'flex-end',
+      top: -40,
+      ...FontStyles.Information,
+      color:'black',
+      width: 200,
+      height: 20
     },
-    
     viewLine:{
       flex: 1.8,
       borderColor: 'gray',
@@ -69,7 +67,6 @@ const StylesLogging = StyleSheet.create({
   },
   textLogging:{
       ...FontStyles.Information,
-
   },
   Iconface:{
     color: 'blue',
@@ -82,16 +79,6 @@ const StylesLogging = StyleSheet.create({
     top: -14,
     width: 45,
     height:30,
-    backgroundColor:'white',
-    shadowColor: "blue",
-    shadowOffset: {
-        width: 0,
-        height: 1,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 10.00,
-    elevation: 4,
-    borderRadius: 5,
   },
   IconGoogle:{
     color:'red',

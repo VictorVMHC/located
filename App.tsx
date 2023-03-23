@@ -11,12 +11,12 @@ import { TabBarNavigator } from './src/Navigation/TabBarNavigatior';
 
 export const App = () => {
 
-  const {t, i18n} = useTranslation();
+  const { i18n } = useTranslation();
   
   return (
     <I18nextProvider i18n={i18n}>
       <NavigationContainer>
-        <TabBarNavigator/>
+        <MainStackNavigator/>
       </NavigationContainer>
     </I18nextProvider>
   )
