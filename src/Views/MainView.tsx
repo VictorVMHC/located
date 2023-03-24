@@ -6,10 +6,14 @@ import { Circles } from '../Components/Circles';
 import { PickerButon } from '../Components/PickerButon';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TabBarNavigator } from '../Navigation/TabBarNavigatior';
 
 const img = require('../Assets/Images/fondo_main.png');
 
-export const MainView = () => {
+interface Props extends NativeStackScreenProps<any, any>{};
+
+export const MainView = ({navigation } : Props) => {
   const {height, width} = useWindowDimensions();
   const { i18n } = useTranslation();
   return (
@@ -58,6 +62,7 @@ export const MainView = () => {
                 borderWidth: 4,
                 borderColor:Colors.YellowOpacity,
               }}
+              action={() => navigation.replace("DrawerMenu") }
             />
             <ButtonMain 
               text='Iniciar Sesión'
@@ -71,6 +76,8 @@ export const MainView = () => {
                 borderColor:  Colors.YellowOpacity,
                 borderWidth: 4,
               }}
+              
+              action={() => navigation.navigate("LogginView")}
             />
           </View>
         </View>

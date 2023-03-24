@@ -9,15 +9,15 @@ interface Props{
     iconName: string,
 }
 
-const DrawerMenuButtons = ({text='', onPress, iconName=''}:Props) => {
+export const DrawerMenuButtons = ({text='', onPress, iconName=''}:Props) => {
 return (
     <TouchableOpacity
         style={styles.botoncontainer}
         onPress={ onPress }
     >
-    <View style={{flex:2}}><Icon name={iconName} size={30} color="white"/></View>
-    <View style={{flex:6}}><Text style={styles.text}>{ text }</Text></View>
-    <View style={{flex:2}}><Icon name="chevron-forward-outline" size={20} color="white" style={{ marginStart: 30 }}/></View>
+        <View style={{flex:2}}><Icon name={iconName} size={30} color="white"/></View>
+        <View style={{flex:6}}><Text style={styles.text}>{ text }</Text></View>
+        <View style={{flex:2}}><Icon name="chevron-forward-outline" size={20} color="white" style={{ marginStart: 30 }}/></View>
     </TouchableOpacity>
 )
 }
@@ -40,8 +40,3 @@ const styles= StyleSheet.create({
 
     }
 });
-
-
-
-
-export default DrawerMenuButtons
