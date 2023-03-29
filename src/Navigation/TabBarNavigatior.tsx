@@ -7,6 +7,7 @@ import { CloseToMeView } from '../Views/CloseToMeView';
 import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
 import { ForYouView } from '../Views/ForYouView';
+import { LogginView } from '../Views/LogginView';
 
 
 
@@ -54,7 +55,7 @@ export const TabBarNavigator = () => {
             <Tab.Screen name="CloseToMeView" component={ CloseToMeView } options={{ tabBarLabel: 'Cerca de mi' }} />
             <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: 'Mapas' }} />
             <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: 'Mis locales' }} />
-            <Tab.Screen name="ForYouView" component={ ForYouView } options={{ tabBarLabel: 'Para ti' }} />
+            <Tab.Screen name="ForYouView" component={ LogginView } options={{ tabBarLabel: 'Para ti' }} />
         </Tab.Navigator>
     );
 }

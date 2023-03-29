@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -48,10 +48,7 @@ export const LogginView = ({navigation}: Props) => {
                     source={require('../Assets/Images/logo_located.png')}
                 />
                 <TextInput style={Styles.input}
-                    placeholder='Ingresa tu correo electronico'   
-                />
-                <TextInput style={Styles.input}
-                    placeholder='Ingresa tu contraseña'   
+                placeholder='Ingrese su contraseña'   
                 />
                 <View style={StylesLogging.viewText}>
                     <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
@@ -83,31 +80,34 @@ export const LogginView = ({navigation}: Props) => {
 }
 
 const StylesLogging = StyleSheet.create({
-    viewText: {
-        width: 300,
+    containerOne:{
+        flex: 1,
+        backgroundColor: 'orange'
     },
-    textInformation:{
-        alignSelf: 'flex-end',
-        top: -4,
-        ...FontStyles.Information
+    containerheader:{
+        flex: 1,
+        backgroundColor: 'red',
     },
-    viewLine:{
-        flex: 1.8,
-        borderColor: 'gray',
-        borderWidth: 1,
-        height:1,
+    containermain:{
+        flex:4,
+        backgroundColor: 'blue',
+        alignItems: 'center'
     },
-    viewTextInLine:{
-        flex: 2.4,
-        top: -6,
-        alignItems: 'center',
+    containerLogo:{
+        backgroundColor: 'pink',
     },
-    textLogging:{
-        ...FontStyles.Information,
+    CardImg:{
+        width: '100%',
+        height: '100%',
+        resizeMode:'contain',
+        borderRadius: 10
+    },
+    containerLogin:{
 
     },
     btnIcon:{
         marginHorizontal: 10,
+        alignSelf:'baseline',
         width: 80,
         height:60,
         shadowColor: "#000",

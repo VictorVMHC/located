@@ -9,6 +9,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
 import { TabBarNavigator } from './src/Navigation/TabBarNavigatior';
 import { DrawerMenu} from './src/Navigation/DrawerMenu';
+import { LogginView } from './src/Views/LogginView';
+import { CalistarjetaScreenView } from './src/Views/CalistarjetaScreenView';
 
 export const App = () => {
 
