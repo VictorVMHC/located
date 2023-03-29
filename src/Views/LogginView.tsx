@@ -5,11 +5,11 @@ import { FontStyles, Styles } from '../Themes/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { PickerButon } from '../Components/PickerButon';
 import { useTranslation } from 'react-i18next';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+interface Props extends NativeStackScreenProps<any, any>{};
 
-
-
-export const LogginView = () => {
+export const LogginView = ({navigation}: Props) => {
     const { i18n } = useTranslation();
     return (
         <SafeAreaView style={Styles.container}>
@@ -28,8 +28,8 @@ export const LogginView = () => {
                 <View style={{flex: 4, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{flex: 2}}>
                         {i18n.language === 'es'
-                        ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                        :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                         }
                     </View>
                     <View style={{ flex: 8}}>
@@ -40,7 +40,7 @@ export const LogginView = () => {
             <KeyboardAvoidingView
                 behavior={'height'}
                 keyboardVerticalOffset={0}
-                enabled={true}
+                enabled={false}
                 style={Styles.bodyView}
             >
                 <Image
@@ -54,11 +54,11 @@ export const LogginView = () => {
                     placeholder='Ingresa tu contraseña'   
                 />
                 <View style={StylesLogging.viewText}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
                         <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={Styles.boton}>
+                <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
                     <Text style={Styles.txtbtn}>Entrar</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection: 'row', width: 300, marginVertical: 20}}>
@@ -72,7 +72,9 @@ export const LogginView = () => {
                     <TouchableOpacity style={StylesLogging.btnIcon}></TouchableOpacity>
                 </View>
                 <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("MainCreateAccountView")}
+                >
                     <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>     

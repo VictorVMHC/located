@@ -4,8 +4,10 @@ import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AntDisign from 'react-native-vector-icons/AntDesign';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export const MainCreateAccountView = () => {
+interface Props extends NativeStackScreenProps<any, any>{}
+export const MainCreateAccountView = ({navigation}: Props) => {
   return (
     <SafeAreaView style={Styles.container}>
         <Circles
@@ -29,7 +31,7 @@ export const MainCreateAccountView = () => {
               <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
               <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("CreateAccountEmailView")}>
               <AntDisign name="mail"style={StylesLogging.IconMail}/>
               <Text style= {StylesLogging.textInformation}>Registrarte con tu E-mail</Text>
             </TouchableOpacity>

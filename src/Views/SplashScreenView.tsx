@@ -14,7 +14,7 @@ export const SplasScreenView = ({navigation}: Props) => {
   }, [])
 
   const goToMain = () => {
-    navigation.replace("CreateAccountEmail");
+    navigation.replace("MainView");
   }
   return (
   <View style={styles.container}>

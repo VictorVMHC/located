@@ -21,7 +21,7 @@ export const TabBarNavigator = () => {
             shifting= {true}
             sceneAnimationType='shifting'
             sceneAnimationEnabled= {true}
-            activeColor="#e91e63"
+            activeColor={ Colors.orange }
             barStyle={{
                 backgroundColor: Colors.black
             }}
