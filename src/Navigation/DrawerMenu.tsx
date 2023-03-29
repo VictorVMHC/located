@@ -10,7 +10,7 @@ import {
 } from '@react-navigation/drawer';
 
 import { DrawerMenuButtons } from '../Components/DrawerMenuButtons';
-import { TabBarNavigator } from './TabBarNavigatior';
+import { TabBarNavigation } from './TabBarNavigation';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
@@ -37,7 +37,7 @@ export function DrawerMenu() {
     }}
       drawerContent={(props) => < MenuInterno {...props} />}
     >
-      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigator}/>
+      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
       <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
       <Drawer.Screen name="HelpView" component={HelpView}/>
       <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
