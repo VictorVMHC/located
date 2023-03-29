@@ -1,15 +1,19 @@
 import 'react-native-gesture-handler';
-import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
 
 import React from 'react';
-import { useWindowDimensions, Text, Image, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { ScreenStackHeaderSearchBarView } from 'react-native-screens';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { TabBarNavigator } from './TabBarNavigatior';
-import { Styles } from '../Themes/Styles';
-import { DrawerMenuButtons } from '../Components/DrawerMenuButtons';
-import { black } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
+import {
+    Image , StyleSheet , Text , useWindowDimensions , View
+} from 'react-native';
 
+import {
+    createDrawerNavigator , DrawerContentComponentProps , DrawerContentScrollView
+} from '@react-navigation/drawer';
+
+import { DrawerMenuButtons } from '../Components/DrawerMenuButtons';
+import { TabBarNavigator } from './TabBarNavigatior';
+import { EditProfileView } from '../Views/EditProfileView';
+import { HelpView } from '../Views/HelpView';
+import { NotificationsView } from '../Views/NotificationsView';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +23,7 @@ export function DrawerMenu() {
   return (
     <Drawer.Navigator
     screenOptions={{
+      headerTitle:'Located App',
       headerStyle: {
         elevation: 0,
         shadowColor: 'transparent'
@@ -30,9 +35,12 @@ export function DrawerMenu() {
         width: width/1.7
       }
     }}
-      drawerContent={(props) => <MenuInterno {...props} />}
+      drawerContent={(props) => < MenuInterno {...props} />}
     >
       <Drawer.Screen name="TabBarNavigator" component={TabBarNavigator}/>
+      <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
+      <Drawer.Screen name="HelpView" component={HelpView}/>
+      <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
     </Drawer.Navigator>
   );
 }
@@ -60,17 +68,17 @@ const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
             />
             <DrawerMenuButtons
               text = "Editar Perfil"
-              onPress = {() => navigation.navigate('TabBarNavigator')}
+              onPress = {() => navigation.navigate('EditProfileView')}
               iconName='person-outline'
             />
             <DrawerMenuButtons
               text = "Notificación"
-              onPress = {() => navigation.navigate('TabBarNavigator')}
+              onPress = {() => navigation.navigate('NotificationsView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
               text = "Ayuda"
-              onPress = {() => navigation.navigate('TabBarNavigator')}
+              onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
             <DrawerMenuButtons

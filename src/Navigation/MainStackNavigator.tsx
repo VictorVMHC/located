@@ -1,16 +1,14 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
-
+import { CalistarjetaScreenView } from '../Views/CalistarjetaScreenView';
+import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
+import { LogginView } from '../Views/LogginView';
+import { MainCreateAccountView } from '../Views/MainCreateAccountView';
+import { MainView } from '../Views/MainView';
 import { OlvideContrasenaView } from '../Views/OlvideContrasenaView';
 import { SplasScreenView } from '../Views/SplashScreenView';
 import { TestScreen } from '../Views/TestScreen';
-import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
-import { LogginView } from '../Views/LogginView';
-import { MainView } from '../Views/MainView';
-import { CalistarjetaScreenView } from '../Views/CalistarjetaScreenView';
-import { MainCreateAccountView} from '../Views/MainCreateAccountView';
-import { TabBarNavigator } from './TabBarNavigatior';
 import { DrawerMenu } from './DrawerMenu';
 
 const Stack = createStackNavigator();

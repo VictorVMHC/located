@@ -84,7 +84,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.recuadroFooter}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
             <Text style={styles.textoinferior}>No tienes una cuenta?</Text>
-            <TouchableOpacity style={{height:40}}>
+            <TouchableOpacity style={{height:40}} onPress={() => navigation.navigate("MainCreateAccountView")}>
               <Text style={styles.textoReg}> Registrate</Text>
             </TouchableOpacity>
           </View>
