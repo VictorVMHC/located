@@ -6,14 +6,17 @@ import {
 } from 'react-native';
 
 import {
-    createDrawerNavigator , DrawerContentComponentProps , DrawerContentScrollView
+    createDrawerNavigator , DrawerContentComponentProps , DrawerContentScrollView, DrawerItem, DrawerItemList
 } from '@react-navigation/drawer';
 
-import { DrawerMenuButtons } from '../Components/DrawerMenuButtons';
+import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
 import { TabBarNavigation } from './TabBarNavigation';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
+import Collapsible from 'react-native-collapsible';
+import { CollapsibleButon } from '../Components/CollapsibleButton';
+import { useTranslation } from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
 
@@ -46,7 +49,9 @@ export function DrawerMenu() {
 }
 
 
-const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
+const MenuInterno = ( props: DrawerContentComponentProps ) => {
+  const {i18n} = useTranslation();
+  const { navigation } = props;
   return(
     <View style={{flex: 1}}>
       <View style={styles.header}><Text style={styles.title}>Located</Text>
@@ -81,10 +86,16 @@ const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
-            <DrawerMenuButtons
-              text = "Lenguaje"
-              onPress = {() => navigation.navigate('TabBarNavigator')}
+            <CollapsibleButon
+              title='Lenguaje'
               iconName='language-outline'
+              iconColor='white'
+              items={
+                [ 
+                  {title:'Español', action: () => i18n.changeLanguage('es')},
+                  {title:'Inglés', action: () => i18n.changeLanguage('en')}
+                ]
+              }
             />
           </View>
         </DrawerContentScrollView>
