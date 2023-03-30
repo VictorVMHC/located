@@ -3,7 +3,7 @@ import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } f
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
 import { Circles } from '../Components/Circles';
-import { PickerButon } from '../Components/PickerButon';
+import { PickerButon } from '../Components/PickerButton';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
