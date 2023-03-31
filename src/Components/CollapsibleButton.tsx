@@ -19,12 +19,12 @@ export const CollapsibleButon = ({title, iconName, iconColor, items= []}:Props) 
     return (
         <List.Accordion
             title={title}
-            left={ props => <Icon {...props} size={30} name={iconName} color={iconColor}/>}
+            left={ () => <Icon size={30} name={iconName} color={iconColor}/>}
             style={styles.botoncontainer}
             titleStyle={styles.text}
         >
             {
-                items.map((element) => <List.Item title={element.title} onPress={element.action} titleStyle={styles.text}/>)
+                items.map((element, index) => <List.Item key={index} title={element.title} onPress={element.action} titleStyle={styles.text}/>)
             }
         </List.Accordion>
 )
