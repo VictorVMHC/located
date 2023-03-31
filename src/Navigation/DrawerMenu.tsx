@@ -1,22 +1,17 @@
 import 'react-native-gesture-handler';
 
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
 import React from 'react';
-import {
-    Image , StyleSheet , Text , useWindowDimensions , View
-} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import {
-    createDrawerNavigator , DrawerContentComponentProps , DrawerContentScrollView, DrawerItem, DrawerItemList
-} from '@react-navigation/drawer';
-
+import { CollapsibleButon } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
-import { TabBarNavigation } from './TabBarNavigation';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
-import Collapsible from 'react-native-collapsible';
-import { CollapsibleButon } from '../Components/CollapsibleButton';
-import { useTranslation } from 'react-i18next';
+import { TabBarNavigation } from './TabBarNavigation';
+import { Colors } from '../Themes/Styles';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,11 +20,14 @@ export function DrawerMenu() {
   const {width} = useWindowDimensions();
   return (
     <Drawer.Navigator
+
     screenOptions={{
-      headerTitle:'Located App',
+      headerTitleAlign: 'center',
+      headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
       headerStyle: {
         elevation: 0,
-        shadowColor: 'transparent'
+        shadowColor: 'transparent',
+        backgroundColor: Colors.YellowOpacity
       },
       drawerPosition: 'left',
       drawerStyle:{
@@ -115,6 +113,11 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
 const styles= StyleSheet.create({
   container:{
     padding: 5,
+  },
+  imageStyle:{
+    height: 50, 
+    width: 200, 
+    resizeMode: 'contain'
   },
   avatar:{
     borderRadius:45,
