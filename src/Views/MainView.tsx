@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   recuandroInferior:{
-   flex:1,
+  flex:1,
   },
   textoinferior:{
     ...FontStyles.SubTitles,

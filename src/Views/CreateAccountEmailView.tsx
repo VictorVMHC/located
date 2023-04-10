@@ -3,9 +3,11 @@ import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity} from 'react
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
+import { PickerButon } from '../Components/PickerButton';
+import { useTranslation } from 'react-i18next';
 
 export const CreateAccountEmailView = () => {
-
+    const { i18n } = useTranslation();
     const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
     const [Email,setEmail] = useState()
     const [Tel,setTel] = useState()
@@ -16,8 +18,23 @@ export const CreateAccountEmailView = () => {
             position='top'
             quantity={2}
             />
-            <View style={Styles.headerView}>
-                <Text style={Styles.textStyle}>Crear Cuenta</Text>
+            <View style={{...Styles.headerView, flexDirection: 'row'}}>
+                <View style={{flex: 7}} >
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={Styles.textStyle}> Crear Cuenta </Text>
+                    </View>
+                </View>
+                <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{flex: 2}}>
+                        {i18n.language === 'es'
+                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        }
+                    </View>
+                    <View style={{ flex: 5}}>
+                        <PickerButon/>
+                    </View>   
+                </View>
             </View>
                 <Image
                     style={{...Styles.imageStyle, left: -100, top: 10}}
