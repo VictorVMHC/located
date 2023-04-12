@@ -3,7 +3,7 @@ import { Image, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput,
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { PickerButon } from '../Components/PickerButon';
+import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 

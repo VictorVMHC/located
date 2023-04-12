@@ -11,9 +11,9 @@ export const DescriptionBox = ({Descripcion = ''}:Props) => {
   const {width, height} = useWindowDimensions();
 
   return (
-   <View style={{...styles.box ,width: width - (width * 0.1), height: height - (height * 0.8)}}>
-    <Text style={styles.text}>{Descripcion}</Text>
-   </View>
+    <View style={{...styles.box ,width: width - (width * 0.1), height: height - (height * 0.8)}}>
+      <Text style={styles.text}>{Descripcion}</Text>
+    </View>
   )
 }
 
@@ -35,6 +35,5 @@ text:{
   fontSize:18,
   color: 'black',
   textAlign: 'justify'
-
 }
 })

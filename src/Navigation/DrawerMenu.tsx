@@ -1,19 +1,17 @@
 import 'react-native-gesture-handler';
 
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
 import React from 'react';
-import {
-    Image , StyleSheet , Text , useWindowDimensions , View
-} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import {
-    createDrawerNavigator , DrawerContentComponentProps , DrawerContentScrollView
-} from '@react-navigation/drawer';
-
-import { DrawerMenuButtons } from '../Components/DrawerMenuButtons';
-import { TabBarNavigator } from './TabBarNavigatior';
+import { CollapsibleButon } from '../Components/CollapsibleButton';
+import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
+import { TabBarNavigation } from './TabBarNavigation';
+import { Colors } from '../Themes/Styles';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,11 +20,14 @@ export function DrawerMenu() {
   const {width} = useWindowDimensions();
   return (
     <Drawer.Navigator
+
     screenOptions={{
-      headerTitle:'Located App',
+      headerTitleAlign: 'center',
+      headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
       headerStyle: {
         elevation: 0,
-        shadowColor: 'transparent'
+        shadowColor: 'transparent',
+        backgroundColor: Colors.YellowOpacity
       },
       drawerPosition: 'left',
       drawerStyle:{
@@ -37,7 +38,7 @@ export function DrawerMenu() {
     }}
       drawerContent={(props) => < MenuInterno {...props} />}
     >
-      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigator}/>
+      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
       <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
       <Drawer.Screen name="HelpView" component={HelpView}/>
       <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
@@ -46,7 +47,9 @@ export function DrawerMenu() {
 }
 
 
-const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
+const MenuInterno = ( props: DrawerContentComponentProps ) => {
+  const {i18n} = useTranslation();
+  const { navigation } = props;
   return(
     <View style={{flex: 1}}>
       <View style={styles.header}><Text style={styles.title}>Located</Text>
@@ -81,10 +84,16 @@ const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
-            <DrawerMenuButtons
-              text = "Lenguaje"
-              onPress = {() => navigation.navigate('TabBarNavigator')}
+            <CollapsibleButon
+              title='Lenguaje'
               iconName='language-outline'
+              iconColor='white'
+              items={
+                [ 
+                  {title:'Español', action: () => i18n.changeLanguage('es')},
+                  {title:'Inglés', action: () => i18n.changeLanguage('en')}
+                ]
+              }
             />
           </View>
         </DrawerContentScrollView>
@@ -104,6 +113,11 @@ const MenuInterno = ( {navigation} : DrawerContentComponentProps) => {
 const styles= StyleSheet.create({
   container:{
     padding: 5,
+  },
+  imageStyle:{
+    height: 50, 
+    width: 200, 
+    resizeMode: 'contain'
   },
   avatar:{
     borderRadius:45,

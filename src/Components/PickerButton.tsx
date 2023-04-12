@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next';
-import { View } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
-import { Colors } from '../Themes/Styles';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const PickerButon = () => {
     const {i18n} = useTranslation();

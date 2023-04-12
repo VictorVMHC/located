@@ -13,7 +13,7 @@ import { LogginView } from '../Views/LogginView';
 
 const Tab = createMaterialBottomTabNavigator();
 
-export const TabBarNavigator = () => {
+export const TabBarNavigation = () => {
     const theme = useTheme();
     theme.colors.secondaryContainer = "transperent"
     return (
@@ -32,7 +32,6 @@ export const TabBarNavigator = () => {
                     switch(route.name){
                         case 'PopularView' :
                             iconName = 'star';
-                            //iconName : 'fire';
                         break;
                         case 'CloseToMeView' :
                             iconName = 'location-arrow'
