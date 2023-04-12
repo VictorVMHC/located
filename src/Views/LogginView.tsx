@@ -10,7 +10,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LogginView = ({navigation}: Props) => {
-    const { i18n } = useTranslation();
+
+    const { t, i18n } = useTranslation();
+
     return (
         <SafeAreaView style={Styles.container}>
             <Circles

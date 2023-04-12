@@ -1,5 +1,7 @@
 {
     "translation": {
-        "Hello World": "Hello World"
+        "Hello World": "Hello World",
+        "Explore": "Explore",
+        "ForgotPassword": "Forgot password?"
     }
 }

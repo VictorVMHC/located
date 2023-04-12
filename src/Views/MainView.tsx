@@ -14,7 +14,7 @@ interface Props extends NativeStackScreenProps<any, any>{};
 
 export const MainView = ({navigation } : Props) => {
   const {height, width} = useWindowDimensions();
-  const { i18n } = useTranslation();
+  const { t ,i18n } = useTranslation();
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -49,7 +49,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.recuadroBody} >
           <View style={{bottom: -250}}>
             <ButtonMain 
-              text='Explorar'
+              text={t('Explore')}
               iconName='walking'
               properties={{
                 width:355,

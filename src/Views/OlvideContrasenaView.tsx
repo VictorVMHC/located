@@ -7,7 +7,7 @@ import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
 
 export const OlvideContrasenaView = () => {
-    const { i18n } = useTranslation();
+    const { t ,i18n } = useTranslation();
         const[datos, setDatos] = useState({
             correo:'',
         })
@@ -40,7 +40,7 @@ export const OlvideContrasenaView = () => {
                 source={require('../Assets/Images/logo_located.png')}
             />
             <View style={Styles.bodyView}>
-                <Text style={Stylesingletext.onlytext}>Olvide mi contraseña</Text>
+                <Text style={Stylesingletext.onlytext}>{t('ForgotPassword')}</Text>
                 <TextInput style={Styles.input}
                     placeholder='Ingresa tu correo electronico'   
                 />
