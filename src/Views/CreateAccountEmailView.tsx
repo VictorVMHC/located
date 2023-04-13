@@ -7,7 +7,7 @@ import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
 
 export const CreateAccountEmailView = () => {
-    const { i18n } = useTranslation();
+    const {t, i18n } = useTranslation();
     const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
     const [Email,setEmail] = useState()
     const [Tel,setTel] = useState()
@@ -21,7 +21,7 @@ export const CreateAccountEmailView = () => {
             <View style={{...Styles.headerView, flexDirection: 'row'}}>
                 <View style={{flex: 7}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}> Crear Cuenta </Text>
+                        <Text style={Styles.textStyle}> {t('CreateAccount')} </Text>
                     </View>
                 </View>
                 <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -41,24 +41,24 @@ export const CreateAccountEmailView = () => {
                     source={require('../Assets/Images/logo_located.png')}
                 />
                 <View style={Styles.bodyView}>
-                        <Text style={Stylesingletext.onlytext}>Ingrese datos personales</Text>
+                        <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
                         <TextInput style={Styles.input}
-                            placeholder='Nombre'   
+                            placeholder={`${t('Name')}`}
                         />
                         <TextInput style={Styles.input}
-                            placeholder='Correo Electronico'
+                        placeholder={`${t('Email')}`}
                             keyboardType='email-address'   
                         />
                         <TextInput style={Styles.input}
-                            placeholder='Telefono'
+                            placeholder={`${t('Phonenumber')}`}
                             keyboardType="phone-pad"   
                         />
                         <TextInput style={Styles.input}
-                            placeholder='Edad'
+                            placeholder={`${t('Age')}`}
                             keyboardType='number-pad'
                         />
                 <TouchableOpacity style={Styles.boton}>
-                    <Text style={Styles.txtbtn}>Registrarse</Text>
+                    <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
                 </TouchableOpacity>
                 </View>
         </SafeAreaView>

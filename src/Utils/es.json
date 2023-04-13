@@ -1,7 +1,34 @@
 {
     "translation": {
-        "Hello World": "Hola Mundo",
         "Explore": "Explorar",
-        "ForgotPassword": "Olvido contraseña?"
+        "ForgotPassword": "¿Olvido su contraseña?",
+        "CreateAccount": "Crear Cuenta",
+        "Loggin": "Iniciar Sesión",
+        "NoAccount": "¿No tienes una cuenta? ",
+        "Log": "Registrate",
+        "Welcome": "Bienvenido!",
+        "OrLogWith": "O entra con",
+        "NoSingUp": "¿Aún no te has registrado? ",
+        "LOG": "Entrar",
+        "PlaceHoldEnterEmail": "Ingresa tu correo electronico",
+        "PlaceHoldEnterPassword": "Ingresa tu contraseña",
+        "SingUpGoogle": "Continuar con Google",
+        "SingUpFacebook": "Continuar con Facebook",
+        "SingUpEmail": "Registrate con tu  Correo",
+        "Personalinfo": "Ingresa tus datos personales",
+        "Name": "Nombre",
+        "Email": "Correo Electronico",
+        "Phonenumber": "Teléfono",
+        "Age": "Edad",
+        "Registrar": "Registrarse",
+        "EnterEmail": "Ingresa tu correo electronico",
+        "Passwordtitle": "Contraseña",
+        "Recovery": "Recuperar",
+        "DrawerPartInicio": "Inicio",
+        "DrawerPartPerfil": "Editar Perfil",
+        "DrawerPartNotificacion": "Notificación",
+        "DrawerPartAyuda": "Ayuda",
+        "DrawerPartLenguaje": "Lenguaje",
+        "DrawerPartLogout": "Cerrar Sesión"
     }
 }

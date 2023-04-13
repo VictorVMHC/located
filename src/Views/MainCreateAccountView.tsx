@@ -11,7 +11,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 interface Props extends NativeStackScreenProps<any, any>{}
 export const MainCreateAccountView = ({navigation}: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <SafeAreaView style={Styles.container}>
         <Circles
@@ -21,7 +21,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         <View style={{...Styles.headerView, flexDirection: 'row'}}>
                 <View style={{flex: 7}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}> Crear Cuenta </Text>
+                        <Text style={Styles.textStyle}>{t('CreateAccount')}</Text>
                     </View>
                 </View>
                 <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -44,15 +44,15 @@ export const MainCreateAccountView = ({navigation}: Props) => {
           <View style={StylesLogging.viewText}>
             <TouchableOpacity >
               <AntDisign name="google"style={StylesLogging.IconGoogle}/>
-              <Text style= {StylesLogging.textInformation}>Continuar con Google</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpGoogle')}</Text>
             </TouchableOpacity>  
             <TouchableOpacity>
               <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
-              <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpFacebook')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("CreateAccountEmailView")}>
               <AntDisign name="mail"style={StylesLogging.IconMail}/>
-              <Text style= {StylesLogging.textInformation}>Registrarte con tu E-mail</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpEmail')}</Text>
             </TouchableOpacity>
           </View>
         </View>

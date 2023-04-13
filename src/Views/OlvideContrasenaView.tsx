@@ -20,7 +20,7 @@ export const OlvideContrasenaView = () => {
             <View style={{...Styles.headerView, flexDirection: 'row'}}>
                 <View style={{flex: 7}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}> Contraseña </Text>
+                        <Text style={Styles.textStyle}>{t('Passwordtitle')} </Text>
                     </View>
                 </View>
                 <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -42,10 +42,10 @@ export const OlvideContrasenaView = () => {
             <View style={Styles.bodyView}>
                 <Text style={Stylesingletext.onlytext}>{t('ForgotPassword')}</Text>
                 <TextInput style={Styles.input}
-                    placeholder='Ingresa tu correo electronico'   
+                    placeholder={`${t('EnterEmail')}`}   
                 />
                 <TouchableOpacity style={Styles.boton}>
-                    <Text style={Styles.txtbtn}>Recuperar</Text>
+                    <Text style={Styles.txtbtn}>{t('Recovery')}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView> 

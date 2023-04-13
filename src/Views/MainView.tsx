@@ -64,7 +64,7 @@ export const MainView = ({navigation } : Props) => {
               action={() => navigation.replace("DrawerMenu") }
             />
             <ButtonMain 
-              text='Iniciar Sesión'
+              text={t('Loggin')}
               properties={{
                 width:355,
                 height:63,
@@ -82,9 +82,9 @@ export const MainView = ({navigation } : Props) => {
         </View>
         <View style={styles.recuadroFooter}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
-            <Text style={styles.textoinferior}>No tienes una cuenta?</Text>
+            <Text style={styles.textoinferior}>{t('NoAccount')}</Text>
             <TouchableOpacity style={{height:40}} onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={styles.textoReg}> Registrate</Text>
+              <Text style={styles.textoReg}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>
