@@ -34,6 +34,7 @@
         "NearByTabBar": "Cerca de mi",
         "MapsTabBar": "Mapas",
         "MyLocalsTabBar": "Mis locales",
-        "ForYouTabBar": "Para ti"
+        "ForYouTabBar": "Para ti",
+        "UserName": "Ingresa tu nombre de usuario"
     }
 }

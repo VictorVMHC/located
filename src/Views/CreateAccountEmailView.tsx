@@ -50,6 +50,9 @@ export const CreateAccountEmailView = () => {
                             keyboardType='email-address'   
                         />
                         <TextInput style={Styles.input}
+                        placeholder={`${t('UserName')}`}
+                        />
+                        <TextInput style={Styles.input}
                             placeholder={`${t('Phonenumber')}`}
                             keyboardType="phone-pad"   
                         />
