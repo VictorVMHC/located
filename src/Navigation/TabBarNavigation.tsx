@@ -7,6 +7,7 @@ import { CloseToMeView } from '../Views/CloseToMeView';
 import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
 import { ForYouView } from '../Views/ForYouView';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -14,6 +15,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const TabBarNavigation = () => {
     const theme = useTheme();
+    const { t ,i18n } = useTranslation();
     theme.colors.secondaryContainer = "transperent"
     return (
         <Tab.Navigator
@@ -49,11 +51,11 @@ export const TabBarNavigation = () => {
                 },
             })}
         >
-            <Tab.Screen name="PopularView" component={ PopularView } options={{ tabBarLabel: 'Populares' }} />
-            <Tab.Screen name="CloseToMeView" component={ CloseToMeView } options={{ tabBarLabel: 'Cerca de mi' }} />
-            <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: 'Mapas' }} />
-            <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: 'Mis locales' }} />
-            <Tab.Screen name="ForYouView" component={ ForYouView } options={{ tabBarLabel: 'Para ti' }} />
+            <Tab.Screen name="PopularView" component={ PopularView } options={{ tabBarLabel: t('PopularTabBar').toString() }} />
+            <Tab.Screen name="CloseToMeView" component={ CloseToMeView } options={{ tabBarLabel: t('NearByTabBar').toString() }} />
+            <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: t('MapsTabBar').toString() }} />
+            <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: t('MyLocalsTabBar').toString() }} />
+            <Tab.Screen name="ForYouView" component={ ForYouView } options={{ tabBarLabel: t('ForYouTabBar').toString() }} />
         </Tab.Navigator>
     );
 }

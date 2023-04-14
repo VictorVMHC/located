@@ -29,6 +29,11 @@
         "DrawerPartNotificacion": "Notificación",
         "DrawerPartAyuda": "Ayuda",
         "DrawerPartLenguaje": "Lenguaje",
-        "DrawerPartLogout": "Cerrar Sesión"
+        "DrawerPartLogout": "Cerrar Sesión",
+        "PopularTabBar": "Popular",
+        "NearByTabBar": "Cerca de mi",
+        "MapsTabBar": "Mapas",
+        "MyLocalsTabBar": "Mis locales",
+        "ForYouTabBar": "Para ti"
     }
 }
