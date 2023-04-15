@@ -18,6 +18,7 @@ const Drawer = createDrawerNavigator();
 
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
+  const { t ,i18n } = useTranslation();
   return (
     <Drawer.Navigator
 
@@ -48,7 +49,7 @@ export function DrawerMenu() {
 
 
 const MenuInterno = ( props: DrawerContentComponentProps ) => {
-  const {i18n} = useTranslation();
+  const {t,i18n} = useTranslation();
   const { navigation } = props;
   return(
     <View style={{flex: 1}}>
@@ -65,27 +66,27 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
         >        
           <View style={styles.body}>
             <DrawerMenuButtons
-              text = "Inicio"
+              text = {t('DrawerPartInicio')}
               onPress = {() => navigation.navigate('TabBarNavigator')}
               iconName='home-outline'
             />
             <DrawerMenuButtons
-              text = "Editar Perfil"
+              text = {t('DrawerPartPerfil')}
               onPress = {() => navigation.navigate('EditProfileView')}
               iconName='person-outline'
             />
             <DrawerMenuButtons
-              text = "Notificación"
+              text = {t('DrawerPartNotificacion')}
               onPress = {() => navigation.navigate('NotificationsView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
-              text = "Ayuda"
+              text = {t('DrawerPartAyuda')}
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
             <CollapsibleButon
-              title='Lenguaje'
+              title= {t('DrawerPartLenguaje')}
               iconName='language-outline'
               iconColor='white'
               items={
@@ -100,7 +101,7 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
       </View>
       <View style={styles.footer}>
           <DrawerMenuButtons
-            text = "Cerrar Sesión"
+            text = {t('DrawerPartLogout')}
             onPress = {() => navigation.navigate('TabBarNavigator')}
             iconName='log-out-outline'
           />

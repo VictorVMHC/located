@@ -10,7 +10,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LogginView = ({navigation}: Props) => {
-    const { i18n } = useTranslation();
+
+    const { t, i18n } = useTranslation();
+
     return (
         <SafeAreaView style={Styles.container}>
             <Circles
@@ -20,10 +22,10 @@ export const LogginView = ({navigation}: Props) => {
             <View style={{...Styles.headerView, flexDirection: 'row'}}>
                 <View style={{flex: 6}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}> Iniciar sesion </Text>
+                        <Text style={Styles.textStyle}> {t('Loggin')} </Text>
                         <Icon name='user' size={25} light />
                     </View>
-                    <Text style={FontStyles.SubTitles}>  Bienvenido!</Text>
+                    <Text style={FontStyles.SubTitles}>{t('Welcome')}</Text>
                 </View>
                 <View style={{flex: 4, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{flex: 2}}>
@@ -48,22 +50,22 @@ export const LogginView = ({navigation}: Props) => {
                     source={require('../Assets/Images/logo_located.png')}
                 />
                 <TextInput style={Styles.input}
-                    placeholder='Ingresa tu correo electronico'   
+                    placeholder={`${t('PlaceHoldEnterEmail')}`}
                 />
                 <TextInput style={Styles.input}
-                    placeholder='Ingresa tu contraseña'   
+                    placeholder={`${t('PlaceHoldEnterPassword')}`}   
                 />
                 <View style={StylesLogging.viewText}>
                     <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
-                        <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
+                        <Text style= {StylesLogging.textInformation}>{t('ForgotPassword')}</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
-                    <Text style={Styles.txtbtn}>Entrar</Text>
+                    <Text style={Styles.txtbtn}>{t('LOG')}</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection: 'row', width: 300, marginVertical: 20}}>
                     <View style={StylesLogging.viewLine}></View>
-                    <View style={StylesLogging.viewTextInLine}><Text style={StylesLogging.textLogging}>O entra con </Text></View>
+                    <View style={StylesLogging.viewTextInLine}><Text style={StylesLogging.textLogging}>{t('OrLogWith')} </Text></View>
                     <View style={StylesLogging.viewLine}></View>
                 </View>
                 <View style={{flexDirection: 'row', width: 300, alignContent: 'space-around', marginBottom: 20}}>
@@ -71,11 +73,11 @@ export const LogginView = ({navigation}: Props) => {
                     <TouchableOpacity style={StylesLogging.btnIcon}></TouchableOpacity>
                     <TouchableOpacity style={StylesLogging.btnIcon}></TouchableOpacity>
                 </View>
-                <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
+                <Text style={FontStyles.Information}>{t('NoSingUp')} </Text>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("MainCreateAccountView")}
                 >
-                    <Text style={{...FontStyles.SubTitles, color: 'black'}}>Crear cuenta</Text>
+                    <Text style={{...FontStyles.SubTitles, color: 'black'}}>{t('CreateAccount')}</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>     
         </SafeAreaView>    

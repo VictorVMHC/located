@@ -3,20 +3,39 @@ import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Vie
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { PickerButon } from '../Components/PickerButton';
 import AntDisign from 'react-native-vector-icons/AntDesign';
+import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 
 interface Props extends NativeStackScreenProps<any, any>{}
 export const MainCreateAccountView = ({navigation}: Props) => {
+  const { t, i18n } = useTranslation();
   return (
     <SafeAreaView style={Styles.container}>
         <Circles
         position='top'
         quantity={2}
         />
-        <View style={Styles.headerView}>
-            <Text style={{...Styles.textStyle, left: 10}}>Crear Cuenta</Text>
-        </View>
+        <View style={{...Styles.headerView, flexDirection: 'row'}}>
+                <View style={{flex: 7}} >
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={Styles.textStyle}>{t('CreateAccount')}</Text>
+                    </View>
+                </View>
+                <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{flex: 2}}>
+                        {i18n.language === 'es'
+                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        }
+                    </View>
+                    <View style={{ flex: 5}}>
+                        <PickerButon/>
+                    </View>   
+                </View>
+            </View>
         <Image
           style={{...Styles.imageStyle, left: -100, top: 10}}
           source={require('../Assets/Images/logo_located.png')}
@@ -25,15 +44,15 @@ export const MainCreateAccountView = ({navigation}: Props) => {
           <View style={StylesLogging.viewText}>
             <TouchableOpacity >
               <AntDisign name="google"style={StylesLogging.IconGoogle}/>
-              <Text style= {StylesLogging.textInformation}>Continuar con Google</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpGoogle')}</Text>
             </TouchableOpacity>  
             <TouchableOpacity>
               <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
-              <Text style= {StylesLogging.textInformation}>Continuar con Facebook</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpFacebook')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("CreateAccountEmailView")}>
               <AntDisign name="mail"style={StylesLogging.IconMail}/>
-              <Text style= {StylesLogging.textInformation}>Registrarte con tu E-mail</Text>
+              <Text style= {StylesLogging.textInformation}>{t('SingUpEmail')}</Text>
             </TouchableOpacity>
           </View>
         </View>
