@@ -16,84 +16,84 @@ export const LogginView = ({navigation}: Props) => {
 
     return (
         <SafeAreaView style={Styles.container}>
-                <ScrollView >
-                    <View style={{flex:1}}>
-                        <Circles
-                            position='top'
-                            quantity={2}
-                        />
-                            <View style={StylesLogging.contentOne}>
-                                <View style={{}}>
-                                    <View style={StylesLogging.containerBienvenido}>
-                                        <Text style={{...Styles.textStyle,}}> Iniciar sesion </Text>
-                                            <Icon style={StylesLogging.iconBienvenido} name='user' size={25} brand />
-                                    </View>
-                                        <View>
-                                            <Text style={FontStyles.SubTitles}> Bienvenido!</Text>
-                                        </View>
-                                </View>    
-                                <View style={StylesLogging.containerLeng} >
-                                    <View style={StylesLogging.containerImgLeng}>
-                                        {i18n.language === 'es'
-                                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                                        }
-                                    </View>
-                                    <View style={{paddingLeft: 1, width: 100}}>
-                                        <PickerButon/>
-                                    </View>   
+            <ScrollView >
+                <View style={{flex:1}}>
+                    <Circles
+                        position='top'
+                        quantity={2}
+                    />
+                        <View style={StylesLogging.contentOne}>
+                            <View style={{}}>
+                                <View style={StylesLogging.containerBienvenido}>
+                                    <Text style={{...Styles.textStyle,}}> Iniciar sesion </Text>
+                                        <Icon style={StylesLogging.iconBienvenido} name='user' size={25} brand />
                                 </View>
+                                    <View>
+                                        <Text style={FontStyles.SubTitles}> Bienvenido!</Text>
+                                    </View>
+                            </View>    
+                            <View style={StylesLogging.containerLeng} >
+                                <View style={StylesLogging.containerImgLeng}>
+                                    {i18n.language === 'es'
+                                        ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                                        :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                                    }
+                                </View>
+                                <View style={{paddingLeft: 1, width: 100}}>
+                                    <PickerButon/>
+                                </View>   
                             </View>
-                            <View style={StylesLogging.containerLogo}>
-                                <Image style={Styles.imageStyle} source={require('../Assets/Images/logo_located.png')} />
-                            </View>
-                            <View style={StylesLogging.containerInput}>
-                                <TextInput style={Styles.input}
-                                    placeholder='Ingresa tu correo electronico'   
-                                />
-                                <TextInput style={Styles.input}
-                                    placeholder='Ingrese su contraseña'   
-                                />
-                            </View>
-                            <View style={StylesLogging.viewText}>
-                                <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
-                                    <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={StylesLogging.containerButton}>
-                                <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
-                                        <Text style={Styles.txtbtn}>Entrar</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={StylesLogging.containerB}>
-                                <View style={StylesLogging.line}>
+                        </View>
+                        <View style={StylesLogging.containerLogo}>
+                            <Image style={Styles.imageStyle} source={require('../Assets/Images/logo_located.png')} />
+                        </View>
+                        <View style={StylesLogging.containerInput}>
+                            <TextInput style={Styles.input}
+                                placeholder='Ingresa tu correo electronico'   
+                            />
+                            <TextInput style={Styles.input}
+                                placeholder='Ingrese su contraseña'   
+                            />
+                        </View>
+                        <View style={StylesLogging.viewText}>
+                            <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
+                                <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={StylesLogging.containerButton}>
+                            <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
+                                    <Text style={Styles.txtbtn}>Entrar</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={StylesLogging.containerB}>
+                            <View style={StylesLogging.line}>
+                                <View style={StylesLogging.viewLine}></View>
+                                    <View style={StylesLogging.viewTextInLine}>
+                                        <Text style={StylesLogging.textLogging}>O entra con </Text>
+                                    </View>
                                     <View style={StylesLogging.viewLine}></View>
-                                        <View style={StylesLogging.viewTextInLine}>
-                                            <Text style={StylesLogging.textLogging}>O entra con </Text>
-                                        </View>
-                                        <View style={StylesLogging.viewLine}></View>
-                                </View>
-                                <View style={StylesLogging.containerIcons}>
-                                    <TouchableOpacity style={StylesLogging.btnIcon}>
-                                        <AntDisign name="google"style={StylesLogging.IconGoogle}/>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity  style={StylesLogging.btnIcon}>
-                                        <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={StylesLogging.btnIcon}>
-                                        <AntDisign name="apple1"style={StylesLogging.Iconapplel}/>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
-                                    <TouchableOpacity
-                                        onPress={() => navigation.navigate("MainCreateAccountView")}>
-                                            <Text style={{...FontStyles.Information, color: 'black'}}>Crear cuenta</Text>
-                                    </TouchableOpacity>
-                                </View>       
                             </View>
-                    </View>
-                </ScrollView>
+                            <View style={StylesLogging.containerIcons}>
+                                <TouchableOpacity style={StylesLogging.btnIcon}>
+                                    <AntDisign name="google"style={StylesLogging.IconGoogle}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity  style={StylesLogging.btnIcon}>
+                                    <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={StylesLogging.btnIcon}>
+                                    <AntDisign name="apple1"style={StylesLogging.Iconapplel}/>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate("MainCreateAccountView")}>
+                                        <Text style={{...FontStyles.Information, color: 'black'}}>Crear cuenta</Text>
+                                </TouchableOpacity>
+                            </View>       
+                        </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>    
     )
 }

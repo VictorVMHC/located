@@ -35,6 +35,9 @@
         "MapsTabBar": "Maps",
         "MyLocalsTabBar": "My locals",
         "ForYouTabBar": "For you",
-        "UserName": "Enter a User Name"
+        "UserName": "Enter a User Name",
+        "Comida": "Food",
+        "Farmacia": "Pharmacy",
+        "Otros": "Others"
     }
 }
