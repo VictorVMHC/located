@@ -1,13 +1,15 @@
 import React, {  useState } from 'react'
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
 import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
+import { ModalVerifyUser } from '../Components/ModalVerifyUser';
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
+    const [view, setView] = useState(false)
     const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
     const [Email,setEmail] = useState()
     const [Tel,setTel] = useState()
@@ -60,10 +62,17 @@ export const CreateAccountEmailView = () => {
                             placeholder={`${t('Age')}`}
                             keyboardType='number-pad'
                         />
-                <TouchableOpacity style={Styles.boton}>
+                <TouchableOpacity style={Styles.boton}
+                onPress={()=>setView(true)}
+                >
                     <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
                 </TouchableOpacity>
                 </View>
+                <ModalVerifyUser
+                visible={view}
+                />  
+                
+                
         </SafeAreaView>
         
     )
