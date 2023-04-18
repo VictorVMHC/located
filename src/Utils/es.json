@@ -35,6 +35,9 @@
         "MapsTabBar": "Mapas",
         "MyLocalsTabBar": "Mis locales",
         "ForYouTabBar": "Para ti",
-        "UserName": "Ingresa tu nombre de usuario"
+        "UserName": "Ingresa tu nombre de usuario",
+        "Comida": "Comida",
+        "Farmacia": "Farmacia",
+        "Otros": "Otros"
     }
 }
