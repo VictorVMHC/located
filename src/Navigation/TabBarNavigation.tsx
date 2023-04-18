@@ -8,6 +8,7 @@ import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
 import { ForYouView } from '../Views/ForYouView';
 import { LogginView } from '../Views/LogginView';
+import { CalistarjetaScreenView } from '../Views/CalistarjetaScreenView';
 
 
 
@@ -51,10 +52,11 @@ export const TabBarNavigation = () => {
             })}
         >
             <Tab.Screen name="PopularView" component={ PopularView } options={{ tabBarLabel: 'Populares' }} />
-            <Tab.Screen name="CloseToMeView" component={ CloseToMeView } options={{ tabBarLabel: 'Cerca de mi' }} />
+            <Tab.Screen name="CloseToMeView" component={ CalistarjetaScreenView } options={{ tabBarLabel: 'Cerca de mi' }} />
             <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: 'Mapas' }} />
             <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: 'Mis locales' }} />
             <Tab.Screen name="ForYouView" component={ LogginView } options={{ tabBarLabel: 'Para ti' }} />
+            
         </Tab.Navigator>
     );
 }

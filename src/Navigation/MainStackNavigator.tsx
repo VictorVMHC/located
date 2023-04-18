@@ -20,7 +20,7 @@ export const MainStackNavigator = () => {
 			initialRouteName='SplashScreen'
 		>
 			<Stack.Screen name='SplashScreen' component={SplasScreenView} options={{headerShown: false}}/>
-			<Stack.Screen name='OlvideContrasenaView' component={OlvideContrasenaView} options={{headerShown: false}}/>
+			<Stack.Screen name='OlvideContrasenaView' component={LogginView} options={{headerShown: false}}/>
 			<Stack.Screen name='TestScreen' component={TestScreen} options={{headerShown: false}}/>
 			<Stack.Screen name='CreateAccountEmailView' options={{ headerShown: false}} component={CreateAccountEmailView}/>
 			<Stack.Screen name='LogginView' options={{ headerShown: false}} component={LogginView}/>
