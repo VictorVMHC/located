@@ -15,7 +15,6 @@ import { Colors } from '../Themes/Styles';
 
 const Drawer = createDrawerNavigator();
 
-
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
   const { t ,i18n } = useTranslation();
