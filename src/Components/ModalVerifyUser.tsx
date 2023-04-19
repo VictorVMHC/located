@@ -2,19 +2,25 @@ import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal} from 
 import { useTranslation } from 'react-i18next';
 import { black } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 import { FontStyles, Styles } from '../Themes/Styles'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props{
-    visible:Boolean,
-    onPress?:() =>void,
-    onDismiss?:() =>void,
-    onShow?:() =>void,
+    isVisible:boolean,
+    closeModal:() =>void,
 }
 
 
-export const ModalVerifyUser = ({visible=true}) => {
+export const ModalVerifyUser = ({isVisible, closeModal}: Props) => {
     const {t,i18n} = useTranslation();
-    const [modalVisible, setModalVisible] = useState(visible);
+    const [modalVisible, setModalVisible] = useState(isVisible);
+
+    useEffect(() => {
+        setModalVisible(isVisible);
+    }, [isVisible]);
+    
+    const handleCloseModal = () => {
+        closeModal();
+    }
     return (
     <Modal 
         animationType='slide'
@@ -54,7 +60,7 @@ export const ModalVerifyUser = ({visible=true}) => {
         />
         </View>
         <TouchableOpacity style={StylesModal.boton}
-        onPress={()=>{setModalVisible(false)}}
+        onPress={handleCloseModal}
         >
         <Text style={Styles.txtbtn}>Verificar</Text> 
         </TouchableOpacity>

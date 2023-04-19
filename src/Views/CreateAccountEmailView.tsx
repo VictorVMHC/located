@@ -9,11 +9,22 @@ import { ModalVerifyUser } from '../Components/ModalVerifyUser';
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
-    const [view, setView] = useState(false)
     const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
     const [Email,setEmail] = useState()
     const [Tel,setTel] = useState()
     const [Edad,setEdad] = useState()
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleOpenModal = () => {
+        setModalVisible(true);
+        console.log("open modal");
+    };
+    
+    const handleCloseModal = () => {
+        console.log("close modal");
+        setModalVisible(false);       
+    };
     return (
         <SafeAreaView style={Styles.container}>
             <Circles
@@ -63,16 +74,15 @@ export const CreateAccountEmailView = () => {
                             keyboardType='number-pad'
                         />
                 <TouchableOpacity style={Styles.boton}
-                onPress={()=>setView(true)}
+                    onPress={handleOpenModal}
                 >
                     <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
                 </TouchableOpacity>
                 </View>
                 <ModalVerifyUser
-                visible={view}
+                    isVisible={modalVisible}
+                    closeModal={handleCloseModal}
                 />  
-                
-                
         </SafeAreaView>
         
     )
