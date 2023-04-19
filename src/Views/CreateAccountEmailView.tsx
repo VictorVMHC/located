@@ -49,42 +49,41 @@ export const CreateAccountEmailView = () => {
                     </View>   
                 </View>
             </View>
-                <Image
-                    style={{...Styles.imageStyle, left: -100, top: 10}}
-                    source={require('../Assets/Images/logo_located.png')}
+            <Image
+                style={{...Styles.imageStyle, left: -100, top: 10}}
+                source={require('../Assets/Images/logo_located.png')}
+            />
+            <View style={Styles.bodyView}>
+                <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
+                <TextInput style={Styles.input}
+                    placeholder={`${t('Name')}`}
                 />
-                <View style={Styles.bodyView}>
-                        <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Name')}`}
-                        />
-                        <TextInput style={Styles.input}
-                        placeholder={`${t('Email')}`}
-                            keyboardType='email-address'   
-                        />
-                        <TextInput style={Styles.input}
-                        placeholder={`${t('UserName')}`}
-                        />
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Phonenumber')}`}
-                            keyboardType="phone-pad"   
-                        />
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Age')}`}
-                            keyboardType='number-pad'
-                        />
+                <TextInput style={Styles.input}
+                    placeholder={`${t('Email')}`}
+                    keyboardType='email-address'   
+                />
+                <TextInput style={Styles.input}
+                    placeholder={`${t('UserName')}`}
+                />
+                <TextInput style={Styles.input}
+                    placeholder={`${t('Phonenumber')}`}
+                    keyboardType="phone-pad"   
+                />
+                <TextInput style={Styles.input}
+                    placeholder={`${t('Age')}`}
+                    keyboardType='number-pad'
+                />
                 <TouchableOpacity style={Styles.boton}
                     onPress={handleOpenModal}
                 >
                     <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
                 </TouchableOpacity>
-                </View>
-                <ModalVerifyUser
-                    isVisible={modalVisible}
-                    closeModal={handleCloseModal}
-                />  
+            </View>
+            <ModalVerifyUser
+                isVisible={modalVisible}
+                closeModal={handleCloseModal}
+            />  
         </SafeAreaView>
-        
     )
 }
 
