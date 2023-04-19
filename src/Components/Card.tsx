@@ -7,8 +7,8 @@ import { useHeartHook } from '../Hooks/useHeartHook';
 import { Tag } from './Tag';
 
 interface Props{
-    cardWidth: number,
-    cardHeight: number,
+    cardWidth?: number,
+    cardHeight?: number,
     like: boolean,
     local: Local, 
 }
@@ -96,7 +96,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Pro
 
 const styles = StyleSheet.create({
     container:{
-        marginVertical: 10,
+        marginVertical: 0,
     },
     tochableCard:{
         alignSelf: 'center', 
