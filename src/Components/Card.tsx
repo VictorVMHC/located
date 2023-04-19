@@ -96,11 +96,10 @@ export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Pro
 
 const styles = StyleSheet.create({
     container:{
-        marginVertical: 0,
+        marginVertical: 5,
     },
     tochableCard:{
         alignSelf: 'center', 
-        margin:10,
         borderColor: 'black', 
         borderWidth: 1,
         borderRadius: 20, 
