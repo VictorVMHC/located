@@ -29,10 +29,10 @@ export const ModalVerifyUser = ({isVisible, closeModal}: Props) => {
     >
         <View style={StylesModal.contenedor}>
             <View style={StylesModal.subcontenedor}>
-            <Text style={StylesModal.textos}>!Codigo de verificación enviado!</Text>
-        <Text style={StylesModal.textos}>Revisa tu correo</Text>
+            <Text style={StylesModal.textos}>{t('ModalMsgInicio')}</Text>
+        <Text style={StylesModal.textos}>{t('ModalMsgCheckEmail')}</Text>
         </View>
-        <Text style={StylesModal.textos}>Ingresar Codigo</Text> 
+        <Text style={{...StylesModal.textos,left:90, top:15}}>{t('ModalEnterCodeMsg')}</Text> 
         <View style={StylesModal.row}>
         <TextInput style={StylesModal.intext}
         placeholder="__"
@@ -62,7 +62,7 @@ export const ModalVerifyUser = ({isVisible, closeModal}: Props) => {
         <TouchableOpacity style={StylesModal.boton}
         onPress={handleCloseModal}
         >
-        <Text style={Styles.txtbtn}>Verificar</Text> 
+        <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text> 
         </TouchableOpacity>
         </View>
     </Modal>
@@ -73,7 +73,7 @@ const StylesModal= StyleSheet.create({
     contenedor:{
         width: 350,
         height: 250,
-        top: 390,
+        top: 200,
         left: 30,
         backgroundColor: 'rgba(255,255,255,0.9)',
         borderRadius:10,

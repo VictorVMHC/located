@@ -38,6 +38,10 @@
         "UserName": "Ingresa tu nombre de usuario",
         "Comida": "Comida",
         "Farmacia": "Farmacia",
-        "Otros": "Otros"
+        "Otros": "Otros",
+        "ModalMsgInicio": "!Código de verificación enviado!",
+        "ModalMsgCheckEmail": "Revisa tu correo",
+        "ModalEnterCodeMsg": "Ingresa el código",
+        "ModalBtnVerify": "Verificar"
     }
 }

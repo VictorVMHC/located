@@ -1,11 +1,12 @@
 import React, {  useState } from 'react'
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal} from 'react-native';
+import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal,ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
-import { FontStyles, Styles } from '../Themes/Styles'
+import { FontStyles, Styles } from '../Themes/Styles';
 import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
+
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
@@ -27,52 +28,53 @@ export const CreateAccountEmailView = () => {
     };
     return (
         <SafeAreaView style={Styles.container}>
+            <ScrollView>
             <Circles
             position='top'
             quantity={2}
             />
-            <View style={{...Styles.headerView, flexDirection: 'row'}}>
-                <View style={{flex: 7}} >
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}> {t('CreateAccount')} </Text>
-                    </View>
-                </View>
-                <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{flex: 2}}>
-                        {i18n.language === 'es'
-                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                        }
-                    </View>
-                    <View style={{ flex: 5}}>
-                        <PickerButon/>
-                    </View>   
-                </View>
-            </View>
-            <Image
-                style={{...Styles.imageStyle, left: -100, top: 10}}
-                source={require('../Assets/Images/logo_located.png')}
-            />
-            <View style={Styles.bodyView}>
-                <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
-                <TextInput style={Styles.input}
-                    placeholder={`${t('Name')}`}
+            <View style={Stylesingletext.contentOne}>
+                            <View style={{}}>
+                                <View style={Stylesingletext.containerBienvenido}>
+                                    <Text style={{...Styles.textStyle, top:5}}>{t('CreateAccount')}</Text>
+                                </View>
+                            </View>    
+                            <View style={Stylesingletext.containerLeng} >
+                                <View style={Stylesingletext.containerImgLeng}>
+                                    {i18n.language === 'es'
+                                        ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                                        :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                                    }
+                                </View>
+                                <View style={{width: 125}}>
+                                    <PickerButon/>
+                                </View>   
+                            </View>
+                        </View>
+                <Image
+                    style={{...Styles.imageStyle, left: -100, top:'9%'}}
+                    source={require('../Assets/Images/logo_located.png')}
                 />
-                <TextInput style={Styles.input}
-                    placeholder={`${t('Email')}`}
-                    keyboardType='email-address'   
-                />
-                <TextInput style={Styles.input}
-                    placeholder={`${t('UserName')}`}
-                />
-                <TextInput style={Styles.input}
-                    placeholder={`${t('Phonenumber')}`}
-                    keyboardType="phone-pad"   
-                />
-                <TextInput style={Styles.input}
-                    placeholder={`${t('Age')}`}
-                    keyboardType='number-pad'
-                />
+                <View style={Stylesingletext.bodyView}>
+                        <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
+                        <TextInput style={Styles.input}
+                            placeholder={`${t('Name')}`}
+                        />
+                        <TextInput style={Styles.input}
+                        placeholder={`${t('Email')}`}
+                            keyboardType='email-address'   
+                        />
+                        <TextInput style={Styles.input}
+                        placeholder={`${t('UserName')}`}
+                        />
+                        <TextInput style={Styles.input}
+                            placeholder={`${t('Phonenumber')}`}
+                            keyboardType="phone-pad"   
+                        />
+                        <TextInput style={Styles.input}
+                            placeholder={`${t('Age')}`}
+                            keyboardType='number-pad'
+                        />
                 <TouchableOpacity style={Styles.boton}
                     onPress={handleOpenModal}
                 >
@@ -82,7 +84,8 @@ export const CreateAccountEmailView = () => {
             <ModalVerifyUser
                 isVisible={modalVisible}
                 closeModal={handleCloseModal}
-            />  
+            /> 
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -90,6 +93,35 @@ export const CreateAccountEmailView = () => {
 const Stylesingletext = StyleSheet.create({
     onlytext:{
         ...Styles.textos,
-        width: 300,
-    }
+        width: 340,
+    },
+    bodyView:{
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:'25%',
+    },
+    contentOne:{
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+    },
+    containerBienvenido:{
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    containerLeng:{
+        flexDirection: 'row', 
+        justifyContent: 'flex-end',
+        width: 218,
+    },
+    containerImgLeng:{
+        width: 30, 
+        height: 53, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    containerLogo:{
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        top: '8%'
+    },
 });
