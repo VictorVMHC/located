@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { Button, Text, View } from 'react-native'
+import MapView from 'react-native-maps';
 
 export const MapsView = () => {
     const {t, i18n} = useTranslation();
@@ -9,15 +10,8 @@ export const MapsView = () => {
         console.log(value);
     }
     return (
-        <View>
-            <Text> Maps view </Text>
-            <View>
-                <Text> {t('Hello World')} </Text>
-                <Button
-                title={t('Hello World')}
-                onPress={() => changeLenguage('es')}
-                />
-            </View> 
-        </View>
+    
+        <MapView style={{height: '100%'}}/>
+      
     )
 }
