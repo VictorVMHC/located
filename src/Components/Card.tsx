@@ -1,4 +1,4 @@
-import React, { BlockquoteHTMLAttributes } from 'react';
+import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Image } from 'react-native';
 import { default as FontAwsome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
@@ -13,33 +13,17 @@ interface Props{
     local: Local, 
 }
 
-interface Local {
-    name: string,
-    adress: string,
-    uriImage: string,
-    isVerify: boolean,
-    schedules: Schedule[],
-    rate: number,
-    quantityRate: number,
-    tags: string[]
-}
 
-interface Schedule {
-    day1: string,
-    day2: string,
-    open: string,
-    close: string,
-}
 
-export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local}: Props) => {
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
     const {name, adress, uriImage, isVerify, schedules, rate, quantityRate, tags} = local;
 
     return (
-    <View style={styles.container}>
+    <View style={styles.container} key={local.id} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.tochableCard}}
-            onPress={() => console.log('tochable card')}
+            onPress={() => console.log('tochable card', JSON.stringify(local))}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
@@ -86,7 +70,12 @@ export const Card = ({  cardWidth = 0, cardHeight= 0, like = false, local }: Pro
                     </View>
                 </View>
                 <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
-                    {tags.map( (tag, index) => <Tag index={index} text={ tag }/>)}
+                    {tags && tags.map((item, index) => 
+                            <View  key={index} style={styles.tagStyle} >
+                                <Text  style={styles.textTag} >{item}</Text>
+                            </View>
+                        )
+                    }
                 </View> 
             </View> 
         </TouchableOpacity>
@@ -187,5 +176,15 @@ const styles = StyleSheet.create({
         marginHorizontal: 2, 
         width: '100%', 
         height: 20
+    },
+    tagStyle: {
+        backgroundColor: '#F6F6F6',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginHorizontal: 5
+    },
+    textTag:{
+        ...FontStyles.Information,
     }
 });

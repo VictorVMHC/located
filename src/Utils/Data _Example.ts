@@ -31,8 +31,9 @@ const tarjeta = [
     }         
 ];
 
-const local = [
+const local: Local[] = [
     {
+        id: 2222,
         name: 'hola',
         adress: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
@@ -62,6 +63,7 @@ const local = [
         tags: ['hola','hola','hola','hola']
     },
     {
+        id: 1333,
         name: 'hola',
         adress: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
@@ -91,6 +93,7 @@ const local = [
         tags: ['hola','hola','hola','hola']
     },
     {
+        id: 1555,
         name: 'hola',
         adress: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
@@ -120,6 +123,7 @@ const local = [
         tags: ['hola','hola','hola','hola']
     },
     {
+        id: 16666,
         name: 'hola',
         adress: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',

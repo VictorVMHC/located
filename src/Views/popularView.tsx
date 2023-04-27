@@ -1,15 +1,33 @@
 import React from 'react'
-import { View, Text, SafeAreaView, FlatList } from 'react-native'
+import { SafeAreaView, FlatList, StyleSheet } from 'react-native'
 import { local } from '../Utils/Data _Example'
 import { Card } from '../Components/Card'
 
+
+
 export const PopularView = () => {
+
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <FlatList
                 data={local}
-                renderItem={(item) => <Card like={false} local={item.item}></Card>}
+                renderItem={ ( { item } ) => {return(<Card like={false} local={item}/>)} }
+                keyExtractor={(item) => item.id.toString()}
             />
         </SafeAreaView>
-    )
-}
+    );
+}; 
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    item: {
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
+    },
+});

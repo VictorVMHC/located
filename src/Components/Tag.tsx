@@ -5,12 +5,12 @@ import { FontStyles } from '../Themes/Styles';
 
 interface Props {
     text: string,
-    index: number,
+    id: number,
 }
-export const Tag = ({text, index}: Props) => {
+export const Tag = ({text, id}: Props) => {
     return (
-        <View  style={styles.tagStyle} >
-            <Text key={index} style={styles.textTag} >{text}</Text>
+        <View key={id} style={styles.tagStyle} >
+            <Text style={styles.textTag} >{text}</Text>
         </View>
     )
 }
