@@ -2,7 +2,7 @@ import React, {  useState } from 'react'
 import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal,ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
-import { FontStyles, Styles } from '../Themes/Styles';
+import { Styles } from '../Themes/Styles';
 import { PickerButon } from '../Components/PickerButton';
 import { useTranslation } from 'react-i18next';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
