@@ -90,8 +90,8 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
               iconColor='white'
               items={
                 [ 
-                  {title:'Español', action: () => i18n.changeLanguage('es')},
-                  {title:'Inglés', action: () => i18n.changeLanguage('en')}
+                  {title:'Español', action: () => i18n.changeLanguage('es-MX')},
+                  {title:'Inglés', action: () => i18n.changeLanguage('en-US')}
                 ]
               }
             />

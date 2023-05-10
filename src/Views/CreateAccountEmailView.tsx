@@ -41,7 +41,7 @@ export const CreateAccountEmailView = () => {
                             </View>    
                             <View style={Stylesingletext.containerLeng} >
                                 <View style={Stylesingletext.containerImgLeng}>
-                                    {i18n.language === 'es'
+                                    {i18n.language === 'es-MX'
                                         ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                         :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                     }

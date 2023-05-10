@@ -26,7 +26,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
                 </View>
                 <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{flex: 2}}>
-                        {i18n.language === 'es'
+                        {i18n.language === 'es-MX'
                             ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                             :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                         }
