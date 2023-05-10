@@ -3,6 +3,7 @@ import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
+import * as Localization from 'expo-localization';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
