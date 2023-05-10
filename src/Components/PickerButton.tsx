@@ -10,8 +10,8 @@ export const PickerButon = () => {
             onValueChange={( value ) => i18n.changeLanguage(value)}
             mode='dropdown'
         >
-            <Picker.Item label="Español" value="es" />
-            <Picker.Item label="Ingles" value="en" />
+            <Picker.Item label="Español" value='es-MX' />
+            <Picker.Item label="Ingles" value='en-US' />
         </Picker>
     )
 }

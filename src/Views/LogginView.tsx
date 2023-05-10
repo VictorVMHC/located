@@ -34,7 +34,7 @@ export const LogginView = ({navigation}: Props) => {
                             </View>    
                             <View style={StylesLogging.containerLeng} >
                                 <View style={StylesLogging.containerImgLeng}>
-                                    {i18n.language === 'es'
+                                    {i18n.language === 'es-MX'
                                         ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                         :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                     }

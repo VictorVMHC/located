@@ -24,51 +24,51 @@ export const ModalVerifyUser = ({isVisible, closeModal}: Props) => {
     return (
         
         <ScrollView contentContainerStyle={{flex:1}}> 
-    <Modal 
-        animationType='slide'
-        transparent={true}
-        visible={modalVisible}
-    >   
-        
-        <View style={StylesModal.contenedor}>
-            <View style={StylesModal.subcontenedor}>
-            <Text style={StylesModal.textos}>{t('ModalMsgInicio')}</Text>
-        <Text style={StylesModal.textos}>{t('ModalMsgCheckEmail')}</Text>
-        </View>
-        <Text style={{...StylesModal.textos,left:80, top:15}}>{t('ModalEnterCodeMsg')}</Text> 
-        <View style={StylesModal.row}>
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        <TextInput style={StylesModal.intext}
-        placeholder="__"
-        keyboardType="phone-pad"   
-        />
-        </View>
-        <TouchableOpacity style={StylesModal.boton}
-        onPress={handleCloseModal}
-        >
-        <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
-        </TouchableOpacity>
-        </View>
-    </Modal>
+        <Modal 
+            animationType='slide'
+            transparent={true}
+            visible={modalVisible}
+        >   
+            
+            <View style={StylesModal.contenedor}>
+                <View style={StylesModal.subcontenedor}>
+                <Text style={StylesModal.textos}>{t('ModalMsgInicio')}</Text>
+                <Text style={StylesModal.textos}>{t('ModalMsgCheckEmail')}</Text>
+            </View>
+            <Text style={{...StylesModal.textos,left:80, top:15}}>{t('ModalEnterCodeMsg')}</Text> 
+            <View style={StylesModal.row}>
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            <TextInput style={StylesModal.intext}
+            placeholder="__"
+            keyboardType="phone-pad"   
+            />
+            </View>
+            <TouchableOpacity style={StylesModal.boton}
+            onPress={handleCloseModal}
+            >
+            <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
+            </TouchableOpacity>
+            </View>
+        </Modal>
     </ScrollView>   
     )
 }
