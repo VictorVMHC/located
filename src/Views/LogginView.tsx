@@ -25,21 +25,21 @@ export const LogginView = ({navigation}: Props) => {
                         <View style={StylesLogging.contentOne}>
                             <View style={{}}>
                                 <View style={StylesLogging.containerBienvenido}>
-                                    <Text style={{...Styles.textStyle,}}> Iniciar sesion </Text>
+                                    <Text style={{...Styles.textStyle, top:4}}>{t('Loggin')}</Text>
                                         <Icon style={StylesLogging.iconBienvenido} name='user' size={25} brand />
                                 </View>
                                     <View>
-                                        <Text style={FontStyles.SubTitles}> Bienvenido!</Text>
+                                        <Text style={FontStyles.SubTitles}>{t('Welcome')}</Text>
                                     </View>
                             </View>    
                             <View style={StylesLogging.containerLeng} >
                                 <View style={StylesLogging.containerImgLeng}>
-                                    {i18n.language === 'es'
+                                    {i18n.language === 'es-MX'
                                         ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                         :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                     }
                                 </View>
-                                <View style={{paddingLeft: 1, width: 100}}>
+                                <View style={{width: 125}}>
                                     <PickerButon/>
                                 </View>   
                             </View>
@@ -49,27 +49,27 @@ export const LogginView = ({navigation}: Props) => {
                         </View>
                         <View style={StylesLogging.containerInput}>
                             <TextInput style={Styles.input}
-                                placeholder='Ingresa tu correo electronico'   
+                                placeholder={`${t('PlaceHoldEnterEmail')}`}   
                             />
                             <TextInput style={Styles.input}
-                                placeholder='Ingrese su contraseña'   
+                                placeholder={`${t('PlaceHoldEnterPassword')}`}  
                             />
                         </View>
                         <View style={StylesLogging.viewText}>
                             <TouchableOpacity onPress={() => navigation.navigate("OlvideContrasenaView")} >
-                                <Text style= {StylesLogging.textInformation}>¿Olvido su contraseña?</Text>
+                                <Text style= {StylesLogging.textInformation}>{t('ForgotPassword')}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={StylesLogging.containerButton}>
                             <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
-                                    <Text style={Styles.txtbtn}>Entrar</Text>
+                                    <Text style={Styles.txtbtn}>{t('LOG')}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={StylesLogging.containerB}>
                             <View style={StylesLogging.line}>
                                 <View style={StylesLogging.viewLine}></View>
                                     <View style={StylesLogging.viewTextInLine}>
-                                        <Text style={StylesLogging.textLogging}>O entra con </Text>
+                                        <Text style={StylesLogging.textLogging}>{t('OrLogWith')}</Text>
                                     </View>
                                     <View style={StylesLogging.viewLine}></View>
                             </View>
@@ -85,10 +85,10 @@ export const LogginView = ({navigation}: Props) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flexDirection: 'row'}}>
-                                <Text style={FontStyles.Information}>¿Aún no estas registrado? </Text>
+                                <Text style={FontStyles.Information}>{t('NoSingUp')}</Text>
                                 <TouchableOpacity
                                     onPress={() => navigation.navigate("MainCreateAccountView")}>
-                                        <Text style={{...FontStyles.Information, color: 'black'}}>Crear cuenta</Text>
+                                        <Text style={{...FontStyles.Information, color: 'black'}}>{t('CreateAccount')}</Text>
                                 </TouchableOpacity>
                             </View>       
                         </View>
@@ -109,15 +109,16 @@ const StylesLogging = StyleSheet.create({
     },
     iconBienvenido:{
         position: 'absolute', 
-        top: 8, 
+        top: 12, 
         left: 195
     },
     containerLeng:{
         flexDirection: 'row', 
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        width: 245,
     },
     containerImgLeng:{
-        width: 53, 
+        width: 30, 
         height: 53, 
         justifyContent: 'center', 
         alignItems: 'center'
