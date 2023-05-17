@@ -1,18 +1,29 @@
 import React from 'react'
 import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
-import { Styles } from '../Themes/Styles';
+import { Tag } from './Tag';
 
 interface Props{
-  Descripcion?: string
+  Descripcion?: string,
+  Etiqueta : TextEtiqueta,
 }
 
-export const DescriptionBox = ({Descripcion = ''}:Props) => {
+interface TextEtiqueta{
+  tags: string[]
+}
 
+export const DescriptionBox = ({Descripcion = '', Etiqueta }:Props) => {
   const {width, height} = useWindowDimensions();
+  const {tags} = Etiqueta;
+
 
   return (
     <View style={{...styles.box ,width: width - (width * 0.1), height: height - (height * 0.8)}}>
-      <Text style={styles.text}>{Descripcion}</Text>
+      <View>
+        <Text style={styles.text}>{Descripcion}</Text>
+      </View>
+      <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
+                    {tags.map( (tag, index) => <Tag index={index} text={ tag }/>)}
+                </View> 
     </View>
   )
 }

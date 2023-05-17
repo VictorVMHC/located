@@ -18,19 +18,21 @@ interface Props {
     action?: () => {},
 }
 
-export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '',action, children, like = false }: Props) => {
+interface  etiqueta{
+    texto: string,
+}
+
+
+export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '', like = false }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
 
     const toggle = () => {
         if(DescripcionB == ''){
-           
         }else{
             setExpanded(!expanded );
-
         }
-
     };
 
     
@@ -63,7 +65,10 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
         </TouchableOpacity>
             {expanded && <View style={styles.cardContent}>{
             <DescriptionBox 
-            Descripcion = {DescripcionB} />
+            Descripcion = {DescripcionB} 
+            
+            />
+            
         }</View>}
     </View>
     )
@@ -71,18 +76,18 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
 
 const styles = StyleSheet.create({
     ContainerCard:{
+        backgroundColor: 'red',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: 15,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 12,
+            height: 1,
         },
         shadowOpacity: 0.58,
-        shadowRadius: 16.00,
-
-        elevation: 24,
-        borderColor: '796D6D',
+        shadowRadius: 20.00,
+        elevation: 5,
+        borderColor: '#796D6D',
         borderRadius: 15,
         borderWidth: 0.5,
     }, 

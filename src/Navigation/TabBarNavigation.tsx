@@ -8,6 +8,8 @@ import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
 import { ForYouView } from '../Views/ForYouView';
 import { useTranslation } from 'react-i18next';
+import { StoreView } from '../Views/StoreView';
+
 
 
 
@@ -55,7 +57,7 @@ export const TabBarNavigation = () => {
             <Tab.Screen name="CloseToMeView" component={ CloseToMeView } options={{ tabBarLabel: t('NearByTabBar').toString() }} />
             <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: t('MapsTabBar').toString() }} />
             <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: t('MyLocalsTabBar').toString() }} />
-            <Tab.Screen name="ForYouView" component={ ForYouView } options={{ tabBarLabel: t('ForYouTabBar').toString() }} />
+            <Tab.Screen name="ForYouView" component={ StoreView } options={{ tabBarLabel: t('ForYouTabBar').toString() }} />
         </Tab.Navigator>
     );
 }
