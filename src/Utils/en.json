@@ -42,6 +42,8 @@
         "ModalMsgInicio": "!Verification code sent!",
         "ModalMsgCheckEmail": "Check your email",
         "ModalEnterCodeMsg": "Enter the code",
-        "ModalBtnVerify": "Verify"
+        "ModalBtnVerify": "Verify",
+        "ModalEnterCodeMsgFail": "'¡Invalid Code! Try again"
+
     }
 }

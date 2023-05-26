@@ -4,7 +4,8 @@ import { ReactNativeLanguageDetector, getLanguage } from 'react-native-localizat
 
 import en from './en.json';
 import es from './es.json';
-const current =getLanguage();
+
+const current = getLanguage();
 const currentCleaned = current.substring(0,5);
 const currentCleanedCorrect = currentCleaned == "es-MX"? currentCleaned : "en-US" 
 i18n
