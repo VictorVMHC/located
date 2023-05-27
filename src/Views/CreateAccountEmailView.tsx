@@ -102,7 +102,7 @@ export const CreateAccountEmailView = () => {
                         <Text style={Stylesingletext.textos}>{t('ModalMsgInicio')}</Text>
                         <Text style={Stylesingletext.textos}>{t('ModalMsgCheckEmail')}</Text>
                     </View>
-                    <Text style={{...Stylesingletext.textos,left:80, top:15}}>{t('ModalEnterCodeMsg')}</Text> 
+                    <Text style={{...Stylesingletext.textos,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
                     <View style={Stylesingletext.row}>
                         <TextInput style={Stylesingletext.intext}
                         placeholder="__"
@@ -142,10 +142,9 @@ export const CreateAccountEmailView = () => {
                 >
                     <View style={Stylesingletext.contenedor}>
                     <View style={Stylesingletext.subcontenedor}>
-                        <Text style={Stylesingletext.textos}>{t('ModalMsgInicio')}</Text>
-                        <Text style={Stylesingletext.textos}>{t('ModalMsgCheckEmail')}</Text>
+                        
                     </View>
-                    <Text style={{...Stylesingletext.textos,left:80, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
+                    <Text style={{...Stylesingletext.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
                     <View style={Stylesingletext.row}>
                         <TextInput style={Stylesingletext.intext}
                         placeholder="__"
@@ -254,4 +253,10 @@ const Stylesingletext = StyleSheet.create({
         ...Styles.boton,
         top:40,
     },
+    fail:{
+        color:'red',
+        fontSize:21,
+        fontFamily:'bold',
+        textAlign:'center',  
+    }
 });
