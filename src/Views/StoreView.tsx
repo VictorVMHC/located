@@ -1,25 +1,27 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image, VirtualizedList } from 'react-native'
-import { Colors, Styles } from '../Themes/Styles';
-import { FontStyles } from '../Themes/Styles';
-import { ImgBusiness } from '../Components/ImgBusiness';
-
-
-import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-import { useHeartHook } from '../Hooks/useHeartHook';
-import { SwitchComponent } from '../Components/SwitchComponent';
-import { QualificationChart } from '../Components/QualificationChart';
-import { Circles } from '../Components/Circles';
-import { FlatList } from 'react-native-gesture-handler';
-import renderer from 'react-test-renderer';
+import React, { useRef} from 'react'
+import { Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
-import { Item } from 'react-native-paper/lib/typescript/src/components/Drawer/Drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ImgBusiness } from '../Components/ImgBusiness';
+import Ionicons from 'react-native-vector-icons/FontAwesome5';
+import MapView from 'react-native-maps';
 
 
-
-interface Props {
-    like: boolean,
-}
+function HomeScreen() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Inicio</Text>
+      </View>
+    );
+  }
+  function AboutScreen() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Acerca de</Text>
+      </View>
+    );
+  }
 
 class Business{
     id: string
@@ -36,9 +38,7 @@ class Business{
 const ConstBusiness: Array<Business> = [
     new Business('1','farmacia',require('../Assets/Images/Lisa.png')),
     new Business('2','farmacia',require('../Assets/Images/Lisa.png')),
-    new Business('3','farmacia',require('../Assets/Images/Lisa.png')),
-
-    
+    new Business('3','farmacia',require('../Assets/Images/Lisa.png')),  
 ]
 
 const rendererBusiness = ({item} : {item : Business}) => {
@@ -48,60 +48,75 @@ const rendererBusiness = ({item} : {item : Business}) => {
         Price = '150'
         Img = 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg'
         punctuation = '4.0'
-        DescripcionB = 'asdasdawsdfasdfas'
+        DescripcionB = 'asdasdawsdfasdfasdasfasdf'
         like
         />
     )
 
 }
 
-export const StoreView = ({ like = false }: Props) => {
-    const {isActive, check} = useHeartHook(like);
-    const[Business, setBusiness] = useState([
-        {ProductName:'Dramamine',Price:'145.80',Img:'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/7/5/7501007532363_2_1_.jpg',punctuation:'4.2',DescripcionB:'Dramamine te ayuda a prevenir y aliviar náusea, mareo y vómito asociados al movimiento.',like: false},
-        {ProductName:'Dramamine',Price:'145.80',Img:'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/7/5/7501007532363_2_1_.jpg',punctuation:'4.2',DescripcionB:'Dramamine te ayuda a prevenir y aliviar náusea, mareo y vómito asociados al movimiento.',like: false},
-        {ProductName:'Dramamine',Price:'145.80',Img:'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/7/5/7501007532363_2_1_.jpg',punctuation:'4.2',DescripcionB:'Dramamine te ayuda a prevenir y aliviar náusea, mareo y vómito asociados al movimiento.',like: false},
-        {ProductName:'Dramamine',Price:'145.80',Img:'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/7/5/7501007532363_2_1_.jpg',punctuation:'4.2',DescripcionB:'Dramamine te ayuda a prevenir y aliviar náusea, mareo y vómito asociados al movimiento.',like: false},
-        {ProductName:'Dramamine',Price:'145.80',Img:'https://www.fahorro.com/media/catalog/product/cache/3fba745dcec88e97bfe808bedc471260/7/5/7501007532363_2_1_.jpg',punctuation:'4.2',DescripcionB:'Dramamine te ayuda a prevenir y aliviar náusea, mareo y vómito asociados al movimiento.',like: false},
+const Tab = createBottomTabNavigator();
 
-    ]);
+export const StoreView = () => {
+    const scrollViewRef = useRef<ScrollView>(null);
+    const targetElementRef = useRef<View>(null);
+
+    const handleScrollTo = () => {
+        if (scrollViewRef.current && targetElementRef.current) {
+            targetElementRef.current.measureLayout(
+            scrollViewRef.current.getInnerViewNode(),
+            (_, y) => {
+            scrollViewRef.current?.scrollTo({ y, animated: true });
+            }
+        );
+        }
+    };
+    
     return (
-    <View style={StylesStore.container}>
-        <ScrollView  >
-            <View style={StylesStore.containerText}>
-                <View>
-                <Text style={{...FontStyles.Title, fontWeight: 'bold', textAlign: 'center' }}>Farmacias Guadalajara</Text>
-                </View>
-            </View>
-            <View style={StylesStore.containerImg}>
+        <>
+        <ScrollView ref={scrollViewRef} >
             <ImgBusiness 
-            Width = '340'
-            Heigth = '250'
-            Img = 'https://www.movil.farmaciasguadalajara.com/wcsstore/FGCAS/wcs/images/content/STATIC_PAGES/about_us/conocenos1.jpg'
-            /> 
-            </View>
-            <View style={StylesStore.containerDescription}>
-                <View style={{justifyContent: 'space-between', alignItems: 'flex-end', paddingHorizontal: 35, paddingVertical: 5, flexDirection: 'row'}}>
-                <QualificationChart
-                scores = '4.5'
-                />
-                <SwitchComponent
-                Value = 'true' />
+            Img = 'https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo-1200x670.png'
+            open = {false}
+            like = {false}
+            />
+            <View style={StylesStore.tobBar}>
+                <View>
+                    <Text style={{...StylesStore.valuesText, ...StylesStore.textName}}>mcdonalds</Text>
+                    <Text style={StylesStore.valuesText}>Product/service</Text>
+                    <Text style={{...StylesStore.valuesText, color: 'green'}}>Open</Text>
+                    <Text style={StylesStore.valuesText}>Guadalajara(Mexico)</Text>
                 </View>
-                <View style={{paddingHorizontal: 20, paddingVertical: 20}}>
-                <Text style={{...FontStyles.Text, color: 'black', textAlign: 'justify'}}>
-                Compañía que ofrece el servicio de venta de productos de medicina, perfumería, fotografía, hogar, alimentos, limpieza, panadería y otros.
-                </Text>
-
+                <View style={StylesStore.navigation}>
+                    <TouchableOpacity style={StylesStore.buttonNavigation}>
+                        <Text style={StylesStore.textnavigation}>Direccion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={StylesStore.buttonNavigation} onPress={()=>handleScrollTo}>
+                        <Text style={StylesStore.textnavigation}>Catalogo</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={StylesStore.buttonNavigation} >
+                        <Text style={StylesStore.textnavigation}>...</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-            <View style={StylesStore.containerProducts}>
+            <View>
+                <View>
+                    <MapView style={{height: 100}}/>
+                    <View style={{...StylesStore.valuesText,flexDirection: 'row',marginTop: 5}}><Ionicons name="directions" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico</Text></View>
+                </View>
+                <View style={StylesStore.valuesText}>
+                    <View style={{flexDirection: 'row'}}><Ionicons name="envelope" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>sayulitrostaquepaque2013@gmail.com</Text></View>
+                    <View style={{flexDirection: 'row'}}><Ionicons name="globe" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>Website</Text></View>
+                    <View style={{flexDirection: 'row'}}><Ionicons name="info-circle" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>promocion</Text></View>
+                </View>
+            </View>
+            <View ref={targetElementRef} style={{justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
                 <ScrollView horizontal>
-                    <FlatList nestedScrollEnabled data={ConstBusiness} renderItem={rendererBusiness} />
-                </ScrollView>                
+                <FlatList data={ConstBusiness} renderItem={rendererBusiness}/>
+                </ScrollView>
             </View>
-        </ScrollView>      
-    </View>
+        </ScrollView>
+        </>
     )
 }
 
@@ -109,36 +124,57 @@ const StylesStore = StyleSheet.create({
     container:{
         flex:1
     },
-    containerText:{
-        flex: 1,
-        flexDirection: 'row',
-        alignContent: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 5
-    },
-    heartBtn:{
-        backgroundColor:Colors.gray,
-        width: 35,
-        height:35,
-        position: 'absolute',
-        borderRadius: 100, 
-        elevation: 24,
-    },
     containerImg:{
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20
+        flex: 3, 
     },
-    containerDescription:{
-        flex: 3,
-        //backgroundColor: 'green'
+    tobBar:{
+        width: '100%',
+        height: 150,
+    },
+    navigation:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5
+
+    },
+    buttonNavigation:{
+        width: '30%',
+        height: 30,
+        justifyContent: 'center',
+    },
+    textnavigation:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Outfit-SemiBold', 
+        fontSize: 20,
+        color: '#000000'
     },
     containerProducts:{
+        backgroundColor: 'orange',
         flex: 5,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
+    databox:{
+        width: 280,
+        height: 90,
+        backgroundColor: 'white',
+        position: 'absolute',
+        top: 190,
+        left: 40,
+        borderRadius: 10,
+        borderColor: 'black',
+        borderWidth: 1.5,
+    },
+    textName:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'black',
+        fontFamily: 'Outfit-SemiBold', 
+    },
+    valuesText:{
+        marginLeft: 10,
+    }
+
 
 });
