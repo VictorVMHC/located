@@ -1,7 +1,6 @@
 import React, { useRef} from 'react'
-import { Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
@@ -17,7 +16,6 @@ class Business{
     constructor(id: string, tipo: string,){
         this.id = id
         this.tipo = tipo
-      
     }
 }
 
