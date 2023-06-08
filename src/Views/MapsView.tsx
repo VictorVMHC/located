@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { Button, Text, View } from 'react-native'
 import MapView from 'react-native-maps';
 
 export const MapsView = () => {
@@ -10,8 +9,6 @@ export const MapsView = () => {
         console.log(value);
     }
     return (
-    
         <MapView style={{height: '100%'}}/>
-      
     )
 }

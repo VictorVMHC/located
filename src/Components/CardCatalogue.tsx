@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Text, Image, TouchableOpacity, useWindowDimensions, TouchableHighlight, TouchableNativeFeedback, Button } from 'react-native';
+import React, { useRef, useState } from 'react'
+import { View, StyleSheet, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Styles, FontStyles, Colors } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { DescriptionBox } from './DescriptionBox';
 import { useHeartHook } from '../Hooks/useHeartHook';
@@ -22,21 +21,19 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
+    const viewRef = useRef(null);
 
     const toggle = () => {
-        if(DescripcionB == ''){
-           
-        }else{
+        if(DescripcionB != ''){
             setExpanded(!expanded );
-
+           
+            
         }
-
-    };
-
-    
+    }
+ 
     return (
     <View style={styles.ContainerCard}>
-        <TouchableOpacity activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderRadius: expanded ? 0 : 15,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
+         <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
             <View style={styles.ChartImg}>
                 <Image
                 style={styles.CardImg}
@@ -61,46 +58,43 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
             <Text style={styles.TestQualification}>{punctuation}</Text>
             </View>
         </TouchableOpacity>
-            {expanded && <View style={styles.cardContent}>{
+        {expanded && <View style={styles.cardContent}>{
             <DescriptionBox 
             Descripcion = {DescripcionB} />
         }</View>}
+        
     </View>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
     ContainerCard:{
         justifyContent: 'center',
         marginBottom: 20,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 12,
-        },
-        shadowOpacity: 0.58,
-        shadowRadius: 16.00,
-
-        elevation: 24,
-        borderColor: '796D6D',
-        borderRadius: 15,
-        borderWidth: 0.5,
+        
     }, 
     ChartCard:{
         flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '796D6D',
-        borderTopEndRadius: 15,
-        borderTopStartRadius: 15,
         borderWidth: 0.5,
-        padding: 10,
-
+        padding: 10, 
+        backgroundColor: 'white',
+        shadowColor: "#000000",
+        shadowOffset: {
+        width: 0,
+        height: 8,
+        },
+        shadowOpacity:  0.21,
+        shadowRadius: 8.19,
+        elevation: 11
+        
     },
     ChartImg:{
         flex: 3,
-        height: '100%',
+    },
+    boxText:{
+        flex:1,
+        justifyContent: 'center',
+        paddingLeft: 10
     },
     CardImg:{
         width: '100%',
@@ -113,11 +107,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'space-between',
     },
-    boxText:{
-        flex:1,
-        justifyContent: 'center',
-        paddingLeft: 10
-    },
+  
     Text:{
         fontFamily: 'Outfit.Regular', 
         fontSize: 22, 
@@ -131,21 +121,22 @@ const styles = StyleSheet.create({
         bottom: -2,
         left:10
     },
-    heartBtn:{
-        backgroundColor:Colors.gray,
+    chartlike:{
         width: 35,
         height:35,
+        backgroundColor: 'white',
         position: 'absolute',
         top: 4,
         right: 10,
-        borderRadius: 100, 
+        borderRadius: 15,
+        borderColor: '#D9D9D9',
+        borderWidth: 2,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'flex-end',
         shadowColor: "#000",
         shadowOffset: {
-            width: 0,
-            height: 12,
+	    width: 0,
+	    height: 10,
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
@@ -169,6 +160,26 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     cardContent:{
-
+        marginBottom: 20,
+    },
+    heartBtn:{
+        backgroundColor:Colors.gray,
+        width: 35,
+        height:35,
+        position: 'absolute',
+        top: 4,
+        right: 10,
+        borderRadius: 100, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        color: 'black'
     }
 });
