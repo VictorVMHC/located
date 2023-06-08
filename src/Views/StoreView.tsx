@@ -1,7 +1,6 @@
 import React, { useRef} from 'react'
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import MapView from 'react-native-maps';
@@ -47,8 +46,6 @@ const rendererBusiness = ({item} : {item : Business}) => {
     )
 
 }
-
-const Tab = createBottomTabNavigator();
 
 export const StoreView = () => {
     const scrollViewRef = useRef<ScrollView>(null);
