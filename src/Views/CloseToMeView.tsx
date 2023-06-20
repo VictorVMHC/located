@@ -1,11 +1,11 @@
+import { Slider } from '@miblanchard/react-native-slider';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View, StyleSheet, Text, useWindowDimensions } from 'react-native';
-import { HomeScreen } from './HomeScreen';
-import { SettingsScreen } from './SettingsScreen';
-import Ionicons from 'react-native-vector-icons/FontAwesome5';
-import {Slider} from '@miblanchard/react-native-slider';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import Ionicons from 'react-native-vector-icons/FontAwesome5';
+import { HomeScreen } from './HomeScreen';
+import { SettingsScreen } from './SettingsView';
 
 
 const Tab = createMaterialTopTabNavigator();

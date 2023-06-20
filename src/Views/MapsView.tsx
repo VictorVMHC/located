@@ -1,14 +1,22 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next';
-import MapView from 'react-native-maps';
+import React, { useContext } from 'react';
+import { PermissionsContext } from '../Context/PermissionsContext';
+import { LoadingView } from './LoadingView';
+import { Map } from '../Components/Map';
+import LocationPermission from './LocationPermissionsView';
 
 export const MapsView = () => {
-    const {t, i18n} = useTranslation();
-    const changeLenguage =(value: string) =>{
-        i18n.changeLanguage(value);
-        console.log(value);
+    const { permissions } = useContext( PermissionsContext );
+    if ( permissions.locationStatus === 'unavailable' ) {
+        return <LoadingView />
     }
+    
     return (
-        <MapView style={{height: '100%'}}/>
+        <>
+            {
+                ( permissions.locationStatus === 'granted' )
+                    ? <Map/>
+                    : <LocationPermission/>
+            }
+        </>
     )
 }

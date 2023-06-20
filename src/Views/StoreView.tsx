@@ -52,11 +52,13 @@ export const StoreView = () => {
     const targetElementRef = useRef<View>(null);
 
     const handleScrollTo = () => {
+        console.log("holaaa");
+        
         if (scrollViewRef.current && targetElementRef.current) {
             targetElementRef.current.measureLayout(
             scrollViewRef.current.getInnerViewNode(),
             (_, y) => {
-            scrollViewRef.current?.scrollTo({ y, animated: true });
+                scrollViewRef.current?.scrollTo({ y, animated: true });
             }
         );
         }
