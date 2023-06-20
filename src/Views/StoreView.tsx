@@ -7,22 +7,6 @@ import { ImgBusiness } from '../Components/ImgBusiness';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import MapView from 'react-native-maps';
 
-
-function HomeScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Inicio</Text>
-      </View>
-    );
-  }
-  function AboutScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Acerca de</Text>
-      </View>
-    );
-  }
-
 class Business{
     id: string
     tipo: string
@@ -38,7 +22,10 @@ class Business{
 const ConstBusiness: Array<Business> = [
     new Business('1','farmacia',require('../Assets/Images/Lisa.png')),
     new Business('2','farmacia',require('../Assets/Images/Lisa.png')),
-    new Business('3','farmacia',require('../Assets/Images/Lisa.png')),  
+    new Business('3','farmacia',require('../Assets/Images/Lisa.png')),
+    new Business('4','farmacia',require('../Assets/Images/Lisa.png')),
+    new Business('5','farmacia',require('../Assets/Images/Lisa.png')),
+    new Business('6','farmacia',require('../Assets/Images/Lisa.png')),  
 ]
 
 const rendererBusiness = ({item} : {item : Business}) => {
@@ -62,11 +49,13 @@ export const StoreView = () => {
     const targetElementRef = useRef<View>(null);
 
     const handleScrollTo = () => {
+        console.log("holaaa");
+        
         if (scrollViewRef.current && targetElementRef.current) {
             targetElementRef.current.measureLayout(
             scrollViewRef.current.getInnerViewNode(),
             (_, y) => {
-            scrollViewRef.current?.scrollTo({ y, animated: true });
+                scrollViewRef.current?.scrollTo({ y, animated: true });
             }
         );
         }
@@ -74,11 +63,11 @@ export const StoreView = () => {
     
     return (
         <>
-        <ScrollView ref={scrollViewRef} >
+        <ScrollView ref={scrollViewRef}  stickyHeaderIndices={[0]}>
             <ImgBusiness 
-            Img = 'https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo-1200x670.png'
-            open = {false}
-            like = {false}
+                Img = 'https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo-1200x670.png'
+                open = {false}
+                like = {false}
             />
             <View style={StylesStore.tobBar}>
                 <View>
@@ -91,7 +80,7 @@ export const StoreView = () => {
                     <TouchableOpacity style={StylesStore.buttonNavigation}>
                         <Text style={StylesStore.textnavigation}>Direccion</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={StylesStore.buttonNavigation} onPress={()=>handleScrollTo}>
+                    <TouchableOpacity style={StylesStore.buttonNavigation} onPress={handleScrollTo}>
                         <Text style={StylesStore.textnavigation}>Catalogo</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={StylesStore.buttonNavigation} >
@@ -134,8 +123,7 @@ const StylesStore = StyleSheet.create({
     navigation:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 5
-
+        marginTop: 5,
     },
     buttonNavigation:{
         width: '30%',
