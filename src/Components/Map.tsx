@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { useLocation } from '../Hooks/useLocation';
+import { Local } from '../Interfaces/DbInterfaces';
+import { local } from '../Utils/Data _Example';
 import { LoadingView } from '../Views/LoadingView';
+import { CustomMarker } from './CustomMarker';
 
 interface Props {
     markers?: any,
@@ -51,7 +54,21 @@ export const Map = ({ markers }: Props) => {
                             longitudeDelta: 0.0421,
                         }}
                         onTouchStart={ () => following.current = false }
-                    />
+                    >
+                        {
+                            local.map(({ uriImage, location}: Local, index ) => {
+                                return (
+                                    <Marker
+                                        key={index.toString()}
+                                        coordinate={location}
+                                        anchor={{ x: 0.3, y: 0.6 }}                               
+                                    >
+                                        <CustomMarker uriImage={uriImage} />
+                                    </Marker>
+                                );
+                            })
+                        }
+                    </MapView>
             }
         </>
     )
