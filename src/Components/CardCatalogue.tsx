@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react'
-import { View, StyleSheet, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
-import { Styles, FontStyles, Colors } from '../Themes/Styles';
+import React, { useRef, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-import { DescriptionBox } from './DescriptionBox';
 import { useHeartHook } from '../Hooks/useHeartHook';
+import { Colors } from '../Themes/Styles';
+import { DescriptionBox } from './DescriptionBox';
 
 interface Props {
     ProductName: string,
@@ -26,11 +26,9 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
     const toggle = () => {
         if(DescripcionB != ''){
             setExpanded(!expanded );
-           
-            
         }
     }
- 
+
     return (
     <View style={styles.ContainerCard}>
          <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
@@ -64,7 +62,7 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
         }</View>}
         
     </View>
-  )
+)
 }
 
 const styles = StyleSheet.create({
@@ -107,7 +105,6 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'space-between',
     },
-  
     Text:{
         fontFamily: 'Outfit.Regular', 
         fontSize: 22, 
@@ -135,12 +132,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
-	    width: 0,
-	    height: 10,
+            width: 0,
+            height: 10,
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
-
         elevation: 24,
     },
     ChartQualification:{

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-interface Props {
-    title?: string
-}
+
 export const CardAcordeon = (props: any) => {
   const [expanded, setExpanded] = useState(false);
 

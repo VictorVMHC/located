@@ -12,8 +12,8 @@ export const CustomMarker = ({uriImage}:Props) => {
         <View style={styles.container}>
         <Svg width={60} height={60} viewBox="0 0 60 60">
             <Path
-            d="M20 0C11.5 0 5 6.5 5 14.5C5 24.5 20 40 20 40C20 40 35 24.5 35 14.5C35 6.5 28.5 0 20 0Z"
-            fill="red"
+                d="M20 0C11.5 0 5 6.5 5 14.5C5 24.5 20 40 20 40C20 40 35 24.5 35 14.5C35 6.5 28.5 0 20 0Z"
+                fill="red"
             />
                 <Image
                     style={styles.markerImage}
