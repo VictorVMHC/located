@@ -17,7 +17,7 @@ interface Props {
     action?: () => {},
 }
 
-export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '',action, children, like = false }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '', action, children, like = false }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -26,10 +26,9 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
     const toggle = () => {
         if(DescripcionB != ''){
             setExpanded(!expanded );
-            
         }
     }
- 
+
     return (
     <View style={styles.ContainerCard}>
          <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
@@ -57,13 +56,15 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
             <Text style={styles.TestQualification}>{punctuation}</Text>
             </View>
         </TouchableOpacity>
-        {expanded && <View style={styles.cardContent}>{
-            <DescriptionBox 
-            Descripcion = {DescripcionB} />
-        }</View>}
+        {
+            expanded &&
+                <DescriptionBox 
+                    Descripcion = {DescripcionB} 
+                />
+        }
         
     </View>
-  )
+)
 }
 
 const styles = StyleSheet.create({
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'space-between',
     },
-  
     Text:{
         fontFamily: 'Outfit.Regular', 
         fontSize: 22, 
@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
-	    width: 0,
-	    height: 10,
+            width: 0,
+            height: 10,
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
@@ -157,9 +157,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontWeight: "900",
         color: 'black'
-    },
-    cardContent:{
-        marginBottom: 20,
     },
     heartBtn:{
         backgroundColor:Colors.gray,

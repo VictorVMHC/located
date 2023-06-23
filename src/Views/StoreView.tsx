@@ -1,10 +1,12 @@
-import React, { useRef} from 'react'
-import { LayoutRectangle, ScrollView, StyleSheet, Text, TouchableOpacity, UIManager, View,findNodeHandle} from 'react-native'
+import React, { Ref, useRef} from 'react'
+import { LayoutRectangle, ScrollView, StyleSheet, Text, TouchableOpacity, UIManager, View,findNodeHandle, useWindowDimensions} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import MapView from 'react-native-maps';
 import { Colors } from '../Themes/Styles';
+import { FlatList } from 'react-native-gesture-handler';
+import { HelpView } from './HelpView';
 
 
 interface Store {
@@ -28,52 +30,39 @@ const listArray: Store[] = [
     { id: 8, productNamee: 'paracetamol 3', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: false },
     { id: 9, productNamee: 'paracetamol 4', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
     { id: 10, productNamee: 'paracetamol 5', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-  ];
-
+];
 
 const rendererBusiness = () => {
     return listArray.map((item) =>(
-        <CardCatalogue 
-        ProductName = {item.productNamee}
-        Price = '150'
-        Img = 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg'
-        punctuation = '4.0'
-        DescripcionB = 'asdasdawsdfasdfasdasfasdf'
-        like
+        <CardCatalogue
+            ProductName = {item.productNamee}
+            Price = '150'
+            Img = 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg'
+            punctuation = '4.0'
+            DescripcionB = 'asdasdawsdfasdfasdasfasdf'
+            like
         />
     ));
 }
 
-
-
-
-
 export const StoreView = () => {
+    const { width } = useWindowDimensions();
     const scrollViewRef = useRef<ScrollView>(null);
-    const itemRefs = useRef<(TouchableOpacity | null)[]>([]);
+    const adressRef = useRef<View>(null);
+    const catalogueRef = useRef<View>(null);
 
 
-    const handleScrollTo = async (index: number) => {
-        if (itemRefs.current[index] && scrollViewRef.current) {
-            await scrollToRef(itemRefs.current[index]!)
-            itemRefs.current[index]!.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
-            scrollViewRef.current!.scrollTo({ y: pageY, animated: true });
-            });
+    const handleScrollTo = (targetElement: any ) => {
+        if (scrollViewRef.current && targetElement.current) {
+            targetElement.current.measureLayout(
+                scrollViewRef.current,
+                (_: number, y: number) => {
+                    y = y - 50;
+                    scrollViewRef.current!.scrollTo({ y, animated: true });
+                }
+            );
         }
     };
-
-    const scrollToRef = (ref: TouchableOpacity) => {
-        return new Promise((resolve) => {
-            const handle = findNodeHandle(ref);
-            if (handle) {
-                UIManager.measure(handle, (x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
-                resolve({ x, y, width, height, pageX, pageY } as LayoutRectangle);
-                });
-            }
-        });
-    };
-
-
     
     return (
         <>
@@ -92,45 +81,65 @@ export const StoreView = () => {
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
-                    <View style={StylesStore.navigation}>
-                        <TouchableOpacity style={StylesStore.buttonNavigation}>
-                            <Text style={StylesStore.textnavigation}>Direccion</Text>
+                    <ScrollView horizontal={true}>
+                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(scrollViewRef)}>
+                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Inicio</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(1)}>
-                            <Text style={StylesStore.textnavigation}>Catalogo</Text>
+                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(adressRef)}>
+                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Direccion</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(catalogueRef)}>
+                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Catalogo</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={StylesStore.buttonNavigation} >
-                            <Text style={StylesStore.textnavigation}>...</Text>
+                            <Text style={{...StylesStore.textnavigation, width: width/3}}>...</Text>
                         </TouchableOpacity>
-                    </View>
+                    </ScrollView>
                 </View>
-                <View>
-                    <View>
-                        <MapView style={StylesStore.map} />
-                    </View>
+                <View ref={adressRef}>
+                    <MapView style={StylesStore.map} />
                     <View style={StylesStore.valuesText}>
-                    <View style={{flexDirection: 'row',marginTop: 10}}><Ionicons name="directions" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico</Text></View>
-                        <View style={{flexDirection: 'row'}}><Ionicons name="envelope" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>sayulitrostaquepaque2013@gmail.com</Text></View>
-                        <View style={{flexDirection: 'row'}}><Ionicons name="globe" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>Website</Text></View>
-                        <View style={{flexDirection: 'row'}}><Ionicons name="info-circle" size={20} color={'#CD5F28'} /><Text style={{marginHorizontal: 5}}>promocion</Text></View>
+                        <View style={{flexDirection: 'row',marginTop: 10}}>
+                            <Ionicons name="directions" size={20} color={'#CD5F28'} />
+                            <Text style={{marginHorizontal: 5}}>
+                                AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico
+                            </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Ionicons name="envelope" size={20} color={'#CD5F28'} />
+                            <Text style={{marginHorizontal: 5}}>
+                                sayulitrostaquepaque2013@gmail.com
+                            </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Ionicons name="globe" size={20} color={'#CD5F28'} />
+                            <Text style={{marginHorizontal: 5}}>
+                                Website
+                            </Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Ionicons name="info-circle" size={20} color={'#CD5F28'} />
+                            <Text style={{marginHorizontal: 5}}>
+                                promocion
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                <View style={{justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
-                    {listArray.map((item, index) => (
-                        <TouchableOpacity
-                            ref={(ref) => (itemRefs.current[index] = ref)}
-                            key={item.id}
-                        >
-                            <CardCatalogue 
-                                ProductName = {item.productNamee}
-                                Price = '150'
-                                Img = 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg'
-                                punctuation = '4.0'
-                                DescripcionB = 'asdasdawsdfasdfasdasfasdf'
-                                like
-                            />
-                        </TouchableOpacity>
-                    ))}
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginVertical: 20}} ref={catalogueRef}>
+                        {
+                            listArray.map((item, index) => (
+                                <View key={index}>
+                                    <CardCatalogue
+                                        ProductName={item.productNamee}
+                                        Price={item.price}
+                                        Img={item.img}
+                                        punctuation={item.puntuation}
+                                        DescripcionB={item.DescripcionB}
+                                        like={item.like} 
+                                    />
+                                </View>
+                            ))
+                        }
+                    </View>
                 </View>
             </ScrollView>
         </>
@@ -145,23 +154,18 @@ const StylesStore = StyleSheet.create({
         flex: 3, 
     },
     tobBar:{
-        width: '100%',
-        height: 50,
         backgroundColor: 'white',
-        marginBottom: 5
+        height: 50,
     },
     navigation:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         marginTop: 5,
     },
     buttonNavigation:{
-        width: '30%',
-        height: 30,
-        justifyContent: 'center',
+        height: '100%',
         borderBottomColor: Colors.Yellow,
-        borderBottomWidth: 3
-        
+        borderBottomWidth: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textnavigation:{
         textAlign: 'center',
@@ -187,5 +191,11 @@ const StylesStore = StyleSheet.create({
     textInformation:{
         fontWeight: '500',
         fontSize: 16
+    },
+    scrollContent:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        flex:1
     }
+    
 });
