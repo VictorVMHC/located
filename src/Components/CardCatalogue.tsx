@@ -26,7 +26,6 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
     const toggle = () => {
         if(DescripcionB != ''){
             setExpanded(!expanded );
-           
             
         }
     }
