@@ -43,6 +43,9 @@
         "ModalMsgCheckEmail": "Revisa tu correo",
         "ModalEnterCodeMsg": "Ingresa el código",
         "ModalBtnVerify": "Verificar",
-        "ModalEnterCodeMsgFail": "¡Código Invalido! Prueba de nuevo"
+        "ModalEnterCodeMsgFail": "¡Código Invalido! Prueba de nuevo",
+        "LocationPermission": "Permiso De Localización",
+        "MsgPermission": "Esta aplicación requiere el acceso a tu ubicación.",
+        "GrantPermission": "PERMITIR"
     }
 }

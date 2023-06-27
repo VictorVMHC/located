@@ -43,7 +43,10 @@
         "ModalMsgCheckEmail": "Check your email",
         "ModalEnterCodeMsg": "Enter the code",
         "ModalBtnVerify": "Verify",
-        "ModalEnterCodeMsgFail": "¡Invalid Code! Try again"
-
+        "ModalEnterCodeMsgFail": "¡Invalid Code! Try again",
+        "LocationPermission": "Location Permission",
+        "MsgPermission": "This app requires access to your location.",
+        "GrantPermission": "ALLOW"
+        
     }
 }
