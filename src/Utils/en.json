@@ -43,7 +43,9 @@
         "ModalMsgCheckEmail": "Check your email",
         "ModalEnterCodeMsg": "Enter the code",
         "ModalBtnVerify": "Verify",
-        "ModalEnterCodeMsgFail": "¡Invalid Code! Try again"
-
+        "ModalEnterCodeMsgFail": "¡Invalid Code! Try again",
+        "TobBarStart": "Start",
+        "TobBarAddress": "Address",
+        "TobBarCatalogue": "Catalogue"
     }
 }

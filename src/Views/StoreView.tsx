@@ -1,12 +1,11 @@
-import React, { Ref, useRef} from 'react'
-import { LayoutRectangle, ScrollView, StyleSheet, Text, TouchableOpacity, UIManager, View,findNodeHandle, useWindowDimensions} from 'react-native'
+import React, {useRef} from 'react'
+import { ScrollView, StyleSheet, Text, View, useWindowDimensions} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
-import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import MapView from 'react-native-maps';
-import { Colors } from '../Themes/Styles';
-import { FlatList } from 'react-native-gesture-handler';
-import { HelpView } from './HelpView';
+import { TobBar } from '../Components/TobBar';
+import { IconWithText } from '../Components/IconWithText';
+
 
 
 interface Store {
@@ -32,26 +31,24 @@ const listArray: Store[] = [
     { id: 10, productNamee: 'paracetamol 5', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
 ];
 
-const rendererBusiness = () => {
-    return listArray.map((item) =>(
+const rendererBusiness = (item: any) => {
+    return (
         <CardCatalogue
             ProductName = {item.productNamee}
-            Price = '150'
-            Img = 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg'
-            punctuation = '4.0'
-            DescripcionB = 'asdasdawsdfasdfasdasfasdf'
-            like
+            Price = {item.price}
+            Img = {item.img}
+            punctuation = {item.puntuation}
+            DescripcionB = {item.DescripcionB}
+            like = {item.like}
         />
-    ));
+    );
 }
 
 export const StoreView = () => {
-    const { width } = useWindowDimensions();
     const scrollViewRef = useRef<ScrollView>(null);
     const adressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-
-
+    
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
             targetElement.current.measureLayout(
@@ -81,61 +78,45 @@ export const StoreView = () => {
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
-                    <ScrollView horizontal={true}>
-                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(scrollViewRef)}>
-                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Inicio</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(adressRef)}>
-                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Direccion</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={StylesStore.buttonNavigation} onPress={() =>handleScrollTo(catalogueRef)}>
-                            <Text style={{...StylesStore.textnavigation, width: width/3}}>Catalogo</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={StylesStore.buttonNavigation} >
-                            <Text style={{...StylesStore.textnavigation, width: width/3}}>...</Text>
-                        </TouchableOpacity>
-                    </ScrollView>
+                    <TobBar 
+                    actionStart={() =>handleScrollTo(scrollViewRef)}
+                    actionAddress={() =>handleScrollTo(adressRef)}
+                    actionCatalogue={() =>handleScrollTo(catalogueRef)}
+                    />
                 </View>
                 <View ref={adressRef}>
                     <MapView style={StylesStore.map} />
                     <View style={StylesStore.valuesText}>
-                        <View style={{flexDirection: 'row',marginTop: 10}}>
-                            <Ionicons name="directions" size={20} color={'#CD5F28'} />
-                            <Text style={{marginHorizontal: 5}}>
-                                AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico
-                            </Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Ionicons name="envelope" size={20} color={'#CD5F28'} />
-                            <Text style={{marginHorizontal: 5}}>
-                                sayulitrostaquepaque2013@gmail.com
-                            </Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Ionicons name="globe" size={20} color={'#CD5F28'} />
-                            <Text style={{marginHorizontal: 5}}>
-                                Website
-                            </Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Ionicons name="info-circle" size={20} color={'#CD5F28'} />
-                            <Text style={{marginHorizontal: 5}}>
-                                promocion
-                            </Text>
-                        </View>
+                        <IconWithText 
+                        NameIcon ={'directions'}
+                        IconSize ={20}
+                        ColorIcon={'#CD5F28'}
+                        text ={'AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico'}
+                        />
+                        <IconWithText 
+                        NameIcon ={'envelope'}
+                        IconSize ={20}
+                        ColorIcon={'#CD5F28'}
+                        text ={'sayulitrostaquepaque2013@gmail.com'}
+                        />
+                        <IconWithText 
+                        NameIcon ={'globe'}
+                        IconSize ={20}
+                        ColorIcon={'#CD5F28'}
+                        text ={'Website'}
+                        />
+                        <IconWithText 
+                        NameIcon ={'info-circle'}
+                        IconSize ={20}
+                        ColorIcon={'#CD5F28'}
+                        text ={'promocion'}
+                        />
                     </View>
-                    <View style={{justifyContent: 'center', alignItems: 'center', marginVertical: 20}} ref={catalogueRef}>
+                    <View style={StylesStore.containerList} ref={catalogueRef}>
                         {
                             listArray.map((item, index) => (
                                 <View key={index}>
-                                    <CardCatalogue
-                                        ProductName={item.productNamee}
-                                        Price={item.price}
-                                        Img={item.img}
-                                        punctuation={item.puntuation}
-                                        DescripcionB={item.DescripcionB}
-                                        like={item.like} 
-                                    />
+                                    {rendererBusiness(item)}
                                 </View>
                             ))
                         }
@@ -150,33 +131,14 @@ const StylesStore = StyleSheet.create({
     container:{
         backgroundColor: '#FFFFFF'
     },
-    containerImg:{
-        flex: 3, 
-    },
     tobBar:{
         backgroundColor: 'white',
         height: 50,
     },
-    navigation:{
-        marginTop: 5,
-    },
-    buttonNavigation:{
-        height: '100%',
-        borderBottomColor: Colors.Yellow,
-        borderBottomWidth: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textnavigation:{
-        textAlign: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Outfit-SemiBold', 
-        fontSize: 20,
-        color: '#000000'
-    },
     map:{
         marginHorizontal: 10,
-        height: 150
+        height: 150,
+        marginBottom: 10
     },
     textName:{
         fontSize: 35,
@@ -192,10 +154,9 @@ const StylesStore = StyleSheet.create({
         fontWeight: '500',
         fontSize: 16
     },
-    scrollContent:{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        flex:1
+    containerList:{
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        marginVertical: 20
     }
-    
 });
