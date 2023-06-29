@@ -6,16 +6,24 @@ import React from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
+import { PermissionsProvider } from './src/Context/PermissionsContext';
 
+const AppState = ({ children }: any) =>{
 
+  return (
+    <PermissionsProvider>
+      { children }
+    </PermissionsProvider>
+  )
+}
 export const App = () => {
-
   const { i18n } = useTranslation();
-  
   return (
     <I18nextProvider i18n={i18n}>
       <NavigationContainer>
-        <MainStackNavigator/>
+        <AppState>
+          <MainStackNavigator/>
+        </AppState>
       </NavigationContainer>
     </I18nextProvider>
   )

@@ -1,5 +1,5 @@
 {
-    "translation": {
+        "translation": {
         "Explore": "Explore",
         "ForgotPassword": "Forgot password?",
         "CreateAccount": "Create Account",
@@ -46,6 +46,10 @@
         "ModalEnterCodeMsgFail": "¡Invalid Code! Try again",
         "TobBarStart": "Start",
         "TobBarAddress": "Address",
-        "TobBarCatalogue": "Catalogue"
-    }
+        "TobBarCatalogue": "Catalogue",
+        "LocationPermission": "Location Permission",
+        "MsgPermission": "This app requires access to your location.",
+        "GrantPermission": "ALLOW"
+        
+        }
 }

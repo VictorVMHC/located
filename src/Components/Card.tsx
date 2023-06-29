@@ -4,6 +4,7 @@ import { default as FontAwsome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
+import { Local, Schedule } from '../Interfaces/DbInterfaces';
 
 interface Props{
     cardWidth?: number,

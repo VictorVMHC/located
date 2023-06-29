@@ -1,6 +1,8 @@
-interface Local {
+import { Location } from './MapInterfaces';
+export interface Local {
     id: number,
     name: string,
+    location: Location,
     adress: string,
     uriImage: string,
     isVerify: boolean,
@@ -10,7 +12,7 @@ interface Local {
     tags: string[]
 }
 
-interface Schedule {
+export interface Schedule {
     day1: string,
     day2: string,
     open: string,
