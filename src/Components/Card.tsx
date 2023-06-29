@@ -10,11 +10,12 @@ interface Props{
     cardHeight?: number,
     like: boolean,
     local: Local, 
+    rutStore?: () => void 
 }
 
 
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutStore}: Props) => {
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
     const {name, adress, uriImage, isVerify, schedules, rate, quantityRate, tags} = local;
@@ -22,7 +23,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local}: Prop
     return (
     <View style={styles.container} key={local.id} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.tochableCard}}
-            onPress={() => console.log('tochable card', JSON.stringify(local))}
+            onPress={rutStore}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
