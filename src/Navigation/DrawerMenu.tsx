@@ -65,27 +65,27 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
         >        
           <View style={styles.body}>
             <DrawerMenuButtons
-              text = {t('DrawerPartInicio')}
+              text = {t('DrawerHome')}
               onPress = {() => navigation.navigate('TabBarNavigator')}
               iconName='home-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartPerfil')}
+              text = {t('DrawerProfile')}
               onPress = {() => navigation.navigate('EditProfileView')}
               iconName='person-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartNotificacion')}
+              text = {t('DrawerNotification')}
               onPress = {() => navigation.navigate('NotificationsView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartAyuda')}
+              text = {t('DrawerHelp')}
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
             <CollapsibleButon
-              title= {t('DrawerPartLenguaje')}
+              title= {t('DrawerLanguage')}
               iconName='language-outline'
               iconColor='white'
               items={
@@ -100,7 +100,7 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
       </View>
       <View style={styles.footer}>
           <DrawerMenuButtons
-            text = {t('DrawerPartLogout')}
+            text = {t('DrawerLogOut')}
             onPress = {() => navigation.navigate('TabBarNavigator')}
             iconName='log-out-outline'
           />

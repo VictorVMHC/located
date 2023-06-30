@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
-import { HomeScreen } from './HomeScreen';
-import { SettingsScreen } from './SettingsView';
+import { FoodView } from './FoodView';
+import { OthersCategoriesView } from './OthersCategoriesView';
+import { PharmacyView } from './PharmacyView';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -13,12 +14,11 @@ const Tab = createMaterialTopTabNavigator();
 export const CloseToMeView = () =>{
 const {width, height} = useWindowDimensions();
 const [value, setValue] = useState(0);
-const {t, i18n } = useTranslation();
+const { t } = useTranslation();
 return (
     <View style={styles.container}>
         <View style={styles.containerBarraK}>
-            <Text>Barra de Kilometro</Text>
-            <View style={{...styles.containerSlider,width: width - (width * 0.1), height: height - (height * 0.85)}}>
+            <View style={{...styles.containerSlider, width: width - (width * 0.1), height: height - (height * 0.85)}}>
                 <Slider 
                     value={value}
                     step={1}
@@ -47,23 +47,23 @@ return (
             tabBarGap: 10,
             tabBarScrollEnabled: true,   
             }}>
-            <Tab.Screen name="Home" component={HomeScreen}      
+            <Tab.Screen name="Food" component={FoodView}      
                 options={{
-                    title: t('Comida').toString(),
+                    title: t('Food').toString(),
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                     ),
                 }} 
             />
-            <Tab.Screen name="Servicios" component={SettingsScreen}
+            <Tab.Screen name="Pharmacy" component={PharmacyView}
                 options={{
-                    title:  t('Farmacia').toString(),
+                    title:  t('Pharmacy').toString(),
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="pills" size={20} color={'#CD5F28'} />
                     ),
                 }}  
             />
-            <Tab.Screen name="Otros" component={SettingsScreen} 
+            <Tab.Screen name="OthersCategories" component={OthersCategoriesView} 
                 options={{
                     title:  t('Otros').toString(),
                     tabBarIcon: ({ color }) => (
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     },
     containerSlider:{
         justifyContent: 'center',
+        marginTop: 25
     }, 
     cuadroSuperiorPuntero:{
         width: 60,
