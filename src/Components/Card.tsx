@@ -23,7 +23,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutSto
 
     return (
     <View style={styles.container} key={local.id} >
-        <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.tochableCard}}
+        <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
             onPress={rutStore}
         >
             <View style={{flex:4}}>                

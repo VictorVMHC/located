@@ -43,16 +43,10 @@ export const Map = ({ markers }: Props) => {
     }, [ userLocation ]);
 
     const handleMarkerPress = (index: number) => {
-        console.log(carouselVisible + "in handle");
-        
         if (carouselRef.current) {
             carouselRef.current.scrollTo({index, animated:true})
-            console.log(carouselVisible + "in ref");
         }
-        
         setCarouselVisible(true)
-        console.log(carouselVisible + "after ref");
-
     };
     return (
         <>
