@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Image } from 'react-native';
-import { default as FontAwsome } from 'react-native-vector-icons/FontAwesome5';
+import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
@@ -19,11 +19,11 @@ interface Props{
 export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutStore}: Props) => {
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
-    const {name, adress, uriImage, isVerify, schedules, rate, quantityRate, tags} = local;
+    const {name, address: address, uriImage, isVerify, schedules, rate, quantityRate, tags} = local;
 
     return (
     <View style={styles.container} key={local.id} >
-        <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.tochableCard}}
+        <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
             onPress={rutStore}
         >
             <View style={{flex:4}}>                
@@ -53,11 +53,11 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutSto
                 <View style={styles.bodyCardHeader}>
                     <View style={styles.titleSection}>
                         <Text style={styles.titleStyle}>{name}</Text>
-                        {isVerify && <FontAwsome name={'check-circle'} size={17} color={Colors.blueAqua}/>}
+                        {isVerify && <FontAwesome name={'check-circle'} size={17} color={Colors.blueAqua}/>}
                     </View>
                     <View style={styles.locationStyles}>
-                        <FontAwsome name={'map-marked-alt'} size={20} color={Colors.blueAqua} style={{marginHorizontal: 5}} />
-                        <Text style={styles.textLocation}>{adress}</Text>
+                        <FontAwesome name={'map-marked-alt'} size={20} color={Colors.blueAqua} style={{marginHorizontal: 5}} />
+                        <Text style={styles.textLocation}>{address}</Text>
                     </View>
                     <View style={styles.calendarStyles}>
                         <View style={styles.iconCalendarStyles}>
@@ -72,10 +72,10 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutSto
                 </View>
                 <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
                     {tags && tags.map((item, index) => 
-                            <View  key={index} style={styles.tagStyle} >
-                                <Text  style={styles.textTag} >{item}</Text>
-                            </View>
-                        )
+                        <View  key={index} style={styles.tagStyle} >
+                            <Text  style={styles.textTag} >{item}</Text>
+                        </View>
+                    )
                     }
                 </View> 
             </View> 
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     container:{
         marginVertical: 5,
     },
-    tochableCard:{
+    touchableCard:{
         alignSelf: 'center', 
         borderColor: 'black', 
         borderWidth: 1,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     heartBtn:{
-        backgroundColor:Colors.whiteOpcaity,
+        backgroundColor:Colors.whiteOpacity,
         width: 40, 
         height: 40, 
         borderRadius: 100, 

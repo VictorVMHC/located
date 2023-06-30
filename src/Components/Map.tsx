@@ -1,15 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { useLocation } from '../Hooks/useLocation';
 import { Local } from '../Interfaces/DbInterfaces';
 import { local } from '../Utils/Data _Example';
 import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
+import { CarouselComponent } from './Carousel';
+import { ICarouselInstance } from 'react-native-reanimated-carousel';
 
 interface Props {
     markers?: any,
 }
+
 export const Map = ({ markers }: Props) => {
+    const carouselRef = useRef<ICarouselInstance>(null);
+    const mapViewRef = useRef<MapView>();
+    const following  = useRef<boolean>(true);
+    
+    const [carouselVisible, setCarouselVisible] = useState(false);
+    
     const { 
         hasLocation,
         initialPosition,
@@ -17,9 +26,6 @@ export const Map = ({ markers }: Props) => {
         userLocation,
         stopFollowUserLocation
         } = useLocation();
-
-    const mapViewRef = useRef<MapView>();
-    const following  = useRef<boolean>(true);
 
     useEffect(() => {
         followUserLocation();
@@ -29,21 +35,26 @@ export const Map = ({ markers }: Props) => {
     }, []);
 
     useEffect(() => {
-
         if( !following.current ) return;
-
         const { latitude, longitude } = userLocation;
         mapViewRef.current?.animateCamera({
             center: { latitude, longitude }
         });
     }, [ userLocation ]);
-    
+
+    const handleMarkerPress = (index: number) => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollTo({index, animated:true})
+        }
+        setCarouselVisible(true)
+    };
     return (
         <>
             {
                 ( !hasLocation )
                 ? <LoadingView />
-                : <MapView
+                :<>
+                    <MapView
                         ref={ (el) => mapViewRef.current = el! }
                         style={{ flex: 1 }}
                         showsUserLocation
@@ -61,7 +72,8 @@ export const Map = ({ markers }: Props) => {
                                     <Marker
                                         key={index.toString()}
                                         coordinate={location}
-                                        anchor={{ x: 0.3, y: 0.6 }}                               
+                                        anchor={{ x: 0.3, y: 0.6 }}
+                                        onPress={() => handleMarkerPress(index)}                              
                                     >
                                         <CustomMarker uriImage={uriImage} />
                                     </Marker>
@@ -69,6 +81,13 @@ export const Map = ({ markers }: Props) => {
                             })
                         }
                     </MapView>
+                    <CarouselComponent 
+                        carouselRef={carouselRef} 
+                        mapViewRef={mapViewRef} 
+                        carouselVisible={carouselVisible} 
+                        setCarouselVisible={setCarouselVisible}
+                    />
+                </> 
             }
         </>
     )

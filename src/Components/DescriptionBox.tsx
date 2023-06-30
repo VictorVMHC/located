@@ -12,7 +12,6 @@ interface TextEtiqueta{
 
 export const DescriptionBox = ({Descripcion = '' }:Props) => {
   const {width, height} = useWindowDimensions();
- 
 
 
   return (

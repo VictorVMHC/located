@@ -10,8 +10,9 @@ export const Colors = {
     blueAqua: '#1DAEFF',
     gray: '#F6F6F6',
     blueText: '#4E7098',
-    whiteOpcaity: 'rgba(255,255,255,0.5)',
-    red: '#9C0505'
+    whiteOpacity: 'rgba(255,255,255,0.5)',
+    red: '#9C0505',
+    grayOpacity: 'rgba(156, 174, 176, 0.54)'
 };
 
 export const FontStyles = {
