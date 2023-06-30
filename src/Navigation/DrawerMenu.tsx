@@ -12,12 +12,12 @@ import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
 import { Colors } from '../Themes/Styles';
+import { StoreView } from '../Views/StoreView';
 
 const Drawer = createDrawerNavigator();
 
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
-  const { t ,i18n } = useTranslation();
   return (
     <Drawer.Navigator
 
@@ -36,18 +36,18 @@ export function DrawerMenu() {
         width: width/1.7
       }
     }}
-      drawerContent={(props) => < MenuInterno {...props} />}
+      drawerContent={(props) => < InternalMenu {...props} />}
     >
       <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
       <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
       <Drawer.Screen name="HelpView" component={HelpView}/>
       <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
+      <Drawer.Screen name="StoreView" component={StoreView}/>
     </Drawer.Navigator>
   );
 }
 
-
-const MenuInterno = ( props: DrawerContentComponentProps ) => {
+const InternalMenu = ( props: DrawerContentComponentProps ) => {
   const {t,i18n} = useTranslation();
   const { navigation } = props;
   return(
