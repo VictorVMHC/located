@@ -9,6 +9,7 @@ import { OlvideContrasenaView } from '../Views/OlvideContrasenaView';
 import { SplasScreenView } from '../Views/SplashScreenView';
 import { TestScreen } from '../Views/TestScreen';
 import { DrawerMenu } from './DrawerMenu';
+import { StoreView } from '../Views/StoreView';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +26,8 @@ export const MainStackNavigator = () => {
 			<Stack.Screen name='LogginView' options={{ headerShown: false}} component={LogginView}/>
 			<Stack.Screen name='MainView' options={{ headerShown: false}} component={MainView}/>
 			<Stack.Screen name='MainCreateAccountView' options={{ headerShown: false}} component={MainCreateAccountView}/>
-			<Stack.Screen name='DrawerMenu' component={DrawerMenu} options={{ headerShown: false}} />
+			<Stack.Screen name='DrawerMenu' options={{ headerShown: false}} component={DrawerMenu} />
+			<Stack.Screen name='StoreView' options={{ headerShown: false}} component={StoreView} />
 		</Stack.Navigator>
 	)
 }

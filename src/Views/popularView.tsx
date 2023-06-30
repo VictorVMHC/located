@@ -2,16 +2,17 @@ import React from 'react'
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native'
 import { local } from '../Utils/Data _Example'
 import { Card } from '../Components/Card'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+interface Props extends NativeStackScreenProps<any, any>{};
 
-
-export const PopularView = () => {
+export const PopularView = ({navigation}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={local}
-                renderItem={ ( { item } ) => {return(<Card like={false} local={item}/>)} }
+                renderItem={ ( { item } ) => {return(<Card like={false} local={item} rutStore={() => navigation.navigate("StoreView")}/>)} }
                 keyExtractor={(item) => item.id.toString()}
             />
         </SafeAreaView>

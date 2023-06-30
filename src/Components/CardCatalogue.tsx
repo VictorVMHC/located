@@ -17,7 +17,7 @@ interface Props {
     action?: () => {},
 }
 
-export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '',action, children, like = false }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '', action, children, like = false }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -58,7 +58,7 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
         </TouchableOpacity>
         {expanded && <View style={styles.cardContent}>{
             <DescriptionBox 
-                Descripcion = {DescripcionB} />
+            Descripcion = {DescripcionB} />
         }</View>}
         
     </View>
@@ -154,9 +154,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontWeight: "900",
         color: 'black'
-    },
-    cardContent:{
-        marginBottom: 20,
     },
     heartBtn:{
         backgroundColor:Colors.gray,
