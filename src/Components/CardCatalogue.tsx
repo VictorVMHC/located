@@ -58,7 +58,7 @@ export const CardCatalogue = ({ProductName = '', Price = '', Img = '', punctuati
         </TouchableOpacity>
         {expanded && <View style={styles.cardContent}>{
             <DescriptionBox 
-            Descripcion = {DescripcionB} />
+                Descripcion = {DescripcionB} />
         }</View>}
         
     </View>

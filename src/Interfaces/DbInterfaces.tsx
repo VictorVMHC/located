@@ -3,7 +3,7 @@ export interface Local {
     id: number,
     name: string,
     location: Location,
-    adress: string,
+    address: string,
     uriImage: string,
     isVerify: boolean,
     schedules: Schedule[],
