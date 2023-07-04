@@ -53,6 +53,9 @@
     "RequireField": "This field is required",
     "ValidEmail": "Add valid email",
     "PasswordValidation": "The password must have at last 6 characters",
-    "PhoneValidation": "The phone number must have at last 10 characters"
+    "PhoneValidation": "The phone number must have at last 10 characters",
+    "Create": "CREATE",
+    "MyLocalsDescriptionText":"This option will allow you to start creating your local, since you do not have any at the moment",
+    "MyLocalsTitleText": "You don't have locals to show yet!"
   }
 }

@@ -53,6 +53,9 @@
     "RequireField": "Este campo es obligatorio",
     "ValidEmail": "Agrega un correo valido",
     "PasswordValidation": "La contraseña debe tener al menos 6 caracteres",
-    "PhoneValidation": "El numero de telefono debe de tener al menos 10 digitos"
+    "PhoneValidation": "El numero de telefono debe de tener al menos 10 digitos",
+    "Create": "CREAR",
+    "MyLocalsDescriptionText":"Esta opción te permitirá empezar a crear tu local, ya que de momento no tienes ninguno",
+    "MyLocalsTitleText": "¡Aún no tienes locales para mostrar!"
   }
 }
