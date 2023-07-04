@@ -1,28 +1,42 @@
-import React, {  useState } from 'react'
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity,Modal,ScrollView} from 'react-native';
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
-import { Styles } from '../Themes/Styles';
-import { PickerButon } from '../Components/PickerButton';
-import { useTranslation } from 'react-i18next';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
+import { PickerButton } from '../Components/PickerButton';
+import { Colors, Styles } from '../Themes/Styles';
+import * as Yup from 'yup';
+import { IconWithText } from '../Components/IconWithText';
 
+interface formValues {
+    name: string,
+    email: string,
+    phone: string,
+    password: string,
+    userName: string,
+    age: string
+}
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
-    const [Nombre,setNombre] = useState() /* codigo de prueba para ingresar y obtener datos */
-    const [Email,setEmail] = useState()
-    const [Tel,setTel] = useState()
-    const [Edad,setEdad] = useState()
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalConfirm, setmodalConfirm] = useState(false);
+    const [modalConfirm, setModalConfirm] = useState(false);
 
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required(t('RequireField').toString()),
+        userName: Yup.string().required(t('RequireField').toString()),
+        email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
+        password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
+        phone: Yup.string().required(t('RequireField').toString()).min(10,t('PhoneValidation').toString()),
+        age: Yup.string().required(t('RequireField').toString()),
+    });
+    const handleSubmit = (values: formValues) => {
 
-    const modal = () => {
-        
+        console.log( JSON.stringify(values))
     }
-
     const handleOpenModal = () => {
         setModalVisible(true);
         console.log("open modal");
@@ -31,12 +45,12 @@ export const CreateAccountEmailView = () => {
     const handleCloseModal = () => {
         console.log("close modal");
         setModalVisible(false);
-        setmodalConfirm(true);      
+        setModalConfirm(true);      
     };
 
     const handleCloseModalConfirm = () => {
         console.log("close modal");
-        setmodalConfirm(false);      
+        setModalConfirm(false);      
     };
     return (
         <SafeAreaView style={Styles.container}>
@@ -45,91 +59,180 @@ export const CreateAccountEmailView = () => {
                 position='top'
                 quantity={2}
                 />
-                <View style={Stylesingletext.contentOne}>
+                <View style={StyleSingleText.contentOne}>
                     <View style={{}}>
-                        <View style={Stylesingletext.containerBienvenido}>
+                        <View style={StyleSingleText.containerWelcome}>
                             <Text style={{...Styles.textStyle, top:5}}>{t('CreateAccount')}</Text>
                         </View>
                     </View>    
-                    <View style={Stylesingletext.containerLeng} >
-                        <View style={Stylesingletext.containerImgLeng}>
+                    <View style={StyleSingleText.containerLang} >
+                        <View style={StyleSingleText.containerImgLang}>
                             {i18n.language === 'es-MX'
                                 ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                 :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                             }
                         </View>
                         <View style={{width: 125}}>
-                            <PickerButon/>
+                            <PickerButton/>
                         </View>   
                     </View>
-                    </View>
-                    <Image
-                        style={{...Styles.imageStyle, left: -100, top:'9%'}}
-                        source={require('../Assets/Images/logo_located.png')}
-                    />
-                    <View style={Stylesingletext.bodyView}>
-                        <Text style={Stylesingletext.onlytext}>{t('Personalinfo')}</Text>
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Name')}`}
-                        />
-                        <TextInput style={Styles.input}
-                        placeholder={`${t('Email')}`}
-                            keyboardType='email-address'   
-                        />
-                        <TextInput style={Styles.input}
-                        placeholder={`${t('UserName')}`}
-                        />
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Phonenumber')}`}
-                            keyboardType="phone-pad"   
-                        />
-                        <TextInput style={Styles.input}
-                            placeholder={`${t('Age')}`}
-                            keyboardType='number-pad'
-                        />
-                    <TouchableOpacity style={Styles.boton}
-                        onPress={handleOpenModal}
+                </View>
+                <Image
+                    style={{...Styles.imageStyle, left: -100, top:'9%'}}
+                    source={require('../Assets/Images/logo_located.png')}
+                />
+                <View style={StyleSingleText.bodyView}>
+                    <Text style={StyleSingleText.onlyText}>{t('PersonalInfo')}</Text>
+                    <Formik
+                        initialValues={{
+                            name: "",
+                            email: "",
+                            phone: "",
+                            password: "",
+                            userName: "",
+                            age: "",
+                        }}
+                        onSubmit={handleSubmit}
+                        validationSchema={validationSchema}
                     >
-                        <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
-                    </TouchableOpacity>
+                        {({ handleChange, handleSubmit, values, errors }) => (
+                            <View>
+                                <TextInput 
+                                    style={Styles.input}
+                                    onChangeText={handleChange('name')}
+                                    placeholder={`${t('Name')}`}
+                                    value={values.name}
+                                />
+                                {errors.name && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.name} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TextInput 
+                                    style={Styles.input}
+                                    placeholder={`${t('Email')}`}
+                                    keyboardType='email-address'
+                                    onChangeText={handleChange('email')}
+                                    value={values.email}
+                                />
+                                {errors.email && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.email} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TextInput 
+                                    style={Styles.input}
+                                    onChangeText={handleChange('userName')}
+                                    placeholder={`${t('UserName')}`}
+                                    value={values.userName}
+                                />
+                                {errors.userName && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.userName} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TextInput 
+                                    style={Styles.input}
+                                    placeholder={`${t('Password')}`}
+                                    keyboardType="phone-pad"
+                                    value={values.password}
+                                    onChangeText={handleChange('password')}
+                                />
+                                {errors.password && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.password} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TextInput 
+                                    style={Styles.input}
+                                    placeholder={`${t('PhoneNumber')}`}
+                                    maxLength={12}
+                                    keyboardType="phone-pad"
+                                    value={values.phone}
+                                    onChangeText={handleChange('phone')}
+                                />
+                                {errors.phone && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.phone} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TextInput 
+                                    style={Styles.input}
+                                    placeholder={`${t('Age')}`}
+                                    keyboardType='number-pad'
+                                    value={values.age}
+                                    maxLength={3}
+                                    onChangeText={handleChange('age')}
+                                />
+                                {errors.age && 
+                                    <IconWithText 
+                                        NameIcon='exclamation-circle' 
+                                        text={errors.age} 
+                                        ColorIcon={Colors.Yellow} 
+                                        IconSize={15} 
+                                        textStyle={{color: Colors.Yellow}}
+                                    />}
+                                <TouchableOpacity style={StyleSingleText.boton}
+                                    onPress={handleSubmit}
+                                >
+                                    <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </Formik>
                 </View>
                 <ModalVerifyUser
                     isVisible={modalVisible}
                     closeModal={handleCloseModal}
                 >
-                    <View style={Stylesingletext.contenedor}>
-                    <View style={Stylesingletext.subcontenedor}>
-                        <Text style={Stylesingletext.textos}>{t('ModalMsgInicio')}</Text>
-                        <Text style={Stylesingletext.textos}>{t('ModalMsgCheckEmail')}</Text>
+                    <View style={StyleSingleText.container}>
+                    <View style={StyleSingleText.subContainer}>
+                        <Text style={StyleSingleText.texts}>{t('ModalMsgInicio')}</Text>
+                        <Text style={StyleSingleText.texts}>{t('ModalMsgCheckEmail')}</Text>
                     </View>
-                    <Text style={{...Stylesingletext.textos,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
-                    <View style={Stylesingletext.row}>
-                        <TextInput style={Stylesingletext.intext}
+                    <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
+                    <View style={StyleSingleText.row}>
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
                         </View>
-                        <TouchableOpacity style={Stylesingletext.boton}
+                        <TouchableOpacity style={StyleSingleText.boton}
                         onPress={handleCloseModal}
                         >
                             <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
@@ -140,38 +243,38 @@ export const CreateAccountEmailView = () => {
                     isVisible={modalConfirm}
                     closeModal={handleCloseModalConfirm}
                 >
-                    <View style={Stylesingletext.contenedor}>
-                    <View style={Stylesingletext.subcontenedor}>
+                    <View style={StyleSingleText.container}>
+                    <View style={StyleSingleText.subContainer}>
                         
                     </View>
-                    <Text style={{...Stylesingletext.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
-                    <View style={Stylesingletext.row}>
-                        <TextInput style={Stylesingletext.intext}
+                    <Text style={{...StyleSingleText.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
+                    <View style={StyleSingleText.row}>
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
-                        <TextInput style={Stylesingletext.intext}
+                        <TextInput style={StyleSingleText.internText}
                         placeholder="__"
                         keyboardType="phone-pad"   
                         />
                         </View>
-                        <TouchableOpacity style={Stylesingletext.boton}
+                        <TouchableOpacity style={StyleSingleText.boton}
                         onPress={handleCloseModalConfirm}
                         >
                             <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
@@ -183,8 +286,8 @@ export const CreateAccountEmailView = () => {
     )
 }
 
-const Stylesingletext = StyleSheet.create({
-    onlytext:{
+const StyleSingleText = StyleSheet.create({
+    onlyText:{
         ...Styles.textos,
         width: 340,
     },
@@ -197,16 +300,16 @@ const Stylesingletext = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'space-between',
     },
-    containerBienvenido:{
+    containerWelcome:{
         flexDirection: 'row',
         alignItems: 'flex-start'
     },
-    containerLeng:{
+    containerLang:{
         flexDirection: 'row', 
         justifyContent: 'flex-end',
         width: 218,
     },
-    containerImgLeng:{
+    containerImgLang:{
         width: 30, 
         height: 53, 
         justifyContent: 'center', 
@@ -216,7 +319,8 @@ const Stylesingletext = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center', 
         top: '8%'
-    },contenedor:{
+    },
+    container:{
         width: 350,
         height: 250,
         top: 190,
@@ -227,7 +331,7 @@ const Stylesingletext = StyleSheet.create({
         borderWidth: 2,
         padding: 20,  
     },
-    subcontenedor:{
+    subContainer:{
         justifyContent:'center',
         alignContent:'center',
         alignItems:'center',
@@ -238,20 +342,22 @@ const Stylesingletext = StyleSheet.create({
         flexWrap:'wrap',
         top: 30,
     },
-    intext:{
+    internText:{
         left: 10,
         height: 40,
         width: 50,
         color:'blue',
     },
-    textos:{
+    texts:{
         color:'blue',
         fontSize:20,
         fontFamily:'bold',
     },
     boton:{
         ...Styles.boton,
-        top:40,
+        alignSelf: 'center',
+        alignItems: 'center',
+        alignContent: 'center', 
     },
     fail:{
         color:'red',

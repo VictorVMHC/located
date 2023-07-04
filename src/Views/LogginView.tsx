@@ -5,8 +5,8 @@ import { FontStyles, Styles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { PickerButon } from '../Components/PickerButton';
-import AntDisign from 'react-native-vector-icons/AntDesign';
+import { PickerButton } from '../Components/PickerButton';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -40,7 +40,7 @@ export const LogginView = ({navigation}: Props) => {
                                     }
                                 </View>
                                 <View style={{width: 125}}>
-                                    <PickerButon/>
+                                    <PickerButton/>
                                 </View>   
                             </View>
                         </View>
@@ -75,13 +75,13 @@ export const LogginView = ({navigation}: Props) => {
                             </View>
                             <View style={StylesLogging.containerIcons}>
                                 <TouchableOpacity style={StylesLogging.btnIcon}>
-                                    <AntDisign name="google"style={StylesLogging.IconGoogle}/>
+                                    <AntDesign name="google"style={StylesLogging.IconGoogle}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity  style={StylesLogging.btnIcon}>
-                                    <AntDisign name="facebook-square"style={StylesLogging.Iconface}/>
+                                    <AntDesign name="facebook-square"style={StylesLogging.Iconface}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={StylesLogging.btnIcon}>
-                                    <AntDisign name="apple1"style={StylesLogging.Iconapplel}/>
+                                    <AntDesign name="apple1"style={StylesLogging.Iconapplel}/>
                                 </TouchableOpacity>
                             </View>
                             <View style={{flexDirection: 'row'}}>

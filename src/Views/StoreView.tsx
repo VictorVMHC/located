@@ -47,7 +47,7 @@ const rendererBusiness = (item: any) => {
 
 export const StoreView = () => {
     const scrollViewRef = useRef<ScrollView>(null);
-    const adressRef = useRef<View>(null);
+    const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
     
     const handleScrollTo = (targetElement: any ) => {
@@ -81,36 +81,36 @@ export const StoreView = () => {
                 <View style={StylesStore.tobBar}>
                     <TobBar 
                     actionStart={() =>handleScrollTo(scrollViewRef)}
-                    actionAddress={() =>handleScrollTo(adressRef)}
+                    actionAddress={() =>handleScrollTo(addressRef)}
                     actionCatalogue={() =>handleScrollTo(catalogueRef)}
                     />
                 </View>
-                <View ref={adressRef}>
+                <View ref={addressRef}>
                     <MapView style={StylesStore.map} />
                     <View style={StylesStore.valuesText}>
                         <IconWithText 
-                        NameIcon ={'directions'}
-                        IconSize ={20}
-                        ColorIcon={'#CD5F28'}
-                        text ={'AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico'}
+                            NameIcon ={'directions'}
+                            IconSize ={20}
+                            ColorIcon={'#CD5F28'}
+                            text ={'AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico'}
                         />
                         <IconWithText 
-                        NameIcon ={'envelope'}
-                        IconSize ={20}
-                        ColorIcon={'#CD5F28'}
-                        text ={'sayulitrostaquepaque2013@gmail.com'}
+                            NameIcon ={'envelope'}
+                            IconSize ={20}
+                            ColorIcon={'#CD5F28'}
+                            text ={'sayulitrostaquepaque2013@gmail.com'}
                         />
                         <IconWithText 
-                        NameIcon ={'globe'}
-                        IconSize ={20}
-                        ColorIcon={'#CD5F28'}
-                        text ={'Website'}
+                            NameIcon ={'globe'}
+                            IconSize ={20}
+                            ColorIcon={'#CD5F28'}
+                            text ={'Website'}
                         />
                         <IconWithText 
-                        NameIcon ={'info-circle'}
-                        IconSize ={20}
-                        ColorIcon={'#CD5F28'}
-                        text ={'promocion'}
+                            NameIcon ={'info-circle'}
+                            IconSize ={20}
+                            ColorIcon={'#CD5F28'}
+                            text ={'promocion'}
                         />
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>
