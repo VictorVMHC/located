@@ -6,7 +6,7 @@ export const MyLocalsView = () => {
     const {t} = useTranslation();
 
     return (
-        <View style={styles.conteiner}>
+        <View style={styles.container}>
             <View style={styles.boxImg}>
             <Image source={require('../Assets/Images/local3D.png')} style={{width: 200, height: 210, borderRadius: 5,}} />
                 <Text style={styles.firstText}>{t('MyLocalsTitleText')}</Text>
@@ -22,7 +22,7 @@ export const MyLocalsView = () => {
 }
 
 const styles = StyleSheet.create({
-    conteiner:{
+    container:{
         flex: 2,
         alignItems:'center',
         padding: 23,
