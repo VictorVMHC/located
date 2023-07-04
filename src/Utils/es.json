@@ -24,12 +24,12 @@
     "EnterEmail": "Ingresa tu correo electronico",
     "Passwordtitle": "Contraseña",
     "Recovery": "Recuperar",
-    "DrawerPartInicio": "Inicio",
-    "DrawerPartPerfil": "Editar Perfil",
-    "DrawerPartNotificacion": "Notificación",
-    "DrawerPartAyuda": "Ayuda",
-    "DrawerPartLenguaje": "Lenguaje",
-    "DrawerPartLogout": "Cerrar Sesión",
+    "DrawerHome": "Inicio",
+    "DrawerProfile": "Editar Perfil",
+    "DrawerNotification": "Notificación",
+    "DrawerHelp": "Ayuda",
+    "DrawerLanguage": "Lenguaje",
+    "DrawerLogOut": "Cerrar Sesión",
     "PopularTabBar": "Popular",
     "NearByTabBar": "Cerca de mi",
     "MapsTabBar": "Mapas",
@@ -56,6 +56,8 @@
     "PhoneValidation": "El numero de telefono debe de tener al menos 10 digitos",
     "Create": "CREAR",
     "MyLocalsDescriptionText":"Esta opción te permitirá empezar a crear tu local, ya que de momento no tienes ninguno",
-    "MyLocalsTitleText": "¡Aún no tienes locales para mostrar!"
+    "MyLocalsTitleText": "¡Aún no tienes locales para mostrar!",
+    "SpanishMx": "Español MX",
+    "EnglishEu": "Inglés US"
   }
 }

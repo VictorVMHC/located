@@ -17,12 +17,12 @@ export const Colors = {
 };
 
 export const FontStyles = {
-    Title: { fontFamily: 'Outfit.SemiBold', fontSize: 30, },
-    SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 20 },
+    Title: { fontFamily: 'Outfit.SemiBold', fontSize: 30, color: Colors.black },
+    SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 20, color: Colors.black },
     Links: { fontFamily: 'Outfit-ExtraLight', fontSize: 20, color: Colors.blue },
     Information: { fontFamily: 'Outfit-SemiBold', fontSize: 16, color: Colors.blueText },
-    Text: { fontFamily: 'Outfit.Light', fontSize: 20 },
-    Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 20 }
+    Text: { fontFamily: 'Outfit.Light', fontSize: 20, color: Colors.black  },
+    Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 20, color: Colors.red }
 };
 
 export const Styles = StyleSheet.create({

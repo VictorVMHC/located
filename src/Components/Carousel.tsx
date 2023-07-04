@@ -22,8 +22,6 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     const slideAnimation = useRef(new Animated.Value(0)).current;
 
     const handlePanResponderMove = (_: any, gestureState: any) => {
-        console.log(carouselVisible);
-        
         const { dy } = gestureState;
         if((dy > 0 || dy > carouselHeight) && carouselVisible )
         {
