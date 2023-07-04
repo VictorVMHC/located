@@ -1,8 +1,8 @@
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const PickerButon = () => {
+export const PickerButton = () => {
     const {i18n} = useTranslation();
     return (
         <Picker
