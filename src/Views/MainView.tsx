@@ -45,8 +45,7 @@ export const MainView = ({navigation } : Props) => {
             style={{...Styles.imageStyle, left: -100, top: 60}}
           />
         </View>
-        
-        <View style={styles.recuadroBody} >
+        <View style={styles.bodyView} >
           <View style={{bottom: -250}}>
             <ButtonMain 
               text={t('Explore')}
@@ -80,15 +79,14 @@ export const MainView = ({navigation } : Props) => {
             />
           </View>
         </View>
-        <View style={styles.recuadroFooter}>
+        <View style={styles.footerView}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
-            <Text style={styles.textoinferior}>{t('NoAccount')}</Text>
+            <Text style={styles.bottomText}>{t('NoAccount')}</Text>
             <TouchableOpacity style={{height:40}} onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={styles.textoReg}>{t('Log')}</Text>
+              <Text style={styles.singUpText}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>
-        
       </ImageBackground>
     </View>
 
@@ -104,28 +102,19 @@ const styles = StyleSheet.create({
   recuadrologo:{
     flex:2,
   },
-  recuadroBody:{
+  bodyView:{
     flex: 7,
   },
-  recuadroFooter:{
+  footerView:{
     flex: 1,
     backgroundColor: 'black',
   },
-  textoLogo:{
-    width: '100%',
-    height: '100%',
-    resizeMode: 'center',
-    opacity: 1
-  },
-  recuandroInferior:{
-  flex:1,
-  },
-  textoinferior:{
+  bottomText:{
     ...FontStyles.SubTitles,
     color: 'white',
     textAlign:'center',
   },
-  textoReg:{
+  singUpText:{
     top: 4,
     ...FontStyles.Links,
     color: Colors.Yellow
