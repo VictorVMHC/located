@@ -74,6 +74,7 @@ export const Styles = StyleSheet.create({
         borderWidth: 1,
         textAlign: 'left',
         marginVertical: 5,
+        paddingLeft: 10
     },
     boton:{
         backgroundColor:'#FFC600',

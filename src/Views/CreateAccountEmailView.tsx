@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
 import { PickerButton } from '../Components/PickerButton';
-import { Colors, Styles } from '../Themes/Styles';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 
@@ -98,7 +98,8 @@ export const CreateAccountEmailView = () => {
                         {({ handleChange, handleSubmit, values, errors }) => (
                             <View>
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     onChangeText={handleChange('name')}
                                     placeholder={`${t('Name')}`}
                                     value={values.name}
@@ -112,7 +113,8 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Email')}`}
                                     keyboardType='email-address'
                                     onChangeText={handleChange('email')}
@@ -127,7 +129,8 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     onChangeText={handleChange('userName')}
                                     placeholder={`${t('UserName')}`}
                                     value={values.userName}
@@ -141,7 +144,8 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Password')}`}
                                     keyboardType="phone-pad"
                                     value={values.password}
@@ -156,7 +160,8 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('PhoneNumber')}`}
                                     maxLength={12}
                                     keyboardType="phone-pad"
@@ -172,7 +177,8 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null]}
+                                    style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Age')}`}
                                     keyboardType='number-pad'
                                     value={values.age}

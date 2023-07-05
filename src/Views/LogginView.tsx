@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { Circles } from '../Components/Circles';
-import { FontStyles, Styles } from '../Themes/Styles';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -48,10 +48,14 @@ export const LogginView = ({navigation}: Props) => {
                             <Image style={Styles.imageStyle} source={require('../Assets/Images/logo_located.png')} />
                         </View>
                         <View style={StylesLogging.containerInput}>
-                            <TextInput style={Styles.input}
-                                placeholder={`${t('PlaceHoldEnterEmail')}`}   
+                            <TextInput 
+                                style={[Styles.input, FontStyles.SubTitles]}
+                                placeholderTextColor={Colors.blueText}
+                                placeholder={`${t('PlaceHoldEnterEmail')}`} 
                             />
-                            <TextInput style={Styles.input}
+                            <TextInput 
+                                style={[Styles.input, FontStyles.SubTitles]}
+                                placeholderTextColor={Colors.blueText}
                                 placeholder={`${t('PlaceHoldEnterPassword')}`}  
                             />
                         </View>
