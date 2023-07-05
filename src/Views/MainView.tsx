@@ -26,7 +26,7 @@ export const MainView = ({navigation } : Props) => {
           quantity={1}
           position='top'
         />
-        <View style={styles.recuadrologo} >
+        <View style={styles.logoView} >
           <View
             style={{ top: 5, width: 190, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
           >
@@ -97,9 +97,10 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     alignContent: 'center',
-    justifyContent: 'center'
+    marginTop: 20,
+    justifyContent: 'center',
   },
-  recuadrologo:{
+  logoView:{
     flex:2,
   },
   bodyView:{

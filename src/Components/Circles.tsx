@@ -16,7 +16,7 @@ export const Circles = ({quantity = 2, position = 'both'}: Props) => {
       } 
       {quantity == 1 
         && (position == 'both' || position == 'top' ) 
-        && <View style={styles.ellipse5} ></View>
+        && <View style={{...styles.ellipse5, width: width + width/3 , height: width + width/3, alignSelf: 'center', top: - (width/1.2), borderRadius: width}} ></View>
       } 
       {quantity == 2 
         && (position == 'both' || position == 'bottom' ) 
@@ -34,7 +34,6 @@ export const Circles = ({quantity = 2, position = 'both'}: Props) => {
         && (position == 'both' || position == 'top' ) 
         && <View style={styles.ellipse4} ></View>
       }  
-      
     </View>
   )
 }
@@ -82,14 +81,9 @@ ellipse4: {
 },
 
 ellipse5: {
-  width: 500,
-  height: 500,
   backgroundColor: 'rgba(255, 198, 0, .20)',
   position: 'absolute',
-  borderRadius: 250,
   alignSelf: 'stretch',
-  left: -50,
-  top: -300,
 },
 ellipse6: {
   width: 500,
