@@ -9,6 +9,7 @@ import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
+import { createUser } from '../Api/userApi';
 
 interface formValues {
     name: string,
@@ -16,7 +17,7 @@ interface formValues {
     phone: string,
     password: string,
     userName: string,
-    age: string
+    age: number
 }
 
 export const CreateAccountEmailView = () => {
@@ -33,9 +34,23 @@ export const CreateAccountEmailView = () => {
         phone: Yup.string().required(t('RequireField').toString()).min(10,t('PhoneValidation').toString()),
         age: Yup.string().required(t('RequireField').toString()),
     });
-    const handleSubmit = (values: formValues) => {
 
-        console.log( JSON.stringify(values))
+    const handleSubmit = async ({name, email, password, phone, userName, age}: formValues) => {
+        const user = {
+            "name": name,
+            "email": email,
+            "password": password,
+            "phone": phone,
+            "username": userName,
+            "age": age
+        }
+
+        try { 
+            const { data } = await createUser(user)
+            console.log(JSON.stringify(data))
+        } catch (error: any) {
+            console.log(error.response.data);
+        }
     }
     const handleOpenModal = () => {
         setModalVisible(true);
@@ -90,7 +105,7 @@ export const CreateAccountEmailView = () => {
                             phone: "",
                             password: "",
                             userName: "",
-                            age: "",
+                            age: 0,
                         }}
                         onSubmit={handleSubmit}
                         validationSchema={validationSchema}
@@ -181,7 +196,7 @@ export const CreateAccountEmailView = () => {
                                     placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Age')}`}
                                     keyboardType='number-pad'
-                                    value={values.age}
+                                    value={values.age.toString()}
                                     maxLength={3}
                                     onChangeText={handleChange('age')}
                                 />
@@ -376,3 +391,7 @@ const StyleSingleText = StyleSheet.create({
         borderColor: Colors.Yellow
     }
 });
+function AtoI(age: string) {
+    throw new Error('Function not implemented.');
+}
+
