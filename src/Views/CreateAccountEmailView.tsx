@@ -36,6 +36,7 @@ export const CreateAccountEmailView = () => {
     });
 
     const handleSubmit = async ({name, email, password, phone, userName, age}: formValues) => {
+        
         const user = {
             "name": name,
             "email": email,
