@@ -147,7 +147,7 @@ export const CreateAccountEmailView = () => {
                                     style={[Styles.input, errors.name ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
                                     placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Password')}`}
-                                    keyboardType="phone-pad"
+                                    secureTextEntry
                                     value={values.password}
                                     onChangeText={handleChange('password')}
                                 />
