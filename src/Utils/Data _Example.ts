@@ -59,6 +59,7 @@ const local: Local[] = [
         address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -90,6 +91,7 @@ const local: Local[] = [
         address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -121,6 +123,7 @@ const local: Local[] = [
         address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -152,6 +155,7 @@ const local: Local[] = [
         address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',

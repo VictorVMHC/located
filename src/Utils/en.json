@@ -58,6 +58,8 @@
     "MyLocalsDescriptionText":"This option will allow you to start creating your local, since you do not have any at the moment",
     "MyLocalsTitleText": "You don't have locals to show yet!",
     "SpanishMx": "Spanish MX",
-    "EnglishEu": "English US"
+    "EnglishEu": "English US",
+    "ScheduleTitle": "Schedule",
+    "DescriptionText": "Description"
   }
 }
