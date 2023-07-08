@@ -1,4 +1,5 @@
-## ``Log in user Flow``
+## `Log in user Flow`
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -19,9 +20,10 @@ sequenceDiagram
         Server-->>App: Send error response
         App->>User: Display error message
     end
-    
+
 ```
-## ``Register user Flow``
+
+## `Register user Flow`
 
 ```mermaid
 sequenceDiagram
