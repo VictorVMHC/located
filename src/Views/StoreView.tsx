@@ -5,9 +5,9 @@ import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
 import { TobBar } from '../Components/TobBar';
 import { IconWithText } from '../Components/IconWithText';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-
-
+interface Props extends NativeStackScreenProps<any, any>{};
 interface Store {
     id: number;
     productNamee: string;
@@ -45,7 +45,7 @@ const rendererBusiness = (item: any) => {
     );
 }
 
-export const StoreView = () => {
+export const StoreView = ({navigation}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const adressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
@@ -83,6 +83,7 @@ export const StoreView = () => {
                     actionStart={() =>handleScrollTo(scrollViewRef)}
                     actionAddress={() =>handleScrollTo(adressRef)}
                     actionCatalogue={() =>handleScrollTo(catalogueRef)}
+                    rutComments={() => navigation.navigate("CommentsView")}
                     />
                 </View>
                 <View ref={adressRef}>

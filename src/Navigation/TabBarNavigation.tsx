@@ -58,6 +58,7 @@ export const TabBarNavigation = () => {
             <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: t('MapsTabBar').toString() }} />
             <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: t('MyLocalsTabBar').toString() }} />
             <Tab.Screen name="ForYouView" component={ StoreView } options={{ tabBarLabel: t('ForYouTabBar').toString() }} />
+            
         </Tab.Navigator>
     );
 }

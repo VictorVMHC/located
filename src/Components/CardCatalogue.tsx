@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
-import { Styles, FontStyles, Colors } from '../Themes/Styles';
+import { Colors } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { DescriptionBox } from './DescriptionBox';
@@ -61,8 +61,7 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuat
                 <DescriptionBox 
                     Descripcion = {DescripcionB} 
                 />
-        }
-        
+        }      
     </View>
 )
 }

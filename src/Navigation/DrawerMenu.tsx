@@ -12,6 +12,8 @@ import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
 import { Colors } from '../Themes/Styles';
+import { CommentsView } from '../Views/CommentsView';
+import { StoreView } from '../Views/StoreView';
 
 const Drawer = createDrawerNavigator();
 
@@ -42,6 +44,9 @@ export function DrawerMenu() {
       <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
       <Drawer.Screen name="HelpView" component={HelpView}/>
       <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
+
+      <Drawer.Screen name='StoreView' component={StoreView} />
+      <Drawer.Screen name='CommentsView'component={CommentsView} />
     </Drawer.Navigator>
   );
 }

@@ -8,9 +8,10 @@ interface Props {
     actionStart?: () => void,
     actionAddress?: () => void,
     actionCatalogue?: () => void,
+    rutComments?: () => void,
 }
 
-export const TobBar = ({actionStart, actionAddress,actionCatalogue}:Props) => {
+export const TobBar = ({actionStart, actionAddress,actionCatalogue,rutComments}:Props) => {
     const { width } = useWindowDimensions();
     const { t} = useTranslation();
 
@@ -26,7 +27,7 @@ export const TobBar = ({actionStart, actionAddress,actionCatalogue}:Props) => {
                 <Text style={{...TobBarStyle.textnavigation, width: width/3}} onPress={actionCatalogue}>{t('TobBarCatalogue')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={TobBarStyle.buttonNavigation} >
-                <Text style={{...TobBarStyle.textnavigation, width: width/3}}>...</Text>
+                <Text style={{...TobBarStyle.textnavigation, width: width/3}} onPress={rutComments}>...</Text>
             </TouchableOpacity>
         </ScrollView>
     )

@@ -11,7 +11,6 @@ import AntDisign from 'react-native-vector-icons/AntDesign';
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LogginView = ({navigation}: Props) => {
-
     const { t, i18n } = useTranslation();
 
     return (
