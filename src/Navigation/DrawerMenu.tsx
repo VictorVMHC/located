@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import { CollapsibleButon } from '../Components/CollapsibleButton';
+import { CollapsibleButton } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
@@ -84,14 +84,14 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
-            <CollapsibleButon
-              title= {t('DrawerLanguage')}
+            <CollapsibleButton
+              title={t('DrawerLanguage')}
               iconName='language-outline'
               iconColor='white'
               items={
                 [ 
-                  {title:'Español', action: () => i18n.changeLanguage('es-MX')},
-                  {title:'Inglés', action: () => i18n.changeLanguage('en-US')}
+                  {title:t('SpanishMx'), action: () => i18n.changeLanguage('es-MX')},
+                  {title:t('EnglishEu'), action: () => i18n.changeLanguage('en-US')}
                 ]
               }
             />

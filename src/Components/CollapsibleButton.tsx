@@ -13,14 +13,14 @@ interface Item{
     title:string,
     action: () => void
 }
-export const CollapsibleButon = ({title, iconName, iconColor, items= []}:Props) => {
+export const CollapsibleButton = ({title, iconName, iconColor, items= []}:Props) => {
     const theme = useTheme();
     theme.colors.background = "transparent"
     return (
         <List.Accordion
             title={title}
             left={ () => <Icon size={30} name={iconName} color={iconColor}/>}
-            style={styles.botoncontainer}
+            style={styles.buttonContainer}
             titleStyle={styles.text}
         >
             {
@@ -31,7 +31,7 @@ export const CollapsibleButon = ({title, iconName, iconColor, items= []}:Props) 
 }
 
 const styles= StyleSheet.create({
-    botoncontainer:{
+    buttonContainer:{
         alignItems:'center',
     },
     text:{
@@ -43,7 +43,4 @@ const styles= StyleSheet.create({
         top: -2,
         left: 3
     },
-    Iconflecha:{
-
-    }
 });

@@ -27,23 +27,27 @@ export const MainView = ({navigation } : Props) => {
           position='top'
         />
         <View style={styles.logoView} >
-          <View
-            style={{ top: 5, width: 190, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
-          >
-            <View style={{flex: 2}}>
-                {i18n.language === 'es-MX'
-                ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                }
-            </View>
-            <View style={{ flex: 8}}>
-                <PickerButton/>
+          <View style={{ flex: 2}}>
+            <View
+              style={{ top: 5, width: width/2, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
+            >
+              <View style={{flex: 2}}>
+                  {i18n.language === 'es-MX'
+                  ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                  :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                  }
+              </View>
+              <View style={{ flex: 8}}>
+                  <PickerButton/>
+              </View>
             </View>
           </View>
-          <Image 
-            source={require('../Assets/Images/logo_located.png')}
-            style={{...Styles.imageStyle, left: -100, top: 60}}
-          />
+          <View style={{ flex: 2, alignItems: 'center'}} >
+            <Image 
+              source={require('../Assets/Images/logo_located.png')}
+              style={{...Styles.imageStyle,}}
+            />
+          </View>
         </View>
         <View style={styles.bodyView} >
           <View style={{bottom: -250}}>
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoView:{
-    flex:2,
+    flex:2
   },
   bodyView:{
     flex: 7,
