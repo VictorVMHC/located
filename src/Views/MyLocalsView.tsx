@@ -8,7 +8,7 @@ export const MyLocalsView = () => {
     return (
         <View style={styles.container}>
             <View style={styles.boxImg}>
-            <Image source={require('../Assets/Images/local3D.png')} style={{width: 200, height: 210, borderRadius: 5,}} />
+            <Image source={require('../Assets/Images/local3D.png')} style={{width: 240, height: 225, borderRadius: 5,}} />
                 <Text style={styles.firstText}>{t('MyLocalsTitleText')}</Text>
                 <View>
                 <Text style={styles.msgText}>{t('MyLocalsDescriptionText')}</Text>
@@ -29,18 +29,18 @@ const styles = StyleSheet.create({
     },
     boxImg:{
         width:310,
-        height:475,
-        padding: 15,
+        height:520,
+        padding: 17,
         alignItems: 'center',
         borderRadius:40,
         backgroundColor:'rgba(255,198,0,0.4)',
     },
     btn:{
         backgroundColor: '#c47f30',
-        width:260,
+        width:265,
         height: 35,
         borderRadius: 20,
-        top: 60,
+        top: 79,
         alignItems:'center',
         padding:6,
         right: 10,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     msgText:{
         fontSize: 18,
-        top:30,
+        top:32,
         textAlign:'center',
     },
 });
