@@ -20,7 +20,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         <View style={{...Styles.headerView, flexDirection: 'row'}}>
                 <View style={{flex: 6}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{...Styles.textStyle, width:300, fontSize:30, top:10, left: 15}}>{t('CreateAccount')}</Text>
+                        <Text style={{...Styles.textStyle, width:300, fontSize:32, top:8, left: 15}}>{t('CreateAccount')}</Text>
                     </View>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row', alignItems: 'center', left:12, top:3 }}>
