@@ -24,7 +24,7 @@ export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalConfirm, setModalConfirm] = useState(false);
+    const [modalConfirm, setModalConfirm] = useState(true);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(t('RequireField').toString()),
@@ -223,10 +223,8 @@ export const CreateAccountEmailView = () => {
                     closeModal={handleCloseModal}
                 >
                     <View style={StyleSingleText.container}>
-                    <View style={StyleSingleText.subContainer}>
-                        <Text style={StyleSingleText.texts}>{t('ModalMsgInicio')}</Text>
+                        <Text style={{...StyleSingleText.texts, width:300, left:-10}}>{t('ModalMsgInicio')}</Text>
                         <Text style={StyleSingleText.texts}>{t('ModalMsgCheckEmail')}</Text>
-                    </View>
                     <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
                     <View style={StyleSingleText.row}>
                         <TextInput style={StyleSingleText.internText}
@@ -254,10 +252,10 @@ export const CreateAccountEmailView = () => {
                         keyboardType="phone-pad"   
                         />
                         </View>
-                        <TouchableOpacity style={StyleSingleText.boton}
+                        <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
                         onPress={handleCloseModal}
                         >
-                            <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
+                            <Text style={{...Styles.txtbtn,top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ModalVerifyUser>
@@ -266,9 +264,6 @@ export const CreateAccountEmailView = () => {
                     closeModal={handleCloseModalConfirm}
                 >
                     <View style={StyleSingleText.container}>
-                    <View style={StyleSingleText.subContainer}>
-                        
-                    </View>
                     <Text style={{...StyleSingleText.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
                     <View style={StyleSingleText.row}>
                         <TextInput style={StyleSingleText.internText}
@@ -296,10 +291,10 @@ export const CreateAccountEmailView = () => {
                         keyboardType="phone-pad"   
                         />
                         </View>
-                        <TouchableOpacity style={StyleSingleText.boton}
+                        <TouchableOpacity style={{...StyleSingleText.boton,top:60}}
                         onPress={handleCloseModalConfirm}
                         >
-                            <Text style={Styles.txtbtn}>{t('ModalBtnVerify')}</Text>
+                            <Text style={{...Styles.txtbtn, top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ModalVerifyUser>
@@ -344,10 +339,11 @@ const StyleSingleText = StyleSheet.create({
         top: '8%'
     },
     container:{
-        width: 350,
-        height: 250,
-        top: 190,
-        left: 30,
+        width: 320,
+        height: 280,
+        top: 205,
+        right:10,
+        left:20,
         backgroundColor: 'rgba(255,255,255,0.9)',
         borderRadius:10,
         borderColor: 'black',
@@ -355,10 +351,6 @@ const StyleSingleText = StyleSheet.create({
         padding: 20,  
     },
     subContainer:{
-        justifyContent:'center',
-        alignContent:'center',
-        alignItems:'center',
-        flexWrap:'wrap',
     },
     row:{
         flexDirection:'row',
@@ -368,20 +360,21 @@ const StyleSingleText = StyleSheet.create({
     internText:{
         left: 10,
         height: 40,
-        width: 50,
+        width: 45,
         color:'blue',
+        padding:10,
     },
     texts:{
         color:'blue',
         fontSize:20,
         fontFamily:'bold',
+        textAlign:'center',
     },
     boton:{
         ...Styles.boton,
         alignSelf: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
         borderRadius:12,
+        top:5,
     },
     fail:{
         color:'red',
