@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { View, StyleSheet, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { Colors } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
