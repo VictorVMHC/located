@@ -24,7 +24,7 @@ export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalConfirm, setModalConfirm] = useState(true);
+    const [modalConfirm, setModalConfirm] = useState(false);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(t('RequireField').toString()),
@@ -212,7 +212,7 @@ export const CreateAccountEmailView = () => {
                                 <TouchableOpacity style={StyleSingleText.boton}
                                     onPress={handleSubmit}
                                 >
-                                    <Text style={{...Styles.txtbtn, top:-1}}>{t('Registrar')}</Text>
+                                    <Text style={{...Styles.txtBtn, top:-1}}>{t('Registrar')}</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -255,7 +255,7 @@ export const CreateAccountEmailView = () => {
                         <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
                         onPress={handleCloseModal}
                         >
-                            <Text style={{...Styles.txtbtn,top:-1}}>{t('ModalBtnVerify')}</Text>
+                            <Text style={{...Styles.txtBtn,top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ModalVerifyUser>
@@ -294,7 +294,7 @@ export const CreateAccountEmailView = () => {
                         <TouchableOpacity style={{...StyleSingleText.boton,top:60}}
                         onPress={handleCloseModalConfirm}
                         >
-                            <Text style={{...Styles.txtbtn, top:-1}}>{t('ModalBtnVerify')}</Text>
+                            <Text style={{...Styles.txtBtn, top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ModalVerifyUser>

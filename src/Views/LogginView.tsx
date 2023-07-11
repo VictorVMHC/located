@@ -1,12 +1,12 @@
-import React from 'react';
-import { Image, KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { Circles } from '../Components/Circles';
-import { Colors, FontStyles, Styles } from '../Themes/Styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { PickerButton } from '../Components/PickerButton';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Circles } from '../Components/Circles';
+import { PickerButton } from '../Components/PickerButton';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -24,16 +24,16 @@ export const LogginView = ({navigation}: Props) => {
                     />
                         <View style={StylesLogging.contentOne}>
                             <View style={{}}>
-                                <View style={StylesLogging.containerBienvenido}>
+                                <View style={StylesLogging.containerWelcome}>
                                     <Text style={{...Styles.textStyle, top:4, left:12, fontSize:30}}>{t('Loggin')}</Text>
-                                        <Icon style={StylesLogging.iconBienvenido} name='user' size={25} brand />
+                                        <Icon style={StylesLogging.iconWelcome} name='user' size={25} brand />
                                 </View>
                                     <View>
                                         <Text style={{...FontStyles.SubTitles,left:12}}>{t('Welcome')}</Text>
                                     </View>
                             </View>    
-                            <View style={{...StylesLogging.containerLeng}} >
-                                <View style={{...StylesLogging.containerImgLeng, left:20}}>
+                            <View style={{...StylesLogging.containerLong}} >
+                                <View style={{...StylesLogging.containerImgLong, left:20}}>
                                     {i18n.language === 'es-MX'
                                         ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                         :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
@@ -66,7 +66,7 @@ export const LogginView = ({navigation}: Props) => {
                         </View>
                         <View style={StylesLogging.containerButton}>
                             <TouchableOpacity style={{...Styles.boton, borderRadius:12}}onPress={ () => navigation.replace("DrawerMenu") }>
-                                    <Text style={{...Styles.txtbtn,top:1}}>{t('LOG')}</Text>
+                                    <Text style={{...Styles.txtBtn,top:1}}>{t('LOG')}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={StylesLogging.containerB}>
@@ -82,10 +82,10 @@ export const LogginView = ({navigation}: Props) => {
                                     <AntDesign name="google"style={StylesLogging.IconGoogle}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity  style={StylesLogging.btnIcon}>
-                                    <AntDesign name="facebook-square"style={StylesLogging.Iconface}/>
+                                    <AntDesign name="facebook-square"style={StylesLogging.IconFace}/>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={StylesLogging.btnIcon}>
-                                    <AntDesign name="apple1"style={StylesLogging.Iconapplel}/>
+                                    <AntDesign name="apple1"style={StylesLogging.IconApple}/>
                                 </TouchableOpacity>
                             </View>
                             <View style={{flexDirection: 'row'}}>
@@ -107,21 +107,21 @@ const StylesLogging = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'space-between' 
     },
-    containerBienvenido:{
+    containerWelcome:{
         flexDirection: 'row',
         alignItems: 'flex-start'
     },
-    iconBienvenido:{
+    iconWelcome:{
         top: 14, 
         left:22,
         alignItems:'center',
     },
-    containerLeng:{
+    containerLong:{
         flexDirection: 'row', 
         width: 100,
         left:10
     },
-    containerImgLeng:{
+    containerImgLong:{
         width: 30, 
         height: 53, 
         justifyContent: 'center', 
@@ -202,7 +202,7 @@ const StylesLogging = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center'
     },
-    Iconface:{
+    IconFace:{
     color: 'blue',
     fontSize: 35,
     marginTop: 10
@@ -212,7 +212,7 @@ const StylesLogging = StyleSheet.create({
     fontSize: 35,
     marginTop: 10
     },
-    Iconapplel:{
+    IconApple:{
     color:'black',
     fontSize: 35,
     marginTop: 10

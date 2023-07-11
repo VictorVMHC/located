@@ -83,7 +83,7 @@ export const Styles = StyleSheet.create({
         width: 300,
         marginVertical: 5,
     },
-    txtbtn:{
+    txtBtn:{
         
         textAlign: 'center',
         letterSpacing:0,
