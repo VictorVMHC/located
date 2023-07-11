@@ -25,27 +25,27 @@ export const LogginView = ({navigation}: Props) => {
                         <View style={StylesLogging.contentOne}>
                             <View style={{}}>
                                 <View style={StylesLogging.containerBienvenido}>
-                                    <Text style={{...Styles.textStyle, top:4}}>{t('Loggin')}</Text>
+                                    <Text style={{...Styles.textStyle, top:4, left:12, fontSize:30}}>{t('Loggin')}</Text>
                                         <Icon style={StylesLogging.iconBienvenido} name='user' size={25} brand />
                                 </View>
                                     <View>
-                                        <Text style={FontStyles.SubTitles}>{t('Welcome')}</Text>
+                                        <Text style={{...FontStyles.SubTitles,left:12}}>{t('Welcome')}</Text>
                                     </View>
                             </View>    
-                            <View style={StylesLogging.containerLeng} >
-                                <View style={StylesLogging.containerImgLeng}>
+                            <View style={{...StylesLogging.containerLeng}} >
+                                <View style={{...StylesLogging.containerImgLeng, left:20}}>
                                     {i18n.language === 'es-MX'
                                         ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                         :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                     }
                                 </View>
-                                <View style={{width: 125}}>
+                                <View style={{flex:1,top:-3}}>
                                     <PickerButton/>
                                 </View>   
                             </View>
                         </View>
                         <View style={StylesLogging.containerLogo}>
-                            <Image style={Styles.imageStyle} source={require('../Assets/Images/logo_located.png')} />
+                            <Image style={{...Styles.imageStyle, top:7}} source={require('../Assets/Images/logo_located.png')} />
                         </View>
                         <View style={StylesLogging.containerInput}>
                             <TextInput 
@@ -65,8 +65,8 @@ export const LogginView = ({navigation}: Props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={StylesLogging.containerButton}>
-                            <TouchableOpacity style={Styles.boton}onPress={ () => navigation.replace("DrawerMenu") }>
-                                    <Text style={Styles.txtbtn}>{t('LOG')}</Text>
+                            <TouchableOpacity style={{...Styles.boton, borderRadius:12}}onPress={ () => navigation.replace("DrawerMenu") }>
+                                    <Text style={{...Styles.txtbtn,top:1}}>{t('LOG')}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={StylesLogging.containerB}>
@@ -89,10 +89,10 @@ export const LogginView = ({navigation}: Props) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flexDirection: 'row'}}>
-                                <Text style={FontStyles.Information}>{t('NoSingUp')}</Text>
+                                <Text style={{...FontStyles.Information, left:5,width:239, fontSize:18.5,textAlign:'center'}}>{t('NoSingUp')}</Text>
                                 <TouchableOpacity
                                     onPress={() => navigation.navigate("MainCreateAccountView")}>
-                                        <Text style={{...FontStyles.Information, color: 'black'}}>{t('CreateAccount')}</Text>
+                                        <Text style={{...FontStyles.Information, color: 'black', width:130, left:-13,fontSize:17.5,textAlign:'center'}}>{t('CreateAccount')}</Text>
                                 </TouchableOpacity>
                             </View>       
                         </View>
@@ -112,14 +112,14 @@ const StylesLogging = StyleSheet.create({
         alignItems: 'flex-start'
     },
     iconBienvenido:{
-        position: 'absolute', 
-        top: 12, 
-        left: 195
+        top: 14, 
+        left:22,
+        alignItems:'center',
     },
     containerLeng:{
         flexDirection: 'row', 
-        justifyContent: 'flex-end',
-        width: 245,
+        width: 100,
+        left:10
     },
     containerImgLeng:{
         width: 30, 
@@ -130,12 +130,12 @@ const StylesLogging = StyleSheet.create({
     containerLogo:{
         justifyContent: 'center', 
         alignItems: 'center', 
-        top: '8%'
+        top: 30,
     },
     containerInput:{
         justifyContent: 'center', 
         alignItems: 'center', 
-        marginTop: '25%'
+        marginTop: '25%',
     },
     containerButton:{
         alignItems: 'center', 
@@ -172,14 +172,18 @@ const StylesLogging = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         height:1,
+        top:5,
     },
     viewTextInLine:{
-        flex: 2.4,
+        flex: 4,
         top: -6,
         alignItems: 'center',
     },
     textLogging:{
         ...FontStyles.Information,
+        top:-1,
+        width:200,
+        textAlign:'center'
 
     },
     btnIcon:{
