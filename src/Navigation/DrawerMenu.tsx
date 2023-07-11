@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import { CollapsibleButon } from '../Components/CollapsibleButton';
+import { CollapsibleButton } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
@@ -18,7 +18,6 @@ const Drawer = createDrawerNavigator();
 
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
-  const { t ,i18n } = useTranslation();
   return (
     <Drawer.Navigator
 
@@ -37,20 +36,18 @@ export function DrawerMenu() {
         width: width/1.7
       }
     }}
-      drawerContent={(props) => < MenuInterno {...props} />}
+      drawerContent={(props) => < InternalMenu {...props} />}
     >
       <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
       <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
       <Drawer.Screen name="HelpView" component={HelpView}/>
       <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
-
-      <Drawer.Screen name='StoreView' component={StoreView} />
+      <Drawer.Screen name="StoreView" component={StoreView}/>
     </Drawer.Navigator>
   );
 }
 
-
-const MenuInterno = ( props: DrawerContentComponentProps ) => {
+const InternalMenu = ( props: DrawerContentComponentProps ) => {
   const {t,i18n} = useTranslation();
   const { navigation } = props;
   return(
@@ -68,33 +65,33 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
         >        
           <View style={styles.body}>
             <DrawerMenuButtons
-              text = {t('DrawerPartInicio')}
+              text = {t('DrawerHome')}
               onPress = {() => navigation.navigate('TabBarNavigator')}
               iconName='home-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartPerfil')}
+              text = {t('DrawerProfile')}
               onPress = {() => navigation.navigate('EditProfileView')}
               iconName='person-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartNotificacion')}
+              text = {t('DrawerNotification')}
               onPress = {() => navigation.navigate('NotificationsView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
-              text = {t('DrawerPartAyuda')}
+              text = {t('DrawerHelp')}
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
             />
-            <CollapsibleButon
-              title= {t('DrawerPartLenguaje')}
+            <CollapsibleButton
+              title={t('DrawerLanguage')}
               iconName='language-outline'
               iconColor='white'
               items={
                 [ 
-                  {title:'Español', action: () => i18n.changeLanguage('es-MX')},
-                  {title:'Inglés', action: () => i18n.changeLanguage('en-US')}
+                  {title:t('SpanishMx'), action: () => i18n.changeLanguage('es-MX')},
+                  {title:t('EnglishEu'), action: () => i18n.changeLanguage('en-US')}
                 ]
               }
             />
@@ -103,7 +100,7 @@ const MenuInterno = ( props: DrawerContentComponentProps ) => {
       </View>
       <View style={styles.footer}>
           <DrawerMenuButtons
-            text = {t('DrawerPartLogout')}
+            text = {t('DrawerLogOut')}
             onPress = {() => navigation.navigate('TabBarNavigator')}
             iconName='log-out-outline'
           />

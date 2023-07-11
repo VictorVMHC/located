@@ -3,7 +3,7 @@ import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } f
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
 import { Circles } from '../Components/Circles';
-import { PickerButon } from '../Components/PickerButton';
+import { PickerButton } from '../Components/PickerButton';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -26,33 +26,36 @@ export const MainView = ({navigation } : Props) => {
           quantity={1}
           position='top'
         />
-        <View style={styles.recuadrologo} >
-          <View
-            style={{ top: 5, width: 190, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
-          >
-            <View style={{flex: 2}}>
-                {i18n.language === 'es-MX'
-                ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                }
-            </View>
-            <View style={{ flex: 8}}>
-                <PickerButon/>
+        <View style={styles.logoView} >
+          <View style={{ flex: 2}}>
+            <View
+              style={{ flex:1,top: -15, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
+            >
+              <View style={{flex: 1, left:95, top:0}}>
+                  {i18n.language === 'es-MX'
+                  ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                  :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                  }
+              </View>
+              <View style={{ flex: 2, left: 25, top:-2}}>
+                  <PickerButton/>
+              </View>
             </View>
           </View>
-          <Image 
-            source={require('../Assets/Images/logo_located.png')}
-            style={{...Styles.imageStyle, left: -100, top: 60}}
-          />
+          <View style={{ flex: 2, alignItems: 'center'}} >
+            <Image 
+              source={require('../Assets/Images/logo_located.png')}
+              style={{...Styles.imageStyle,}}
+            />
+          </View>
         </View>
-        
-        <View style={styles.recuadroBody} >
+        <View style={styles.bodyView} >
           <View style={{bottom: -250}}>
             <ButtonMain 
               text={t('Explore')}
               iconName='walking'
               properties={{
-                width:355,
+                width:340,
                 height:63,
                 backgroundColor: Colors.YellowOpacity,
                 borderRadius: 20,
@@ -66,7 +69,7 @@ export const MainView = ({navigation } : Props) => {
             <ButtonMain 
               text={t('Loggin')}
               properties={{
-                width:355,
+                width:340,
                 height:63,
                 backgroundColor: Colors.white,
                 borderRadius: 20,
@@ -80,15 +83,14 @@ export const MainView = ({navigation } : Props) => {
             />
           </View>
         </View>
-        <View style={styles.recuadroFooter}>
+        <View style={styles.footerView}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
-            <Text style={styles.textoinferior}>{t('NoAccount')}</Text>
-            <TouchableOpacity style={{height:40}} onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={styles.textoReg}>{t('Log')}</Text>
+            <Text style={styles.bottomText}>{t('NoAccount')}</Text>
+            <TouchableOpacity style={{height:50}} onPress={() => navigation.navigate("MainCreateAccountView")}>
+              <Text style={styles.singUpText}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>
-        
       </ImageBackground>
     </View>
 
@@ -99,35 +101,34 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     alignContent: 'center',
-    justifyContent: 'center'
+    marginTop: 20,
+    justifyContent: 'center',
   },
-  recuadrologo:{
-    flex:2,
+  logoView:{
+    flex:2
   },
-  recuadroBody:{
+  bodyView:{
     flex: 7,
   },
-  recuadroFooter:{
+  footerView:{
     flex: 1,
     backgroundColor: 'black',
   },
-  textoLogo:{
-    width: '100%',
-    height: '100%',
-    resizeMode: 'center',
-    opacity: 1
-  },
-  recuandroInferior:{
-  flex:1,
-  },
-  textoinferior:{
+  bottomText:{
     ...FontStyles.SubTitles,
     color: 'white',
     textAlign:'center',
+    width: 280,
+    top:5,
+    fontSize:23,
+    left:30,
   },
-  textoReg:{
-    top: 4,
+  singUpText:{
+    top: 9,
     ...FontStyles.Links,
-    color: Colors.Yellow
+    color: Colors.Yellow,
+    width: 200,
+    fontSize:23,
+    left:12,
   }
 });

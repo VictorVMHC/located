@@ -12,7 +12,6 @@ interface Props{
 
 
 export const ModalVerifyUser = ({isVisible, closeModal, children}: Props) => {
-    const {t,i18n} = useTranslation();
     const [modalVisible, setModalVisible] = useState(isVisible);
 
     useEffect(() => {

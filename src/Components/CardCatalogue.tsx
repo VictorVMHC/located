@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import { Colors } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-import { DescriptionBox } from './DescriptionBox';
 import { useHeartHook } from '../Hooks/useHeartHook';
+import { Colors } from '../Themes/Styles';
+import { DescriptionBox } from './DescriptionBox';
 
 interface Props {
     ProductName: string,
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
-
         elevation: 24,
     },
     ChartQualification:{

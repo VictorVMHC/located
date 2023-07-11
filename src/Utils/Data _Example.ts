@@ -19,7 +19,7 @@ const tarjeta = [
         name: 'La casa de la sopas',
         categorie: 'Restaurante',
         like: false
-    },   
+    },
     {
         img: 'https://assets.unileversolutions.com/recipes-v2/164562.jpg',
         name: 'La casa de la sopas',
@@ -56,9 +56,10 @@ const local: Local[] = [
         id: 2222,
         name: 'hola',
         location: locations[0],
-        adress: 'hola',
+        address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -87,9 +88,10 @@ const local: Local[] = [
         id: 1333,
         name: 'hola',
         location: locations[1],
-        adress: 'hola',
+        address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -118,9 +120,10 @@ const local: Local[] = [
         id: 1555,
         name: 'hola',
         location: locations[2],
-        adress: 'hola',
+        address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',
@@ -149,9 +152,10 @@ const local: Local[] = [
         id: 16666,
         name: 'hola',
         location: locations[3],
-        adress: 'hola',
+        address: 'hola',
         uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
+        description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
             {
                 day1: 'hola',

@@ -17,8 +17,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const TabBarNavigation = () => {
     const theme = useTheme();
-    const { t ,i18n } = useTranslation();
-    theme.colors.secondaryContainer = "transperent"
+    const { t } = useTranslation();
+    theme.colors.secondaryContainer = "transparent"
     return (
         <Tab.Navigator
             initialRouteName="MapsView"
@@ -58,7 +58,6 @@ export const TabBarNavigation = () => {
             <Tab.Screen name="MapsView" component={ MapsView } options={{ tabBarLabel: t('MapsTabBar').toString() }} />
             <Tab.Screen name="MyLocalsView" component={ MyLocalsView } options={{ tabBarLabel: t('MyLocalsTabBar').toString() }} />
             <Tab.Screen name="ForYouView" component={ ForYouView } options={{ tabBarLabel: t('ForYouTabBar').toString() }} />
-            
         </Tab.Navigator>
     );
 }

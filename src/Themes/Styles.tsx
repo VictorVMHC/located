@@ -10,17 +10,19 @@ export const Colors = {
     blueAqua: '#1DAEFF',
     gray: '#F6F6F6',
     blueText: '#4E7098',
-    whiteOpcaity: 'rgba(255,255,255,0.5)',
-    red: '#9C0505'
+    whiteOpacity: 'rgba(255,255,255,0.5)',
+    red: '#9C0505',
+    grayOpacity: 'rgba(156, 174, 176, 0.54)',
+    lightBrown: '#c47f30'
 };
 
 export const FontStyles = {
-    Title: { fontFamily: 'Outfit.SemiBold', fontSize: 30, },
-    SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 20 },
-    Links: { fontFamily: 'Outfit-ExtraLight', fontSize: 20, color: Colors.blue },
-    Information: { fontFamily: 'Outfit-SemiBold', fontSize: 16, color: Colors.blueText },
-    Text: { fontFamily: 'Outfit.Light', fontSize: 20 },
-    Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 20 }
+    Title: { fontFamily: 'Outfit.SemiBold', fontSize: 40, color: Colors.black },
+    SubTitles: { fontFamily: 'Outfit.Regular', fontSize: 25, color: Colors.black },
+    Links: { fontFamily: 'Outfit-ExtraLight', fontSize: 25, color: Colors.blue },
+    Information: { fontFamily: 'Outfit-SemiBold', fontSize: 20, color: Colors.blueText },
+    Text: { fontFamily: 'Outfit.Light', fontSize: 20, color: Colors.black  },
+    Alerts: {fontFamily: 'Outfit.SemiBold', fontSize: 25, color: Colors.red }
 };
 
 export const Styles = StyleSheet.create({
@@ -72,6 +74,7 @@ export const Styles = StyleSheet.create({
         borderWidth: 1,
         textAlign: 'left',
         marginVertical: 5,
+        paddingLeft: 10
     },
     boton:{
         backgroundColor:'#FFC600',
@@ -80,7 +83,7 @@ export const Styles = StyleSheet.create({
         width: 300,
         marginVertical: 5,
     },
-    txtbtn:{
+    txtBtn:{
         
         textAlign: 'center',
         letterSpacing:0,

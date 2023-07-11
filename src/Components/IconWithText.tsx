@@ -1,20 +1,20 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface Props{
     NameIcon: string,
-    IconSize: number,
+    IconSize?: number,
     ColorIcon: string,
     text?: string,
-
+    textStyle?: {}
 }
 
-export const IconWithText = ({NameIcon,IconSize,ColorIcon,text}: Props) => {
+export const IconWithText = ({ NameIcon, IconSize=10, ColorIcon, text, textStyle }: Props) => {
     return (
         <View style={styleIconWithText.container}>
-            <Ionicons name={NameIcon} size={IconSize} color={ColorIcon} />
-                <Text style={styleIconWithText.text}>
+            <Icon name={NameIcon} size={IconSize} color={ColorIcon} />
+                <Text style={{...styleIconWithText.text, ...textStyle}}>
                     {text}
                 </Text>
         </View>
@@ -23,7 +23,8 @@ export const IconWithText = ({NameIcon,IconSize,ColorIcon,text}: Props) => {
 
 const styleIconWithText = StyleSheet.create({
     container:{
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     text:{
         marginHorizontal: 5
