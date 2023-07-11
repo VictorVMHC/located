@@ -18,13 +18,13 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         quantity={2}
         />
         <View style={{...Styles.headerView, flexDirection: 'row'}}>
-                <View style={{flex: 7}} >
+                <View style={{flex: 6}} >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={Styles.textStyle}>{t('CreateAccount')}</Text>
+                        <Text style={{...Styles.textStyle, width:300, fontSize:32, top:8, left: 15}}>{t('CreateAccount')}</Text>
                     </View>
                 </View>
-                <View style={{flex: 5, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{flex: 2}}>
+                <View style={{flex: 2, flexDirection: 'row', alignItems: 'center', left:12, top:3 }}>
+                    <View style={{flex: 1.6, left:15}}>
                         {i18n.language === 'es-MX'
                             ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                             :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
@@ -36,7 +36,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
                 </View>
             </View>
         <Image
-            style={{...Styles.imageStyle, left: -100, top: 10}}
+            style={{...Styles.imageStyle, left: -120, top: -5}}
             source={require('../Assets/Images/logo_located.png')}
         />
         <View style={Styles.bodyView}>
@@ -65,11 +65,11 @@ const StylesLogging = StyleSheet.create({
     },
     textInformation:{
         alignSelf: 'flex-end',
-        top: -40,
+        top: -38,
         ...FontStyles.Information,
         color:'black',
-        width: 200,
-        height: 20
+        width: 226,
+        height: 23
     },
     viewLine:{
         flex: 1.8,

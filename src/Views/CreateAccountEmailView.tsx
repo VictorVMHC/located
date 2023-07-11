@@ -76,25 +76,25 @@ export const CreateAccountEmailView = () => {
                 quantity={2}
                 />
                 <View style={StyleSingleText.contentOne}>
-                    <View style={{}}>
+                    <View style={{flex:6}}>
                         <View style={StyleSingleText.containerWelcome}>
-                            <Text style={{...Styles.textStyle, top:5}}>{t('CreateAccount')}</Text>
+                            <Text style={{...Styles.textStyle, width:300, top:12, left:14, fontSize:33}}>{t('CreateAccount')}</Text>
                         </View>
                     </View>    
-                    <View style={StyleSingleText.containerLang} >
-                        <View style={StyleSingleText.containerImgLang}>
+                    <View style={{...StyleSingleText.containerLang, flex:2,top:10}} >
+                        <View style={{...StyleSingleText.containerImgLang, flex:2,left:10 }}>
                             {i18n.language === 'es-MX'
                                 ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                 :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                             }
                         </View>
-                        <View style={{width: 125}}>
+                        <View style={{flex:1, top:-2, left:10}}>
                             <PickerButton/>
                         </View>   
                     </View>
                 </View>
                 <Image
-                    style={{...Styles.imageStyle, left: -100, top:'9%'}}
+                    style={{...Styles.imageStyle, left: -130, top:60}}
                     source={require('../Assets/Images/logo_located.png')}
                 />
                 <View style={StyleSingleText.bodyView}>
@@ -212,7 +212,7 @@ export const CreateAccountEmailView = () => {
                                 <TouchableOpacity style={StyleSingleText.boton}
                                     onPress={handleSubmit}
                                 >
-                                    <Text style={Styles.txtbtn}>{t('Registrar')}</Text>
+                                    <Text style={{...Styles.txtbtn, top:-1}}>{t('Registrar')}</Text>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -380,7 +380,8 @@ const StyleSingleText = StyleSheet.create({
         ...Styles.boton,
         alignSelf: 'center',
         alignItems: 'center',
-        alignContent: 'center', 
+        alignContent: 'center',
+        borderRadius:12,
     },
     fail:{
         color:'red',

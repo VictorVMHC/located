@@ -29,15 +29,15 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.logoView} >
           <View style={{ flex: 2}}>
             <View
-              style={{ top: 5, width: width/2, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center' }}
+              style={{ flex:1,top: -15, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
             >
-              <View style={{flex: 2}}>
+              <View style={{flex: 1, left:95, top:0}}>
                   {i18n.language === 'es-MX'
                   ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                   :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                   }
               </View>
-              <View style={{ flex: 8}}>
+              <View style={{ flex: 2, left: 25, top:-2}}>
                   <PickerButton/>
               </View>
             </View>
@@ -55,7 +55,7 @@ export const MainView = ({navigation } : Props) => {
               text={t('Explore')}
               iconName='walking'
               properties={{
-                width:355,
+                width:340,
                 height:63,
                 backgroundColor: Colors.YellowOpacity,
                 borderRadius: 20,
@@ -69,7 +69,7 @@ export const MainView = ({navigation } : Props) => {
             <ButtonMain 
               text={t('Loggin')}
               properties={{
-                width:355,
+                width:340,
                 height:63,
                 backgroundColor: Colors.white,
                 borderRadius: 20,
@@ -86,7 +86,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.footerView}>
           <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
             <Text style={styles.bottomText}>{t('NoAccount')}</Text>
-            <TouchableOpacity style={{height:40}} onPress={() => navigation.navigate("MainCreateAccountView")}>
+            <TouchableOpacity style={{height:50}} onPress={() => navigation.navigate("MainCreateAccountView")}>
               <Text style={styles.singUpText}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
@@ -118,10 +118,17 @@ const styles = StyleSheet.create({
     ...FontStyles.SubTitles,
     color: 'white',
     textAlign:'center',
+    width: 280,
+    top:5,
+    fontSize:23,
+    left:30,
   },
   singUpText:{
-    top: 4,
+    top: 9,
     ...FontStyles.Links,
-    color: Colors.Yellow
+    color: Colors.Yellow,
+    width: 200,
+    fontSize:23,
+    left:12,
   }
 });
