@@ -49,6 +49,9 @@
         "TobBarCatalogue": "Catalogo",
         "LocationPermission": "Permiso De Localización",
         "MsgPermission": "Esta aplicación requiere el acceso a tu ubicación.",
-        "GrantPermission": "PERMITIR"
+        "GrantPermission": "PERMITIR",
+        "Comments": "Comentarios",
+        "Reply": "Responder",
+        "Answers": "Respuestas"
         }
 }

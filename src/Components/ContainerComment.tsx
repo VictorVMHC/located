@@ -3,26 +3,36 @@ import { Image, Text, View, StyleSheet, useWindowDimensions } from 'react-native
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
-import { DescriptionBox } from './DescriptionBox';
 import { SendComment } from './SendComment';
+import { ListComents } from './ListComents';
+import { useTranslation } from 'react-i18next';
 
 interface Props{
     ImgUser: string,
     NameUser: string,
     Comment: string,
+    Likes?: boolean,
+    dislike?: boolean,
     score?: string,
-    NumberOfComments?: Number
+    reply?: boolean,
+    answers?: boolean,
+    NumberOfComments?: Number,
+    ToggleVisibility?: () => void;
 }
 
 
-export const ContainerComment = ({ImgUser, NameUser, Comment, score,NumberOfComments}:Props) => {
+export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibility,Likes,dislike,reply,answers}:Props) => {
     const [expanded, setExpanded] = useState(false);
+    const [expandedComments, setexpandedComments] = useState(false);
+    const { t} = useTranslation();
 
     const toggle = () => {
-        if(NumberOfComments  != 0){
             setExpanded(!expanded );
-        }
     }
+
+    const toggleExpandedComments = () => {
+        setexpandedComments(!expandedComments );
+}
 
     return (
         <View style={[StyleContainerComment.Container]} >
@@ -40,23 +50,48 @@ export const ContainerComment = ({ImgUser, NameUser, Comment, score,NumberOfComm
                 <Text style={StyleContainerComment.TextComment}>{Comment}</Text>
             </ScrollView>
             <View style={StyleContainerComment.ContainerLikeAndDeslike}>
-                <TouchableOpacity>
-                    <Icon name='thumbs-up' size={20} color={Colors.Yellow} />
-                </TouchableOpacity>
+                {
+                    Likes &&
+                    <TouchableOpacity>
+                        <Icon name='thumbs-up' size={20} color={Colors.Yellow} />
+                    </TouchableOpacity>
+                }
                     <Text>{score}</Text>
-                <TouchableOpacity style={{marginLeft: 15}} >
-                    <Icon name='thumbs-down' size={20} color={Colors.Yellow} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginLeft: 10}} onPress={toggle} >
-                    <Text>Responder</Text>
-                </TouchableOpacity>
+
+                {
+                    dislike &&
+                    <TouchableOpacity style={{marginLeft: 15}} >
+                        <Icon name='thumbs-down' size={20} color={Colors.Yellow} />
+                    </TouchableOpacity>
+
+                }
+                {
+                    reply &&
+                    <TouchableOpacity style={{marginLeft: 10}} onPress={toggle} >
+                        <Text style={{color: Colors.black}}>{t('Reply')}</Text>
+                    </TouchableOpacity>
+                }
+                {
+                    answers &&
+                    <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
+                            <Text style={{color: Colors.black}}>{t('Answers')}</Text>
+                        </TouchableOpacity>
+                        <Icon style={{marginTop: 2, marginLeft: 2}} name='chevron-down' size={15} color='black' />
+                    </View>
+
+                }
             </View>
             {
             expanded &&
             <View style={{marginTop: 30}}>
                 <SendComment/>
             </View>
-            }    
+            } 
+            {
+                expandedComments &&
+                <ListComents/> 
+            }  
         </View>
     )
 }
@@ -86,6 +121,7 @@ const StyleContainerComment = StyleSheet.create({
         fontSize: 20,
         textAlignVertical: 'center',
         marginLeft: 10,
+        color: Colors.black
     },
     ConteinerText:{
         marginHorizontal: 18,
@@ -95,6 +131,7 @@ const StyleContainerComment = StyleSheet.create({
         fontSize: 16,
         borderBottomWidth: 1, 
         borderBottomColor: '#C1C1C1',
+        color: Colors.black
     },
     ContainerLikeAndDeslike:{
         flexDirection: 'row',

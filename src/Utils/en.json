@@ -49,7 +49,10 @@
         "TobBarCatalogue": "Catalogue",
         "LocationPermission": "Location Permission",
         "MsgPermission": "This app requires access to your location.",
-        "GrantPermission": "ALLOW"
+        "GrantPermission": "ALLOW",
+        "Comments": "Comments",
+        "Reply": "Reply",
+        "Answers": "Answers"
         
         }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Colors } from '../Themes/Styles';
 
 export const SendComment = () => {
     const [text, setText] = useState('');
@@ -16,7 +17,7 @@ export const SendComment = () => {
                         />
                 </View>
                 <View style={{...StyleSecdComments.containerTextComment, height: Math.max(35, textInputHeight)}}>
-                <TextInput style={{...StyleSecdComments.textInput, height: Math.max(35, textInputHeight) }}  placeholder="Añadir Comentario"  value={text} onChange={({nativeEvent: { text }}) => setText(text)} maxLength={256} multiline onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)} >
+                <TextInput style={{...StyleSecdComments.textInput, height: Math.max(35, textInputHeight) }}  placeholder="Añadir Comentario" placeholderTextColor={Colors.black}  value={text} onChange={({nativeEvent: { text }}) => setText(text)} maxLength={256} multiline onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)} >
                 </TextInput>
                 {text !== '' && (
                     <TouchableOpacity >
@@ -60,6 +61,7 @@ const StyleSecdComments = StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 10,
         paddingVertical: 8,
+        color: Colors.black,
     },
 
 });
