@@ -23,7 +23,7 @@ interface Props{
 
 export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibility,Likes,dislike,reply,answers}:Props) => {
     const [expanded, setExpanded] = useState(false);
-    const [expandedComments, setexpandedComments] = useState(false);
+    const [expandedComments, setExpandedComments] = useState(false);
     const { t} = useTranslation();
 
     const toggle = () => {
@@ -31,7 +31,7 @@ export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibi
     }
 
     const toggleExpandedComments = () => {
-        setexpandedComments(!expandedComments );
+        setExpandedComments(!expandedComments );
 }
 
     return (
