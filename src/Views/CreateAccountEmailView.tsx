@@ -378,6 +378,7 @@ const StyleSingleText = StyleSheet.create({
         alignSelf: 'center',
         borderRadius:12,
         top:5,
+        marginBottom: 20
     },
     fail:{
         color:'red',
