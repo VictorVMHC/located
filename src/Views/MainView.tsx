@@ -79,7 +79,7 @@ export const MainView = ({navigation } : Props) => {
                 borderWidth: 4,
               }}
               
-              action={() => navigation.navigate("LogginView")}
+              action={() => navigation.navigate("LoginView")}
             />
           </View>
         </View>
