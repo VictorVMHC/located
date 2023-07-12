@@ -93,10 +93,13 @@ export const CreateAccountEmailView = () => {
                         </View>   
                     </View>
                 </View>
-                <Image
-                    style={{...Styles.imageStyle, left: -130, top:60}}
-                    source={require('../Assets/Images/logo_located.png')}
-                />
+                <View style={{alignItems: 'center', top: 30}}>
+                    <Image
+                        style={{...Styles.imageStyle}}
+                        source={require('../Assets/Images/logo_located.png')}
+                    />
+                </View>
+
                 <View style={StyleSingleText.bodyView}>
                     <Text style={StyleSingleText.onlyText}>{t('PersonalInfo')}</Text>
                     <Formik
