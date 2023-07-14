@@ -1,6 +1,6 @@
 import api from "./api"
-import { User } from '../Interfaces/userInterfaces';
+import { LoginResponse, User } from '../Interfaces/userInterfaces';
 
 export const createUser = (user: User) =>{
-    return api.post('/users', user );
+    return api.post<LoginResponse>('/api/users', user );
 }

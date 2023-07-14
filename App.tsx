@@ -7,13 +7,15 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
 import { PermissionsProvider } from './src/Context/PermissionsContext';
+import { AuthProvider } from './src/Context/AuthContext';
 
 const AppState = ({ children }: any) =>{
-
   return (
-    <PermissionsProvider>
-      { children }
-    </PermissionsProvider>
+    <AuthProvider>
+      <PermissionsProvider>
+        { children }
+      </PermissionsProvider>
+    </AuthProvider>
   )
 }
 export const App = () => {
