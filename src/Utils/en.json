@@ -35,7 +35,7 @@
     "MapsTabBar": "Maps",
     "MyLocalsTabBar": "My locals",
     "ForYouTabBar": "For you",
-    "UserName": "Enter a User Name",
+    "UserName": "User Name",
     "Food": "Food",
     "Pharmacy": "Pharmacy",
     "Others": "Others",
@@ -60,6 +60,7 @@
     "SpanishMx": "Spanish MX",
     "EnglishEu": "English US",
     "ScheduleTitle": "Schedule",
-    "DescriptionText": "Description"
+    "DescriptionText": "Description",
+    "ErrorMsgPayload": "An error ocurred when trying to log in"
   }
 }

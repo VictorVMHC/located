@@ -8,7 +8,26 @@ export interface User {
     google?: boolean,
     facebook?: boolean,
     address?: string,
-    haveLocals?:  boolean,
+    haveLocals?: boolean,
     state?: boolean,
-    username?:string
+    username?: string
+}
+
+export interface createNewUser {
+    name?: string,
+    email?: string,
+    password?: string,
+    phone?:string,
+    age?: number,
+    username?:string,
+}
+
+export interface logInData {
+    email?: string,
+    password?: string,
+}
+
+export interface LoginResponse {
+    user: User;
+    token:   string;
 }

@@ -93,13 +93,9 @@ export const CreateAccountEmailView = () => {
                         </View>   
                     </View>
                 </View>
-                <View style={{alignItems: 'center', top: 30}}>
-                    <Image
-                        style={{...Styles.imageStyle}}
-                        source={require('../Assets/Images/logo_located.png')}
-                    />
+                <View style={StyleSingleText.containerLogo}>
+                        <Image style={{...Styles.imageStyle, top:7}} source={require('../Assets/Images/logo_located.png')} />
                 </View>
-
                 <View style={StyleSingleText.bodyView}>
                     <Text style={StyleSingleText.onlyText}>{t('PersonalInfo')}</Text>
                     <Formik
@@ -338,7 +334,7 @@ const StyleSingleText = StyleSheet.create({
     },
     containerLogo:{
         justifyContent: 'center', 
-        alignItems: 'center', 
+        alignSelf: 'center',
         top: '8%'
     },
     container:{
@@ -390,7 +386,4 @@ const StyleSingleText = StyleSheet.create({
         borderColor: Colors.Yellow
     }
 });
-function AtoI(age: string) {
-    throw new Error('Function not implemented.');
-}
 

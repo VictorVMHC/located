@@ -35,7 +35,7 @@
     "MapsTabBar": "Mapas",
     "MyLocalsTabBar": "Mis locales",
     "ForYouTabBar": "Para ti",
-    "UserName": "Ingresa tu nombre de usuario",
+    "UserName": "Nombre de usuario",
     "Food": "Comida",
     "Pharmacy": "Farmacia",
     "Others": "Otros",
@@ -60,6 +60,7 @@
     "SpanishMx": "Español MX",
     "EnglishEu": "Inglés US",
     "ScheduleTitle": "Horario",
-    "DescriptionText": "Descripción"
+    "DescriptionText": "Descripción",
+    "ErrorMsgPayload": "Ha occurido un error al intentar iniciar sesión"
   }
 }
