@@ -72,7 +72,7 @@ export const StoreView = ({navigation}: Props) => {
                         like = {false}
                     />
                     <View style={StylesStore.valuesText}>
-                        <Text style={StylesStore.textName}>mcdonalds</Text>
+                        <Text style={StylesStore.textName}>Mcdonalds</Text>
                         <Text style={{...StylesStore.textInformation}}>Product/service</Text>
                         <Text style={{...StylesStore.textInformation, color: 'green'}}>Open</Text>
                         <Text style={{...StylesStore.textInformation}}>Guadalajara(Mexico)</Text> 
@@ -154,7 +154,8 @@ const StylesStore = StyleSheet.create({
     },
     textInformation:{
         fontWeight: '500',
-        fontSize: 16
+        fontSize: 16,
+        color: 'black'
     },
     containerList:{
         justifyContent: 'center', 

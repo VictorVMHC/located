@@ -28,7 +28,6 @@ export const DescriptionBox = ({Descripcion = '' }:Props) => {
 
 const styles = StyleSheet.create({
 box:{
-  backgroundColor: 'red',
   borderBottomRadius: 20,
   padding:10,
   borderWidth: 0.5,
