@@ -61,6 +61,10 @@
     "EnglishEu": "Inglés US",
     "ScheduleTitle": "Horario",
     "DescriptionText": "Descripción",
-    "ErrorMsgPayload": "Ha occurido un error al intentar iniciar sesión"
+    "ErrorMsgPayload": "Ha occurido un error al intentar iniciar sesión",
+    "LoginAlert": "Login incorrecto",
+    "UserNotFound": "No se encontro el usuario",
+    "InvalidCredentials": "Credenciales invalidas",
+    "InternalError": "Ocurrio un error al iniciar sessión"
   }
 }

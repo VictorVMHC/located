@@ -13,7 +13,8 @@ export const Colors = {
     whiteOpacity: 'rgba(255,255,255,0.5)',
     red: '#9C0505',
     grayOpacity: 'rgba(156, 174, 176, 0.54)',
-    lightBrown: '#c47f30'
+    lightBrown: '#c47f30',
+    greenAqua: '#80CBC4'
 };
 
 export const FontStyles = {

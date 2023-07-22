@@ -11,8 +11,8 @@ type AuthContextProps = {
     token: string | null;
     user: User | null;
     status: 'checking' | 'authenticated' | 'not-authenticated';
-    singUp: ( createNewUser: createNewUser ) => void;
-    singIn: ( loginData: logInData ) => void;
+    signUp: ( createNewUser: createNewUser ) => void;
+    signIn: ( loginData: logInData ) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -35,8 +35,8 @@ export const AuthProvider = ({children}: any) => {
     }, [] )
 
     const checkToken = async() => {
-        const token = await AsyncStorage.getItem('token');
-
+        const token = await AsyncStorage.getItem('x-token');
+        
         if(!token){
             return dispatch({type: 'notAuthenticated'})
         }
@@ -46,7 +46,7 @@ export const AuthProvider = ({children}: any) => {
             return dispatch({ type: 'notAuthenticated' })
         }
 
-        await AsyncStorage.setItem( 'token', response.data.token );
+        await AsyncStorage.setItem( 'x-token', response.data.token );
         dispatch({
             type: 'signUp',
             payload: {
@@ -56,26 +56,80 @@ export const AuthProvider = ({children}: any) => {
         })
     }
 
-    const singIn = async (loginData: logInData) => {
+    const signIn = async (loginData: logInData) => {
         try {
+            dispatch({
+                type: 'checking'
+            })
+
             const { data } = await login(loginData);
-            await AsyncStorage.setItem('token', data.token);
+
+            await AsyncStorage.setItem('x-token', data.token);
+
             dispatch({
                 type: 'signUp',
                 payload: {
                     token: data.token,
                     user: data.user
                 }
-            })
+            })            
         } catch(error: any){
+
+            switch(error.response.status){
+                case 404: 
+                dispatch({
+                    type: 'addError',
+                    payload: t('UserNotFound')
+                })
+                case 401:
+                dispatch({
+                    type: 'addError',
+                    payload: t('InvalidCredentials')
+                })
+                case 500:
+                dispatch({
+                    type: 'addError',
+                    payload: t('InternalError')
+                })
+                default:
+                dispatch({
+                    type: 'addError',
+                    payload: error.response.data.error || t('ErrorMsgPayload')
+                })
+            }
+
+            if(error.response.status === 404)
+            {
+                dispatch({
+                    type: 'addError',
+                    payload: t('UserNotFound')
+                })
+            }
+
+            if(error.response.status === 401)
+            {
+                dispatch({
+                    type: 'addError',
+                    payload: t('InvalidCredentials')
+                })
+            }
+            
+            if(error.response.status === 500)
+            {
+                dispatch({
+                    type: 'addError',
+                    payload: t('InternalError')
+                })
+            }
+            
             dispatch({
                 type: 'addError',
-                payload: error.response.data.errors || t('ErrorMsgPayload')
+                payload: error.response.data.error || t('ErrorMsgPayload')
             })
         }
     }
 
-    const singUp = async (user: User) => {
+    const signUp = async (user: User) => {
         try{
             const { data } = await createUser(user);
             dispatch({ 
@@ -94,7 +148,7 @@ export const AuthProvider = ({children}: any) => {
     }
 
     const logOut = async() => {
-        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('x-token');
         dispatch({ type: 'logout' });
     };
 
@@ -105,8 +159,8 @@ export const AuthProvider = ({children}: any) => {
     return (
         <AuthContext.Provider value={{
             ...state,
-            singUp,
-            singIn,
+            signUp,
+            signIn,
             logOut,
             removeError,
         }}>
