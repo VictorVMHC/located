@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
@@ -13,6 +13,7 @@ import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
 import { Colors } from '../Themes/Styles';
 import { StoreView } from '../Views/StoreView';
+import { AuthContext } from '../Context/AuthContext';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,7 +50,9 @@ export function DrawerMenu() {
 
 const InternalMenu = ( props: DrawerContentComponentProps ) => {
   const {t,i18n} = useTranslation();
+  const {logOut} = useContext(AuthContext);
   const { navigation } = props;
+
   return(
     <View style={{flex: 1}}>
       <View style={styles.header}><Text style={styles.title}>Located</Text>
@@ -101,7 +104,7 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
       <View style={styles.footer}>
           <DrawerMenuButtons
             text = {t('DrawerLogOut')}
-            onPress = {() => navigation.navigate('TabBarNavigator')}
+            onPress = {() => logOut()}
             iconName='log-out-outline'
           />
           <Text style={styles.version}>CUCEI UdeG Version -1.5</Text>
