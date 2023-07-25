@@ -77,55 +77,26 @@ export const AuthProvider = ({children}: any) => {
 
             switch(error.response.status){
                 case 404: 
-                dispatch({
-                    type: 'addError',
-                    payload: t('UserNotFound')
-                })
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('UserNotFound')
+                    })
                 case 401:
-                dispatch({
-                    type: 'addError',
-                    payload: t('InvalidCredentials')
-                })
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('InvalidCredentials')
+                    })
                 case 500:
-                dispatch({
-                    type: 'addError',
-                    payload: t('InternalError')
-                })
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('InternalError')
+                    })
                 default:
-                dispatch({
-                    type: 'addError',
-                    payload: error.response.data.error || t('ErrorMsgPayload')
-                })
+                    return dispatch({
+                        type: 'addError',
+                        payload: error.response.data.error || t('ErrorMsgPayload')
+                    })
             }
-
-            if(error.response.status === 404)
-            {
-                dispatch({
-                    type: 'addError',
-                    payload: t('UserNotFound')
-                })
-            }
-
-            if(error.response.status === 401)
-            {
-                dispatch({
-                    type: 'addError',
-                    payload: t('InvalidCredentials')
-                })
-            }
-            
-            if(error.response.status === 500)
-            {
-                dispatch({
-                    type: 'addError',
-                    payload: t('InternalError')
-                })
-            }
-            
-            dispatch({
-                type: 'addError',
-                payload: error.response.data.error || t('ErrorMsgPayload')
-            })
         }
     }
 
