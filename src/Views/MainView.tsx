@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
@@ -7,6 +7,8 @@ import { PickerButton } from '../Components/PickerButton';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthContext } from '../Context/AuthContext';
+import { LoadingOverlay } from '../Components/LoadingOverlay';
 
 const img = require('../Assets/Images/fondo_main.png');
 
@@ -15,8 +17,15 @@ interface Props extends NativeStackScreenProps<any, any>{};
 export const MainView = ({navigation } : Props) => {
   const {height, width} = useWindowDimensions();
   const { t ,i18n } = useTranslation();
+  const { status, signInGuest } =  useContext( AuthContext );
+
+  const handleSignIn = async () => {
+    signInGuest();
+  }
+  
   return (
     <View style={styles.container}>
+      {status === 'checking' && <LoadingOverlay/> }
       <ImageBackground
         source={img}
         resizeMode = 'cover'
@@ -64,7 +73,7 @@ export const MainView = ({navigation } : Props) => {
                 borderWidth: 4,
                 borderColor:Colors.YellowOpacity,
               }}
-              action={() => navigation.replace("DrawerMenu") }
+              action={ handleSignIn }
             />
             <ButtonMain 
               text={t('Loggin')}

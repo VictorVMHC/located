@@ -1,13 +1,16 @@
-import { User } from "../Interfaces/userInterfaces";
+import { GuestUser } from '../Interfaces/GuestUserInterfaces';
+import { User } from "../Interfaces/UserInterfaces";
 
 export interface AuthState {
-    status: 'checking' | 'authenticated' | 'not-authenticated';
+    status: 'checking' | 'authenticated' | 'not-authenticated' ;
     token: string | null;
     errorMessage: string;
     user: User | null;
+    guestUser: GuestUser | null;
 }
 type AuthAction = 
     | { type: 'signUp', payload: { token: string, user: User } }
+    | { type: 'signUpGuest', payload: { token: string, user: User, guestUser: GuestUser } }
     | { type: 'addError', payload: string }
     | { type: 'removeError' }
     | { type: 'notAuthenticated' }
@@ -40,13 +43,22 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 token: action.payload.token,
                 user: action.payload.user
             }
-
+        case 'signUpGuest':
+            return {
+                ...state,
+                errorMessage: '',
+                status: 'authenticated',
+                token: action.payload.token,
+                user: action.payload.user,
+                guestUser: action.payload.guestUser
+            }
         case 'logout':
             return {
                 ...state,
                 status: 'not-authenticated',
                 token: null,
-                user: null
+                user: null,
+                guestUser: null
             }
 
         case 'notAuthenticated':

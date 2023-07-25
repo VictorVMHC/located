@@ -29,5 +29,5 @@ export interface logInData {
 
 export interface LoginResponse {
     user: User;
-    token:   string;
+    token: string;
 }

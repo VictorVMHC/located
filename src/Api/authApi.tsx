@@ -1,14 +1,20 @@
-import { LoginResponse, logInData } from '../Interfaces/userInterfaces';
+import { LoginResponse, logInData } from '../Interfaces/UserInterfaces';
 import api from "./api";
 
-export const login = ( logInData: logInData) =>{
+const login = ( logInData: logInData) => {
     return api.post<LoginResponse>('/auth/login', logInData);
 }
 
-export const auth = () =>{
+const auth = () =>{
     return api.get('/auth');
 }
 
-export const test = () =>{
+const test = () =>{
     return api.post('/auth/login/test');
+}
+
+export {
+    login,
+    auth,
+    test
 }
