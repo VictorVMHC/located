@@ -1,18 +1,22 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/userInterfaces';
+import { User, createNewUser, logInData } from '../Interfaces/UserInterfaces';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
 import { t } from 'i18next';
 import { createUser } from '../Api/userApi';
+import { GuestLogIn } from '../Api/guestUser';
+import { GuestUser } from '../Interfaces/GuestUserInterfaces';
 
 type AuthContextProps = {
     errorMessage: string;
     token: string | null;
     user: User | null;
+    guestUser: GuestUser | null;
     status: 'checking' | 'authenticated' | 'not-authenticated';
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
+    signInGuest: () => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -22,6 +26,7 @@ const AuthInitialState: AuthState = {
     token: null,
     user: null,
     errorMessage: '',
+    guestUser: null
 }
 
 export const AuthContext = createContext( {} as AuthContextProps );
@@ -35,25 +40,30 @@ export const AuthProvider = ({children}: any) => {
     }, [] )
 
     const checkToken = async() => {
-        const token = await AsyncStorage.getItem('x-token');
-        
-        if(!token){
-            return dispatch({type: 'notAuthenticated'})
-        }
-
-        const response = await auth();
-        if (response.status !== 200 ) {
+        try{            
+            const token = await AsyncStorage.getItem('x-token');
+            if(!token){
+                return dispatch({type: 'notAuthenticated'})
+            }
+    
+            const response = await auth();
+            
+            if (response.status !== 200 ) {
+                return dispatch({ type: 'notAuthenticated' })
+            }
+    
+            await AsyncStorage.setItem( 'x-token', response.data.token );
+    
+            dispatch({
+                type: 'signUp',
+                payload: {
+                    token: response.data.token,
+                    user: response.data.user
+                }
+            })
+        }catch(err){
             return dispatch({ type: 'notAuthenticated' })
         }
-
-        await AsyncStorage.setItem( 'x-token', response.data.token );
-        dispatch({
-            type: 'signUp',
-            payload: {
-                token: response.data.token,
-                user: response.data.user
-            }
-        })
     }
 
     const signIn = async (loginData: logInData) => {
@@ -80,23 +90,61 @@ export const AuthProvider = ({children}: any) => {
                     return dispatch({
                         type: 'addError',
                         payload: t('UserNotFound')
-                    })
+                    });
+
                 case 401:
                     return dispatch({
                         type: 'addError',
                         payload: t('InvalidCredentials')
-                    })
+                    });
+                    
                 case 500:
                     return dispatch({
                         type: 'addError',
                         payload: t('InternalError')
-                    })
+                    });
+
                 default:
                     return dispatch({
                         type: 'addError',
                         payload: error.response.data.error || t('ErrorMsgPayload')
-                    })
+                    });
             }
+        }
+    }
+    
+    const signInGuest = async () => {        
+        try {
+
+            dispatch({
+                type: 'checking'
+            })
+
+            const { data } = await GuestLogIn();
+
+            await AsyncStorage.setItem('x-token', data.token);
+
+            const user: User = {
+                name: "Guest",
+                username: 'Guest',
+                email: 'Guest@User.com',
+                haveLocals: false
+            }
+            
+            dispatch({
+                type: 'signUpGuest',
+                payload: {
+                    token: data.token,
+                    user: user,
+                    guestUser: data.guestUser
+                }
+            })
+
+        } catch(error: any){
+            return dispatch({
+                type: 'addError',
+                payload: error.response.data.error || t('ErrorMsgPayload')
+            });
         }
     }
 
@@ -132,6 +180,7 @@ export const AuthProvider = ({children}: any) => {
             ...state,
             signUp,
             signIn,
+            signInGuest,
             logOut,
             removeError,
         }}>
