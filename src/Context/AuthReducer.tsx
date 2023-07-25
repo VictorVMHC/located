@@ -70,10 +70,10 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
             }
 
         case 'checking':
-        return {
-            ...state,
-            status: 'checking',
-        }
+            return {
+                ...state,
+                status: 'checking',
+            }
 
         default:
             return state;
