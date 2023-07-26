@@ -1,21 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
+
+import { AuthContext } from '../Context/AuthContext';
 import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
 import { ForgotPasswordView } from '../Views/ForgotPasswordView';
 import { LoginView } from '../Views/LoginView';
 import { MainCreateAccountView } from '../Views/MainCreateAccountView';
 import { MainView } from '../Views/MainView';
 import { SplashScreenView } from '../Views/SplashScreenView';
-import { TestScreen } from '../Views/TestScreen';
 import { DrawerMenu } from './DrawerMenu';
-import { AuthContext } from '../Context/AuthContext';
 
 const Stack = createStackNavigator();
 
 
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
-	
+
 	return (
 		<Stack.Navigator
 			initialRouteName='SplashScreen'

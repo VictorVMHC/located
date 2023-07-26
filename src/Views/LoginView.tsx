@@ -8,7 +8,7 @@ import { Circles } from '../Components/Circles';
 import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import { Formik } from 'formik';
-import { logInData } from '../Interfaces/userInterfaces';
+import { logInData } from '../Interfaces/UserInterfaces';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 import { AuthContext } from '../Context/AuthContext';

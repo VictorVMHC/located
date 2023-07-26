@@ -7,10 +7,29 @@ import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { StyleSheet } from 'react-native';
 
 interface Props {
     markers?: any,
 }
+const mapStyle = [
+    {
+        elementType: 'labels.icon',
+        stylers: [
+            {
+            visibility: 'off',
+            },
+        ],
+    },
+    {
+        featureType: 'poi',
+        stylers: [
+            {
+            visibility: 'off',
+            },
+        ],
+    },
+]
 
 export const Map = ({ markers }: Props) => {
     const carouselRef = useRef<ICarouselInstance>(null);
@@ -57,6 +76,7 @@ export const Map = ({ markers }: Props) => {
                     <MapView
                         ref={ (el) => mapViewRef.current = el! }
                         style={{ flex: 1 }}
+                        customMapStyle={mapStyle}
                         showsUserLocation
                         initialRegion={{
                             latitude: initialPosition.latitude,
