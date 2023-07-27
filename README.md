@@ -39,3 +39,12 @@ If you are having, because the BASE_URL is not updating, try this
 
 - then finish that execution with `ctrl + c`
 - now you can run again the project
+
+# Ports of the projects
+
+| Port   | Project                          |  Service          |
+| ----   | ---------------------            | -----------       |
+| 8080   | Located.Api                      | Node Js Server    |
+| 8081   | Mongo manager(in docker compose) | Mongo express     |
+| 27027  | Mongo db (in docker compose)     | MongodB           |
+| 8082   | Located                          | Metro             |
