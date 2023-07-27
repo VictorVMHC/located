@@ -85,6 +85,13 @@ export const AuthProvider = ({children}: any) => {
             })            
         } catch(error: any){
 
+            if (error.code === 'ECONNABORTED'){                
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            }
+
             switch(error.response.status){
                 case 404: 
                     return dispatch({
@@ -146,14 +153,12 @@ export const AuthProvider = ({children}: any) => {
                     type: 'addError',
                     payload: t('TimeOutConn')
                 });
-            } else {
-                console.log(' different response');
-                
-                return dispatch({
-                    type: 'addError',
-                    payload: error.response?.data?.error || t('ErrorMsgPayload')
-                });
-            }
+            } 
+
+            return dispatch({
+                type: 'addError',
+                payload: error.response?.data?.error || t('ErrorMsgPayload')
+            });
         }
     }
 
