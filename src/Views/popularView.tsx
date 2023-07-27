@@ -12,7 +12,7 @@ export const PopularView = ({navigation}:Props) => {
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={local}
-                renderItem={ ( { item } ) => {return(<Card like={false} local={item} rutStore={() => navigation.navigate("StoreView")}/>)} }
+                renderItem={ ( { item } ) => {return(<Card like={false} local={item} routeToStore={() => navigation.navigate("StoreView")}/>)} }
                 keyExtractor={(item) => item.id.toString()}
             />
         </SafeAreaView>
