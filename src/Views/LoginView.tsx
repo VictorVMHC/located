@@ -1,22 +1,54 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Circles } from '../Components/Circles';
 import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
+import { Formik } from 'formik';
+import { logInData } from '../Interfaces/UserInterfaces';
+import * as Yup from 'yup';
+import { IconWithText } from '../Components/IconWithText';
+import { AuthContext } from '../Context/AuthContext';
+import { test } from '../Api/authApi';
+import { LoadingOverlay } from '../Components/LoadingOverlay';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginView = ({navigation}: Props) => {
-
     const { t, i18n } = useTranslation();
+    
+    const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
+
+    useEffect(() => {
+        if( errorMessage.length === 0 ) return;
+
+        Alert.alert( t('LoginAlert'), errorMessage,[{
+            text: 'Ok',
+            onPress: removeError
+        }]);
+
+    }, [ errorMessage ]);
+
+    const handleSubmit = async (loginData: logInData) => {
+        signIn(loginData)   
+    }
+
+    const goToDrawer = () => {
+        navigation.replace('DrawerMenu');
+    };
+
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
+        password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),  
+    });
 
     return (
         <SafeAreaView style={Styles.container}>
-            <ScrollView >
+            {status === 'checking' && <LoadingOverlay/> }
+            <ScrollView>
                 <View style={{flex:1}}>
                     <Circles
                         position='top'
@@ -26,7 +58,7 @@ export const LoginView = ({navigation}: Props) => {
                         <View style={{}}>
                             <View style={StylesLogging.containerWelcome}>
                                 <Text style={{...Styles.textStyle, top:4, left:12, fontSize:30}}>{t('Loggin')}</Text>
-                                <Icon style={StylesLogging.iconWelcome} name='user' size={25} brand />
+                                <Icon style={StylesLogging.iconWelcome} name='user' size={25} brand color={Colors.black}/>
                             </View>
                                 <View>
                                     <Text style={{...FontStyles.SubTitles,left:12}}>{t('Welcome')}</Text>
@@ -48,26 +80,62 @@ export const LoginView = ({navigation}: Props) => {
                         <Image style={{...Styles.imageStyle, top:7}} source={require('../Assets/Images/logo_located.png')} />
                     </View>
                     <View style={StylesLogging.containerInput}>
-                        <TextInput 
-                            style={[Styles.input, FontStyles.SubTitles]}
-                            placeholderTextColor={Colors.blueText}
-                            placeholder={`${t('PlaceHoldEnterEmail')}`} 
-                        />
-                        <TextInput 
-                            style={[Styles.input, FontStyles.SubTitles]}
-                            placeholderTextColor={Colors.blueText}
-                            placeholder={`${t('PlaceHoldEnterPassword')}`}  
-                        />
-                    </View>
-                    <View style={StylesLogging.viewText}>
-                        <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordView")} >
-                            <Text style= {StylesLogging.textInformation}>{t('ForgotPassword')}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={StylesLogging.containerButton}>
-                        <TouchableOpacity style={{...Styles.boton, borderRadius:12}}onPress={ () => navigation.replace("DrawerMenu") }>
-                                <Text style={{...Styles.txtBtn,top:1}}>{t('LOG')}</Text>
-                        </TouchableOpacity>
+                        <Formik
+                            initialValues={{
+                                email: "",
+                                password: "",
+                            }}
+                            onSubmit={handleSubmit}
+                            validationSchema={validationSchema}
+                        >
+                            {({ handleChange, handleSubmit, values, errors }) => (
+                                <View>
+                                    <TextInput 
+                                        style={[Styles.input, errors.email ? StylesLogging.addProperty : null, FontStyles.SubTitles]}
+                                        placeholderTextColor={Colors.blueText}
+                                        placeholder={`${t('Email')}`}
+                                        keyboardType='email-address'
+                                        onChangeText={handleChange('email')}
+                                        value={values.email}
+                                    />
+                                    {errors.email && 
+                                        <IconWithText 
+                                            NameIcon='exclamation-circle' 
+                                            text={errors.email} 
+                                            ColorIcon={Colors.Yellow} 
+                                            IconSize={15} 
+                                            textStyle={{color: Colors.Yellow}}
+                                        />}
+                                    <TextInput 
+                                        style={[Styles.input, errors.password ? StylesLogging.addProperty : null, FontStyles.SubTitles]}
+                                        placeholderTextColor={Colors.blueText}
+                                        placeholder={`${t('Password')}`}
+                                        secureTextEntry
+                                        value={values.password}
+                                        onChangeText={handleChange('password')}
+                                    />
+                                    {errors.password && 
+                                        <IconWithText 
+                                            NameIcon='exclamation-circle' 
+                                            text={errors.password} 
+                                            ColorIcon={Colors.Yellow} 
+                                            IconSize={15} 
+                                            textStyle={{color: Colors.Yellow}}
+                                        />}
+                                    <View style={StylesLogging.viewText}>
+                                        <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordView")} >
+                                            <Text style= {StylesLogging.textInformation}>{t('ForgotPassword')}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={StylesLogging.containerButton}>
+                                        <TouchableOpacity style={{...Styles.boton, borderRadius:12}} 
+                                        onPress={handleSubmit}>
+                                                <Text style={{...Styles.txtBtn,top:1}}>{t('LOG')}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            )}
+                        </Formik>
                     </View>
                     <View style={StylesLogging.containerB}>
                         <View style={StylesLogging.line}>
@@ -159,8 +227,8 @@ const StylesLogging = StyleSheet.create({
     },
     viewText: {
         justifyContent: 'flex-end',
-        marginRight: '7%',
-        top: '-3%'
+
+        top: '-10%'
     },
     textInformation:{
         alignSelf: 'flex-end',
@@ -203,18 +271,21 @@ const StylesLogging = StyleSheet.create({
         alignItems: 'center'
     },
     IconFace:{
-    color: 'blue',
-    fontSize: 35,
-    marginTop: 10
+        color: 'blue',
+        fontSize: 35,
+        marginTop: 10
     },
     IconGoogle:{
-    color:'red',
-    fontSize: 35,
-    marginTop: 10
+        color:'red',
+        fontSize: 35,
+        marginTop: 10
     },
     IconApple:{
-    color:'black',
-    fontSize: 35,
-    marginTop: 10
+        color:'black',
+        fontSize: 35,
+        marginTop: 10
+    },
+    addProperty: {
+        borderColor: Colors.Yellow
     }
 });

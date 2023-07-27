@@ -71,6 +71,7 @@ const LocationPermissionView = () => {
         textAlign: 'center',
         marginBottom: 32,
         padding: 10,
+        color: 'black'
         
     },
     mapPermitionBox:{

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
@@ -7,6 +7,8 @@ import { PickerButton } from '../Components/PickerButton';
 import { FontStyles, Styles, Colors } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthContext } from '../Context/AuthContext';
+import { LoadingOverlay } from '../Components/LoadingOverlay';
 
 const img = require('../Assets/Images/fondo_main.png');
 
@@ -15,8 +17,15 @@ interface Props extends NativeStackScreenProps<any, any>{};
 export const MainView = ({navigation } : Props) => {
   const {height, width} = useWindowDimensions();
   const { t ,i18n } = useTranslation();
+  const { status, signInGuest } =  useContext( AuthContext );
+
+  const handleSignIn = async () => {
+    signInGuest();
+  }
+  
   return (
     <View style={styles.container}>
+      {status === 'checking' && <LoadingOverlay/> }
       <ImageBackground
         source={img}
         resizeMode = 'cover'
@@ -29,7 +38,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.logoView} >
           <View style={{ flex: 2}}>
             <View
-              style={{ flex:1,top: -15, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
+              style={{ flex:1,top: height * -0.018, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
             >
               <View style={{flex: 1, left:95, top:0}}>
                   {i18n.language === 'es-MX'
@@ -55,8 +64,8 @@ export const MainView = ({navigation } : Props) => {
               text={t('Explore')}
               iconName='walking'
               properties={{
-                width:340,
-                height:63,
+                width:width * 0.85,
+                height:height*0.080,
                 backgroundColor: Colors.YellowOpacity,
                 borderRadius: 20,
                 justifyContent: 'center',
@@ -64,13 +73,13 @@ export const MainView = ({navigation } : Props) => {
                 borderWidth: 4,
                 borderColor:Colors.YellowOpacity,
               }}
-              action={() => navigation.replace("DrawerMenu") }
+              action={ handleSignIn }
             />
             <ButtonMain 
-              text={t('Loggin')}
+              text={t('logging')}
               properties={{
-                width:340,
-                height:63,
+                width:width * 0.85,
+                height:height*0.080,
                 backgroundColor: Colors.white,
                 borderRadius: 20,
                 justifyContent: 'center',
@@ -78,16 +87,15 @@ export const MainView = ({navigation } : Props) => {
                 borderColor:  Colors.YellowOpacity,
                 borderWidth: 4,
               }}
-              
               action={() => navigation.navigate("LoginView")}
             />
           </View>
         </View>
         <View style={styles.footerView}>
-          <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
+          <View style={{justifyContent: 'space-evenly', alignContent: 'center', flexDirection: 'row'}}>
             <Text style={styles.bottomText}>{t('NoAccount')}</Text>
-            <TouchableOpacity style={{height:50}} onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={styles.singUpText}>{t('Log')}</Text>
+            <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
+              <Text style={{...styles.singUpText, marginTop:width*0.01}}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -117,18 +125,11 @@ const styles = StyleSheet.create({
   bottomText:{
     ...FontStyles.SubTitles,
     color: 'white',
-    textAlign:'center',
-    width: 280,
-    top:5,
     fontSize:23,
-    left:30,
   },
   singUpText:{
-    top: 9,
     ...FontStyles.Links,
     color: Colors.Yellow,
-    width: 200,
-    fontSize:23,
-    left:12,
+    fontSize:20,
   }
 });

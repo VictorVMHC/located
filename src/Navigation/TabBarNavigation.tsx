@@ -8,10 +8,6 @@ import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
 import { ForYouView } from '../Views/ForYouView';
 import { useTranslation } from 'react-i18next';
-import { StoreView } from '../Views/StoreView';
-
-
-
 
 const Tab = createMaterialBottomTabNavigator();
 

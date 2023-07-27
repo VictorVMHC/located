@@ -20,11 +20,11 @@ Proyecto Modular
 
 ```
 //before
-    BASE_URL=http://localHost:8080/api
+    BASE_URL=http://localHost:8080
 // after (this is the target result this may work)
-    BASE_URL=http://<PASTE_YOUR_IP>:8080/api
+    BASE_URL=http://<PASTE_YOUR_IP>:8080
 // example
-    BASE_URL=http://172.188.98.2:8080/api
+    BASE_URL=http://172.188.98.2:8080
 ```
 
 ### Notes
