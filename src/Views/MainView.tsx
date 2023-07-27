@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { Alert, Image, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonMain } from '../Components/ButtonMain'
 import { Circles } from '../Components/Circles';
@@ -17,12 +17,22 @@ interface Props extends NativeStackScreenProps<any, any>{};
 export const MainView = ({navigation } : Props) => {
   const {height, width} = useWindowDimensions();
   const { t ,i18n } = useTranslation();
-  const { status, signInGuest } =  useContext( AuthContext );
+  const { status, signInGuest, errorMessage, removeError } =  useContext( AuthContext );
+
+  useEffect(() => {
+    if( errorMessage.length === 0 ) return;
+
+    Alert.alert( t('LoginAlert'), errorMessage,[{
+        text: 'Ok',
+        onPress: removeError
+    }]);
+
+  }, [ errorMessage ]);
 
   const handleSignIn = async () => {
     signInGuest();
   }
-  
+
   return (
     <View style={styles.container}>
       {status === 'checking' && <LoadingOverlay/> }
@@ -38,7 +48,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.logoView} >
           <View style={{ flex: 2}}>
             <View
-              style={{ flex:1,top: -15, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
+              style={{ flex:1,top: 5, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
             >
               <View style={{flex: 1, left:95, top:0}}>
                   {i18n.language === 'es-MX'

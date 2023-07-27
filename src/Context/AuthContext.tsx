@@ -120,7 +120,7 @@ export const AuthProvider = ({children}: any) => {
                 type: 'checking'
             })
 
-            const { data } = await GuestLogIn();
+            const { data } = await GuestLogIn();            
 
             await AsyncStorage.setItem('x-token', data.token);
 
@@ -141,10 +141,19 @@ export const AuthProvider = ({children}: any) => {
             })
 
         } catch(error: any){
-            return dispatch({
-                type: 'addError',
-                payload: error.response.data.error || t('ErrorMsgPayload')
-            });
+            if (error.code === 'ECONNABORTED'){                
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            } else {
+                console.log(' different response');
+                
+                return dispatch({
+                    type: 'addError',
+                    payload: error.response?.data?.error || t('ErrorMsgPayload')
+                });
+            }
         }
     }
 

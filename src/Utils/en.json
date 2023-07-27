@@ -65,6 +65,7 @@
     "LoginAlert": "Login incorrect ",
     "UserNotFound": "User not found",
     "InvalidCredentials": "Invalid credentials",
-    "InternalError": "An error occurred while trying to log in user"
+    "InternalError": "An error occurred while trying to log in user",
+    "TimeOutConn": "Could not connect to Located services"
   }
 }

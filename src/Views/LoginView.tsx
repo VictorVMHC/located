@@ -36,10 +36,6 @@ export const LoginView = ({navigation}: Props) => {
         signIn(loginData)   
     }
 
-    const goToDrawer = () => {
-        navigation.replace('DrawerMenu');
-    };
-
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
         password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),  
