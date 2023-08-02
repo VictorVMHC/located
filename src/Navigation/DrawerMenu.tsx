@@ -4,7 +4,6 @@ import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScroll
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-
 import { CollapsibleButton } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
 import { EditProfileView } from '../Views/EditProfileView';
