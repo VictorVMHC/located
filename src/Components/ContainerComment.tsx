@@ -1,38 +1,62 @@
-import React, { useState } from 'react'
-import { Image, Text, View, StyleSheet, useWindowDimensions } from 'react-native';
+import React, { useRef, useState } from 'react'
+import { Image, Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
-import { SendComment } from './SendComment';
-import { ListComents } from './ListComents';
 import { useTranslation } from 'react-i18next';
 
 interface Props{
+    idUser: number,
     ImgUser: string,
     NameUser: string,
     Comment: string,
-    Likes?: boolean,
-    dislike?: boolean,
+    likes?: boolean,
+    dislikes?: boolean,
     score?: string,
     reply?: boolean,
+    blocking?: boolean,
     answers?: boolean,
     NumberOfComments?: Number,
-    ToggleVisibility?: () => void;
+    onCallback:  (value: number ) => void;
 }
 
 
-export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibility,Likes,dislike,reply,answers}:Props) => {
+export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCallback ,likes ,dislikes,reply,blocking,answers}:Props) => {
     const [expanded, setExpanded] = useState(false);
     const [expandedComments, setExpandedComments] = useState(false);
     const { t} = useTranslation();
+    const [inputValue, setInputValue] = useState(0);
+    const [like, setLike] = useState(likes);
+    const [dislike, setdislike] = useState(dislikes);
 
-    const toggle = () => {
-            setExpanded(!expanded );
-    }
+
+    const handleSendValue = (idUser: number) => {
+        // Llamamos a la función onCallback para enviar el valor al componente padre
+        setInputValue(idUser);
+        onCallback(inputValue);
+    };
 
     const toggleExpandedComments = () => {
         setExpandedComments(!expandedComments );
-}
+    }
+
+    const checkLike =() =>{
+        if(like || dislike)
+        {
+            setLike(false)
+        }else{
+            setLike(true)
+        }
+    }
+
+    const checkdislike =() =>{
+        if(dislike || like)
+        {
+            setdislike(false)
+        } else {
+            setdislike(true)
+        }
+    }
 
     return (
         <View style={[StyleContainerComment.Container]} >
@@ -50,31 +74,30 @@ export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibi
                 <Text style={StyleContainerComment.TextComment}>{Comment}</Text>
             </ScrollView>
             <View style={StyleContainerComment.ContainerLikeAndDeslike}>
-                {
-                    Likes &&
-                    <TouchableOpacity>
-                        <Icon name='thumbs-up' size={20} color={Colors.Yellow} />
+                    <TouchableOpacity onPress={()=>{checkLike()}}>
+                    {!like 
+                        ? <Icon name='thumbs-up' size={20} color={Colors.black}/>
+                        :  <Icon name='thumbs-up' size={20} color={Colors.Yellow}/>
+                    }
                     </TouchableOpacity>
-                }
                     <Text>{score}</Text>
-
-                {
-                    dislike &&
-                    <TouchableOpacity style={{marginLeft: 15}} >
-                        <Icon name='thumbs-down' size={20} color={Colors.Yellow} />
+                    <TouchableOpacity style={{marginLeft: 15}}  onPress={()=>{checkdislike()}} >
+                    {!dislike 
+                        ? <Icon name='thumbs-down' size={20} color={Colors.black}/>
+                        :   <Icon name='thumbs-down' size={20} color={Colors.Yellow} />
+                    }
                     </TouchableOpacity>
 
-                }
                 {
                     reply &&
-                    <TouchableOpacity style={{marginLeft: 10}} onPress={toggle} >
+                    <TouchableOpacity disabled={blocking} style={{marginLeft: 10}} onPress={()=>(handleSendValue(idUser))} >
                         <Text style={{color: Colors.black}}>{t('Reply')}</Text>
                     </TouchableOpacity>
                 }
                 {
                     answers &&
                     <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
+                        <TouchableOpacity disabled={blocking} style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
                             <Text style={{color: Colors.black}}>{t('Answers')}</Text>
                         </TouchableOpacity>
                         <Icon style={{marginTop: 2, marginLeft: 2}} name='chevron-down' size={15} color='black' />
@@ -85,12 +108,14 @@ export const ContainerComment = ({ImgUser, NameUser, Comment, score,ToggleVisibi
             {
             expanded &&
             <View style={{marginTop: 30}}>
-                <SendComment/>
+                <Text></Text>
             </View>
             } 
             {
                 expandedComments &&
-                <ListComents/> 
+                <View style={{backgroundColor: 'red'}}>
+                    <Text>Comentarios</Text>
+                </View>
             }  
         </View>
     )

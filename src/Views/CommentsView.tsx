@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Button} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react'
+import { View, StyleSheet, Button, TextInput,Image, TouchableOpacity, Keyboard} from 'react-native';
 import { FlatList} from 'react-native-gesture-handler'
 import { Text } from 'react-native-paper'
 import { ContainerComment } from '../Components/ContainerComment';
 import { Colors } from '../Themes/Styles';
-import { SendComment } from '../Components/SendComment';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -25,44 +25,94 @@ const data: Item[]=[
 ]
 
 export const CommentsView = ({ navigation}: Props) => {
-    const [isVisible, setIsVisible] = useState(true);
-    const { t} = useTranslation();
+    const {t} = useTranslation();
+    const [receivedValue, setReceivedValue] = useState(0);
+    const inputRef = useRef<TextInput>(null);
+    const [text, setText] = useState('');
+    const [textInputHeight, setTextInputHeight] = useState(0);
+    const [isKeyboardOpen, setKeyboardOpen] = useState(false);
+    const [buttonBocked, setButtonLocked] = useState(false);
+    
 
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
+    useEffect(() => {
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
+        return () =>{
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        }
+    }, []);
+
+    const handleKeyboardDidShow = () => {
+        setText('');
+        setButtonLocked(true);
+        setKeyboardOpen(true);  
+        console.log('El teclado se ha mostrado.');
+        // Aquí puedes realizar acciones adicionales si es necesario.
     };
 
-    const renderItem=({item}: {item:Item}) => {
-        return(
-            <ContainerComment
-                ImgUser={item.img}
-                NameUser={item.nameUser}
-                Comment={item.text}
-                Likes={true}
-                dislike={true}
-                reply={true}
-                answers={true}
-                ToggleVisibility= {toggleVisibility}
-            />
-        );
-    }
+    const handleKeyboardDidHide = () => {
+        console.log('Teclado cerrado');
+        setReceivedValue(0);
+        Keyboard.dismiss();
+        setButtonLocked(false);
+        setKeyboardOpen(false);
+        //setText('');
+    };
+
+    const handleChildCallback = (value: number) => {
+        setReceivedValue(value);
+        inputRef.current?.focus();
+    };
+
+
+    const placeholderValue: any = receivedValue !== 0 ? `@${receivedValue}` : "Añadir Comentario";
 
     return (
         <View style={StylesCommentsView.container}>
-            <Button title="Atrás" onPress={() => navigation.goBack()} />
-            <View style={StylesCommentsView.containerText}>
-                <Text style={StylesCommentsView.TextComments}>{t('Comments')}</Text>
+            <Button title="Atrás" onPress={() => (console.log("Antes de retroceder"),navigation.goBack(), console.log("Después de retroceder"))} />
+            <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
+                <View style={StylesCommentsView.containerText}>
+                    <Text style={StylesCommentsView.TextComments}>{t('Comments')} </Text>
+                </View>
+                <View style={StylesCommentsView.containerFlatlist}>
+                    <FlatList<Item>
+                        data={data}
+                        renderItem={({item}) => (
+                            <ContainerComment
+                                idUser={item.id}
+                                ImgUser={item.img}
+                                NameUser={item.nameUser}
+                                Comment={item.text}
+                                likes={false}
+                                dislikes={true}
+                                reply={true}
+                                blocking={buttonBocked}
+                                answers={true}
+                                onCallback={()=>(handleChildCallback(item.id))}
+                            />
+                        )}
+                    />
+                </View>
             </View>
-            <View style={StylesCommentsView.containerFlatlist}>
-                <FlatList<Item>
-                    data={data}
-                    renderItem={renderItem}
-                />
+            <View style={{...StylesCommentsView.containerAddComments,height: Math.max(50, textInputHeight)}}>
+                <View style={StylesCommentsView.ContainerImg}>
+                    <Image 
+                        resizeMode='cover'
+                        style={StylesCommentsView.Img}
+                        source={{uri: 'https://ih1.redbubble.net/image.1740228166.8974/flat,750x1000,075,f.jpg'}}
+                        />
+                </View>
+                <View style={{...StylesCommentsView.containerTextComment, height: Math.max(35, textInputHeight)}}>
+                <TextInput   ref={inputRef}  style={{...StylesCommentsView.textInput, height: Math.max(35, textInputHeight) }}  placeholder={placeholderValue} placeholderTextColor={Colors.black}  value={text} onChange={({nativeEvent: { text }}) => setText(text)} maxLength={256} multiline onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)} >
+                </TextInput>
+                {text !== '' && (
+                    <TouchableOpacity >
+                        <Icon name='paper-plane' size={20} color="#8A8E9B" solid/>
+                    </TouchableOpacity>
+                )}
+                </View>
             </View>
-            {
-                isVisible && 
-                <SendComment/>
-            }
         </View>
     )
 }
@@ -70,6 +120,9 @@ export const CommentsView = ({ navigation}: Props) => {
 const StylesCommentsView = StyleSheet.create({
     container:{
         flex: 1,
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     containerText:{
         flex:1,
@@ -94,5 +147,38 @@ const StylesCommentsView = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
     }, 
+    containerAddComments:{
+        flexDirection: 'row',
+        paddingLeft: 20,
+        alignItems: 'center',
+        paddingBottom: 25,
+    },
+    ContainerImg:{
+        width: 40,
+        height: 40,
+    },
+    Img:{
+        width: '100%',
+        height: '100%',
+        resizeMode:'contain',
+        borderRadius: 50,
+    },
+    containerTextComment:{
+        backgroundColor: '#DBDBDB',
+        flexDirection: 'row', 
+        alignItems: 'center',
+        width: '80%',
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 17,
+        marginLeft: 15,
+    },
+    textInput:{
+        width: '90%',
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        color: Colors.black,
+    },
 
 });
