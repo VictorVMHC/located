@@ -103,7 +103,9 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
       </View>
       <View style={styles.footer}>
           <DrawerMenuButtons
+            iconColor = {'red'}
             text = {t('DrawerLogOut')}
+            style={ {color: 'red'} }
             onPress = {() => logOut()}
             iconName='log-out-outline'
           />
