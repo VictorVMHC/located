@@ -85,6 +85,13 @@ export const AuthProvider = ({children}: any) => {
             })            
         } catch(error: any){
 
+            if (error.code === 'ECONNABORTED'){                
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            }
+
             switch(error.response.status){
                 case 404: 
                     return dispatch({
@@ -120,7 +127,7 @@ export const AuthProvider = ({children}: any) => {
                 type: 'checking'
             })
 
-            const { data } = await GuestLogIn();
+            const { data } = await GuestLogIn();            
 
             await AsyncStorage.setItem('x-token', data.token);
 
@@ -141,9 +148,16 @@ export const AuthProvider = ({children}: any) => {
             })
 
         } catch(error: any){
+            if (error.code === 'ECONNABORTED'){                
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            } 
+
             return dispatch({
                 type: 'addError',
-                payload: error.response.data.error || t('ErrorMsgPayload')
+                payload: error.response?.data?.error || t('ErrorMsgPayload')
             });
         }
     }

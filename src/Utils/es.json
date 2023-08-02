@@ -65,6 +65,7 @@
     "LoginAlert": "Login incorrecto",
     "UserNotFound": "No se encontro el usuario",
     "InvalidCredentials": "Credenciales invalidas",
-    "InternalError": "Ocurrio un error al iniciar sessión"
+    "InternalError": "Ocurrio un error al iniciar sessión",
+    "TimeOutConn": "No se pudo conectar a los servicios de located"
   }
 }
