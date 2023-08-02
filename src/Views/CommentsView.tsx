@@ -85,7 +85,7 @@ export const CommentsView = ({ navigation}: Props) => {
                                 NameUser={item.nameUser}
                                 Comment={item.text}
                                 likes={false}
-                                dislikes={true}
+                                dislikes={false}
                                 reply={true}
                                 blocking={buttonBocked}
                                 answers={true}
