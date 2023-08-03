@@ -1,4 +1,4 @@
-import { LoginResponse, logInData } from '../Interfaces/userInterfaces';
+import { LoginResponse, logInData } from '../Interfaces/UserInterfaces';
 import api from "./api";
 
 const login = ( logInData: logInData) => {

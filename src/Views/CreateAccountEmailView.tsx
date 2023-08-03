@@ -10,7 +10,7 @@ import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 import { createUser } from '../Api/userApi';
-import { User } from '../Interfaces/userInterfaces';
+import { User } from '../Interfaces/UserInterfaces';
 import { VerifyEmail } from '../Api/verifyEmail';
 
 
