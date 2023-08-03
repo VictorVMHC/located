@@ -9,11 +9,17 @@ import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
-import { createUser } from '../Api/userApi';
 import { User } from '../Interfaces/UserInterfaces';
 import { VerifyEmail } from '../Api/verifyEmail';
 
-
+interface Code {
+    v1: string,
+    v2: string,
+    v3: string,
+    v4: string,
+    v5: string,
+    v6: string
+}
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
@@ -21,7 +27,7 @@ export const CreateAccountEmailView = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
 
-    const [concatenatedString, setConcatenatedString] = useState('');
+    const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     
 
     const validationSchema = Yup.object().shape({
@@ -32,6 +38,15 @@ export const CreateAccountEmailView = () => {
         phone: Yup.string().required(t('RequireField').toString()).min(10,t('PhoneValidation').toString()),
         age: Yup.string().required(t('RequireField').toString()),
     });
+
+    const updateValue = (name: string, newValue: string) => {
+        setCode((prevData) => ({
+            ...prevData,
+            [name]: newValue,
+        }));
+        console.log(code);
+        
+    };
 
     const handleSubmit = async ({email=''}:User) => {
         console.log(JSON.stringify(email));
@@ -217,28 +232,46 @@ export const CreateAccountEmailView = () => {
                     <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
                     <View style={StyleSingleText.row}>
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad" 
+                            placeholder="__"
+                            value={code.v1}
+                            onChangeText={(text) => { updateValue("v1", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad" 
                         />
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad"   
+                            placeholder="__"
+                            value={code.v2}
+                            onChangeText={(text) => { updateValue("v2", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad"   
                         />
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad"   
+                            placeholder="__"
+                            value={code.v3}
+                            onChangeText={(text) => { updateValue("v3", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad"   
                         />
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad"   
+                            placeholder="__"
+                            value={code.v4}
+                            onChangeText={(text) => { updateValue("v4", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad"   
                         />
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad"   
+                            placeholder="__"
+                            value={code.v5}
+                            onChangeText={(text) => { updateValue("v5", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad"   
                         />
                         <TextInput style={StyleSingleText.internText}
-                        placeholder="__"
-                        keyboardType="phone-pad"   
+                            placeholder="__"
+                            value={code.v6}
+                            onChangeText={(text) => { updateValue("v6", text)}}
+                            maxLength={1}
+                            keyboardType="phone-pad"   
                         />
                         </View>
                         <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
