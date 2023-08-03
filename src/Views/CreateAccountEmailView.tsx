@@ -10,15 +10,10 @@ import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 import { createUser } from '../Api/userApi';
+import { User } from '../Interfaces/userInterfaces';
+import { VerifyEmail } from '../Api/verifyEmail';
 
-interface formValues {
-    name: string,
-    email: string,
-    phone: string,
-    password: string,
-    userName: string,
-    age: number
-}
+
 
 export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
@@ -26,31 +21,26 @@ export const CreateAccountEmailView = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
 
+    const [concatenatedString, setConcatenatedString] = useState('');
+    
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(t('RequireField').toString()),
-        userName: Yup.string().required(t('RequireField').toString()),
+        username: Yup.string().required(t('RequireField').toString()),
         email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
         password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
         phone: Yup.string().required(t('RequireField').toString()).min(10,t('PhoneValidation').toString()),
         age: Yup.string().required(t('RequireField').toString()),
     });
 
-    const handleSubmit = async ({name, email, password, phone, userName, age}: formValues) => {
-        
-        const user = {
-            "name": name,
-            "email": email,
-            "password": password,
-            "phone": phone,
-            "username": userName,
-            "age": age
-        }
-
-        try { 
-            const { data } = await createUser(user)
-            console.log(JSON.stringify(data))
-        } catch (error: any) {
-            console.log(error.response.data);
+    const handleSubmit = async ({email=''}:User) => {
+        console.log(JSON.stringify(email));
+        try{
+            const verifyEmail = await VerifyEmail(email);
+            console.log(verifyEmail.status);
+            handleOpenModal();
+        }catch(err){
+            console.log(err);
         }
     }
     const handleOpenModal = () => {
@@ -104,7 +94,7 @@ export const CreateAccountEmailView = () => {
                             email: "",
                             phone: "",
                             password: "",
-                            userName: "",
+                            username: "",
                             age: 0,
                         }}
                         onSubmit={handleSubmit}
@@ -144,16 +134,16 @@ export const CreateAccountEmailView = () => {
                                         textStyle={{color: Colors.Yellow}}
                                     />}
                                 <TextInput 
-                                    style={[Styles.input, errors.userName ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                                    style={[Styles.input, errors.username ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
                                     placeholderTextColor={Colors.blueText}
-                                    onChangeText={handleChange('userName')}
+                                    onChangeText={handleChange('username')}
                                     placeholder={`${t('UserName')}`}
-                                    value={values.userName}
+                                    value={values.username}
                                 />
-                                {errors.userName && 
+                                {errors.username && 
                                     <IconWithText 
                                         NameIcon='exclamation-circle' 
-                                        text={errors.userName} 
+                                        text={errors.username} 
                                         ColorIcon={Colors.Yellow} 
                                         IconSize={15} 
                                         textStyle={{color: Colors.Yellow}}
@@ -196,7 +186,7 @@ export const CreateAccountEmailView = () => {
                                     placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Age')}`}
                                     keyboardType='number-pad'
-                                    value={values.age.toString()}
+                                    value={values.age?.toString()}
                                     maxLength={3}
                                     onChangeText={handleChange('age')}
                                 />
@@ -228,7 +218,7 @@ export const CreateAccountEmailView = () => {
                     <View style={StyleSingleText.row}>
                         <TextInput style={StyleSingleText.internText}
                         placeholder="__"
-                        keyboardType="phone-pad"   
+                        keyboardType="phone-pad" 
                         />
                         <TextInput style={StyleSingleText.internText}
                         placeholder="__"
