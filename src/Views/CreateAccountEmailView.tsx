@@ -18,7 +18,7 @@ interface Code {
     v3: string,
     v4: string,
     v5: string,
-    v6: string
+    v6: string,
 }
 
 export const CreateAccountEmailView = () => {
@@ -29,7 +29,11 @@ export const CreateAccountEmailView = () => {
 
     const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     
-
+    const concatenateValues = (data: Code) => {
+        const valuesArray = Object.values(data);
+        const concatenatedString = valuesArray.join('');
+        return concatenatedString;
+    };
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(t('RequireField').toString()),
         username: Yup.string().required(t('RequireField').toString()),
@@ -64,7 +68,10 @@ export const CreateAccountEmailView = () => {
     };
     
     const handleCloseModal = () => {
-        console.log("close modal");
+        const codeConcat = concatenateValues(code);
+        
+        console.log(codeConcat);
+        
         setModalVisible(false);
         setModalConfirm(true);      
     };
@@ -275,7 +282,7 @@ export const CreateAccountEmailView = () => {
                         />
                         </View>
                         <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
-                        onPress={handleCloseModal}
+                            onPress={handleCloseModal}
                         >
                             <Text style={{...Styles.txtBtn,top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
