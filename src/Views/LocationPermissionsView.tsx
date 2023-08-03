@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Animated, Image,TouchableOpacity} from 'react-native';
 import MapView from 'react-native-maps';
 import { PermissionsContext } from '../Context/PermissionsContext';
-import { Styles } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 
 const LocationPermissionView = () => {

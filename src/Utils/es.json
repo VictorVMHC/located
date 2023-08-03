@@ -66,6 +66,8 @@
     "UserNotFound": "No se encontro el usuario",
     "InvalidCredentials": "Credenciales invalidas",
     "InternalError": "Ocurrio un error al iniciar sessión",
-    "TimeOutConn": "No se pudo conectar a los servicios de located"
+    "TimeOutConn": "No se pudo conectar a los servicios de located",
+    "LoginToAccessLogText":"Inicia sesión en Located",
+    "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión"
   }
 }
