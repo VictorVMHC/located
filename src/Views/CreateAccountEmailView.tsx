@@ -69,7 +69,8 @@ export const CreateAccountEmailView = () => {
     
     const handleCloseModal = () => {
         const codeConcat = concatenateValues(code);
-        
+
+        verifyCode()
         console.log(codeConcat);
         
         setModalVisible(false);
