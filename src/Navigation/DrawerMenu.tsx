@@ -3,18 +3,15 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, useWindowDimensions, View, Modal } from 'react-native';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { CollapsibleButton } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
+import { AuthContext } from '../Context/AuthContext';
+import { Colors } from '../Themes/Styles';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
-import { Colors } from '../Themes/Styles';
-import { StoreView } from '../Views/StoreView';
-import { CommentsView } from '../Views/CommentsView';
-import { AuthContext } from '../Context/AuthContext';
-import { NavigationContainer } from '@react-navigation/native';
 
 
 const Drawer = createDrawerNavigator();
