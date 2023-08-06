@@ -50,18 +50,18 @@ export const LoginView = ({navigation}: Props) => {
                         position='top'
                         quantity={2}
                     />
-                    <View style={StylesLogging.contentOne}>
+                    <View style={StylesLogIn.contentOne}>
                         <View style={{}}>
-                            <View style={StylesLogging.containerWelcome}>
+                            <View style={StylesLogIn.containerWelcome}>
                                 <Text style={{...Styles.textStyle, top:4, left:12, fontSize:30}}>{t('Loggin')}</Text>
-                                <Icon style={StylesLogging.iconWelcome} name='user' size={25} brand color={Colors.black}/>
+                                <Icon style={StylesLogIn.iconWelcome} name='user' size={25} brand color={Colors.black}/>
                             </View>
                                 <View>
                                     <Text style={{...FontStyles.SubTitles,left:12}}>{t('Welcome')}</Text>
                                 </View>
                         </View>    
-                        <View style={{...StylesLogging.containerLong}} >
-                            <View style={{...StylesLogging.containerImgLong, left:20}}>
+                        <View style={{...StylesLogIn.containerLong}} >
+                            <View style={{...StylesLogIn.containerImgLong, left:20}}>
                                 {i18n.language === 'es-MX'
                                     ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                                     :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
@@ -72,10 +72,10 @@ export const LoginView = ({navigation}: Props) => {
                             </View>   
                         </View>
                     </View>
-                    <View style={StylesLogging.containerLogo}>
+                    <View style={StylesLogIn.containerLogo}>
                         <Image style={{...Styles.imageStyle, top:7}} source={require('../Assets/Images/logo_located.png')} />
                     </View>
-                    <View style={StylesLogging.containerInput}>
+                    <View style={StylesLogIn.containerInput}>
                         <Formik
                             initialValues={{
                                 email: "",
@@ -87,7 +87,7 @@ export const LoginView = ({navigation}: Props) => {
                             {({ handleChange, handleSubmit, values, errors }) => (
                                 <View>
                                     <TextInput 
-                                        style={[Styles.input, errors.email ? StylesLogging.addProperty : null, FontStyles.SubTitles]}
+                                        style={[Styles.input, errors.email ? StylesLogIn.addProperty : null, FontStyles.SubTitles]}
                                         placeholderTextColor={Colors.blueText}
                                         placeholder={`${t('Email')}`}
                                         keyboardType='email-address'
@@ -103,7 +103,7 @@ export const LoginView = ({navigation}: Props) => {
                                             textStyle={{color: Colors.Yellow}}
                                         />}
                                     <TextInput 
-                                        style={[Styles.input, errors.password ? StylesLogging.addProperty : null, FontStyles.SubTitles]}
+                                        style={[Styles.input, errors.password ? StylesLogIn.addProperty : null, FontStyles.SubTitles]}
                                         placeholderTextColor={Colors.blueText}
                                         placeholder={`${t('Password')}`}
                                         secureTextEntry
@@ -118,12 +118,12 @@ export const LoginView = ({navigation}: Props) => {
                                             IconSize={15} 
                                             textStyle={{color: Colors.Yellow}}
                                         />}
-                                    <View style={StylesLogging.viewText}>
+                                    <View style={StylesLogIn.viewText}>
                                         <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordView")} >
-                                            <Text style= {StylesLogging.textInformation}>{t('ForgotPassword')}</Text>
+                                            <Text style= {StylesLogIn.textInformation}>{t('ForgotPassword')}</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <View style={StylesLogging.containerButton}>
+                                    <View style={StylesLogIn.containerButton}>
                                         <TouchableOpacity style={{...Styles.boton, borderRadius:12}} 
                                         onPress={handleSubmit}>
                                                 <Text style={{...Styles.txtBtn,top:1}}>{t('LOG')}</Text>
@@ -133,23 +133,23 @@ export const LoginView = ({navigation}: Props) => {
                             )}
                         </Formik>
                     </View>
-                    <View style={StylesLogging.containerB}>
-                        <View style={StylesLogging.line}>
-                            <View style={StylesLogging.viewLine}></View>
-                                <View style={StylesLogging.viewTextInLine}>
-                                    <Text style={StylesLogging.textLogging}>{t('OrLogWith')}</Text>
+                    <View style={StylesLogIn.containerB}>
+                        <View style={StylesLogIn.line}>
+                            <View style={StylesLogIn.viewLine}></View>
+                                <View style={StylesLogIn.viewTextInLine}>
+                                    <Text style={StylesLogIn.textLogIn}>{t('OrLogWith')}</Text>
                                 </View>
-                                <View style={StylesLogging.viewLine}></View>
+                                <View style={StylesLogIn.viewLine}></View>
                         </View>
-                        <View style={StylesLogging.containerIcons}>
-                            <TouchableOpacity style={StylesLogging.btnIcon}>
-                                <AntDesign name="google"style={StylesLogging.IconGoogle}/>
+                        <View style={StylesLogIn.containerIcons}>
+                            <TouchableOpacity style={StylesLogIn.btnIcon}>
+                                <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
                             </TouchableOpacity>
-                            <TouchableOpacity  style={StylesLogging.btnIcon}>
-                                <AntDesign name="facebook-square"style={StylesLogging.IconFace}/>
+                            <TouchableOpacity  style={StylesLogIn.btnIcon}>
+                                <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={StylesLogging.btnIcon}>
-                                <AntDesign name="apple1"style={StylesLogging.IconApple}/>
+                            <TouchableOpacity style={StylesLogIn.btnIcon}>
+                                <AntDesign name="apple1"style={StylesLogIn.IconApple}/>
                             </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -166,7 +166,7 @@ export const LoginView = ({navigation}: Props) => {
     )
 }
 
-const StylesLogging = StyleSheet.create({
+const StylesLogIn = StyleSheet.create({
     contentOne:{
         flexDirection: 'row', 
         justifyContent: 'space-between' 
@@ -243,7 +243,7 @@ const StylesLogging = StyleSheet.create({
         top: -6,
         alignItems: 'center',
     },
-    textLogging:{
+    textLogIn:{
         ...FontStyles.Information,
         top:-1,
         width:200,

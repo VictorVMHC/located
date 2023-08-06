@@ -12,12 +12,12 @@ interface Props{
     cardHeight?: number,
     like: boolean,
     local: Local, 
-    rutStore?: () => void 
+    routeToStore?: () => void 
 }
 
 
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutStore}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local, routeToStore: routeToStore}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
@@ -26,7 +26,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local,rutSto
     return (
     <View style={styles.container} key={local.id} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
-            onPress={rutStore}
+            onPress={routeToStore}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
