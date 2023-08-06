@@ -56,7 +56,7 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuat
             <Text style={styles.TestQualification}>{punctuation}</Text>
             </View>
         </TouchableOpacity>
-        {expanded && <View style={styles.cardContent}>{
+        {expanded && <View>{
             <DescriptionBox 
             Descripcion = {DescripcionB} />
         }</View>}
