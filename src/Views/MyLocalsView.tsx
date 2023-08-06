@@ -1,21 +1,23 @@
 import React from 'react'
 import { Text, View, Image, TouchableOpacity, StyleSheet, useWindowDimensions} from 'react-native'
 import { useTranslation } from 'react-i18next';
+import { FontStyles } from '../Themes/Styles';
 
 export const MyLocalsView = () => {
     const {height, width} = useWindowDimensions();
     const {t} = useTranslation();
     return (
         <View style={styles.container}>
-            <View style={{...styles.boxImg,width: width * 0.8,  height: height * 0.69,}}>
-                <Image source={require('../Assets/Images/local3D.png')} style={{width: 240, height: 225, borderRadius: 5,}} />
-                <Text style={styles.firstText}>{t('MyLocalsTitleText')}</Text>
-                <View>
-                    <Text style={styles.msgText}>{t('MyLocalsDescriptionText')}</Text>
+            <View style={{...styles.boxImg, width: width * 0.8,  height: height * 0.69,}}>
+                <Image source={require('../Assets/Images/local3D.png')} style={styles.img}  />
+                <Text style={styles.firstText} adjustsFontSizeToFit >{t('MyLocalsTitleText')}</Text>
+                <Text style={styles.msgText} adjustsFontSizeToFit >{t('MyLocalsDescriptionText')}</Text>
+                <View style={styles.btnView}>
                     <TouchableOpacity style={styles.btn}>
                         <Text style={styles.btnText}>{t('Create')}</Text>
                     </TouchableOpacity>
                 </View>
+                
             </View>
         </View>
     )
@@ -23,45 +25,56 @@ export const MyLocalsView = () => {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 2,
+        flex: 1,
         alignItems:'center',
         justifyContent: 'center',
         padding: 23,
     },
     boxImg:{
-        padding: 17,
+        flex: 1,
         alignItems: 'center',
-        borderRadius:40,
+        borderRadius:20,
         backgroundColor:'rgba(255,198,0,0.4)',
     },
-    btn:{
-        backgroundColor: '#c47f30',
-        width:265,
-        height: 35,
-        borderRadius: 20,
-        top: 79,
-        alignItems:'center',
-        padding:6,
-        right: 10,
-        left: 7,
-    },
-    btnText:{
-        color:'white',
-        fontSize: 18,
-        textAlign:'center',
+    img:{
+        flex: 5,
+        resizeMode: 'center',
+        margin: 5,
     },
     firstText:{
-        fontSize: 20,
+        flex: 2,
+        ...FontStyles.Title,
         fontWeight: 'bold',
         textAlign:'center',
-        top:10,
-        marginBottom: 16,
-        color:'black',
+        paddingHorizontal: 10,
     },
     msgText:{
-        fontSize: 18,
-        top:32,
+        flex: 3,
+        ...FontStyles.SubTitles,
         textAlign:'center',
-        color: 'black'
+        padding: 10,
     },
+    btnView: {
+        flex: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 6,
+        width: '100%',
+        height: '100%',
+    },
+    btn: {
+        backgroundColor: '#c47f30',
+        borderRadius: 20,
+        padding: 6,
+        width: '90%',
+        height: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+
 });
