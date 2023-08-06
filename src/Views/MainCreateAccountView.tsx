@@ -40,18 +40,18 @@ export const MainCreateAccountView = ({navigation}: Props) => {
             source={require('../Assets/Images/logo_located.png')}
         />
         <View style={Styles.bodyView}>
-            <View style={StylesLogging.viewText}>
+            <View style={StylesLogIn.viewText}>
                 <TouchableOpacity >
-                    <AntDesign name="google"style={StylesLogging.IconGoogle}/>
-                    <Text style= {StylesLogging.textInformation}>{t('SingUpGoogle')}</Text>
+                    <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
+                    <Text style= {StylesLogIn.textInformation}>{t('SingUpGoogle')}</Text>
                 </TouchableOpacity>  
                 <TouchableOpacity>
-                    <AntDesign name="facebook-square"style={StylesLogging.IconFace}/>
-                    <Text style= {StylesLogging.textInformation}>{t('SingUpFacebook')}</Text>
+                    <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
+                    <Text style= {StylesLogIn.textInformation}>{t('SingUpFacebook')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("CreateAccountEmailView")}>
-                    <AntDesign name="mail"style={StylesLogging.IconMail}/>
-                    <Text style= {StylesLogging.textInformation}>{t('SingUpEmail')}</Text>
+                    <AntDesign name="mail"style={StylesLogIn.IconMail}/>
+                    <Text style= {StylesLogIn.textInformation}>{t('SingUpEmail')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -59,7 +59,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
     )
 }
 
-const StylesLogging = StyleSheet.create({
+const StylesLogIn = StyleSheet.create({
     viewText: {
         width: 300,
     },
@@ -81,9 +81,6 @@ const StylesLogging = StyleSheet.create({
         flex: 2.4,
         top: -6,
         alignItems: 'center',
-    },
-    textLogging:{
-        ...FontStyles.Information,
     },
     IconFace:{
         color: 'blue',

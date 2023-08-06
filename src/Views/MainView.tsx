@@ -86,7 +86,7 @@ export const MainView = ({navigation } : Props) => {
               action={ handleSignIn }
             />
             <ButtonMain 
-              text={t('logging')}
+              text={t('logIn')}
               properties={{
                 width:width * 0.85,
                 height:height*0.080,
