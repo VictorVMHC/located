@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Button, TextInput,Image, TouchableOpacity, Keyboard} from 'react-native';
+import { View, StyleSheet, Button, TextInput, Image, TouchableOpacity, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { FlatList} from 'react-native-gesture-handler'
 import { Text } from 'react-native-paper'
 import { ContainerComment } from '../Components/ContainerComment';
-import { Colors } from '../Themes/Styles';
+import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 interface Item{
@@ -31,13 +32,13 @@ export const CommentsView = ({ navigation}: Props) => {
     const [text, setText] = useState('');
     const [textInputHeight, setTextInputHeight] = useState(0);
     const [isKeyboardOpen, setKeyboardOpen] = useState(false);
-    const [buttonBocked, setButtonLocked] = useState(false);
-    
+    const [buttonLocked, setButtonLocked] = useState(false);
 
     useEffect(() => {
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
         return () =>{
+
             keyboardDidHideListener.remove();
             keyboardDidShowListener.remove();
         }
@@ -47,17 +48,13 @@ export const CommentsView = ({ navigation}: Props) => {
         setText('');
         setButtonLocked(true);
         setKeyboardOpen(true);  
-        console.log('El teclado se ha mostrado.');
-        // Aquí puedes realizar acciones adicionales si es necesario.
     };
 
     const handleKeyboardDidHide = () => {
-        console.log('Teclado cerrado');
         setReceivedValue(0);
         Keyboard.dismiss();
         setButtonLocked(false);
         setKeyboardOpen(false);
-        //setText('');
     };
 
     const handleChildCallback = (value: number) => {
@@ -69,15 +66,17 @@ export const CommentsView = ({ navigation}: Props) => {
     const placeholderValue: any = receivedValue !== 0 ? `@${receivedValue}` : "Añadir Comentario";
 
     return (
-        <View style={StylesCommentsView.container}>
-            <Button title="Atrás" onPress={() => (console.log("Antes de retroceder"),navigation.goBack(), console.log("Después de retroceder"))} />
+        <KeyboardAvoidingView style={StylesCommentsView.container}>
             <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
-                <View style={StylesCommentsView.containerText}>
-                    <Text style={StylesCommentsView.TextComments}>{t('Comments')} </Text>
-                </View>
                 <View style={StylesCommentsView.containerFlatlist}>
                     <FlatList<Item>
                         data={data}
+                        ListHeaderComponent={() => (
+                            <View style={StylesCommentsView.containerText}>
+                                <Text style={{...StylesCommentsView.TextComments, ...FontStyles.SubTitles } }>{t('Comments')} </Text>
+                            </View>)
+                        }
+                        stickyHeaderIndices={[0]} 
                         renderItem={({item}) => (
                             <ContainerComment
                                 idUser={item.id}
@@ -87,7 +86,7 @@ export const CommentsView = ({ navigation}: Props) => {
                                 likes={false}
                                 dislikes={false}
                                 reply={true}
-                                blocking={buttonBocked}
+                                blocking={buttonLocked}
                                 answers={true}
                                 onCallback={()=>(handleChildCallback(item.id))}
                             />
@@ -113,7 +112,7 @@ export const CommentsView = ({ navigation}: Props) => {
                 )}
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -125,14 +124,15 @@ const StylesCommentsView = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     containerText:{
-        flex:1,
+        marginTop:0,
+        backgroundColor: '#F7E091'
     },
     TextComments:{
         fontSize: 27,
         fontWeight: 'bold',
         fontFamily: 'Outfit-SemiBold',
         marginLeft: 20,
-        marginTop: 20
+        marginTop: 5
     },
     containerFlatlist:{
         flex: 7,

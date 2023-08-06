@@ -3,9 +3,10 @@ import { ScrollView, StyleSheet, Text, View, useWindowDimensions} from 'react-na
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
-import { TobBar } from '../Components/TobBar';
+import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 interface Store {
@@ -33,6 +34,7 @@ const listArray: Store[] = [
 
 
 const rendererBusiness = (item: any) => {
+    
     return (
         <CardCatalogue
             ProductName = {item.productNamee}
@@ -49,6 +51,13 @@ export const StoreView = ({navigation}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
+
+    const id = navigation.getState();
+    useFocusEffect(() => {
+        console.log('store focused');
+    });
+    console.log(id.history);
+    console.log(id.key);
     
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -79,11 +88,11 @@ export const StoreView = ({navigation}: Props) => {
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
-                    <TobBar 
-                    actionStart={() =>handleScrollTo(scrollViewRef)}
-                    actionAddress={() =>handleScrollTo(addressRef)}
-                    actionCatalogue={() =>handleScrollTo(catalogueRef)}
-                    rutComments={() => navigation.navigate("CommentsView")}
+                    <TopBar 
+                        actionStart={() =>handleScrollTo(scrollViewRef)}
+                        actionAddress={() =>handleScrollTo(addressRef)}
+                        actionCatalogue={() =>handleScrollTo(catalogueRef)}
+                        routeComments={() => navigation.navigate("CommentsView")}
                     />
                 </View>
                 <View ref={addressRef}>
