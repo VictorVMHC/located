@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
 
-export const CreateLocalAlert = () => {
+export const CreateLocalAlertView = () => {
     const {height, width} = useWindowDimensions();
     const {t} = useTranslation();
     return (

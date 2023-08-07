@@ -1,9 +1,9 @@
 import React from 'react';
-import { CreateLocalAlert } from './CreateLocalAlert';
+import { CreateLocalAlertView } from './CreateLocalAlertView';
 
 export const MyLocalsView = () => {
     return (
-        <CreateLocalAlert/>
+        <CreateLocalAlertView/>
     )
 }
 
