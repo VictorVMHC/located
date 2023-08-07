@@ -68,6 +68,11 @@
     "InternalError": "Ocurrio un error al iniciar sessión",
     "TimeOutConn": "No se pudo conectar a los servicios de located",
     "LoginToAccessLogText":"Inicia sesión en Located",
-    "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión"
+    "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión",
+    "Send": "Enviar",
+    "WriteQuestion":"Escribe tu pregunta",
+    "InfoForAsk": "¿Necesitas más ayuda? Envianos una pregunta especifica!",
+    "FAQ":"Preguntas Frecuentes",
+    "Password":"Contraseña"
   }
 }
