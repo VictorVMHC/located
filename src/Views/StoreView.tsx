@@ -3,11 +3,12 @@ import { ScrollView, StyleSheet, Text, View, useWindowDimensions} from 'react-na
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
-import { TobBar } from '../Components/TobBar';
+import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
-
-
+interface Props extends NativeStackScreenProps<any, any>{};
 interface Store {
     id: number;
     productNamee: string;
@@ -33,6 +34,7 @@ const listArray: Store[] = [
 
 
 const rendererBusiness = (item: any) => {
+    
     return (
         <CardCatalogue
             ProductName = {item.productNamee}
@@ -45,10 +47,17 @@ const rendererBusiness = (item: any) => {
     );
 }
 
-export const StoreView = () => {
+export const StoreView = ({navigation}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
+
+    const id = navigation.getState();
+    useFocusEffect(() => {
+        console.log('store focused');
+    });
+    console.log(id.history);
+    console.log(id.key);
     
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -72,17 +81,18 @@ export const StoreView = () => {
                         like = {false}
                     />
                     <View style={StylesStore.valuesText}>
-                        <Text style={StylesStore.textName}>mcdonalds</Text>
+                        <Text style={StylesStore.textName}>Mcdonalds</Text>
                         <Text style={{...StylesStore.textInformation}}>Product/service</Text>
                         <Text style={{...StylesStore.textInformation, color: 'green'}}>Open</Text>
                         <Text style={{...StylesStore.textInformation}}>Guadalajara(Mexico)</Text> 
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
-                    <TobBar 
-                    actionStart={() =>handleScrollTo(scrollViewRef)}
-                    actionAddress={() =>handleScrollTo(addressRef)}
-                    actionCatalogue={() =>handleScrollTo(catalogueRef)}
+                    <TopBar 
+                        actionStart={() =>handleScrollTo(scrollViewRef)}
+                        actionAddress={() =>handleScrollTo(addressRef)}
+                        actionCatalogue={() =>handleScrollTo(catalogueRef)}
+                        routeComments={() => navigation.navigate("CommentsView")}
                     />
                 </View>
                 <View ref={addressRef}>
@@ -153,7 +163,8 @@ const StylesStore = StyleSheet.create({
     },
     textInformation:{
         fontWeight: '500',
-        fontSize: 16
+        fontSize: 16,
+        color: 'black'
     },
     containerList:{
         justifyContent: 'center', 

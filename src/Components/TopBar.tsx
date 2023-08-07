@@ -8,31 +8,32 @@ interface Props {
     actionStart?: () => void,
     actionAddress?: () => void,
     actionCatalogue?: () => void,
+    routeComments?: () => void,
 }
 
-export const TobBar = ({actionStart, actionAddress,actionCatalogue}:Props) => {
+export const TopBar = ({actionStart, actionAddress,actionCatalogue,routeComments}:Props) => {
     const { width } = useWindowDimensions();
-    const { t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <ScrollView horizontal={true}> 
-            <TouchableOpacity style={TobBarStyle.buttonNavigation}>
-            <Text style={{...TobBarStyle.textnavigation, width: width/3}} onPress={actionStart}>{t('TobBarStart')}</Text>
+            <TouchableOpacity style={TopBarStyle.buttonNavigation}>
+            <Text style={{...TopBarStyle.textNavigation, width: width/3}} onPress={actionStart}>{t('TobBarStart')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={TobBarStyle.buttonNavigation} >
-                <Text style={{...TobBarStyle.textnavigation, width: width/3}} onPress={actionAddress}>{t('TobBarAddress')}</Text>
+            <TouchableOpacity style={TopBarStyle.buttonNavigation} >
+                <Text style={{...TopBarStyle.textNavigation, width: width/3}} onPress={actionAddress}>{t('TobBarAddress')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={TobBarStyle.buttonNavigation} >
-                <Text style={{...TobBarStyle.textnavigation, width: width/3}} onPress={actionCatalogue}>{t('TobBarCatalogue')}</Text>
+            <TouchableOpacity style={TopBarStyle.buttonNavigation} >
+                <Text style={{...TopBarStyle.textNavigation, width: width/3}} onPress={actionCatalogue}>{t('TobBarCatalogue')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={TobBarStyle.buttonNavigation} >
-                <Text style={{...TobBarStyle.textnavigation, width: width/3}}>...</Text>
+            <TouchableOpacity style={TopBarStyle.buttonNavigation} >
+                <Text style={{...TopBarStyle.textNavigation, width: width/3}} onPress={routeComments}>...</Text>
             </TouchableOpacity>
         </ScrollView>
     )
 }
 
-const TobBarStyle = StyleSheet.create({
+const TopBarStyle = StyleSheet.create({
     buttonNavigation:{
         height: '100%',
         borderBottomColor: Colors.Yellow,
@@ -40,7 +41,7 @@ const TobBarStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textnavigation:{
+    textNavigation:{
         textAlign: 'center',
         justifyContent: 'center',
         fontFamily: 'Outfit-SemiBold', 

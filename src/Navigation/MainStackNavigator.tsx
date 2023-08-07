@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
 
 import { AuthContext } from '../Context/AuthContext';
@@ -9,18 +9,30 @@ import { MainCreateAccountView } from '../Views/MainCreateAccountView';
 import { MainView } from '../Views/MainView';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { DrawerMenu } from './DrawerMenu';
+import { StoreView } from '../Views/StoreView';
+import { CommentsView } from '../Views/CommentsView';
+import { Image, StyleSheet } from 'react-native';
+import { Colors } from '../Themes/Styles';
 
 const Stack = createStackNavigator();
 
 
+
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
-
+	const screenOptions: StackNavigationOptions = {
+		headerTitleAlign: 'center',
+		headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
+		headerStyle: {
+			elevation: 0,
+			shadowColor: 'transparent',
+			backgroundColor: Colors.YellowOpacity
+		}
+	};
 	return (
 		<Stack.Navigator
 			initialRouteName='SplashScreen'
 		>
-
 			<Stack.Screen name='SplashScreen' component={SplashScreenView} options={{headerShown: false}}/>
 			{
 				(status !== 'authenticated') 
@@ -34,9 +46,22 @@ export const MainStackNavigator = () => {
 					</>
 				)
 				: (
-					<Stack.Screen name='DrawerMenu' options={{ headerShown: false}} component={DrawerMenu} />
+					<>
+						<Stack.Screen name='DrawerMenu' options={{ headerShown: false}} component={DrawerMenu} />
+						<Stack.Screen name="StoreView" options={screenOptions} component={StoreView}/>
+						<Stack.Screen name="CommentsView" options={screenOptions} component={CommentsView}/>
+					</>
+					
 				)			
 			}
 		</Stack.Navigator>
 	)
 }
+
+const styles= StyleSheet.create({
+	imageStyle:{
+		height: 50, 
+		width: 200, 
+		resizeMode: 'contain'
+	},
+})

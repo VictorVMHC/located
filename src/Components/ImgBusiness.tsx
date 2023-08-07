@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const ImgBusiness = ({Img = '', open = false, like= false}: Props) => {
-    const {isActive, check} = useHeartHook(like);
     return (
         <View style={{width: '100%', height: 180}}>
             <Image style={stylesImg.Img} source={{uri: Img }} />
