@@ -6,44 +6,42 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { CollapsibleButton } from '../Components/CollapsibleButton';
 import { DrawerMenuButtons } from '../Components/DrawerMenuButton';
+import { AuthContext } from '../Context/AuthContext';
+import { Colors } from '../Themes/Styles';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
-import { Colors } from '../Themes/Styles';
-import { StoreView } from '../Views/StoreView';
-import { AuthContext } from '../Context/AuthContext';
+
 
 const Drawer = createDrawerNavigator();
 
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
   return (
-    <Drawer.Navigator
-
-    screenOptions={{
-      headerTitleAlign: 'center',
-      headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
-      headerStyle: {
-        elevation: 0,
-        shadowColor: 'transparent',
-        backgroundColor: Colors.YellowOpacity
-      },
-      drawerPosition: 'left',
-      drawerStyle:{
-        backgroundColor: 'rgba(0,0,0,0.85)',
-        backfaceVisibility: 'hidden',
-        width: width/1.7
-      }
-    }}
-      drawerContent={(props) => < InternalMenu {...props} />}
-    >
-      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
-      <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
-      <Drawer.Screen name="HelpView" component={HelpView}/>
-      <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
-      <Drawer.Screen name="StoreView" component={StoreView}/>
-    </Drawer.Navigator>
+      <Drawer.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
+          headerStyle: {
+            elevation: 0,
+            shadowColor: 'transparent',
+            backgroundColor: Colors.YellowOpacity
+          },
+          drawerPosition: 'left',
+          drawerStyle:{
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            backfaceVisibility: 'hidden',
+            width: width/1.7
+          }
+        }}
+        drawerContent={(props) => < InternalMenu {...props} />}
+      >
+        <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
+        <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
+        <Drawer.Screen name="HelpView" component={HelpView}/>
+        <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
+      </Drawer.Navigator>
   );
 }
 

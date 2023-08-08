@@ -1,17 +1,13 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
-import { Colors } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { PopularView } from '../Views/popularView';
+import { Colors } from '../Themes/Styles';
 import { CloseToMeView } from '../Views/CloseToMeView';
+import { ForYouView } from '../Views/ForYouView';
 import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
-import { ForYouView } from '../Views/ForYouView';
-import { useTranslation } from 'react-i18next';
-import { StoreView } from '../Views/StoreView';
-
-
-
+import { PopularView } from '../Views/popularView';
 
 const Tab = createMaterialBottomTabNavigator();
 

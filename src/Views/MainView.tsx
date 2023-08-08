@@ -48,7 +48,7 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.logoView} >
           <View style={{ flex: 2}}>
             <View
-              style={{ flex:1,top: 5, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
+              style={{ flex:1,top: height * -0.018, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
             >
               <View style={{flex: 1, left:95, top:0}}>
                   {i18n.language === 'es-MX'
@@ -74,8 +74,8 @@ export const MainView = ({navigation } : Props) => {
               text={t('Explore')}
               iconName='walking'
               properties={{
-                width:340,
-                height:63,
+                width:width * 0.85,
+                height:height*0.080,
                 backgroundColor: Colors.YellowOpacity,
                 borderRadius: 20,
                 justifyContent: 'center',
@@ -86,10 +86,10 @@ export const MainView = ({navigation } : Props) => {
               action={ handleSignIn }
             />
             <ButtonMain 
-              text={t('Loggin')}
+              text={t('logIn')}
               properties={{
-                width:340,
-                height:63,
+                width:width * 0.85,
+                height:height*0.080,
                 backgroundColor: Colors.white,
                 borderRadius: 20,
                 justifyContent: 'center',
@@ -97,16 +97,15 @@ export const MainView = ({navigation } : Props) => {
                 borderColor:  Colors.YellowOpacity,
                 borderWidth: 4,
               }}
-              
               action={() => navigation.navigate("LoginView")}
             />
           </View>
         </View>
         <View style={styles.footerView}>
-          <View style={{ width: 400, justifyContent: 'center', alignContent: 'center', flexDirection: 'row',}}>
+          <View style={{justifyContent: 'space-evenly', alignContent: 'center', flexDirection: 'row'}}>
             <Text style={styles.bottomText}>{t('NoAccount')}</Text>
-            <TouchableOpacity style={{height:50}} onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={styles.singUpText}>{t('Log')}</Text>
+            <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
+              <Text style={{...styles.singUpText, marginTop:width*0.01}}>{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -136,18 +135,11 @@ const styles = StyleSheet.create({
   bottomText:{
     ...FontStyles.SubTitles,
     color: 'white',
-    textAlign:'center',
-    width: 280,
-    top:5,
     fontSize:23,
-    left:30,
   },
   singUpText:{
-    top: 9,
     ...FontStyles.Links,
     color: Colors.Yellow,
-    width: 200,
-    fontSize:23,
-    left:12,
+    fontSize:20,
   }
 });

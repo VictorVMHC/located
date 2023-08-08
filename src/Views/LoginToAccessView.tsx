@@ -39,12 +39,12 @@ export const LoginToAccessView = ({navigation}: Props) => {
     });
 
     return (
-        <SafeAreaView  style={StylesLoggingAccess.container}>
+        <SafeAreaView  style={StylesLogInAccess.container}>
             {status === 'checking' && <LoadingOverlay/> }
             <ScrollView>
-            <View style={StylesLoggingAccess.containerView}>
-                    <Text style={StylesLoggingAccess.txtTitle}>{t('LoginToAccessLogText')}</Text>
-                    <Text style={StylesLoggingAccess.text}>{t('LoginToAccessTextInfo')}</Text>
+            <View style={StylesLogInAccess.containerView}>
+                    <Text style={StylesLogInAccess.txtTitle}>{t('LoginToAccessLogText')}</Text>
+                    <Text style={StylesLogInAccess.text}>{t('LoginToAccessTextInfo')}</Text>
                 <View>
                         <Formik
                             initialValues={{
@@ -57,7 +57,7 @@ export const LoginToAccessView = ({navigation}: Props) => {
                             {({ handleChange, handleSubmit, values, errors }) => (
                                 <View>
                                     <TextInput 
-                                        style={[StylesLoggingAccess.input, errors.email ? StylesLoggingAccess.addProperty : null, FontStyles.SubTitles]}
+                                        style={[StylesLogInAccess.input, errors.email ? StylesLogInAccess.addProperty : null, FontStyles.SubTitles]}
                                         placeholderTextColor={Colors.blueText}
                                         placeholder={`${t('Email')}`}
                                         keyboardType='email-address'
@@ -73,7 +73,7 @@ export const LoginToAccessView = ({navigation}: Props) => {
                                             textStyle={{color: Colors.Yellow}}
                                         />}
                                     <TextInput 
-                                        style={[StylesLoggingAccess.input, errors.password ? StylesLoggingAccess.addProperty : null, FontStyles.SubTitles]}
+                                        style={[StylesLogInAccess.input, errors.password ? StylesLogInAccess.addProperty : null, FontStyles.SubTitles]}
                                         placeholderTextColor={Colors.blueText}
                                         placeholder={`${t('Password')}`}
                                         secureTextEntry
@@ -90,7 +90,7 @@ export const LoginToAccessView = ({navigation}: Props) => {
                                         />}
                                     <View>
                                         <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordView")} >
-                                            <Text style={StylesLoggingAccess.txtInformation}>{t('ForgotPassword')}</Text>
+                                            <Text style={StylesLogInAccess.txtInformation}>{t('ForgotPassword')}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View>
@@ -104,27 +104,27 @@ export const LoginToAccessView = ({navigation}: Props) => {
                         </Formik>
                     </View>
                     <View>
-                        <View style={StylesLoggingAccess.line}>
-                            <View style={StylesLoggingAccess.viewLine}></View>
-                                <View style={StylesLoggingAccess.viewTextInLine}>
-                                    <Text style={StylesLoggingAccess.textLogging}>{t('OrLogWith')}</Text>
+                        <View style={StylesLogInAccess.line}>
+                            <View style={StylesLogInAccess.viewLine}></View>
+                                <View style={StylesLogInAccess.viewTextInLine}>
+                                    <Text style={StylesLogInAccess.textLogIn}>{t('OrLogWith')}</Text>
                                 </View>
-                                <View style={StylesLoggingAccess.viewLine}></View>
+                                <View style={StylesLogInAccess.viewLine}></View>
                         </View>
-                        <View style={StylesLoggingAccess.containerIcons}>
-                            <TouchableOpacity style={StylesLoggingAccess.btnIcon}>
-                                <AntDesign name="google"style={StylesLoggingAccess.IconGoogle}/>
+                        <View style={StylesLogInAccess.containerIcons}>
+                            <TouchableOpacity style={StylesLogInAccess.btnIcon}>
+                                <AntDesign name="google"style={StylesLogInAccess.IconGoogle}/>
                             </TouchableOpacity>
-                            <TouchableOpacity  style={StylesLoggingAccess.btnIcon}>
-                                <AntDesign name="facebook-square"style={StylesLoggingAccess.IconFace}/>
+                            <TouchableOpacity  style={StylesLogInAccess.btnIcon}>
+                                <AntDesign name="facebook-square"style={StylesLogInAccess.IconFace}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={StylesLoggingAccess.btnIcon}>
-                                <AntDesign name="apple1"style={StylesLoggingAccess.IconApple}/>
+                            <TouchableOpacity style={StylesLogInAccess.btnIcon}>
+                                <AntDesign name="apple1"style={StylesLogInAccess.IconApple}/>
                             </TouchableOpacity>
                         </View>    
                     </View>
                     <View style={{flexDirection: 'row',}}>
-                            <Text style={StylesLoggingAccess.txt}>{t('NoSingUp')}</Text>
+                            <Text style={StylesLogInAccess.txt}>{t('NoSingUp')}</Text>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate("MainCreateAccountView")}>
                                     <Text style={{...FontStyles.Information, color: 'black',fontSize:17,textAlign:'center'}}>{t('CreateAccount')}</Text>
@@ -136,7 +136,7 @@ export const LoginToAccessView = ({navigation}: Props) => {
     )
 }
 
-const StylesLoggingAccess = StyleSheet.create({
+const StylesLogInAccess = StyleSheet.create({
     container:{
         flex:2,
         alignItems:'center',
@@ -175,7 +175,7 @@ const StylesLoggingAccess = StyleSheet.create({
         left:4,
         padding:8,
     },
-    textLogging:{
+    textLogIn:{
         ...FontStyles.Information,
         top:-1,
         width:200,
