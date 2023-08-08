@@ -10,7 +10,7 @@ import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 import { User } from '../Interfaces/UserInterfaces';
-import { VerifyEmail } from '../Api/verifyEmail';
+import { VerifyEmail, VerifyCode } from '../Api/verifyEmail';
 
 interface Code {
     v1: string,
@@ -26,6 +26,7 @@ export const CreateAccountEmailView = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
+    const [emailUser, setEmailUser] = useState('');
 
     const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     
@@ -56,6 +57,7 @@ export const CreateAccountEmailView = () => {
         console.log(JSON.stringify(email));
         try{
             const verifyEmail = await VerifyEmail(email);
+            setEmailUser(email);
             console.log(verifyEmail.status);
             handleOpenModal();
         }catch(err){
@@ -67,11 +69,11 @@ export const CreateAccountEmailView = () => {
         console.log("open modal");
     };
     
-    const handleCloseModal = () => {
+    const handleCloseModal = async () => {
         const codeConcat = concatenateValues(code);
-
-        verifyCode()
-        console.log(codeConcat);
+        console.log(codeConcat, emailUser);
+        const response = await VerifyCode(emailUser,codeConcat);
+        console.log(response);
         
         setModalVisible(false);
         setModalConfirm(true);      
