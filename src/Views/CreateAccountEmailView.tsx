@@ -70,13 +70,12 @@ export const CreateAccountEmailView = () => {
     };
     
     const handleCloseModal = async () => {
+
         const codeConcat = concatenateValues(code);
-        console.log(codeConcat, emailUser);
-        const response = await VerifyCode(emailUser,codeConcat);
-        console.log(response);
-        
+        await VerifyCode(emailUser,codeConcat);
         setModalVisible(false);
-        setModalConfirm(true);      
+        setModalConfirm(true); 
+
     };
 
     const handleCloseModalConfirm = () => {

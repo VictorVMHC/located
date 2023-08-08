@@ -5,12 +5,9 @@ const VerifyEmail = (email: string) => {
 }
 
 const VerifyCode = (email: string, code: string) => {
-    return api.get('/api/verifyEmail', {
-        params:{
-            email: 'q2@gmail.com',
-            code:  '911594'
-        }
-    });
+    var route = `/api/verifyEmail/${email}/${code}`
+
+    return api.get(route);
 }
 export {
     VerifyEmail,
