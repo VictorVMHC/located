@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const steps = [
     'Name and Description',
@@ -45,10 +46,19 @@ export const LocalCreatorView = () => {
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={handlePrev} disabled={currentStep === 0}>
-                    <Text style={styles.buttonText}>Previous</Text>
+                    <Icon name='chevron-left'/>
+                    <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                    <Text style={styles.buttonText}>{currentStep === steps.length - 1 ? 'Finish' : 'Next'}</Text>
+                    {currentStep === steps.length - 1 
+                        ? <Text style={{...styles.buttonText, justifyContent: 'space-between'}} adjustsFontSizeToFit={true} >Finish</Text> 
+                        : (
+                            <>
+                                <Text style={{...styles.buttonText, justifyContent: 'center'}} adjustsFontSizeToFit={true}>Next</Text>
+                                <Icon name='chevron-right'/>
+                            </>
+                        ) 
+                    }
                 </TouchableOpacity>
             </View>
         </View>
@@ -113,8 +123,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#007bff',
         borderRadius: 5,
-        width: '20%',
+        width: '25%',
         marginHorizontal: 10,
+        flexDirection: 'row',
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     buttonText: {
         textAlign: 'center',
