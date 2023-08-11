@@ -2,6 +2,12 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Step1View } from './Step1View';
+import { Step2View } from './Step2View';
+import { Step3View } from './Step3View';
+import { Step4View } from './Step4View';
+import { Step5View } from './Step5View';
+import { Step6View } from './Step6View ';
 
 type stepDto = {
     name: string;
@@ -9,12 +15,12 @@ type stepDto = {
 };
 
 const steps: stepDto[] = [
-    {name: 'Name and Description', component: 'hello'},
-    {name: 'Datos del local', component: 'hello'},
-    {name: 'Ubicación', component: 'hello'},
-    {name: 'Horaio y categorias', component: 'hello'},
-    {name: 'Redes sociales y contacto ', component: 'hello'},
-    {name: 'Foto de tu local', component: 'hello'},
+    {name: 'Name and Description', component: <Step1View/>},
+    {name: 'Datos del local', component: <Step2View/>},
+    {name: 'Ubicación', component: <Step3View/>},
+    {name: 'Horaio y categorias', component: <Step4View/>},
+    {name: 'Redes sociales y contacto ', component: <Step5View/>},
+    {name: 'Foto de tu local', component: <Step6View/>},
 ];
 
 export const LocalCreatorView = () => {
@@ -50,7 +56,7 @@ export const LocalCreatorView = () => {
                 </View>
             </View>
             <View style={styles.bodyView}>
-                <Text>Body</Text>
+                {steps[currentStep].component}
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: currentStep === 0 ?  Colors.grayOpacity : Colors.blueSteps }} onPress={handlePrev} disabled={currentStep === 0}>
