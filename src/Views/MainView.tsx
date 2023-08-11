@@ -48,15 +48,15 @@ export const MainView = ({navigation } : Props) => {
         <View style={styles.logoView} >
           <View style={{ flex: 2}}>
             <View
-              style={{ flex:1,top: height * -0.018, position: 'absolute', right: 0, flexDirection: 'row', alignItems: 'center', left:75}}
+              style={{ flex:1, top: 2, position: 'absolute', flexDirection: 'row', alignItems: 'center', width: '50%', paddingHorizontal: 5, right: 0}}
             >
-              <View style={{flex: 1, left:95, top:0}}>
+              <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
                   {i18n.language === 'es-MX'
                   ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                   :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
                   }
               </View>
-              <View style={{ flex: 2, left: 25, top:-2}}>
+              <View style={{ flex: 8}}>
                   <PickerButton/>
               </View>
             </View>
@@ -105,7 +105,7 @@ export const MainView = ({navigation } : Props) => {
           <View style={{justifyContent: 'space-evenly', alignContent: 'center', flexDirection: 'row'}}>
             <Text style={styles.bottomText}>{t('NoAccount')}</Text>
             <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={{...styles.singUpText, marginTop:width*0.01}}>{t('Log')}</Text>
+              <Text style={{...styles.singUpText, marginTop:width*0.01}} >{t('Log')}</Text>
             </TouchableOpacity>
           </View>
         </View>

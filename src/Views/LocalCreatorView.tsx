@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontStyles } from '../Themes/Styles';
+import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const steps = [
-    'Name and Description',
-    'Data',
-    // Agrega más etapas según sea necesario
+type stepDto = {
+    name: string;
+    component: any;
+};
+
+const steps: stepDto[] = [
+    {name: 'Name and Description', component: 'hello'},
+    {name: 'Datos del local', component: 'hello'},
+    {name: 'Ubicación', component: 'hello'},
+    {name: 'Horaio y categorias', component: 'hello'},
+    {name: 'Redes sociales y contacto ', component: 'hello'},
+    {name: 'Foto de tu local', component: 'hello'},
 ];
 
 export const LocalCreatorView = () => {
@@ -30,10 +38,10 @@ export const LocalCreatorView = () => {
                     <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >Creando local</Text>
                 </View>
                 <View style={styles.stepTitleView}>
-                    <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep]}`}</Text>
+                    <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
                 </View>
                 <View style={styles.progressBar}>
-                    {steps.map((step, index) => (
+                    {steps.map((_, index) => (
                     <View
                         key={index}
                         style={[styles.progressBarItem, index <= currentStep ? styles.active : null]}
@@ -45,21 +53,25 @@ export const LocalCreatorView = () => {
                 <Text>Body</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={handlePrev} disabled={currentStep === 0}>
+                <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: currentStep === 0 ?  Colors.grayOpacity : Colors.blueSteps }} onPress={handlePrev} disabled={currentStep === 0}>
                     <Icon name='chevron-left'/>
                     <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                
                     {currentStep === steps.length - 1 
-                        ? <Text style={{...styles.buttonText, justifyContent: 'space-between'}} adjustsFontSizeToFit={true} >Finish</Text> 
+                        ? (
+                            <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                                <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
+                            </TouchableOpacity>
+                        )
                         : (
-                            <>
-                                <Text style={{...styles.buttonText, justifyContent: 'center'}} adjustsFontSizeToFit={true}>Next</Text>
+                            <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
                                 <Icon name='chevron-right'/>
-                            </>
+                            </TouchableOpacity>
                         ) 
                     }
-                </TouchableOpacity>
+                
             </View>
         </View>
     )
@@ -108,7 +120,7 @@ const styles = StyleSheet.create({
     },
     bodyView:{
         flex: 11,
-        //backgroundColor: 'red'
+        backgroundColor: 'red'
     },
     buttonContainer: {
         flex: 1,
@@ -121,14 +133,13 @@ const styles = StyleSheet.create({
     button: {
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: '#007bff',
         borderRadius: 5,
         width: '25%',
         marginHorizontal: 10,
         flexDirection: 'row',
         alignContent: 'center',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        
     },
     buttonText: {
         textAlign: 'center',
