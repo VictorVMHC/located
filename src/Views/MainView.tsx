@@ -102,12 +102,10 @@ export const MainView = ({navigation } : Props) => {
           </View>
         </View>
         <View style={styles.footerView}>
-          <View style={{justifyContent: 'space-evenly', alignContent: 'center', flexDirection: 'row'}}>
-            <Text style={styles.bottomText}>{t('NoAccount')}</Text>
-            <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
-              <Text style={{...styles.singUpText, marginTop:width*0.01}} >{t('Log')}</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.bottomText} adjustsFontSizeToFit >{t('NoAccount')}</Text>
+          <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
+            <Text style={{...styles.singUpText}} adjustsFontSizeToFit >{t('Log')}</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -128,18 +126,20 @@ const styles = StyleSheet.create({
   bodyView:{
     flex: 7,
   },
-  footerView:{
+  footerView: {
     flex: 1,
     backgroundColor: 'black',
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    bottom: 10
   },
-  bottomText:{
+  bottomText: {
     ...FontStyles.SubTitles,
     color: 'white',
-    fontSize:23,
   },
-  singUpText:{
+  singUpText: {
     ...FontStyles.Links,
     color: Colors.Yellow,
-    fontSize:20,
   }
 });

@@ -48,10 +48,10 @@ export const LocalCreatorView = () => {
                 </View>
                 <View style={styles.progressBar}>
                     {steps.map((_, index) => (
-                    <View
-                        key={index}
-                        style={[styles.progressBarItem, index <= currentStep ? styles.active : null]}
-                    />
+                        <View
+                            key={index}
+                            style={[styles.progressBarItem, index <= currentStep ? styles.active : null]}
+                        />
                     ))}
                 </View>
             </View>
@@ -63,21 +63,19 @@ export const LocalCreatorView = () => {
                     <Icon name='chevron-left'/>
                     <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
                 </TouchableOpacity>
-                
-                    {currentStep === steps.length - 1 
-                        ? (
-                            <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                                <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
-                            </TouchableOpacity>
-                        )
-                        : (
-                            <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
-                                <Icon name='chevron-right'/>
-                            </TouchableOpacity>
-                        ) 
-                    }
-                
+                {currentStep === steps.length - 1 
+                    ? (
+                        <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                            <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
+                        </TouchableOpacity>
+                    )
+                    : (
+                        <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                            <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
+                            <Icon name='chevron-right'/>
+                        </TouchableOpacity>
+                    ) 
+                }
             </View>
         </View>
     )
