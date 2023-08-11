@@ -9,7 +9,7 @@ export const PickerButton = () => {
         <Picker
             selectedValue={i18n.language}
             onValueChange={( value ) => i18n.changeLanguage(value)}
-            style={{...FontStyles.SubTitles, width: '90%'}}
+            style={{...FontStyles.SubTitles}}
             mode='dialog'
             dropdownIconRippleColor={Colors.blueAqua}
             dropdownIconColor={Colors.black}
