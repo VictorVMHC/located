@@ -68,6 +68,19 @@
     "InternalError": "An error occurred while trying to log in user",
     "TimeOutConn": "Could not connect to Located services",
     "LoginToAccessLogText":"Log in to Located",
-    "LoginToAccessTextInfo":"To use this function you need to log in"
+    "LoginToAccessTextInfo":"To use this function you need to log in",
+    "localCreatorTitle": "Creating local",
+    "localStep1": "Name and description",
+    "localStep2": "Local data",
+    "localStep3": "Location",
+    "localStep4": "Schedule and categories",
+    "localStep5": "Social media and contact",
+    "localStep6": "Local photo",
+    "localCreatorPrevious": "Previous",
+    "localCreatorNext": "Next",
+    "localCreatorCreate": "Create"
+
+
+
   }
 }

@@ -68,6 +68,18 @@
     "InternalError": "Ocurrio un error al iniciar sessión",
     "TimeOutConn": "No se pudo conectar a los servicios de located",
     "LoginToAccessLogText":"Inicia sesión en Located",
-    "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión"
+    "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión",
+    "localCreatorTitle": "Creando local",
+    "localStep1": "Nombre y descripción",
+    "localStep2": "Datos del local",
+    "localStep3": "Ubicación",
+    "localStep4": "Horario y categorias",
+    "localStep5": "Redes sociales y contacto",
+    "localStep6": "Foto del local",
+    "localCreatorPrevious": "Anterior",
+    "localCreatorNext": "Siguiente",
+    "localCreatorCreate": "Crear"
+    
+
   }
 }

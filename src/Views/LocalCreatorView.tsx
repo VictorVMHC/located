@@ -8,23 +8,25 @@ import { Step3View } from './Step3View';
 import { Step4View } from './Step4View';
 import { Step5View } from './Step5View';
 import { Step6View } from './Step6View ';
+import { useTranslation } from 'react-i18next';
 
 type stepDto = {
     name: string;
     component: any;
 };
 
-const steps: stepDto[] = [
-    {name: 'Name and Description', component: <Step1View/>},
-    {name: 'Datos del local', component: <Step2View/>},
-    {name: 'Ubicación', component: <Step3View/>},
-    {name: 'Horaio y categorias', component: <Step4View/>},
-    {name: 'Redes sociales y contacto ', component: <Step5View/>},
-    {name: 'Foto de tu local', component: <Step6View/>},
-];
-
 export const LocalCreatorView = () => {
     const [currentStep, setCurrentStep] = useState(0);
+    const { t } = useTranslation();
+
+    const steps: stepDto[] = [
+        {name: t('localStep1'), component: <Step1View/>},
+        {name: t('localStep2'), component: <Step2View/>},
+        {name: t('localStep3'), component: <Step3View/>},
+        {name: t('localStep4'), component: <Step4View/>},
+        {name: t('localStep5'), component: <Step5View/>},
+        {name: t('localStep6'), component: <Step6View/>},
+    ];
 
     const handleNext = () => {
         if (currentStep < steps.length - 1) {
@@ -42,7 +44,7 @@ export const LocalCreatorView = () => {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.headerView}>
                     <View style={styles.headerTitleView}>
-                        <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >Creando local</Text>
+                        <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >{t('localCreatorTitle')}</Text>
                     </View>
                     <View style={styles.stepTitleView}>
                         <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
@@ -62,17 +64,17 @@ export const LocalCreatorView = () => {
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: currentStep === 0 ?  Colors.grayOpacity : Colors.blueSteps }} onPress={handlePrev} disabled={currentStep === 0}>
                         <Icon name='chevron-left' size={15} color={Colors.white} />
-                        <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
+                        <Text style={styles.buttonText} adjustsFontSizeToFit={true} >{t('localCreatorPrevious')}</Text>
                     </TouchableOpacity>
                     {currentStep === steps.length - 1 
                         ? (
                             <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                                <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
+                                <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >{t('localCreatorCreate')}</Text>
                             </TouchableOpacity>
                         )
                         : (
                             <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
+                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}> {t('localCreatorNext')} </Text>
                                 <Icon name='chevron-right' size={15} color={Colors.white}/>
                             </TouchableOpacity>
                         ) 
