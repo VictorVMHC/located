@@ -5,9 +5,10 @@ import { Text } from 'react-native-paper'
 import { useLocation } from '../Hooks/useLocation'
 import { Coordinates } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
+import { LoadingView } from './LoadingView'
 
 export const Step3View = () => {
-    const { userLocation } = useLocation();
+    const { userLocation, hasLocation } = useLocation();
     const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(null);
 
     const handleMapPress = (e: any) => {
@@ -18,31 +19,35 @@ export const Step3View = () => {
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
-                <MapView
-                    style={styles.mapStyle}
-                    showsUserLocation
-                    initialRegion={{
-                        latitude: userLocation.latitude,
-                        longitude: userLocation.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                    zoomEnabled
-                    zoomControlEnabled
-                    onPress={handleMapPress}
-                >
-                    {markerPosition && (
-                            <Marker
-                                draggable
-                                coordinate={markerPosition}
-                                onDragEnd={(e) => {
-                                    const { latitude, longitude } = e.nativeEvent.coordinate;
-                                    setMarkerPosition({ latitude, longitude });
-                                }}
-                            />
-                        )
-                    }
-                </MapView>
+            {( !hasLocation )
+                ? <LoadingView />
+                :
+                    <MapView
+                        style={styles.mapStyle}
+                        showsUserLocation
+                        initialRegion={{
+                            latitude: userLocation.latitude,
+                            longitude: userLocation.longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                        zoomEnabled
+                        zoomControlEnabled
+                        onPress={handleMapPress}
+                    >
+                        {markerPosition && (
+                                <Marker
+                                    draggable
+                                    coordinate={markerPosition}
+                                    onDragEnd={(e) => {
+                                        const { latitude, longitude } = e.nativeEvent.coordinate;
+                                        setMarkerPosition({ latitude, longitude });
+                                    }}
+                                />
+                            )
+                        }
+                    </MapView>
+                }
             </View>
             <View style={styles.viewText}>
                 <Text style= {styles.text} adjustsFontSizeToFit>Arratra el marcador a la posicion exacta donde se encuentra tu local</Text>
