@@ -11,7 +11,7 @@ export const Step1View = () => {
                 <View style={styles.viewLocalName}>
                     <Text style={styles.generalText}> {t('step1LocalName')} </Text>
                     <TextInput
-                        placeholder='Agrega el nombre de tu local'
+                        placeholder={`${t('step1PlaceName')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputStyleName}
                     />
@@ -21,7 +21,7 @@ export const Step1View = () => {
                     <Text style={FontStyles.Text}> {t('step1RecommendationTitle')} </Text>
                     <Text style={styles.informationText}> {t('step1Recommendation')} </Text>
                     <TextInput
-                        placeholder='Agrega una descripción de tu local'
+                        placeholder={`${t('step1PlaceDesc')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputStyleDescription}
                         multiline={true}

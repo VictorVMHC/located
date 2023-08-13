@@ -82,6 +82,9 @@
     "step1LocalName": "Nombre de tu local",
     "step1LocalDesc": "Agrega una descripcion del local",
     "step1RecommendationTitle": "Recommendation:",
-    "step1Recommendation": "Trata de ser muy específico y que tu descripción suene atractiva para tus posibles clientes. Esta descripción se mostrará en primer plano."
+    "step1Recommendation": "Trata de ser muy específico y que tu descripción suene atractiva para tus posibles clientes. Esta descripción se mostrará en primer plano.",
+    "step1PlaceName": "Agrega el nombre de tu local",
+    "step1PlaceDesc": "Agrega una descripción de tu local"
+    
   }
 }
