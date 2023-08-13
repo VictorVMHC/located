@@ -102,6 +102,7 @@ export const Step2View = () => {
                             </View>
                         </TouchableOpacity>
                     </View>
+                    <Text style={styles.title}>¿Cual es la dirección de tu local?</Text>
                     <TextInput
                         placeholder='Pais'
                         placeholderTextColor={Colors.darkGray}
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginBottom: 10,
+        color: Colors.black
     },
     button: {
         flex:1,
