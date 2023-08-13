@@ -78,8 +78,10 @@
     "localStep6": "Foto del local",
     "localCreatorPrevious": "Anterior",
     "localCreatorNext": "Siguiente",
-    "localCreatorCreate": "Crear"
-    
-
+    "localCreatorCreate": "Crear",
+    "step1LocalName": "Nombre de tu local",
+    "step1LocalDesc": "Agrega una descripcion del local",
+    "step1RecommendationTitle": "Recommendation:",
+    "step1Recommendation": "Trata de ser muy específico y que tu descripción suene atractiva para tus posibles clientes. Esta descripción se mostrará en primer plano."
   }
 }

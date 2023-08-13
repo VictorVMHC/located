@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
+import { useTranslation } from 'react-i18next';
 
 export const Step1View = () => {
+    const { t } = useTranslation();
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.viewLocalName}>
-                    <Text style={styles.generalText}>Nombre de tu local</Text>
+                    <Text style={styles.generalText}> {t('step1LocalName')} </Text>
                     <TextInput
                         placeholder='Agrega el nombre de tu local'
                         placeholderTextColor={Colors.darkGray}
@@ -15,9 +17,9 @@ export const Step1View = () => {
                     />
                 </View>
                 <View style={styles.viewLocalDescription}>
-                    <Text style={styles.generalText}>Agrega una descripcion del local</Text>
-                    <Text style={FontStyles.Text}>Recomendación:</Text>
-                    <Text style={styles.informationText}>Trata de ser muy específico y que tu descripción suene atractiva para tus posibles clientes. Esta descripción se mostrará en primer plano.</Text>
+                    <Text style={styles.generalText}> {t('step1LocalDesc')} </Text>
+                    <Text style={FontStyles.Text}> {t('step1RecommendationTitle')} </Text>
+                    <Text style={styles.informationText}> {t('step1Recommendation')} </Text>
                     <TextInput
                         placeholder='Agrega una descripción de tu local'
                         placeholderTextColor={Colors.darkGray}

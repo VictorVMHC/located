@@ -78,9 +78,10 @@
     "localStep6": "Local photo",
     "localCreatorPrevious": "Previous",
     "localCreatorNext": "Next",
-    "localCreatorCreate": "Create"
-
-
-
+    "localCreatorCreate": "Create",
+    "step1LocalName": "Local name",
+    "step1LocalDesc": "Add a local description",
+    "step1RecommendationTitle": "Recommendation:",
+    "step1Recommendation": "Strive for maximum specificity and craft your description so that it sounds appealing to potential customers. This description will be displayed prominently."
   }
 }
