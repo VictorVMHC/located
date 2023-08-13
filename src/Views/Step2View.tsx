@@ -14,16 +14,14 @@ export const Step2View = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        console.log(businessOptions);
-        
-        if( businessOptions.length !== 0 ){
+    useEffect(() => {       
+        if( businessOptions.length === 0 ){
             fetchBusinessTypes();
         }
     }, []);
 
     const fetchBusinessTypes = async () => {
-        getBusinessTypes(currentPage, 10).then((response) => {
+        getBusinessTypes(currentPage).then((response) => {
             
             if(response.status !== 200){
                 Alert.alert(
@@ -37,7 +35,7 @@ export const Step2View = () => {
             const { business_options, current_page, total_pages  } = response.data;
             console.log(response.data);
             setBusinessOptions([...businessOptions, ...business_options]);
-            setCurrentPage(current_page);
+            setCurrentPage(currentPage + 1);
             setTotalPages(total_pages);
         }
         ).catch(() => {
@@ -80,10 +78,8 @@ export const Step2View = () => {
         }
         
     };
-
-    const handleLoadMore = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+    const handleLoadMore = async () => {
+        if (currentPage <= totalPages) {
             fetchBusinessTypes();
         }
     };
@@ -97,8 +93,12 @@ export const Step2View = () => {
                     <View style={styles.textInputSty}>
                         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
                             <View style={styles.buttonView}>
-                                <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || 'Seleccionar opción'}</Text>
-                                <Icon name='chevron-down'  size={18} color={Colors.darkGray}  style={{ marginTop: 2 }}/>
+                                <View style={{flex: 9}}>
+                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || 'Seleccionar opción'}</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'center'}} >
+                                    <Icon name='chevron-down' size={18} color={Colors.darkGray} style={{ marginTop: 2 }}/>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -138,10 +138,11 @@ export const Step2View = () => {
                                     </TouchableOpacity>
                                 )}
                                 onEndReached={handleLoadMore}
-                                onEndReachedThreshold={0.1}
+                                onEndReachedThreshold={0.3}
                             />
                             <TextInput
-                                style={styles.textInputSty}
+                                style={styles.textInputModal}
+                                placeholderTextColor={Colors.greenSuccess}
                                 placeholder="Agregar nuevo tipo de negocio"
                                 onChangeText={(text) => setNewBusiness(text)}
                                 value={newBusiness}
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     buttonView:{
         flexDirection: 'row',
         alignContent: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     textInputSty: {
@@ -195,5 +196,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginVertical: 10,
     },
+    textInputModal:{
+        borderRadius: 8,
+        borderColor: Colors.greenSuccess,
+        borderWidth: 2,
+        paddingHorizontal: 10,
+        marginVertical: 10,
+        backgroundColor: Colors.white,
+        color: Colors.greenSuccess
+    }
 });
     

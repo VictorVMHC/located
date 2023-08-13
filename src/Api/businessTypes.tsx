@@ -1,7 +1,7 @@
 import api from "./api"
 
 const addBusinessType = (businessType: string) =>{
-    return api.post('/api/businessTypes', businessType );
+    return api.post('/api/businessTypes', {businessType} );
 };
 
 const getBusinessTypes = (page?: number, perPage?: number) =>{
