@@ -74,7 +74,7 @@ export const LocalCreatorView = () => {
                         )
                         : (
                             <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}> {t('localCreatorNext')} </Text>
+                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}>{t('localCreatorNext')} </Text>
                                 <Icon name='chevron-right' size={15} color={Colors.white}/>
                             </TouchableOpacity>
                         ) 
