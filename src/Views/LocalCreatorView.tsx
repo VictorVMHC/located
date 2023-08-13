@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Step1View } from './Step1View';
@@ -38,46 +38,48 @@ export const LocalCreatorView = () => {
         }
     };
     return (
-        <View style={styles.container}>
-            <View style={styles.headerView}>
-                <View style={styles.headerTitleView}>
-                    <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >Creando local</Text>
+        <KeyboardAvoidingView behavior='padding' style={styles.container}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={styles.headerView}>
+                    <View style={styles.headerTitleView}>
+                        <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >Creando local</Text>
+                    </View>
+                    <View style={styles.stepTitleView}>
+                        <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
+                    </View>
+                    <View style={styles.progressBar}>
+                        {steps.map((_, index) => (
+                            <View
+                                key={index}
+                                style={[styles.progressBarItem, index <= currentStep ? styles.active : null]}
+                            />
+                        ))}
+                    </View>
                 </View>
-                <View style={styles.stepTitleView}>
-                    <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
+                <View style={styles.bodyView}>
+                    {steps[currentStep].component}
                 </View>
-                <View style={styles.progressBar}>
-                    {steps.map((_, index) => (
-                        <View
-                            key={index}
-                            style={[styles.progressBarItem, index <= currentStep ? styles.active : null]}
-                        />
-                    ))}
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: currentStep === 0 ?  Colors.grayOpacity : Colors.blueSteps }} onPress={handlePrev} disabled={currentStep === 0}>
+                        <Icon name='chevron-left' size={15} color={Colors.white} />
+                        <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
+                    </TouchableOpacity>
+                    {currentStep === steps.length - 1 
+                        ? (
+                            <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                                <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
+                            </TouchableOpacity>
+                        )
+                        : (
+                            <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
+                                <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
+                                <Icon name='chevron-right' size={15} color={Colors.white}/>
+                            </TouchableOpacity>
+                        ) 
+                    }
                 </View>
-            </View>
-            <View style={styles.bodyView}>
-                {steps[currentStep].component}
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: currentStep === 0 ?  Colors.grayOpacity : Colors.blueSteps }} onPress={handlePrev} disabled={currentStep === 0}>
-                    <Icon name='chevron-left'/>
-                    <Text style={styles.buttonText} adjustsFontSizeToFit={true} >Previous</Text>
-                </TouchableOpacity>
-                {currentStep === steps.length - 1 
-                    ? (
-                        <TouchableOpacity style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                            <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >Finish</Text>
-                        </TouchableOpacity>
-                    )
-                    : (
-                        <TouchableOpacity style={{...styles.button, justifyContent: 'space-between', backgroundColor: Colors.blueSteps }} onPress={handleNext} disabled={currentStep === steps.length - 1}>
-                            <Text style={styles.buttonText} adjustsFontSizeToFit={true}>Next</Text>
-                            <Icon name='chevron-right'/>
-                        </TouchableOpacity>
-                    ) 
-                }
-            </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -124,14 +126,12 @@ const styles = StyleSheet.create({
     },
     bodyView:{
         flex: 11,
-        backgroundColor: 'red'
     },
     buttonContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-       // backgroundColor: 'yell',
         marginBottom: 5,
     },
     button: {
@@ -148,5 +148,6 @@ const styles = StyleSheet.create({
     buttonText: {
         textAlign: 'center',
         color: 'white',
+        marginHorizontal: 2,
     },
 });

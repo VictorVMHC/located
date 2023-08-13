@@ -16,7 +16,8 @@ export const Colors = {
     lightBrown: '#c47f30',
     greenAqua: '#80CBC4',
     blueSteps: '#007bff',
-    greenSuccess: '#198754'
+    greenSuccess: '#198754',
+    darkGray: '#6D6A6A'
 
 };
 
