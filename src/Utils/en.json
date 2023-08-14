@@ -95,6 +95,9 @@
     "step2PhNewBusiness": "Add New Business Type",
     "step2AlertError": "Connection Error",
     "step2AlertErrDescGet": "An error occurred while trying to fetch the business types",
-    "step2AlertErrDescSave": "An error occurred while trying to save your business type"
+    "step2AlertErrDescSave": "An error occurred while trying to save your business type",
+    "step2BtnText": "Add",
+    "step3Instructions": "Drag the marker to the exact position where your business is located",
+    "step3Instructions2": "If you want to relocate the marker, hold it for a few seconds to move it"
   }
 }

@@ -103,12 +103,12 @@ export const Step2View = () => {
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <ScrollView style={{flexGrow: 1, paddingBottom: 20}}>
                 <View style={{flex: 1}}>
-                    <Text style={styles.title}>Selecciona un tipo de negocio:</Text>
+                    <Text style={styles.title}> {t('step2Title')} </Text>
                     <View style={styles.textInputSty}>
                         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
                             <View style={styles.buttonView}>
                                 <View style={{flex: 9}}>
-                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || 'Seleccionar opción'}</Text>
+                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || `${t('step2ChooseOption')}` }</Text>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center'}} >
                                     <Icon name='chevron-down' size={18} color={Colors.darkGray} style={{ marginTop: 2 }}/>
@@ -116,24 +116,24 @@ export const Step2View = () => {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.title}>¿Cual es la dirección de tu local?</Text>
+                    <Text style={styles.title}> {t('step2Address')} </Text>
                     <TextInput
-                        placeholder='Pais'
+                        placeholder={`${t('step2PhCountry')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                     />
                     <TextInput
-                        placeholder='Estado'
+                        placeholder={`${t('step2PhState')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                     />
                     <TextInput
-                        placeholder='Municipio'
+                        placeholder={`${t('step2PhTown')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                     />
                     <TextInput
-                        placeholder='Código postal'
+                        placeholder={`${t('step2PhPosCode')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                     />
@@ -161,11 +161,11 @@ export const Step2View = () => {
                             <TextInput
                                 style={styles.textInputModal}
                                 placeholderTextColor={Colors.greenSuccess}
-                                placeholder="Agregar nuevo tipo de negocio"
+                                placeholder={`${t('step2PhNewBusiness')}`}
                                 onChangeText={(text) => setNewBusiness(text)}
                                 value={newBusiness}
                             />
-                            <Button title="Agregar" onPress={handleAddNewBusiness} />
+                            <Button title={t('step2BtnText')} onPress={handleAddNewBusiness} />
                         </View>
                     </Modal>
                 </View>

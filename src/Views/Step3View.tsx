@@ -6,9 +6,11 @@ import { useLocation } from '../Hooks/useLocation'
 import { Coordinates } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
 import { LoadingView } from './LoadingView'
+import { useTranslation } from 'react-i18next'
 
 export const Step3View = () => {
     const { userLocation, hasLocation } = useLocation();
+    const { t } = useTranslation();
     const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(null);
 
     const handleMapPress = (e: any) => {
@@ -50,8 +52,8 @@ export const Step3View = () => {
                 }
             </View>
             <View style={styles.viewText}>
-                <Text style= {styles.text} adjustsFontSizeToFit>Arratra el marcador a la posicion exacta donde se encuentra tu local</Text>
-                <Text style= {{...FontStyles.Information,textAlign: 'center' }} adjustsFontSizeToFit>Si deseas reubicar el marcador manten unos segundos para moverlo</Text>
+                <Text style= {styles.text} adjustsFontSizeToFit>{t('step3Instructions')}</Text>
+                <Text style= {{...FontStyles.Information,textAlign: 'center' }} adjustsFontSizeToFit>{t('step3Instructions2')}</Text>
             </View>
         </View>
     )
