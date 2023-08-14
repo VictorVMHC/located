@@ -5,6 +5,23 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { addBusinessType, getBusinessTypes } from '../Api/businessTypes';
 import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTranslation } from 'react-i18next';
+
+interface showAlertProps {
+    title: string,
+    desc: string,
+    action: () => void
+}
+
+const showAlert = ({title, desc, action}: showAlertProps) => {
+    Alert.alert(
+        title,
+        desc,
+        [{ text: 'OK', onPress: () => { action }}],
+        { cancelable: false }
+    );
+}
+
 
 export const Step2View = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -13,6 +30,7 @@ export const Step2View = () => {
     const [businessOptions, setBusinessOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const { t } = useTranslation();
 
     useEffect(() => {       
         if( businessOptions.length === 0 ){
@@ -20,31 +38,28 @@ export const Step2View = () => {
         }
     }, []);
 
+
     const fetchBusinessTypes = async () => {
         getBusinessTypes(currentPage).then((response) => {
             
             if(response.status !== 200){
-                Alert.alert(
-                    'Error de conexión',
-                    'Ocurrió un error al tratar de guardar tu tipo de negocio',
-                    [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                    { cancelable: false }
-                );
+                showAlert({
+                    title: `${t('step2AlertError')}`, 
+                    desc: `${t('step2AlertErrDescGet')}`, 
+                    action: () => setModalVisible(false)
+                })
             }
-
-            const { business_options, current_page, total_pages  } = response.data;
-            console.log(response.data);
+            const { business_options, total_pages  } = response.data;
             setBusinessOptions([...businessOptions, ...business_options]);
             setCurrentPage(currentPage + 1);
             setTotalPages(total_pages);
         }
         ).catch(() => {
-            Alert.alert(
-                'Error de conexión',
-                'Ocurrió un error al tratar de guardar tu tipo de negocio',
-                [{ text: 'OK', onPress: () => { setModalVisible(false) }}],
-                { cancelable: false }
-            );
+            showAlert({
+                title: `${t('step2AlertError')}`, 
+                desc: `${t('step2AlertErrDescGet')}`, 
+                action: () => setModalVisible(false)
+            })
         }) 
     };
 
@@ -53,12 +68,11 @@ export const Step2View = () => {
             addBusinessType(newBusiness).then((response) => {
 
                 if(response.status !== 200){
-                    Alert.alert(
-                        'Error de conexión',
-                        'Ocurrió un error al tratar de guardar tu tipo de negocio',
-                        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                        { cancelable: false }
-                    );
+                    showAlert({
+                        title: `${t('step2AlertError')}`, 
+                        desc: `${t('step2AlertErrDescSave')}`, 
+                        action: () => setModalVisible(false)
+                    })
                 }
 
                 setBusinessOptions([...businessOptions, newBusiness]);
@@ -68,16 +82,16 @@ export const Step2View = () => {
                 
             }
             ).catch(() => {
-                Alert.alert(
-                    'Error de conexión',
-                    'Ocurrió un error al tratar de guardar tu tipo de negocio',
-                    [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                    { cancelable: false }
-                );
+                showAlert({
+                    title: `${t('step2AlertError')}`, 
+                    desc: `${t('step2AlertErrDescSave')}`, 
+                    action: () => setModalVisible(false)
+                })
             })
         }
         
     };
+
     const handleLoadMore = async () => {
         if (currentPage <= totalPages) {
             fetchBusinessTypes();
@@ -134,8 +148,11 @@ export const Step2View = () => {
                             <FlatList<string>
                                 data={businessOptions}
                                 renderItem={({ item }) => (
-                                    <TouchableOpacity onPress={() => setSelectedBusiness(item)}>
-                                        <Text style={styles.modalOption}>{item}</Text>
+                                    <TouchableOpacity onPress={() => {
+                                        setSelectedBusiness(item)
+                                        setModalVisible(false)
+                                    }}>
+                                        <Text style={styles.modalOption} adjustsFontSizeToFit >{item}</Text>
                                     </TouchableOpacity>
                                 )}
                                 onEndReached={handleLoadMore}
@@ -192,11 +209,13 @@ const styles = StyleSheet.create({
         paddingVertical: '10%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
     modalOption: {
         fontSize: 18,
         marginVertical: 10,
+        color: 'white',
+        textAlign: 'center'
     },
     textInputModal:{
         borderRadius: 8,

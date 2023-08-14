@@ -39,7 +39,7 @@ export const Step4View = () => {
                         />
                     </View>
                     <View style={{backgroundColor: 'red'}}>
-                        <TouchableOpacity title="Open" onPress={() => setOpen(true)} >
+                        <TouchableOpacity   onPress={() => setOpen(true)} >
                             <Text>Hora</Text>    
                         </TouchableOpacity>
                         <DatePicker

@@ -84,6 +84,17 @@
     "step1RecommendationTitle": "Recommendation:",
     "step1Recommendation": "Strive for maximum specificity and craft your description so that it sounds appealing to potential customers. This description will be displayed prominently.",
     "step1PlaceName": "Add the local name",
-    "step1PlaceDesc": "Add a local description"
+    "step1PlaceDesc": "Add a local description",
+    "step2Title": "Specify the type of business",
+    "step2ChooseOption": "Choose an option",
+    "step2Address": "What is the address of your business?",
+    "step2PhCountry": "Country",
+    "step2PhState": "State",
+    "step2PhTown": "Town",
+    "step2PhPosCode": "Postal Code",
+    "step2PhNewBusiness": "Add New Business Type",
+    "step2AlertError": "Connection Error",
+    "step2AlertErrDescGet": "An error occurred while trying to fetch the business types",
+    "step2AlertErrDescSave": "An error occurred while trying to save your business type"
   }
 }
