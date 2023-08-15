@@ -7,8 +7,6 @@ import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { StyleSheet } from 'react-native';
-
 interface Props {
     markers?: any,
 }
@@ -84,6 +82,7 @@ export const Map = ({ markers }: Props) => {
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         }}
+                        zoomControlEnabled
                         onTouchStart={ () => following.current = false }
                     >
                         {

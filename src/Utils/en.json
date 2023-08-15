@@ -73,6 +73,22 @@
     "WriteQuestion":"Write your question",
     "InfoForAsk": "Need more help? Send us your specific question!",
     "FAQ":"Frequently Asked Questions",
-    "Password":"Password"
+    "Password":"Password",
+    "localCreatorTitle": "Creating local",
+    "localStep1": "Name and description",
+    "localStep2": "Local data",
+    "localStep3": "Location",
+    "localStep4": "Schedule and categories",
+    "localStep5": "Social media and contact",
+    "localStep6": "Local photo",
+    "localCreatorPrevious": "Previous",
+    "localCreatorNext": "Next",
+    "localCreatorCreate": "Create",
+    "step1LocalName": "Local name",
+    "step1LocalDesc": "Add a local description",
+    "step1RecommendationTitle": "Recommendation:",
+    "step1Recommendation": "Strive for maximum specificity and craft your description so that it sounds appealing to potential customers. This description will be displayed prominently.",
+    "step1PlaceName": "Add the local name",
+    "step1PlaceDesc": "Add a local description"
   }
 }

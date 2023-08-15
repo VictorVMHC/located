@@ -43,7 +43,7 @@ export const ForgotPasswordView = () => {
                 <View style={StyleSingleText.bodyView}>
                     <Text style={StyleSingleText.onlyText}>{t('ForgotPassword')}</Text>
                     <TextInput style={{...Styles.input, width:340, fontSize:20, top:1}}
-                    placeholderTextColor={Colors.blueText}
+                        placeholderTextColor={Colors.blueText}
                         placeholder={`${t('EnterEmail')}`}   
                     />
                     <TouchableOpacity style={{...Styles.boton,top:4, borderRadius:15}}>

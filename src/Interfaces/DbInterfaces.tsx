@@ -10,7 +10,9 @@ export interface Local {
     schedules: Schedule[],
     rate: number,
     quantityRate: number,
-    tags: string[]
+    tags: string[],
+    lat: string,
+    long: string,
 }
 
 export interface Schedule {
@@ -22,5 +24,5 @@ export interface Schedule {
 
 interface User {
     id: string,
-    nombre: string
+    name: string
 }
