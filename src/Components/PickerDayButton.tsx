@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const PickerDayButton = ({ title, action, day, index }: Props) => {
-    const [selectedValue, setSelectedValue] = useState("");
+    const [selectedValue, setSelectedValue] = useState(title);
 
     const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -35,7 +35,7 @@ export const PickerDayButton = ({ title, action, day, index }: Props) => {
             dropdownIconRippleColor={Colors.blueAqua}
             dropdownIconColor={Colors.black}
         >
-            <Picker.Item label="Seleccione un día" value="" style={FontStyles.Information} />
+            <Picker.Item label={title} value="" style={FontStyles.Information} />
             {daysOfWeek.map((element) => (
                 <Picker.Item
                     key={element}
