@@ -101,7 +101,7 @@ export const Step2View = () => {
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <ScrollView style={{flexGrow: 1, paddingBottom: 20}}>
+            <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
                 <View style={{flex: 1}}>
                     <Text style={styles.title}> {t('step2Title')} </Text>
                     <View style={styles.textInputSty}>
