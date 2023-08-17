@@ -86,7 +86,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                                     onConfirm={(date) => {
                                         setOpenHourOne(false)
                                         setHourOne(date)
-                                        var hour = `${hourOne.getHours()} : ${hourOne.getMinutes()}` 
+                                        var hour = `${date.getHours()} : ${date.getMinutes()}` 
                                         updateScheduleItem(idx, {open: hour})
                                     }}
                                     onCancel={() => {
@@ -110,10 +110,10 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                                     mode='time'
                                     open={openHourTwo}
                                     date={hourTwo}
-                                    onConfirm={(date) => {
+                                    onConfirm={async (date) => {
                                         setOpenHourTwo(false)
                                         setHourTwo(date)
-                                        var hour = `${hourTwo.getHours()} : ${hourTwo.getMinutes()}` 
+                                        var hour = `${date.getHours()} : ${date.getMinutes()}` 
                                         updateScheduleItem(idx, {close: hour})
                                     }}
                                     onCancel={() => {

@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { PickerDayButton } from '../Components/PickerDayButton';
-import { Schedule } from '../Interfaces/DbInterfaces';
-import DatePicker from 'react-native-date-picker';
-import { Colors} from '../Themes/Styles';
-import Icon  from 'react-native-vector-icons/FontAwesome5';
+import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { ScheduleSection } from '../Components/ScheduleSection';
-
+import { Schedule } from '../Interfaces/DbInterfaces';
+import { Colors } from '../Themes/Styles';
 
 export const Step4View = () => {
     const initialSchedule: Schedule[] = [
