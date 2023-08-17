@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { LayoutAnimation, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 
@@ -13,15 +13,16 @@ export const Accordion = ({question, answer,}:Props) => {
 
     const toggle = () => {
         setExpanded(!expanded );
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }
     return (
-        <View>
+        <View style={StylesFAQ.container}>
             <TouchableOpacity onPress={toggle}>
             {!expanded
-                ?<Text style={StylesFAQ.titleQuestion}>{question} 
-                <Icon name='chevron-down' size={20} color={Colors.black} /></Text>
+                ?<Text style={StylesFAQ.titleQuestion}>{question}
+                    <Icon name='chevron-down' size={20} color={Colors.black}/></Text>
                 :<Text style={StylesFAQ.titleQuestion}>{question} 
-                <Icon name='chevron-up' size={20} color={Colors.black} /></Text>
+                <Icon name='chevron-up' size={20} color={Colors.black}/></Text>
             }
                 {expanded && <View>{
                     <Text style={StylesFAQ.answer}>{answer}</Text>
@@ -33,7 +34,11 @@ export const Accordion = ({question, answer,}:Props) => {
 }
 
 const StylesFAQ = StyleSheet.create({
-
+    container:{
+        alignItems:'center',
+        padding:5,
+        top:-15,
+    },
     titleQuestion:{
         fontSize:14,
         fontWeight:'bold',
@@ -44,11 +49,11 @@ const StylesFAQ = StyleSheet.create({
         fontSize:22,
         fontFamily:'Outfit.Light',
         textAlign:'left',
-        width:320,
+        width:300,
     },
     separate:{
         backgroundColor:'rgba(255,198,0,0.4)',
         height:3,
-        width:"98%",
+        width:"95%",
     }
 })
