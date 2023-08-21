@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, LayoutAnimation, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Step1View } from './Step1View';
@@ -29,12 +29,14 @@ export const LocalCreatorView = () => {
     ];
 
     const handleNext = () => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
         if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1);
         }
     };
 
     const handlePrev = () => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
         if (currentStep > 0) {
         setCurrentStep(currentStep - 1);
         }
