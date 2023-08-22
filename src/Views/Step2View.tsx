@@ -164,6 +164,7 @@ export const Step2View = () => {
                                 placeholder={`${t('step2PhNewBusiness')}`}
                                 onChangeText={(text) => setNewBusiness(text)}
                                 value={newBusiness}
+                                onSubmitEditing={handleAddNewBusiness}
                             />
                             <Button title={t('step2BtnText')} onPress={handleAddNewBusiness} />
                         </View>

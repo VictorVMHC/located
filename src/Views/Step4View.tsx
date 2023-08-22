@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ScheduleSection } from '../Components/ScheduleSection';
 import { Schedule } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
+import { CustomPicker } from '../Components/CustomPicker';
 
 export const Step4View = () => {
     const initialSchedule: Schedule[] = [
@@ -20,12 +21,28 @@ export const Step4View = () => {
         };
         setSchedule(updatedSchedule);
     };
-
+    const data = ['']
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container} >
             <ScrollView contentContainerStyle={{ flexGrow: 1}}>
-                <ScheduleSection  schedule={schedule} setSchedule={setSchedule} updateScheduleItem={updateScheduleItem} />
-                <Text>{JSON.stringify(schedule)}</Text>
+                <View style={styles.containerSchedule}>
+                    <ScheduleSection  schedule={schedule} setSchedule={setSchedule} updateScheduleItem={updateScheduleItem} />
+                </View>
+                <View style={styles.containerCategories}>
+                    <View>
+                        //borderColor, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit
+                        <CustomPicker
+                            modalInputTItle='Add category'
+                            data={data}
+                            ActionSelected={}
+                            buttonTitle='Agregar categoria'
+                            onEndAction={}
+                        >
+                    </View>
+                    <View>
+
+                    </View>
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     )
@@ -37,63 +54,12 @@ const styles = StyleSheet.create({
         padding: '5%',
     },
     containerSchedule: {
-        borderColor: Colors.darkGray,
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        width: '90%',
-        alignSelf: 'center'
-        
+        flex: 1,
+        backgroundColor: 'red'
     },
-    containerDays: {
-        flexDirection: 'row',
-        height: '50%'
-    },
-    containerHours: {
-        flexDirection: 'row',
-        height: '50%'
-    },
-    containerPickerButton:{
-        flex: 5, 
-        margin: 5,
-        justifyContent: 'center',
-        borderColor: Colors.darkGray,
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-    containerHourOpen:{
-        flex: 5, 
-        margin: 5,
-        borderColor: Colors.greenSuccess,
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-    containerHourClose:{
-        flex: 5, 
-        margin: 5,
-        borderColor: Colors.red,
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-    stylesTouchable: {
-        flexDirection: 'row',
-        alignItems:'center',
-        height: '100%',
-        justifyContent: 'center',
-        borderRadius: 10
-    },
-    touchablePlus: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        backgroundColor: Colors.YellowOpacity,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonContainer: {
-        position: 'absolute',
-        bottom: -16,
-        right: -16,
-        backgroundColor: Colors.gray,
-    },
+    containerCategories:{
+        flex:1,
+        backgroundColor: 'red'
+    }
+
 });
