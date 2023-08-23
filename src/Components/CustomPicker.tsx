@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { Colors, FontStyles } from '../Themes/Styles';
+import React, { useState } from 'react';
+import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
+import { Colors, FontStyles } from '../Themes/Styles';
 
 interface Props {
     modalInputTItle: string;
@@ -12,10 +11,12 @@ interface Props {
     ActionSubmit: (value:string) => void;
     onEndAction: () => void;
     placeHolder: string;
-    buttonTitle: string
+    buttonTitle: string;
+    modalVisible: boolean;
+    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit }: Props) => {
-    const [modalVisible, setModalVisible] = useState(false);
+export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
+    
     const [value, setValue] = useState('');
 
 
@@ -56,7 +57,11 @@ export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected
                         placeholderTextColor={Colors.greenSuccess}
                         placeholder={placeHolder}
                         onChangeText={(text) => setValue(text)}
-                        onEndEditing={() => ActionSubmit(value)}
+                        onEndEditing={() => {
+                            ActionSubmit(value)
+                            setModalVisible(false);
+                            setValue('');
+                        }}
                         value={value}
                     />
                     <Button title={buttonTitle} onPress={() => ActionSubmit(value)} />

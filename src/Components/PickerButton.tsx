@@ -1,7 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Colors, FontStyles, Styles } from '../Themes/Styles';
+import { Colors, FontStyles } from '../Themes/Styles';
 
 export const PickerButton = () => {
     const {t, i18n} = useTranslation();

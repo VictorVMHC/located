@@ -1,7 +1,7 @@
 import api from "./api"
 
 const addCategory = (category: string) =>{
-    return api.post('/api/businessTypes', {category} );
+    return api.post('/api/categories', {category} );
 };
 
 const getCategories = (page?: number, perPage?: number) =>{

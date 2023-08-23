@@ -1,26 +1,11 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, Modal, Button, StyleSheet, TextInput, FlatList, Alert, KeyboardAvoidingView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Button, FlatList, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { addBusinessType, getBusinessTypes } from '../Api/businessTypes';
 import { Colors, FontStyles } from '../Themes/Styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
-
-interface showAlertProps {
-    title: string,
-    desc: string,
-    action: () => void
-}
-
-const showAlert = ({title, desc, action}: showAlertProps) => {
-    Alert.alert(
-        title,
-        desc,
-        [{ text: 'OK', onPress: () => { action }}],
-        { cancelable: false }
-    );
-}
+import { CustomAlert } from '../Components/CustomAlert';
 
 
 export const Step2View = () => {
@@ -43,7 +28,7 @@ export const Step2View = () => {
         getBusinessTypes(currentPage).then((response) => {
             
             if(response.status !== 200){
-                showAlert({
+                CustomAlert({
                     title: `${t('step2AlertError')}`, 
                     desc: `${t('step2AlertErrDescGet')}`, 
                     action: () => setModalVisible(false)
@@ -55,7 +40,7 @@ export const Step2View = () => {
             setTotalPages(total_pages);
         }
         ).catch(() => {
-            showAlert({
+            CustomAlert({
                 title: `${t('step2AlertError')}`, 
                 desc: `${t('step2AlertErrDescGet')}`, 
                 action: () => setModalVisible(false)
@@ -68,7 +53,7 @@ export const Step2View = () => {
             addBusinessType(newBusiness).then((response) => {
 
                 if(response.status !== 200){
-                    showAlert({
+                    CustomAlert({
                         title: `${t('step2AlertError')}`, 
                         desc: `${t('step2AlertErrDescSave')}`, 
                         action: () => setModalVisible(false)
@@ -82,7 +67,7 @@ export const Step2View = () => {
                 
             }
             ).catch(() => {
-                showAlert({
+                CustomAlert({
                     title: `${t('step2AlertError')}`, 
                     desc: `${t('step2AlertErrDescSave')}`, 
                     action: () => setModalVisible(false)
