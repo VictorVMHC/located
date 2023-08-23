@@ -88,7 +88,7 @@ export const Step4View = () => {
         }
         
     };
-    
+
     const handleSelected = (selected: string) =>{
         setSelectedCategory(selected)
     }
@@ -115,7 +115,7 @@ export const Step4View = () => {
                             buttonTitle='Agregar categoria'
                             onEndAction={handleLoadMore}
                             ActionSubmit={handleAddNewCategory}
-                            borderColor={Colors.gray}
+                            borderColor={Colors.darkGray}
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
                         />
@@ -136,11 +136,8 @@ const styles = StyleSheet.create({
     },
     containerSchedule: {
         flex: 1,
-        backgroundColor: 'red'
     },
     containerCategories:{
-        flex:1,
-        backgroundColor: 'red'
+        flex: 5,
     }
-
 });
