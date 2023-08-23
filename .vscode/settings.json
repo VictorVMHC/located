@@ -3,7 +3,9 @@
   "java.configuration.updateBuildConfiguration": "disabled",
   "cSpell.words": [
     "boton",
-    "Passwordtitle"
+    "Formik",
+    "Passwordtitle",
+    "verifycode"
   ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#ab307e",

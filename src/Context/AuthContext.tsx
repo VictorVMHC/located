@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/userInterfaces';
+import { User, createNewUser, logInData } from '../Interfaces/UserInterfaces';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
@@ -162,7 +162,7 @@ export const AuthProvider = ({children}: any) => {
         }
     }
 
-    const signUp = async (user: User) => {
+    const signUp = async (user: createNewUser) => {
         try{
             const { data } = await createUser(user);
             dispatch({ 
@@ -175,7 +175,7 @@ export const AuthProvider = ({children}: any) => {
         }catch(error: any){
             dispatch({
                 type: 'addError',
-                payload: error.response.data.errors || t('ErrorMsgPayload')
+                payload: JSON.stringify(error.response.data.errors) || t('ErrorMsgPayload')
             })
         }
     }

@@ -39,7 +39,7 @@
     "Food": "Food",
     "Pharmacy": "Pharmacy",
     "Others": "Others",
-    "ModalMsgInicio": "!Verification code sent!",
+    "ModalMsgStart": "!Verification code sent!",
     "ModalMsgCheckEmail": "Check your email",
     "ModalEnterCodeMsg": "Enter the code",
     "ModalBtnVerify": "Verify",

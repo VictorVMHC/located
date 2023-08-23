@@ -6,10 +6,17 @@ const VerifyEmail = (email: string) => {
 
 const VerifyCode = (email: string, code: string) => {
     var route = `/api/verifyEmail/${email}/${code}`
-
     return api.get(route);
 }
+
+const deleteVerifyEmail = (email: string) => {
+    var route = `/api/verifyEmail/${email}`
+    return api.delete(route);
+}
+
+
 export {
     VerifyEmail,
-    VerifyCode
+    VerifyCode,
+    deleteVerifyEmail
 }

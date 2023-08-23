@@ -1,6 +1,6 @@
 export interface User {
     name?: string,
-    email?: string,
+    email: string,
     password?: string,
     image?: string,
     phone?:string,
@@ -15,7 +15,7 @@ export interface User {
 
 export interface createNewUser {
     name?: string,
-    email?: string,
+    email: string,
     password?: string,
     phone?:string,
     age?: number,
