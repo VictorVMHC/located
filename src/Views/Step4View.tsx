@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAvoidingView, LayoutAnimation, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ScheduleSection } from '../Components/ScheduleSection';
 import { Schedule } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
@@ -8,6 +8,7 @@ import { CustomPicker } from '../Components/CustomPicker';
 import { addCategory, getCategories } from '../Api/categories';
 import { CustomAlert } from '../Components/CustomAlert';
 import { useTranslation } from 'react-i18next';
+import { Chip } from 'react-native-paper';
 
 export const Step4View = () => {
     const initialSchedule: Schedule[] = [
@@ -16,10 +17,12 @@ export const Step4View = () => {
 
     const [schedule, setSchedule] = useState<Schedule[]>(initialSchedule);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [add, setAdd] = useState<boolean>(false);
+    const [placeHolder, setPlaceHolder] = useState('');
     const { t } = useTranslation();
     
     useEffect(() => {       
@@ -74,7 +77,8 @@ export const Step4View = () => {
                 }
 
                 setCategoryOptions([...categoryOptions, newCategory]);
-                setSelectedCategory(newCategory);
+                setSelectedCategory([...selectedCategory, newCategory]);
+                setPlaceHolder(newCategory)
                 setModalVisible(false);
                 
             }
@@ -89,8 +93,12 @@ export const Step4View = () => {
         
     };
 
-    const handleSelected = (selected: string) =>{
+    const handleSelected = (selected: string[]) =>{
         setSelectedCategory(selected)
+        setPlaceHolder(selected.toString())
+        console.log(selected);
+        console.log(selectedCategory);
+        
     }
 
     const handleLoadMore = async () => {
@@ -98,6 +106,15 @@ export const Step4View = () => {
             fetchCategories();
         }
     };
+    
+    const handleChipClose = (itemToRemove: string) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+        const updatedSelectedCategory = selectedCategory.filter(item => item !== itemToRemove);
+        setSelectedCategory(updatedSelectedCategory);
+    };
+    const onPressOpenModal = () => {
+        setAdd(false);
+    }
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container} >
@@ -106,22 +123,52 @@ export const Step4View = () => {
                     <ScheduleSection  schedule={schedule} setSchedule={setSchedule} updateScheduleItem={updateScheduleItem} />
                 </View>
                 <View style={styles.containerCategories}>
-                    <View>
-                        <CustomPicker
-                            modalInputTItle={ selectedCategory || 'Add category'}
-                            placeHolder='add other category'
-                            data={categoryOptions}
-                            ActionSelected={handleSelected}
-                            buttonTitle='Agregar categoria'
-                            onEndAction={handleLoadMore}
-                            ActionSubmit={handleAddNewCategory}
-                            borderColor={Colors.darkGray}
-                            modalVisible={modalVisible}
-                            setModalVisible={setModalVisible}
-                        />
+                    <View style={styles.pickerSection}>
+                        <View style={{flex: 7}} >
+                            <CustomPicker
+                                modalInputTItle={ placeHolder || 'Add category'}
+                                placeHolder='add other category'
+                                data={categoryOptions}
+                                ActionMultiSelected={handleSelected}
+                                buttonTitle='Agregar categoria'
+                                onEndAction={handleLoadMore}
+                                ActionSubmit={handleAddNewCategory}
+                                borderColor={Colors.darkGray}
+                                modalVisible={modalVisible}
+                                setModalVisible={setModalVisible}
+                                multiSelection
+                                actionOnPressOpenModal={onPressOpenModal}
+                            />
+                        </View>
+                        <View style={{flex: 3}} >
+                            <TouchableOpacity style={styles.button}
+                                onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); setAdd(true); setPlaceHolder('');
+                                }}
+                            >
+                                <Text style={styles.buttonText}  adjustsFontSizeToFit >Add</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View>
-
+                    <View style={styles.chipContainer}>
+                        {add ? (
+                            <View style={styles.chipsWrapper}>
+                                {selectedCategory.map((item, index) => (
+                                    <Chip
+                                        key={index}
+                                        closeIcon="close"
+                                        mode='outlined'
+                                        elevated
+                                        onClose={() => {
+                                            handleChipClose(item);
+                                        }}
+                                        onPress={() => console.log('Pressed')}
+                                        compact style={{ margin: 5 }}>
+                                        {item}
+                                    </Chip>
+                                    
+                                ))}
+                            </View>
+                        ) : null}
                     </View>
                 </View>
             </ScrollView>
@@ -138,6 +185,45 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     containerCategories:{
-        flex: 5,
-    }
+        flex: 4,
+        top: 10,
+        width: '90%',
+        alignItems: 'center',
+        alignSelf: 'center'
+    },
+    pickerSection:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginLeft: 5,
+        borderRadius: 5,
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.greenSuccess
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: 'white',
+        marginHorizontal: 2,
+    },
+    chipContainer: {
+        marginVertical: 20,
+        borderRadius: 8,
+        borderColor: Colors.darkGray,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+    },
+    chipsWrapper: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        maxWidth: '100%',
+    },
+    
 });

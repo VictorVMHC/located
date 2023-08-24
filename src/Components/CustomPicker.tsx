@@ -6,7 +6,8 @@ import { Colors, FontStyles } from '../Themes/Styles';
 interface Props {
     modalInputTItle: string;
     borderColor?: string;
-    ActionSelected: (item: string) => void;
+    ActionSelected?: (item: string) => void;
+    ActionMultiSelected?: (item: string[]) => void;
     data: string[];
     ActionSubmit: (value:string) => void;
     onEndAction: () => void;
@@ -14,15 +15,35 @@ interface Props {
     buttonTitle: string;
     modalVisible: boolean;
     setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    multiSelection: boolean;
+    actionOnPressOpenModal: () => void
 }
-export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
+export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColor, ActionMultiSelected, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
     
     const [value, setValue] = useState('');
+    const [selectedItems, setSelectedItems] = useState<string[]>([]); 
 
-
+    const handleSelection = (value:string) => {
+        console.log('this is the handle selection');
+        console.log(value);
+        
+        
+        if(multiSelection ){
+            const newSelectedItems = selectedItems.includes(value)
+                ? selectedItems.filter(selectedItem => selectedItem !== value)
+                : [...selectedItems, value];
+            setSelectedItems(newSelectedItems);
+            ActionMultiSelected!(newSelectedItems);
+            setModalVisible(true)
+        }
+        else {
+            ActionSelected!(value)
+            setModalVisible(false)
+        }
+    }
     return (
         <View style={{...styles.textInputSty, borderColor: borderColor || Colors.darkGray}}>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
+            <TouchableOpacity onPress={() => {setModalVisible(true); actionOnPressOpenModal();}} style={styles.button}>
                 <View style={styles.buttonView}>
                     <View style={{flex: 9}}>
                         <Text style={styles.selectedOption} adjustsFontSizeToFit >{ modalInputTItle }</Text>
@@ -38,15 +59,15 @@ export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected
                 transparent={true}
                 onRequestClose={() => setModalVisible(false)}
             >
+                
                 <View style={styles.modalContainer}>
                     <FlatList<string>
                         data={data}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => {
-                                ActionSelected(item)
-                                setModalVisible(false)
+                                handleSelection(item)
                             }}>
-                                <Text style={styles.modalOption} adjustsFontSizeToFit >{item}</Text>
+                                <Text style={{ ...styles.modalOption, color: selectedItems.includes(item) ? 'green' : 'white' }} adjustsFontSizeToFit >{item}</Text>
                             </TouchableOpacity>
                         )}
                         onEndReached={onEndAction}
@@ -59,13 +80,20 @@ export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected
                         onChangeText={(text) => setValue(text)}
                         onEndEditing={() => {
                             ActionSubmit(value)
-                            setModalVisible(false);
+                            setModalVisible(multiSelection);
                             setValue('');
                         }}
                         value={value}
                     />
                     <Button title={buttonTitle} onPress={() => ActionSubmit(value)} />
+                    <Button title={'finish'} color={Colors.greenSuccess} onPress={() => setModalVisible(false)} />
                 </View>
+                <TouchableOpacity 
+                    style={{position:'absolute', right: 20, top:20}}
+                    onPress={() => setModalVisible(false)}
+                >
+                    <Icon name='times' size={25}  light color={Colors.white}/>
+                </TouchableOpacity>
             </Modal>
         </View>
     )
