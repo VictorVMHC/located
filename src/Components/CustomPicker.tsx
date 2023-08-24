@@ -3,6 +3,7 @@ import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity,
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors, FontStyles } from '../Themes/Styles';
 
+
 interface Props {
     modalInputTItle: string;
     borderColor?: string;
@@ -86,7 +87,12 @@ export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColo
                         value={value}
                     />
                     <Button title={buttonTitle} onPress={() => ActionSubmit(value)} />
-                    <Button title={'finish'} color={Colors.greenSuccess} onPress={() => setModalVisible(false)} />
+                    <TouchableOpacity 
+                        style={styles.styleFinishBtn} 
+                        onPress={() => setModalVisible(false)} 
+                    >
+                        <Text adjustsFontSizeToFit style={{color: 'white'}}>finish</Text>
+                    </TouchableOpacity>
                 </View>
                 <TouchableOpacity 
                     style={{position:'absolute', right: 20, top:20}}
@@ -141,5 +147,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         color: Colors.greenSuccess
     },
+    styleFinishBtn:{
+        backgroundColor: Colors.greenSuccess, 
+        marginTop: 10, 
+        paddingHorizontal: 25, 
+        paddingVertical: 5, 
+        borderRadius: 8
+    }
 });
     
