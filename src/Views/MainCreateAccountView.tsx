@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Circles } from '../Components/Circles';
 import { FontStyles, Styles } from '../Themes/Styles'
@@ -6,11 +6,45 @@ import { PickerButton } from '../Components/PickerButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 interface Props extends NativeStackScreenProps<any, any>{}
 
 export const MainCreateAccountView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
+
+    useEffect(()=>{
+        GoogleSignin.configure({
+        });
+},[])
+
+const signInGoogle = async () => {
+    try {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        console.log(userInfo.user);
+    } catch (error :any) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+        } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (e.g. sign in) is in progress already
+        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+        } else {
+            // some other error happened
+        }
+        }
+    };
+
+const  signOut = async () => {
+        try {
+        const userInfo =  await GoogleSignin.signOut();
+        console.log(userInfo);
+        } catch (error) {
+        console.error(error);
+        }
+    };
+
     return (
     <SafeAreaView style={Styles.container}>
         <Circles
@@ -41,7 +75,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         />
         <View style={Styles.bodyView}>
             <View style={StylesLogIn.viewText}>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={signInGoogle}>
                     <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
                     <Text style= {StylesLogIn.textInformation}>{t('SingUpGoogle')}</Text>
                 </TouchableOpacity>  

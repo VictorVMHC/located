@@ -21,39 +21,6 @@ interface Props extends NativeStackScreenProps<any, any>{};
 export const LoginView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
 
-    useEffect(()=>{
-            GoogleSignin.configure({
-              
-            });
-    },[])
-
-    const signInGoogle = async () => {
-        try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-            console.log(userInfo.user);
-        } catch (error :any) {
-             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            // operation (e.g. sign in) is in progress already
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            // play services not available or outdated
-          } else {
-            // some other error happened
-          }
-        }
-      };
-
-    const  signOut = async () => {
-        try {
-        const userInfo =  await GoogleSignin.signOut();
-        console.log(userInfo);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    
     const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
 
     useEffect(() => {
@@ -176,14 +143,8 @@ export const LoginView = ({navigation}: Props) => {
                                 <View style={StylesLogIn.viewLine}></View>
                         </View>
                         <View style={StylesLogIn.containerIcons}>
-                            <TouchableOpacity style={StylesLogIn.btnIcon}
-                                onPress={signInGoogle}
-                            >
+                            <TouchableOpacity style={StylesLogIn.btnIcon}>
                                 <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={StylesLogIn.btnIcon}
-                                onPress={signOut}>
-                                    <Text>Out</Text> 
                             </TouchableOpacity>
                             <TouchableOpacity  style={StylesLogIn.btnIcon}>
                                 <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
