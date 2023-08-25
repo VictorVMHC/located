@@ -5,14 +5,20 @@ import { AppState, AppStateStatus } from 'react-native';
 
 type PermissionsState ={
     locationStatus: PermissionStatus
+    cameraStatus: PermissionStatus
 }
+
 export const PermissionsInitialState: PermissionsState ={
     locationStatus: 'unavailable',
+    cameraStatus: 'unavailable'
 }
+
 type PermissionsContextProps = {
     permissions: PermissionsState;
     askLocationPermission: () => void;
     checkLocationPermission: () => void;
+    askCameraPermission: () => void;
+    checkCameraPermission: () => void;
 }
 
 export const PermissionsContext = createContext({} as PermissionsContextProps );
@@ -47,14 +53,42 @@ export const PermissionsProvider = ({ children }: any) => {
 
     }
 
+    const askCameraPermission = async() => {
+        let permissionStatus: PermissionStatus;
+        permissionStatus = await check( PERMISSIONS.ANDROID.CAMERA );
+
+        setPermissions({
+            ...permissions,
+            cameraStatus: permissionStatus
+        });
+    }
+
+    const checkCameraPermission = async() => {
+        
+        let permissionStatus: PermissionStatus;
+
+        permissionStatus = await request( PERMISSIONS.ANDROID.CAMERA );
+        if ( permissionStatus === 'blocked' ) {
+            openSettings();
+        }
+
+        setPermissions({
+            ...permissions,
+            cameraStatus: permissionStatus
+        });
+
+    }
+
     useEffect(() => {
         checkLocationPermission();
+        checkCameraPermission();
 
         AppState.addEventListener('change', (state: AppStateStatus) =>{
             if( state !== 'active') return;
-
             checkLocationPermission();
+            checkCameraPermission();
         });
+        
     }, []);
 
     return (
@@ -62,6 +96,8 @@ export const PermissionsProvider = ({ children }: any) => {
             permissions,
             askLocationPermission,
             checkLocationPermission,
+            askCameraPermission,
+            checkCameraPermission
         }}>
             { children}
         </PermissionsContext.Provider>
