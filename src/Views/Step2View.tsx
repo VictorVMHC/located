@@ -86,7 +86,7 @@ export const Step2View = () => {
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 20}}>
+            <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 20}} >
                 <View style={{flex: 1}}>
                     <Text style={styles.title}> {t('step2Title')} </Text>
                     <View style={styles.textInputSty}>
@@ -122,7 +122,6 @@ export const Step2View = () => {
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                     />
-
                     <Modal
                         visible={modalVisible}
                         animationType="slide"
@@ -213,4 +212,3 @@ const styles = StyleSheet.create({
         color: Colors.greenSuccess
     }
 });
-    
