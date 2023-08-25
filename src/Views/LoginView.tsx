@@ -14,11 +14,45 @@ import { IconWithText } from '../Components/IconWithText';
 import { AuthContext } from '../Context/AuthContext';
 import { test } from '../Api/authApi';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
+import { GoogleSignin,statusCodes } from '@react-native-google-signin/google-signin';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
+
+    useEffect(()=>{
+            GoogleSignin.configure({
+              
+            });
+    },[])
+
+    const signInGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            console.log(userInfo.user);
+        } catch (error :any) {
+             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (e.g. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+          } else {
+            // some other error happened
+          }
+        }
+      };
+
+    const  signOut = async () => {
+        try {
+        const userInfo =  await GoogleSignin.signOut();
+        console.log(userInfo);
+        } catch (error) {
+          console.error(error);
+        }
+      };
     
     const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
 
@@ -142,8 +176,14 @@ export const LoginView = ({navigation}: Props) => {
                                 <View style={StylesLogIn.viewLine}></View>
                         </View>
                         <View style={StylesLogIn.containerIcons}>
-                            <TouchableOpacity style={StylesLogIn.btnIcon}>
+                            <TouchableOpacity style={StylesLogIn.btnIcon}
+                                onPress={signInGoogle}
+                            >
                                 <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={StylesLogIn.btnIcon}
+                                onPress={signOut}>
+                                    <Text>Out</Text> 
                             </TouchableOpacity>
                             <TouchableOpacity  style={StylesLogIn.btnIcon}>
                                 <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
