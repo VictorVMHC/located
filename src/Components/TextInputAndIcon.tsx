@@ -15,7 +15,7 @@ export const TextInputAndIcon = ({ iconName, placeHolder }: Props) => {
     return (
         <View style={{flexDirection: 'row', flex: 1}}>
             <View style={styles.icon} >
-                <Icon name={ iconName } light size={25} />
+                <Icon name={ iconName } light size={25} adjustsFontSizeToFit />
             </View>
             <TextInput
                 placeholder={ placeHolder }

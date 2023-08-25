@@ -14,23 +14,23 @@ export const Step5View = () => {
             <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 20}} >
                 <TextInputAndIcon
                     iconName='facebook-f'
-                    placeHolder='ICON'
+                    placeHolder='Facebook'
                 />
                 <TextInputAndIcon
                     iconName='envelope'
-                    placeHolder='ICON'
+                    placeHolder='Email'
                 />
                 <TextInputAndIcon
-                    iconName='facebook-f'
-                    placeHolder='ICON'
+                    iconName='instagram'
+                    placeHolder='Instagram'
                 />
                 <TextInputAndIcon
-                    iconName='facebook-f'
-                    placeHolder='ICON'
+                    iconName='globe'
+                    placeHolder='Web page'
                 />
                 <TextInputAndIcon
-                    iconName='facebook-f'
-                    placeHolder='ICON'
+                    iconName='whatsapp'
+                    placeHolder='Whatsapp'
                 />
             </ScrollView>
         </KeyboardAvoidingView>
