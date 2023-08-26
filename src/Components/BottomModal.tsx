@@ -7,7 +7,7 @@ interface Props {
 }
 export const BottomModal = ({modalVisible, hideModal, slideUp}: Props) => {
     return (
-        <Modal visible={modalVisible} onRequestClose={hideModal}>
+        <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
             <TouchableOpacity style={styles.overlay} onPress={hideModal}>
                 <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
                     <TouchableOpacity style={styles.modalButton}>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet, Animated, useWindowDimensions, LayoutAnimation } from 'react-native';
+import { BottomModal } from '../Components/BottomModal';
 
 export const Step6View = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -40,21 +41,11 @@ export const Step6View = () => {
             <TouchableOpacity style={styles.button} onPress={showModal}>
                 <Text>Show Modal</Text>
             </TouchableOpacity>
-            <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
-                <TouchableOpacity style={styles.overlay} onPress={hideModal}>
-                    <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
-                        <TouchableOpacity style={styles.modalButton}>
-                            <Text>Button 1</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.modalButton}>
-                            <Text>Button 2</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.modalButton}>
-                            <Text>Button 3</Text>
-                        </TouchableOpacity>
-                    </Animated.View>
-                </TouchableOpacity>
-            </Modal>
+            <BottomModal
+                slideUp={slideUp}
+                modalVisible={modalVisible}
+                hideModal={hideModal}
+            />
         </View>
     );
 };
