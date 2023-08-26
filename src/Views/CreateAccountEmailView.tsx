@@ -44,6 +44,7 @@ export const CreateAccountEmailView = () => {
     const {signUp } = useContext(AuthContext);
     const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     const textInputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
+    const [errorMessage, setErrorMessages] = useState('');
 
     const handleTextInputChange = (index: number, text: string) => {
         const fieldName = `v${index + 1}`as keyof typeof code;
@@ -89,10 +90,6 @@ export const CreateAccountEmailView = () => {
                 handleOpenModal();
             }
         }catch(error: any) {
-            <ModalVerifyUser
-            isVisible={modalError}
-            closeModal={handleCloseModal}
-            ></ModalVerifyUser>
         let errorMessages = [];
         if (error.response && error.response.data && error.response.data.errors) {
             const errors = error.response.data.errors;
@@ -107,7 +104,9 @@ export const CreateAccountEmailView = () => {
         ? errorMessages.join('\n')
         : 'Ocurrió un error al verificar el usuario';
 
-    console.error(errorMessage);
+        setErrorMessages(errorMessage);
+        setModalError(true);
+        //console.error(errorMessage);
         }
     }
 
@@ -361,6 +360,23 @@ export const CreateAccountEmailView = () => {
                         </View>
                     </View>
                 </ModalVerifyUser>
+                <ModalVerifyUser
+                    isVisible={modalError}
+                    closeModal={()=>{}}
+                >
+                    <View style={StyleSingleText.container}>
+                        <View style={{flex:4}}>
+                        <ScrollView showsVerticalScrollIndicator={true}>
+                        <Text style={{fontSize: 17, color: 'black', textAlign: 'left' }}>{errorMessage}</Text>
+                        </ScrollView>
+                        </View>
+                        <View style={{flex:1,}}>
+                            <TouchableOpacity style={StyleSingleText.boton} onPress={()=>setModalError(false)}>
+                                <Text style={{...Styles.txtBtn, top: -1}}>Regresar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ModalVerifyUser>
             </ScrollView>
         </SafeAreaView>
     )
@@ -404,14 +420,15 @@ const StyleSingleText = StyleSheet.create({
     container:{
         width: 320,
         height: 280,
-        top: 205,
-        right:10,
-        left:20,
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: [{ translateX: -160 }, { translateY: -140 }], // Mitad del ancho y alto
         backgroundColor: 'rgba(255,255,255,0.9)',
-        borderRadius:10,
+        borderRadius: 10,
         borderColor: 'black',
         borderWidth: 2,
-        padding: 20,  
+        padding: 20,
     },
     subContainer:{
     },

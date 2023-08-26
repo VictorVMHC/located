@@ -85,7 +85,6 @@ export const Styles = StyleSheet.create({
         marginVertical: 5,
     },
     txtBtn:{
-        
         textAlign: 'center',
         letterSpacing:0,
         ...FontStyles.SubTitles,
