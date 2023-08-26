@@ -9,9 +9,11 @@ import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
-import { createNewUser } from '../Interfaces/UserInterfaces';
-import { VerifyEmail, VerifyCode, deleteVerifyEmail } from '../Api/verifyEmail';
+import { createNewUser,  } from '../Interfaces/UserInterfaces';
+import { VerifyEmail, VerifyCode, deleteVerifyEmail, VerifyUserInfo } from '../Api/verifyEmail';
 import { AuthContext } from '../Context/AuthContext';
+import { createUser, getUser } from '../Api/userApi';
+import { AxiosError } from 'axios';
 
 interface Code {
     v1: string,
@@ -35,10 +37,11 @@ export const CreateAccountEmailView = () => {
     const {t, i18n } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
+    const [modalError, setModalError] = useState(false);
     const [emailUser, setEmailUser] = useState('');
     const [userState, setUserState] = useState<createNewUser>(userInitialValue);
     const [attempts, setAttempts] = useState(3);
-    const {signUp} = useContext(AuthContext);
+    const {signUp } = useContext(AuthContext);
     const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     const textInputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
 
@@ -78,13 +81,36 @@ export const CreateAccountEmailView = () => {
     const handleSubmit = async (user:createNewUser) => {
         setUserState(user);   
         try{
-            await VerifyEmail(user.email);
-            setEmailUser(user.email);
-            handleOpenModal();
-        }catch(err){
-            console.log(err);
+            const dato = await VerifyUserInfo(user);
+            if(dato.status == 200){
+                console.log('Usuario verificado correctamente');
+                await VerifyEmail(user.email);
+                setEmailUser(user.email);
+                handleOpenModal();
+            }
+        }catch(error: any) {
+            <ModalVerifyUser
+            isVisible={modalError}
+            closeModal={handleCloseModal}
+            ></ModalVerifyUser>
+        let errorMessages = [];
+        if (error.response && error.response.data && error.response.data.errors) {
+            const errors = error.response.data.errors;
+            for (let i = 0; i < errors.length; i++) {
+                if (errors[i].msg) {
+                    errorMessages.push(errors[i].msg);
+                }
+            }
+        }
+            
+        const errorMessage = errorMessages.length > 0
+        ? errorMessages.join('\n')
+        : 'Ocurrió un error al verificar el usuario';
+
+    console.error(errorMessage);
         }
     }
+
 
     const handleOpenModal = () => {
         setCode({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
@@ -95,11 +121,7 @@ export const CreateAccountEmailView = () => {
     const handleCloseModal = async () => {
         const codeConcat = concatenateValues(code);
         try{
-            console.log(codeConcat)
             const verifycode = await VerifyCode(emailUser,codeConcat);
-            var jsonString = JSON.stringify(verifycode, null, 2);
-            console.log(jsonString);
-            
             if(verifycode.status == 200){
                 signUp(userState)
                 setModalVisible(false);

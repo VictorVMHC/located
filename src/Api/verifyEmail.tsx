@@ -1,3 +1,4 @@
+import { LoginResponse, User} from "../Interfaces/UserInterfaces";
 import api from "./api";
 
 const VerifyEmail = (email: string) => {
@@ -14,9 +15,13 @@ const deleteVerifyEmail = (email: string) => {
     return api.delete(route);
 }
 
+const VerifyUserInfo = (user: User) => {
+    return api.post('/api/verifyUserInfo',user);
+}
 
 export {
     VerifyEmail,
     VerifyCode,
-    deleteVerifyEmail
+    deleteVerifyEmail,
+    VerifyUserInfo
 }

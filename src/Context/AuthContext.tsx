@@ -4,7 +4,7 @@ import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
 import { t } from 'i18next';
-import { createUser } from '../Api/userApi';
+import { createUser, getUser } from '../Api/userApi';
 import { GuestLogIn } from '../Api/guestUser';
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
 
@@ -173,10 +173,24 @@ export const AuthProvider = ({children}: any) => {
                 }
             });
         }catch(error: any){
+            let errorMessages = [];
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                for (let i = 0; i < errors.length; i++) {
+                    if (errors[i].msg) {
+                        errorMessages.push(errors[i].msg);
+                    }
+                }
+            }
+            const errorMessage = errorMessages.length > 0
+            ? errorMessages.join('\n') // Concatenar mensajes de error con saltos de línea
+            : t('ErrorMsgPayload'); // Mensaje predeterminado
+
             dispatch({
                 type: 'addError',
-                payload: JSON.stringify(error.response.data.errors) || t('ErrorMsgPayload')
-            })
+                payload: errorMessage
+            });
+
         }
     }
 
