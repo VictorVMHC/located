@@ -1,57 +1,64 @@
-import React, { useState } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Animated, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Animated, useWindowDimensions, LayoutAnimation } from 'react-native';
 
 export const Step6View = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const slideAnimation = new Animated.Value(0);
-    const {height} = useWindowDimensions();
+    const { height } = useWindowDimensions();
+
+    useEffect(() => {
+        if (modalVisible) {
+            Animated.timing(slideAnimation, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            Animated.timing(slideAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, []);
 
     const showModal = () => {
-    setModalVisible(true);
-    Animated.timing(slideAnimation, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-    }).start();
+        setModalVisible(true);
     };
 
     const hideModal = () => {
-    Animated.timing(slideAnimation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-    }).start(() => setModalVisible(false));
+        setModalVisible(false);
     };
 
     const slideUp = slideAnimation.interpolate({
         inputRange: [0, 1],
-        outputRange: [height, height * .75,] // Bottom to 25% from bottom
+        outputRange: [0, height * 0.75],
     });
 
     return (
-    <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={showModal}>
-        <Text>Show Modal</Text>
-        </TouchableOpacity>
-
-        <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
-        <TouchableOpacity style={styles.overlay} onPress={hideModal}>
-            <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
-                <TouchableOpacity style={styles.modalButton}>
-                    <Text>Button 1</Text>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.button} onPress={showModal}>
+                <Text>Show Modal</Text>
+            </TouchableOpacity>
+            <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
+                <TouchableOpacity style={styles.overlay} onPress={hideModal}>
+                    <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
+                        <TouchableOpacity style={styles.modalButton}>
+                            <Text>Button 1</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.modalButton}>
+                            <Text>Button 2</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.modalButton}>
+                            <Text>Button 3</Text>
+                        </TouchableOpacity>
+                    </Animated.View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton}>
-                    <Text>Button 2</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton}>
-                    <Text>Button 3</Text>
-                </TouchableOpacity>
-            </Animated.View>
-        </TouchableOpacity>
-        </Modal>
-    </View>
+            </Modal>
+        </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
