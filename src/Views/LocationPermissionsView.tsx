@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { useTranslation } from 'react-i18next';
 
-const LocationPermissionView = () => {
+export const LocationPermissionView = () => {
     const {t, i18n } = useTranslation();
     const { askLocationPermission } = useContext( PermissionsContext );
     const mapOpacity = new Animated.Value(0);
@@ -94,5 +94,3 @@ const LocationPermissionView = () => {
         fontSize: 18,
     }
 });
-
-export default LocationPermissionView;

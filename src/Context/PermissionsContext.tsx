@@ -15,11 +15,12 @@ export const PermissionsInitialState: PermissionsState ={
 
 type PermissionsContextProps = {
     permissions: PermissionsState;
-    askLocationPermission: () => void;
-    checkLocationPermission: () => void;
-    askCameraPermission: () => void;
-    checkCameraPermission: () => void;
-}
+    askLocationPermission: () => Promise<void>;
+    checkLocationPermission: () => Promise<void>;
+    askCameraPermission: () => Promise<void>;
+    checkCameraPermission: () => Promise<void>;
+ }
+
 
 export const PermissionsContext = createContext({} as PermissionsContextProps );
 
@@ -27,57 +28,57 @@ export const PermissionsProvider = ({ children }: any) => {
 
     const [permissions, setPermissions] = useState(PermissionsInitialState);
     
-    const checkLocationPermission = async() => {
-        let permissionStatus: PermissionStatus;
-        permissionStatus = await check( PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION );
-
-        setPermissions({
-            ...permissions,
-            locationStatus: permissionStatus
-        });
+    const checkLocationPermission = async () => {
+        const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        setPermissions((prevPermissions) => ({ ...prevPermissions, locationStatus: permissionStatus }));
     }
 
-    const askLocationPermission = async() => {
-        
-        let permissionStatus: PermissionStatus;
-
-        permissionStatus = await request( PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION );
-        if ( permissionStatus === 'blocked' ) {
+    const askLocationPermission = async () => {
+        let permissionStatus: PermissionStatus = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        if (permissionStatus === 'blocked') {
             openSettings();
         }
-
-        setPermissions({
-            ...permissions,
-            locationStatus: permissionStatus
-        });
-
+        setPermissions((prevPermissions) => ({ ...prevPermissions, locationStatus: permissionStatus }));
     }
 
-    const askCameraPermission = async() => {
-        let permissionStatus: PermissionStatus;
-        permissionStatus = await check( PERMISSIONS.ANDROID.CAMERA );
-
-        setPermissions({
-            ...permissions,
-            cameraStatus: permissionStatus
-        });
+    const checkCameraPermission = async () => {
+        const permissionStatus = await check(PERMISSIONS.ANDROID.CAMERA);
+        setPermissions((prevPermissions) => ({ ...prevPermissions, cameraStatus: permissionStatus }));
     }
 
-    const checkCameraPermission = async() => {
-        
-        let permissionStatus: PermissionStatus;
-
-        permissionStatus = await request( PERMISSIONS.ANDROID.CAMERA );
-        if ( permissionStatus === 'blocked' ) {
+    const askCameraPermission = async () => {
+        let permissionStatus: PermissionStatus = await request(PERMISSIONS.ANDROID.CAMERA);
+        if (permissionStatus === 'blocked') {
             openSettings();
         }
-
-        setPermissions({
-            ...permissions,
-            cameraStatus: permissionStatus
-        });
-
+        setPermissions((prevPermissions) => ({ ...prevPermissions, cameraStatus: permissionStatus }));
     }
+
+    // const askCameraPermission = async() => {
+    //     let permissionStatus: PermissionStatus;
+    //     permissionStatus = await check( PERMISSIONS.ANDROID.CAMERA );
+
+    //     setPermissions({
+    //         ...permissions,
+    //         cameraStatus: permissionStatus
+    //     });
+    // }
+
+    // const checkCameraPermission = async() => {
+        
+    //     let permissionStatus: PermissionStatus;
+
+    //     permissionStatus = await request( PERMISSIONS.ANDROID.CAMERA );
+    //     if ( permissionStatus === 'blocked' ) {
+    //         openSettings();
+    //     }
+
+    //     setPermissions({
+    //         ...permissions,
+    //         cameraStatus: permissionStatus
+    //     });
+
+    // }
 
     useEffect(() => {
         checkLocationPermission();
@@ -88,7 +89,7 @@ export const PermissionsProvider = ({ children }: any) => {
             checkLocationPermission();
             checkCameraPermission();
         });
-        
+
     }, []);
 
     return (

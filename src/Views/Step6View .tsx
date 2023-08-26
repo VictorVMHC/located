@@ -1,49 +1,84 @@
 import React, { useState } from 'react';
-import { View, Image, Button, StyleSheet } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Animated, useWindowDimensions } from 'react-native';
 
 export const Step6View = () => {
-    const [profilePicture, setProfilePicture] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const slideAnimation = new Animated.Value(0);
+    const {height} = useWindowDimensions();
 
-    const handleImagePicker = () => {
-        ImagePicker.showImagePicker(
-        {
-            title: 'Seleccionar foto de perfil',
-            mediaType: 'photo',
-            cancelButtonTitle: 'Cancelar',
-            takePhotoButtonTitle: 'Tomar foto',
-            chooseFromLibraryButtonTitle: 'Elegir de la galería',
-        },
-        (response) => {
-            if (!response.didCancel && !response.error) {
-            setProfilePicture(response.uri);
-            }
-        }
-        );
+    const showModal = () => {
+    setModalVisible(true);
+    Animated.timing(slideAnimation, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+    }).start();
     };
+
+    const hideModal = () => {
+    Animated.timing(slideAnimation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+    }).start(() => setModalVisible(false));
+    };
+
+    const slideUp = slideAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [height, height * .75,] // Bottom to 25% from bottom
+    });
 
     return (
-        <View style={styles.container}>
-        {profilePicture ? (
-            <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
-        ) : (
-            <Button title="Subir foto de perfil" onPress={handleImagePicker} />
-        )}
-        </View>
-    );
-    };
+    <View style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={showModal}>
+        <Text>Show Modal</Text>
+        </TouchableOpacity>
 
-    const styles = StyleSheet.create({
+        <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
+        <TouchableOpacity style={styles.overlay} onPress={hideModal}>
+            <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
+                <TouchableOpacity style={styles.modalButton}>
+                    <Text>Button 1</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton}>
+                    <Text>Button 2</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton}>
+                    <Text>Button 3</Text>
+                </TouchableOpacity>
+            </Animated.View>
+        </TouchableOpacity>
+        </Modal>
+    </View>
+    );
+};
+
+const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     },
-    profilePicture: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+    button: {
+    padding: 10,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+    },
+    overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+    },
+    modal: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    },
+    modalButton: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
     },
 });
-
-export default ProfilePictureUpload;
