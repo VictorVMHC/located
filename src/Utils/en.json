@@ -68,6 +68,8 @@
     "InternalError": "An error occurred while trying to log in user",
     "TimeOutConn": "Could not connect to Located services",
     "LoginToAccessLogText":"Log in to Located",
-    "LoginToAccessTextInfo":"To use this function you need to log in"
+    "LoginToAccessTextInfo":"To use this function you need to log in",
+    "buttonGoBack":"Go Back",
+    "attemptsVerification":"Attempts for verification"
   }
 }

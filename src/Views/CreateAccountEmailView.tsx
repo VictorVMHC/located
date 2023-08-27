@@ -96,7 +96,7 @@ export const CreateAccountEmailView = () => {
             } 
             const errorMessage = errorMessages.length > 0
             ? errorMessages.join('\n')
-            : 'Ocurrió un error al verificar el usuario';
+            : 'An error occurred while verifying the user';
             
             setErrorMessages(errorMessage);
             setModalError(true);
@@ -299,7 +299,7 @@ export const CreateAccountEmailView = () => {
                     closeModal={handleCloseModal}
                 >
                     <View style={StyleSingleText.container}>
-                        <Text style={{...StyleSingleText.texts, width:300, left:-10}}>{t('ModalMsgInicio')}</Text>
+                        <Text style={{...StyleSingleText.texts, width:300, left:-10}}>{t('ModalMsgStart')}</Text>
                         <Text style={StyleSingleText.texts}>{t('ModalMsgCheckEmail')}</Text>
                         <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
                         <View style={StyleSingleText.row}>
@@ -348,7 +348,7 @@ export const CreateAccountEmailView = () => {
                                 <Text style={{...Styles.txtBtn, top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                         <View style={{width: '100%', height: 50, marginTop: '25%'}}>
-                            <Text style={{textAlign: 'center', fontWeight: 'bold', color: Colors.blueText}}>Cuentas con {attempts} intentos para la verificacion</Text>
+                            <Text style={{textAlign: 'center', fontWeight: 'bold', color: Colors.blueText}}>{t('attemptsVerification') +'  ' + attempts}</Text>
                         </View>
                     </View>
                 </ModalVerifyUser>
@@ -365,7 +365,7 @@ export const CreateAccountEmailView = () => {
                         </View>
                         <View style={{flex:1,}}>
                             <TouchableOpacity style={StyleSingleText.boton} onPress={()=>setModalError(false)}>
-                                <Text style={{...Styles.txtBtn, top: -1}}>Regresar</Text>
+                                <Text style={{...Styles.txtBtn, top: -1}}>{t('buttonGoBack')}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -416,7 +416,7 @@ const StyleSingleText = StyleSheet.create({
         position: 'absolute',
         left: '50%',
         top: '50%',
-        transform: [{ translateX: -160 }, { translateY: -140 }], // Mitad del ancho y alto
+        transform: [{ translateX: -160 }, { translateY: -140 }], 
         backgroundColor: 'rgba(255,255,255,0.9)',
         borderRadius: 10,
         borderColor: 'black',

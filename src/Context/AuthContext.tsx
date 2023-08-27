@@ -183,8 +183,8 @@ export const AuthProvider = ({children}: any) => {
                 }
             }
             const errorMessage = errorMessages.length > 0
-            ? errorMessages.join('\n') // Concatenar mensajes de error con saltos de línea
-            : t('ErrorMsgPayload'); // Mensaje predeterminado
+            ? errorMessages.join('\n')
+            : t('ErrorMsgPayload'); 
 
             dispatch({
                 type: 'addError',
