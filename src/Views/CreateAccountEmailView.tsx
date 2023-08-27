@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React, { useState, useContext, useRef} from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circles } from '../Components/Circles';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
@@ -12,8 +12,6 @@ import { IconWithText } from '../Components/IconWithText';
 import { createNewUser,  } from '../Interfaces/UserInterfaces';
 import { VerifyEmail, VerifyCode, deleteVerifyEmail, VerifyUserInfo } from '../Api/verifyEmail';
 import { AuthContext } from '../Context/AuthContext';
-import { createUser, getUser } from '../Api/userApi';
-import { AxiosError } from 'axios';
 
 interface Code {
     v1: string,
@@ -33,7 +31,7 @@ export const CreateAccountEmailView = () => {
         username: "",
         age: 0,
     }
- 
+
     const {t, i18n } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
@@ -49,7 +47,6 @@ export const CreateAccountEmailView = () => {
     const handleTextInputChange = (index: number, text: string) => {
         const fieldName = `v${index + 1}`as keyof typeof code;
         updateValue(fieldName, text);
-        
         if (text.length > 0 && index < textInputRefs.length - 1) {
             textInputRefs[index + 1].current?.focus();
         } 
@@ -78,38 +75,33 @@ export const CreateAccountEmailView = () => {
         }));     
     };
 
-
     const handleSubmit = async (user:createNewUser) => {
         setUserState(user);   
         try{
             const dato = await VerifyUserInfo(user);
             if(dato.status == 200){
-                console.log('Usuario verificado correctamente');
                 await VerifyEmail(user.email);
                 setEmailUser(user.email);
                 handleOpenModal();
             }
         }catch(error: any) {
-        let errorMessages = [];
-        if (error.response && error.response.data && error.response.data.errors) {
-            const errors = error.response.data.errors;
-            for (let i = 0; i < errors.length; i++) {
-                if (errors[i].msg) {
-                    errorMessages.push(errors[i].msg);
+            let errorMessages = [];
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                for (let i = 0; i < errors.length; i++) {
+                    if (errors[i].msg) {
+                        errorMessages.push(errors[i].msg);
+                    }
                 }
-            }
-        }
+            } 
+            const errorMessage = errorMessages.length > 0
+            ? errorMessages.join('\n')
+            : 'Ocurrió un error al verificar el usuario';
             
-        const errorMessage = errorMessages.length > 0
-        ? errorMessages.join('\n')
-        : 'Ocurrió un error al verificar el usuario';
-
-        setErrorMessages(errorMessage);
-        setModalError(true);
-        //console.error(errorMessage);
+            setErrorMessages(errorMessage);
+            setModalError(true);
         }
     }
-
 
     const handleOpenModal = () => {
         setCode({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
@@ -119,6 +111,7 @@ export const CreateAccountEmailView = () => {
     
     const handleCloseModal = async () => {
         const codeConcat = concatenateValues(code);
+        console.log(codeConcat);
         try{
             const verifycode = await VerifyCode(emailUser,codeConcat);
             if(verifycode.status == 200){
@@ -308,8 +301,8 @@ export const CreateAccountEmailView = () => {
                     <View style={StyleSingleText.container}>
                         <Text style={{...StyleSingleText.texts, width:300, left:-10}}>{t('ModalMsgInicio')}</Text>
                         <Text style={StyleSingleText.texts}>{t('ModalMsgCheckEmail')}</Text>
-                    <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
-                    <View style={StyleSingleText.row}>
+                        <Text style={{...StyleSingleText.texts,textAlign:'center', top:15}}>{t('ModalEnterCodeMsg')}</Text> 
+                        <View style={StyleSingleText.row}>
                             {textInputRefs.map((ref, index) => (
                                 <TextInput
                                     key={index}
@@ -324,51 +317,51 @@ export const CreateAccountEmailView = () => {
                             ))}
                         </View>
                         <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
-                            onPress={handleCloseModal}
-                        >
+                            onPress={handleCloseModal}>
                             <Text style={{...Styles.txtBtn,top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ModalVerifyUser>
+
                 <ModalVerifyUser
                     isVisible={modalConfirm}
                     closeModal={handleCloseModalConfirm}
                 >
                     <View style={StyleSingleText.container}>
-                    <Text style={{...StyleSingleText.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
-                    <View style={StyleSingleText.row}>
-                        {textInputRefs.map((ref, index) => (
-                            <TextInput
-                                key={index}
-                                ref={ref}
-                                style={StyleSingleText.internText}
-                                placeholder="__"
-                                value={code[`v${index + 1}` as keyof typeof code]}
-                                onChangeText={(text) => handleTextInputChange(index, text)}
-                                maxLength={1}
-                                keyboardType="phone-pad"
-                            />
-                        ))}
+                        <Text style={{...StyleSingleText.fail, top:15}}>{t('ModalEnterCodeMsgFail')}</Text> 
+                        <View style={StyleSingleText.row}>
+                            {textInputRefs.map((ref, index) => (
+                                <TextInput
+                                    key={index}
+                                    ref={ref}
+                                    style={StyleSingleText.internText}
+                                    placeholder="__"
+                                    value={code[`v${index + 1}` as keyof typeof code]}
+                                    onChangeText={(text) => handleTextInputChange(index, text)}
+                                    maxLength={1}
+                                    keyboardType="phone-pad"
+                                />
+                            ))}
                         </View>
                         <TouchableOpacity style={{...StyleSingleText.boton,top:60}}
-                        onPress={handleCloseModalConfirm}
-                        >
-                            <Text style={{...Styles.txtBtn, top:-1}}>{t('ModalBtnVerify')}</Text>
+                            onPress={handleCloseModalConfirm}>
+                                <Text style={{...Styles.txtBtn, top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
                         <View style={{width: '100%', height: 50, marginTop: '25%'}}>
                             <Text style={{textAlign: 'center', fontWeight: 'bold', color: Colors.blueText}}>Cuentas con {attempts} intentos para la verificacion</Text>
                         </View>
                     </View>
                 </ModalVerifyUser>
+
                 <ModalVerifyUser
                     isVisible={modalError}
                     closeModal={()=>{}}
                 >
                     <View style={StyleSingleText.container}>
                         <View style={{flex:4}}>
-                        <ScrollView showsVerticalScrollIndicator={true}>
-                        <Text style={{fontSize: 17, color: 'black', textAlign: 'left' }}>{errorMessage}</Text>
-                        </ScrollView>
+                            <ScrollView showsVerticalScrollIndicator={true}>
+                                <Text style={{fontSize: 17, color: 'black', textAlign: 'left' }}>{errorMessage}</Text>
+                            </ScrollView>
                         </View>
                         <View style={{flex:1,}}>
                             <TouchableOpacity style={StyleSingleText.boton} onPress={()=>setModalError(false)}>
@@ -379,7 +372,7 @@ export const CreateAccountEmailView = () => {
                 </ModalVerifyUser>
             </ScrollView>
         </SafeAreaView>
-    )
+    );
 }
 
 const StyleSingleText = StyleSheet.create({
@@ -429,8 +422,6 @@ const StyleSingleText = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 2,
         padding: 20,
-    },
-    subContainer:{
     },
     row:{
         flexDirection:'row',

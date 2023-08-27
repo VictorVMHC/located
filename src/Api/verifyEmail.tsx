@@ -1,4 +1,4 @@
-import { LoginResponse, User} from "../Interfaces/UserInterfaces";
+import {User} from "../Interfaces/UserInterfaces";
 import api from "./api";
 
 const VerifyEmail = (email: string) => {
