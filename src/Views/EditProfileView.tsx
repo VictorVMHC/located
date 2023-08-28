@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Image, Dimensions, Text, Pressable, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, Pressable, TouchableHighlight, Platform } from 'react-native';
 import { Circles } from '../Components/Circles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
@@ -29,7 +29,58 @@ export const EditProfileView = () => {
                 <Text style={StyleEditProfile.textNameUser}>Jose Perez</Text>
                 <Text style={StyleEditProfile.textEmailUser}>jose_perez12@gmail.com</Text>
             </View>
-            <View style={StyleEditProfile.bottomContainer}></View>
+            <View style={StyleEditProfile.bottomContainer}>
+                <View style={StyleEditProfile.buttonsContainer}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='id-card' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Edit profile information</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='bell' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Notifications</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={StyleEditProfile.buttonsContainer}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='edit' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Edit Local</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={StyleEditProfile.buttonsContainer}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='shield-alt' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Security</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='user-secret' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Privacy policy</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='question-circle' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Comments and replys</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={StyleEditProfile.buttonsContainer}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                        <View style={{flexDirection: 'row',}}>
+                            <Icon name='sign-out-alt' size={25} color="black" light/>
+                            <Text style={StyleEditProfile.textButton}>Delete profile</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+            </View>
         </View>
     )
 }
@@ -45,7 +96,8 @@ const StyleEditProfile = StyleSheet.create({
     },
     bottomContainer:{
         flex:1.7,
-        backgroundColor: 'red'
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
     },
     containerImgEdit:{
         width: windowWidth * 0.33, 
@@ -90,9 +142,26 @@ const StyleEditProfile = StyleSheet.create({
         fontSize: 20,
         color: Colors.black,
         fontWeight: '600'
+    },
+    buttonsContainer:{
+        width: windowWidth * 0.88, 
+        backgroundColor: 'white',
+        borderColor: 'black',
+        borderWidth: 0.3,
+        borderRadius: 10,
+        elevation: 3,
+    },
+    button:{
+        width: '100%',
+        height: windowWidth * 0.12,
+        justifyContent: 'center',
+        paddingHorizontal: '6%'
+        
+    },
+    textButton:{
+        fontFamily: 'Outfit.SemiBold',
+        fontSize: 20,
+        color: 'black',
+        marginHorizontal: '4%'
     }
-
-
-
-
 });
