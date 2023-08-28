@@ -29,7 +29,7 @@ export const CreateAccountEmailView = () => {
         phone: "",
         password: "",
         username: "",
-        age: 0,
+        age: null,
     }
 
     const {t, i18n } = useTranslation();
@@ -182,7 +182,7 @@ export const CreateAccountEmailView = () => {
                             phone: "",
                             password: "",
                             username: "",
-                            age: 0,
+                            age: null,
                         }}
                         onSubmit={(User)=>{handleSubmit(User)}}
                         validationSchema={validationSchema}
@@ -273,7 +273,7 @@ export const CreateAccountEmailView = () => {
                                     placeholderTextColor={Colors.blueText}
                                     placeholder={`${t('Age')}`}
                                     keyboardType='number-pad'
-                                    value={values.age?.toString()}
+                                    value = {values.age || ''}
                                     maxLength={3}
                                     onChangeText={handleChange('age')}
                                 />

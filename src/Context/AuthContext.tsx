@@ -4,7 +4,7 @@ import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
 import { t } from 'i18next';
-import { createUser, getUser } from '../Api/userApi';
+import { createUser } from '../Api/userApi';
 import { GuestLogIn } from '../Api/guestUser';
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
 

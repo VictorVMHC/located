@@ -4,7 +4,7 @@ export interface User {
     password?: string,
     image?: string,
     phone?:string,
-    age?: number,
+    age?: number | null,
     google?: boolean,
     facebook?: boolean,
     address?: string,
@@ -18,7 +18,7 @@ export interface createNewUser {
     email: string,
     password?: string,
     phone?:string,
-    age?: number,
+    age?: number | null,
     username?:string,
 }
 
