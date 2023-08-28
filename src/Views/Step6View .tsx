@@ -45,6 +45,7 @@ export const Step6View = () => {
                 slideUp={slideUp}
                 modalVisible={modalVisible}
                 hideModal={hideModal}
+                enable={false}
             />
         </View>
     );
@@ -53,30 +54,13 @@ export const Step6View = () => {
 
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     button: {
-    padding: 10,
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    },
-    overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-    },
-    modal: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    },
-    modalButton: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+        padding: 10,
+        backgroundColor: 'blue',
+        borderRadius: 5,
     },
 });

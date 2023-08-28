@@ -3,14 +3,15 @@ import { Animated, Modal, StyleSheet, Text, TouchableOpacity } from 'react-nativ
 interface Props {
     hideModal: () => void
     modalVisible: boolean
-    slideUp: Animated.AnimatedInterpolation<string | number>
+    slideUp: Animated.AnimatedInterpolation<string | number>;
+    enable?: boolean
 }
-export const BottomModal = ({modalVisible, hideModal, slideUp}: Props) => {
+export const BottomModal = ({modalVisible, hideModal, slideUp, enable=true}: Props) => {
     return (
         <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
             <TouchableOpacity style={styles.overlay} onPress={hideModal}>
                 <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
-                    <TouchableOpacity style={styles.modalButton}>
+                    <TouchableOpacity style={[styles.modalButton, !enable && styles.disabledButton]} disabled={enable}>
                         <Text>Button 1</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton}>
@@ -52,5 +53,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+    },
+    disabledButton: {
+        opacity: 0.5,
     },
 });
