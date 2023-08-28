@@ -1,8 +1,8 @@
 import {User} from "../Interfaces/UserInterfaces";
 import api from "./api";
 
-const VerifyEmail = (email: string) => {
-    return api.post('/api/verifyEmail',{email});
+const VerifyEmail = (email: string, lang: string) => {
+    return api.post('/api/verifyEmail',{email,lang});
 }
 
 const VerifyCode = (email: string, code: string) => {

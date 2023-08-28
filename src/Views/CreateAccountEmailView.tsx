@@ -80,7 +80,7 @@ export const CreateAccountEmailView = () => {
         try{
             const dato = await VerifyUserInfo(user);
             if(dato.status == 200){
-                await VerifyEmail(user.email);
+                await VerifyEmail(user.email, i18n.language);
                 setEmailUser(user.email);
                 handleOpenModal();
             }
