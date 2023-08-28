@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native run-android --port 8082",
-    "resetCache": "react-native start --reset-cache --port 8088",
+    "reset-cache": "react-native start --reset-cache --port 8088",
     "test": "jest"
   },
   "dependencies": {
@@ -29,7 +29,9 @@
     "react": "18.2.0",
     "react-i18next": "^12.1.5",
     "react-native": "0.71.1",
+    "react-native-date-picker": "^4.2.14",
     "react-native-gesture-handler": "^2.9.0",
+    "react-native-image-picker": "^5.6.1",
     "react-native-keyboard-avoiding-view": "^1.0.0",
     "react-native-localization-settings": "^1.0.1",
     "react-native-maps": "^1.5.0",

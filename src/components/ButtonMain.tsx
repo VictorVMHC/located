@@ -16,7 +16,7 @@ export const ButtonMain = ({text = '', iconName = '', properties= {}, properties
     <View style={styles.containerBtn}>
     <TouchableOpacity style={{...styles.containerTouchable,  ...properties}} onPress={ action }>
         {iconName != '' && <Icon name={iconName} size={30} color="black" style={{ left: -15 }}/>} 
-        <Text style={[propertiesText, styles.textExp]}>{text}</Text>
+        <Text style={[propertiesText, styles.textExp]} adjustsFontSizeToFit >{text}</Text>
     </TouchableOpacity>
     </View>
   )

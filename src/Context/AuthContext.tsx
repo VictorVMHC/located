@@ -217,5 +217,3 @@ export const AuthProvider = ({children}: any) => {
     )
 
 }
-
-

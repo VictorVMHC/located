@@ -14,7 +14,11 @@ export const Colors = {
     red: '#9C0505',
     grayOpacity: 'rgba(156, 174, 176, 0.54)',
     lightBrown: '#c47f30',
-    greenAqua: '#80CBC4'
+    greenAqua: '#80CBC4',
+    blueSteps: '#007bff',
+    greenSuccess: '#198754',
+    darkGray: '#6D6A6A'
+
 };
 
 export const FontStyles = {

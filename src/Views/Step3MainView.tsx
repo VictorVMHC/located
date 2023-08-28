@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
-import { Map } from '../Components/Map';
 import { LocationPermissionView } from './LocationPermissionsView';
+import { Step3View } from './Step3View';
 
-export const MapsView = () => {
+export const Step3MainView = () => {
     const { permissions } = useContext( PermissionsContext );
+
     if ( permissions.locationStatus === 'unavailable' ) {
         return <LoadingView />
     }
@@ -14,7 +15,7 @@ export const MapsView = () => {
         <>
             {
                 ( permissions.locationStatus === 'granted' )
-                    ? <Map/>
+                    ? <Step3View/>
                     : <LocationPermissionView/>
             }
         </>
