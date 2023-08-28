@@ -1,4 +1,4 @@
-import {User} from "../Interfaces/UserInterfaces";
+import {User} from "../Interfaces/UserInterface";
 import api from "./api";
 
 const VerifyEmail = (email: string, lang: string) => {

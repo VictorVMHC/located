@@ -9,7 +9,7 @@ import { PickerButton } from '../Components/PickerButton';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
-import { createNewUser,  } from '../Interfaces/UserInterfaces';
+import { createNewUser,  } from '../Interfaces/UserInterface';
 import { VerifyEmail, VerifyCode, deleteVerifyEmail, VerifyUserInfo } from '../Api/verifyEmail';
 import { AuthContext } from '../Context/AuthContext';
 
