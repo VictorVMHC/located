@@ -1,10 +1,10 @@
 export interface User {
     name?: string,
-    email?: string,
+    email: string,
     password?: string,
     image?: string,
     phone?:string,
-    age?: number,
+    age?: number | null,
     google?: boolean,
     facebook?: boolean,
     address?: string,
@@ -15,10 +15,10 @@ export interface User {
 
 export interface createNewUser {
     name?: string,
-    email?: string,
+    email: string,
     password?: string,
     phone?:string,
-    age?: number,
+    age?: number | null,
     username?:string,
 }
 

@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/UserInterfaces';
+import { User, createNewUser, logInData } from '../Interfaces/UserInterface';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
@@ -162,7 +162,7 @@ export const AuthProvider = ({children}: any) => {
         }
     }
 
-    const signUp = async (user: User) => {
+    const signUp = async (user: createNewUser) => {
         try{
             const { data } = await createUser(user);
             dispatch({ 
@@ -173,10 +173,24 @@ export const AuthProvider = ({children}: any) => {
                 }
             });
         }catch(error: any){
+            let errorMessages = [];
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                for (let i = 0; i < errors.length; i++) {
+                    if (errors[i].msg) {
+                        errorMessages.push(errors[i].msg);
+                    }
+                }
+            }
+            const errorMessage = errorMessages.length > 0
+            ? errorMessages.join('\n')
+            : t('ErrorMsgPayload'); 
+
             dispatch({
                 type: 'addError',
-                payload: error.response.data.errors || t('ErrorMsgPayload')
-            })
+                payload: errorMessage
+            });
+
         }
     }
 

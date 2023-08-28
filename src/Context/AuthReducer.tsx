@@ -1,5 +1,5 @@
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
-import { User } from "../Interfaces/UserInterfaces";
+import { User } from "../Interfaces/UserInterface";
 
 export interface AuthState {
     status: 'checking' | 'authenticated' | 'not-authenticated' ;
