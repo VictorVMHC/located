@@ -105,6 +105,9 @@
     "step2AlertErrDescSave": "An error occurred while trying to save your business type",
     "step2BtnText": "Add",
     "step3Instructions": "Drag the marker to the exact position where your business is located",
-    "step3Instructions2": "If you want to relocate the marker, hold it for a few seconds to move it"
+    "step3Instructions2": "If you want to relocate the marker, hold it for a few seconds to move it",
+    "btn1SeeProfile": "See photo",
+    "btn2Upload": "Choose a photo from gallery",
+    "btt3TakePicture": "Take picture"
   }
 }

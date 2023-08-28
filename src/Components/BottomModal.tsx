@@ -1,5 +1,7 @@
 import React from 'react'
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { useTranslation } from 'react-i18next';
+import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome5';
 interface Props {
     hideModal: () => void
     modalVisible: boolean
@@ -7,18 +9,28 @@ interface Props {
     enable?: boolean
 }
 export const BottomModal = ({modalVisible, hideModal, slideUp, enable=true}: Props) => {
+    const { t } = useTranslation();
     return (
         <Modal transparent visible={modalVisible} onRequestClose={hideModal}>
             <TouchableOpacity style={styles.overlay} onPress={hideModal}>
                 <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
                     <TouchableOpacity style={[styles.modalButton, !enable && styles.disabledButton]} disabled={enable}>
-                        <Text>Button 1</Text>
+                        <View style={styles.buttons}>
+                            <Icon name='eye' light size={25} adjustsFontSizeToFit style={{marginRight: 5}}/>
+                            <Text adjustsFontSizeToFit>{t('btn1SeeProfile')}</Text>
+                        </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton}>
-                        <Text>Button 2</Text>
+                        <View style={styles.buttons}>
+                            <Icon  style={{marginRight: 5}} name='images' light size={25} adjustsFontSizeToFit/>
+                            <Text adjustsFontSizeToFit>{t('btn2Upload')}</Text>
+                        </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton}>
-                        <Text>Button 3</Text>
+                        <View style={styles.buttons}>
+                            <Icon  style={{marginRight: 5}} name='camera-retro' light size={25} adjustsFontSizeToFit/>
+                            <Text adjustsFontSizeToFit>{t('btt3TakePicture')}</Text>
+                        </View>
                     </TouchableOpacity>
                 </Animated.View>
             </TouchableOpacity>
@@ -57,4 +69,8 @@ const styles = StyleSheet.create({
     disabledButton: {
         opacity: 0.5,
     },
+    buttons:{
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 });

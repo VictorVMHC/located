@@ -1,5 +1,4 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
@@ -10,7 +9,6 @@ interface Props {
 }
 
 export const TextInputAndIcon = ({ iconName, placeHolder }: Props) => {
-    const { t } = useTranslation();
     
     return (
         <View style={{flexDirection: 'row', flex: 1}}>
