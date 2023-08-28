@@ -1,13 +1,15 @@
 import React from 'react'
-import { View, StyleSheet, Image, Dimensions, Text, Pressable, TouchableHighlight, Platform } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, TouchableHighlight } from 'react-native';
 import { Circles } from '../Components/Circles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+interface Props extends NativeStackScreenProps<any, any>{};
 
 const windowWidth = Dimensions.get('window').width;
 
-export const EditProfileView = () => {
+export const EditProfileView = ({navigation}: Props) => {
     return (
         <View style={StyleEditProfile.container}>
             <Circles
@@ -22,16 +24,13 @@ export const EditProfileView = () => {
                             source={require('../Assets/Images/Lisa.png')}
                         />
                     </View>
-                        <TouchableHighlight  style={StyleEditProfile.containerEditIcon} underlayColor="lightgray" onPress={()=>console.log('hola')}>
-                            <Icon name='pen' size={20} color="black" light/>
-                        </TouchableHighlight>
                 </View>
                 <Text style={StyleEditProfile.textNameUser}>Jose Perez</Text>
                 <Text style={StyleEditProfile.textEmailUser}>jose_perez12@gmail.com</Text>
             </View>
             <View style={StyleEditProfile.bottomContainer}>
                 <View style={StyleEditProfile.buttonsContainer}>
-                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={() => navigation.navigate("EditUserView")}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='id-card' size={25} color="black" light/>
                             <Text style={StyleEditProfile.textButton}>Edit profile information</Text>

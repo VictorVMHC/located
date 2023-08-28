@@ -9,6 +9,7 @@ import { MainCreateAccountView } from '../Views/MainCreateAccountView';
 import { MainView } from '../Views/MainView';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { DrawerMenu } from './DrawerMenu';
+import { EditUserView } from '../Views/EditUserView';
 import { StoreView } from '../Views/StoreView';
 import { CommentsView } from '../Views/CommentsView';
 import { Image, StyleSheet } from 'react-native';
@@ -50,6 +51,7 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name='DrawerMenu' options={{ headerShown: false}} component={DrawerMenu} />
 						<Stack.Screen name="StoreView" options={screenOptions} component={StoreView}/>
 						<Stack.Screen name="CommentsView" options={screenOptions} component={CommentsView}/>
+						<Stack.Screen name="EditUserView" options={screenOptions} component={EditUserView}/>
 					</>
 					
 				)			
