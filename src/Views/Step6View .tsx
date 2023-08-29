@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Animated, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { BottomModal } from '../Components/BottomModal';
-import { launchCamera } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
 import { CameraPermissionView } from './CameraPermissionsView';
@@ -10,6 +10,7 @@ export const Step6View = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
+    const [url, setUrl] = useState('');
 
     const { permissions } = useContext( PermissionsContext );
     console.log(permissions.cameraStatus);
@@ -53,14 +54,18 @@ export const Step6View = () => {
     }
     
     const handleUploadPicture = () => {
-        console.log('see upload');
+        launchImageLibrary({mediaType:'photo', selectionLimit: 1})
     }
     
     const handleLaunchCamera = () => {
-        launchCamera({mediaType: 'photo', cameraType: 'front'}, (url) => {
-            console.log(JSON.stringify(url));
-            
-        })
+        launchCamera({ mediaType: 'photo', cameraType: 'front' }, (response) => {
+            if (response.assets && response.assets.length > 0) {
+                const firstImageUri = response.assets[0].uri;
+                setUrl(firstImageUri!);
+                console.log(firstImageUri);
+            }
+        });
+        setModalVisible(false);
     }
     
     return (
@@ -68,6 +73,10 @@ export const Step6View = () => {
             {
                 (permissions.cameraStatus === 'granted')
                     ?   <View style={styles.container}>
+                            {
+                                <Image source={url !== '' ? { uri: url } : require('../Assets/Images/local3D.png')} style={{height: 100, width:100}}/>
+
+                            }
                             <TouchableOpacity style={styles.button} onPress={showModal}>
                                 <Text>Show Modal</Text>
                             </TouchableOpacity>
