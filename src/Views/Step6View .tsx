@@ -54,7 +54,15 @@ export const Step6View = () => {
     }
     
     const handleUploadPicture = () => {
-        launchImageLibrary({mediaType:'photo', selectionLimit: 1})
+        launchImageLibrary({mediaType:'photo', selectionLimit: 1}, (response) => {
+            if (response.assets && response.assets.length > 0) {
+                const firstImageUri = response.assets[0].uri;
+                setUrl(firstImageUri!);
+                console.log(firstImageUri);
+            }
+        });
+
+        setModalVisible(false);
     }
     
     const handleLaunchCamera = () => {
@@ -62,9 +70,9 @@ export const Step6View = () => {
             if (response.assets && response.assets.length > 0) {
                 const firstImageUri = response.assets[0].uri;
                 setUrl(firstImageUri!);
-                console.log(firstImageUri);
             }
         });
+
         setModalVisible(false);
     }
     
