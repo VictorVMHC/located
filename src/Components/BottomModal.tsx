@@ -19,7 +19,7 @@ export const BottomModal = ({actionBtn1, actionBtn2, actionBtn3, modalVisible, h
                 <Animated.View style={[styles.modal, { transform: [{ translateY: slideUp }] }]}>
                     <TouchableOpacity 
                         style={[styles.modalButton, !enable && styles.disabledButton]} 
-                        disabled={enable} 
+                        disabled={!enable} 
                         onPress={actionBtn1}
                     >
                         <View style={styles.buttons}>

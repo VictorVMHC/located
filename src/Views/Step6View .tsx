@@ -5,19 +5,17 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
 import { CameraPermissionView } from './CameraPermissionsView';
+import { ZoomModal } from '../Components/ZoomModal';
 
 export const Step6View = () => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [zoomModalVisible, setZoomModalVisible] = useState(false);
+    const [enableSee, setEnableSee] = useState(false);
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
     const [url, setUrl] = useState('');
 
-    const { permissions } = useContext( PermissionsContext );
-    console.log(permissions.cameraStatus);
-    if ( permissions.cameraStatus === 'unavailable' ) {
-        
-        return <LoadingView />
-    }
+    const { permissions } = useContext(PermissionsContext);
 
     useEffect(() => {
         if (modalVisible) {
@@ -49,71 +47,83 @@ export const Step6View = () => {
     });
 
     const handleSeePicture = () => {
-        console.log('see photo');
-        
-    }
-    
+        setZoomModalVisible(true);
+    };
+
     const handleUploadPicture = () => {
-        launchImageLibrary({mediaType:'photo', selectionLimit: 1}, (response) => {
+        launchImageLibrary({ mediaType: 'photo', selectionLimit: 1 }, (response) => {
             if (response.assets && response.assets.length > 0) {
                 const firstImageUri = response.assets[0].uri;
                 setUrl(firstImageUri!);
-                console.log(firstImageUri);
+                setEnableSee(true);
             }
         });
-
         setModalVisible(false);
-    }
-    
+    };
+
     const handleLaunchCamera = () => {
         launchCamera({ mediaType: 'photo', cameraType: 'front' }, (response) => {
             if (response.assets && response.assets.length > 0) {
                 const firstImageUri = response.assets[0].uri;
                 setUrl(firstImageUri!);
+                setEnableSee(true);
             }
         });
-
         setModalVisible(false);
-    }
-    
+    };
+
+    const handleCloseModal = () => {
+        setZoomModalVisible(false);
+        setModalVisible(false);
+    };
+
     return (
         <>
-            {
-                (permissions.cameraStatus === 'granted')
-                    ?   <View style={styles.container}>
-                            {
-                                <Image source={url !== '' ? { uri: url } : require('../Assets/Images/local3D.png')} style={{height: 100, width:100}}/>
-
-                            }
-                            <TouchableOpacity style={styles.button} onPress={showModal}>
-                                <Text>Show Modal</Text>
-                            </TouchableOpacity>
-                            <BottomModal
-                                slideUp={slideUp}
-                                modalVisible={modalVisible}
-                                hideModal={hideModal}
-                                enable={false}
-                                actionBtn1={handleSeePicture}
-                                actionBtn2={handleUploadPicture}
-                                actionBtn3={handleLaunchCamera}
-                            />
-                        </View>
-                : <CameraPermissionView/>
-            }
+            {permissions.cameraStatus === 'granted' ? (
+                <View style={styles.container}>
+                    <TouchableOpacity style={styles.button} onPress={showModal}>
+                        <Image
+                            source={url !== '' ? { uri: url } : require('../Assets/Images/local3D.png')}
+                            style={styles.image}
+                        />
+                    </TouchableOpacity>
+                    <BottomModal
+                        slideUp={slideUp}
+                        modalVisible={modalVisible}
+                        hideModal={hideModal}
+                        enable={enableSee}
+                        actionBtn1={handleSeePicture}
+                        actionBtn2={handleUploadPicture}
+                        actionBtn3={handleLaunchCamera}
+                    />
+                </View>
+            ) : (
+                <CameraPermissionView />
+            )}
+            <ZoomModal url={url} zoomModalVisible={zoomModalVisible} closeZoomModal={handleCloseModal} />
         </>
     );
 };
-
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#f0f0f0',
     },
     button: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 20,
         padding: 10,
-        backgroundColor: 'blue',
-        borderRadius: 5,
+    },
+    image: {
+        width: 150,
+        height: 150,
+        resizeMode: 'cover',
+        borderRadius: 10,
     },
 });
+
+export default Step6View;
