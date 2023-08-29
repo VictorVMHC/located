@@ -19,7 +19,7 @@ type PermissionsContextProps = {
     checkLocationPermission: () => Promise<void>;
     askCameraPermission: () => Promise<void>;
     checkCameraPermission: () => Promise<void>;
- }
+}
 
 
 export const PermissionsContext = createContext({} as PermissionsContextProps );
