@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         height: undefined,
         aspectRatio: 1, 
         resizeMode: 'contain',
+        borderRadius: 10,
     },
     closeButton: {
         marginTop: 20,

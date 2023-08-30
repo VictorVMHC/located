@@ -34,7 +34,7 @@ If you are having, because the BASE_URL is not updating, try this
 - run the follow command
 
 ```powershell
-    npm run resetCache
+    npm run reset-cache
 ```
 
 - then finish that execution with `ctrl + c`
