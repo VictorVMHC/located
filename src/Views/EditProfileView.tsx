@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, StyleSheet, Image, Dimensions, Text, TouchableHighlight } from 'react-native';
 import { Circles } from '../Components/Circles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthContext } from '../Context/AuthContext';
+import { deleteUser } from '../Api/userApi';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 const windowWidth = Dimensions.get('window').width;
 
 export const EditProfileView = ({navigation}: Props) => {
+    const contextoAutenticacion = useContext(AuthContext);
+
+    const { user, token, status, logOut } = contextoAutenticacion;
+
+    const deleteProfile = () =>{
+        deleteUser(user?.email || '');
+        logOut();
+    }
+
     return (
         <View style={StyleEditProfile.container}>
             <Circles
@@ -25,8 +36,8 @@ export const EditProfileView = ({navigation}: Props) => {
                         />
                     </View>
                 </View>
-                <Text style={StyleEditProfile.textNameUser}>Jose Perez</Text>
-                <Text style={StyleEditProfile.textEmailUser}>jose_perez12@gmail.com</Text>
+                <Text style={StyleEditProfile.textNameUser}>{user?.username}</Text>
+                <Text style={StyleEditProfile.textEmailUser}>{user?.email}</Text>
             </View>
             <View style={StyleEditProfile.bottomContainer}>
                 <View style={StyleEditProfile.buttonsContainer}>
@@ -72,7 +83,7 @@ export const EditProfileView = ({navigation}: Props) => {
                     </TouchableHighlight>
                 </View>
                 <View style={StyleEditProfile.buttonsContainer}>
-                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={deleteProfile}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='sign-out-alt' size={25} color="black" light/>
                             <Text style={StyleEditProfile.textButton}>Delete profile</Text>

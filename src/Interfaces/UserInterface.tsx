@@ -31,3 +31,17 @@ export interface LoginResponse {
     user: User;
     token: string;
 }
+
+export interface UserUpdate {
+    name?: string,
+    email: string,
+    image?: string,
+    phone?:string,
+    age?: number | null,
+    google?: boolean,
+    facebook?: boolean,
+    address?: string,
+    haveLocals?: boolean,
+    state?: boolean,
+    username?: string
+}
