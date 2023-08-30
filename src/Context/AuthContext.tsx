@@ -17,6 +17,7 @@ type AuthContextProps = {
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
+    setUser: (user: User | null) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -203,12 +204,20 @@ export const AuthProvider = ({children}: any) => {
         dispatch({ type: 'removeError' });
     };
 
+    const setUser = (newUser: User | null) => {
+        dispatch({
+            type: 'setUser',
+            payload: newUser,
+        });
+    };
+
     return (
         <AuthContext.Provider value={{
             ...state,
             signUp,
             signIn,
             signInGuest,
+            setUser,
             logOut,
             removeError,
         }}>

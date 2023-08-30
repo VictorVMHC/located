@@ -1,53 +1,95 @@
-import React, { useState, useContext } from 'react'
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, KeyboardAvoidingView, ScrollView } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, KeyboardAvoidingView, ScrollView, Animated, useWindowDimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../Context/AuthContext';
 import { Formik } from 'formik';
-import { User, createNewUser } from '../Interfaces/UserInterface';
+import { User} from '../Interfaces/UserInterface';
 import { putUser } from '../Api/userApi';
 import { compareUsers } from '../Utils/HandleUser';
+import { BottomModal } from '../Components/BottomModal';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { ZoomModal } from '../Components/ZoomModal';
+import { PermissionsContext } from '../Context/PermissionsContext';
+import { CameraPermissionView } from './CameraPermissionsView';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const EditUserView = () => {
     const contextAuthentication = useContext(AuthContext);
-    const [errorMessage, setErrorMessages] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const slideAnimation = new Animated.Value(0);
+    const { height } = useWindowDimensions();
+    const [enableSee, setEnableSee] = useState(false);
+    const [zoomModalVisible, setZoomModalVisible] = useState(false);
+    const [url, setUrl] = useState('');
+    const { permissions } = useContext(PermissionsContext);
 
     const { user } = contextAuthentication;
 
+    useEffect(() => {
+        if (modalVisible) {
+            Animated.timing(slideAnimation, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            Animated.timing(slideAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, []);
+
+    const handleCloseModal = () => {
+        setZoomModalVisible(false);
+        setModalVisible(false);
+    };
+
+    const slideUp = slideAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, height * 0.75],
+    });
+
+    const handleSeePicture = () => {
+        setZoomModalVisible(true);
+    };
+
+    const handleUploadPicture = () => {
+        launchImageLibrary({ mediaType: 'photo', selectionLimit: 1 }, (response) => {
+            if (response.assets && response.assets.length > 0) {
+                const firstImageUri = response.assets[0].uri;
+                setUrl(firstImageUri || '');
+                setEnableSee(true);
+            }
+        });
+        setModalVisible(false);
+    };
+
+    const handleLaunchCamera = () => {
+        launchCamera({ mediaType: 'photo', cameraType: 'front' }, (response) => {
+            if (response.assets && response.assets.length > 0) {
+                const firstImageUri = response.assets[0].uri;
+                setUrl(firstImageUri || '');
+                setEnableSee(true);
+            }
+        });
+        setModalVisible(false);
+    };
+
     const handleSubmit = async (userUpdate: User) => {
         try {
-            if (user === null) {
+            if (!user) {
                 console.log('El usuario es nulo, no se puede actualizar');
                 return;
             }
-    
             const response = compareUsers(user, userUpdate);
-            console.log(response);
-    
-            const updatedFields: Partial<User> = {};
-    
-            if (response.name && userUpdate.name !== undefined) {
-                updatedFields.name = userUpdate.name;
-            }
-            if (response.username && userUpdate.username !== undefined) {
-                updatedFields.username = userUpdate.username;
-            }
-            if (response.email && userUpdate.email !== undefined) {
-                updatedFields.email = userUpdate.email;
-            }
-            if (response.phone && userUpdate.phone !== undefined) {
-                updatedFields.phone = userUpdate.phone;
-            }
-            if (response.age && userUpdate.age !== undefined) {
-                updatedFields.age = userUpdate.age;
-            }
-    
-            // Solo realizamos la solicitud si hay campos actualizados para enviar
-            if (Object.keys(updatedFields).length > 0) {
-                const data = await putUser(user.email!, updatedFields as User);
+            if (Object.keys(response).length > 0) {
+                const data = await putUser(user.email!, response as User);
                 if (data.status === 200) {
                     console.log('Usuario actualizado exitosamente');
+                    contextAuthentication.setUser({ ...user, ...response });
                 }
             } else {
                 console.log('No hay cambios para actualizar');
@@ -58,7 +100,9 @@ export const EditUserView = () => {
     };
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+        <>
+        {permissions.cameraStatus === 'granted' ? (
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={StyleEditUser.container}>
                     <View style={StyleEditUser.topContainer}>
@@ -69,7 +113,7 @@ export const EditUserView = () => {
                                         source={require('../Assets/Images/Lisa.png')}
                                     />
                                 </View>
-                                    <TouchableHighlight  style={StyleEditUser.containerEditIcon} underlayColor="lightgray" onPress={()=>{}}>
+                                    <TouchableHighlight  style={StyleEditUser.containerEditIcon} underlayColor="lightgray" onPress={() => setModalVisible(true)}>
                                         <Icon name='pen' size={20} color="black" light/>
                                     </TouchableHighlight>
                         </View>
@@ -143,10 +187,25 @@ export const EditUserView = () => {
                             </Formik>
                         </View>
                     </ScrollView>
+                    <BottomModal
+                        slideUp={slideUp}
+                        modalVisible={modalVisible}
+                        hideModal={() => setModalVisible(false)}
+                        enable={enableSee}
+                        actionBtn1={handleSeePicture}
+                        actionBtn2={handleUploadPicture}
+                        actionBtn3={handleLaunchCamera}
+                    />
+                    <ZoomModal url={url} zoomModalVisible={zoomModalVisible} closeZoomModal={handleCloseModal} />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
+
+        ): (
+            <CameraPermissionView />
+        )}
         
+        </>
     )
 }
 

@@ -1,23 +1,23 @@
 import { User } from '../Interfaces/UserInterface'
 
 export const compareUsers = (user: User, updatedUser: User) => {
-    const changes: Record<string, boolean> = {};
+    const updatedFields: Partial<User> = {};
 
-    if (user.name !== updatedUser.name) {
-        changes.name = true;
+    if (user.name !== updatedUser.name && updatedUser.name !== undefined) {
+        updatedFields.name = updatedUser.name;
     }
-    if (user.username !== updatedUser.username) {
-        changes.username = true;
+    if (user.username !== updatedUser.username && updatedUser.username !== undefined) {
+        updatedFields.username = updatedUser.username;
     }
-    if (user.email !== updatedUser.email) {
-        changes.email = true;
+    if (user.email !== updatedUser.email && updatedUser.email !== undefined) {
+        updatedFields.email = updatedUser.email;
     }
-    if (user.phone !== updatedUser.phone) {
-        changes.phone = true;
+    if (user.phone !== updatedUser.phone && updatedUser.phone !== undefined) {
+        updatedFields.phone = updatedUser.phone;
     }
-    if (user.age !== updatedUser.age) {
-        changes.age = true;
+    if (user.age !== updatedUser.age && updatedUser.age !== undefined) {
+        updatedFields.age = updatedUser.age;
     }
 
-    return changes;
+    return updatedFields;
 };

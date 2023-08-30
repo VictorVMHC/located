@@ -11,6 +11,7 @@ export interface AuthState {
 type AuthAction = 
     | { type: 'signUp', payload: { token: string, user: User } }
     | { type: 'signUpGuest', payload: { token: string, user: User, guestUser: GuestUser } }
+    | { type: 'setUser'; payload: User | null }
     | { type: 'addError', payload: string }
     | { type: 'removeError' }
     | { type: 'notAuthenticated' }
@@ -74,6 +75,12 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 ...state,
                 status: 'checking',
             }
+
+        case 'setUser':
+            return {
+                ...state,
+                user: action.payload,
+            };
 
         default:
             return state;
