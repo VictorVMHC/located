@@ -3,8 +3,9 @@ import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, Vie
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../Context/AuthContext';
 import { Formik } from 'formik';
-import { createNewUser } from '../Interfaces/UserInterface';
+import { User, createNewUser } from '../Interfaces/UserInterface';
 import { putUser } from '../Api/userApi';
+import { compareUsers } from '../Utils/HandleUser';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -14,18 +15,47 @@ export const EditUserView = () => {
 
     const { user } = contextAuthentication;
 
-    const handleSubmit = async (userUpdate:createNewUser) => {
-        console.log('1');
-        console.log(userUpdate);
-        try{
-            
-        }catch(error: any) {
+    const handleSubmit = async (userUpdate: User) => {
+        try {
+            if (user === null) {
+                console.log('El usuario es nulo, no se puede actualizar');
+                return;
+            }
+    
+            const response = compareUsers(user, userUpdate);
+            console.log(response);
+    
+            const updatedFields: Partial<User> = {};
+    
+            if (response.name && userUpdate.name !== undefined) {
+                updatedFields.name = userUpdate.name;
+            }
+            if (response.username && userUpdate.username !== undefined) {
+                updatedFields.username = userUpdate.username;
+            }
+            if (response.email && userUpdate.email !== undefined) {
+                updatedFields.email = userUpdate.email;
+            }
+            if (response.phone && userUpdate.phone !== undefined) {
+                updatedFields.phone = userUpdate.phone;
+            }
+            if (response.age && userUpdate.age !== undefined) {
+                updatedFields.age = userUpdate.age;
+            }
+    
+            // Solo realizamos la solicitud si hay campos actualizados para enviar
+            if (Object.keys(updatedFields).length > 0) {
+                const data = await putUser(user.email!, updatedFields as User);
+                if (data.status === 200) {
+                    console.log('Usuario actualizado exitosamente');
+                }
+            } else {
+                console.log('No hay cambios para actualizar');
+            }
+        } catch (error: any) {
             console.log(JSON.stringify(error));
-            
-            
         }
-        
-    }
+    };
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
@@ -51,7 +81,6 @@ export const EditUserView = () => {
                                     name: user?.name || '',
                                     email: user?.email || '',
                                     phone: user?.phone || '',
-                                    password: user?.password || '',
                                     username: user?.username || '',
                                     age: user?.age || 0,
                                 }}
