@@ -1,5 +1,8 @@
 import React from 'react'
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'
+import { Colors } from '../Themes/Styles';
+
 
 interface Props {
     url: string;
@@ -13,7 +16,7 @@ export const ZoomModal = ({url, zoomModalVisible, closeZoomModal}: Props) => {
             <View style={styles.zoomModalContainer}>
                 <Image source={{ uri: url }} style={styles.zoomImage} />
                 <TouchableOpacity style={styles.closeButton} onPress={closeZoomModal}>
-                    <Text style={styles.closeButtonText}>Close</Text>
+                    <Icon name='close-outline' size={30} color={Colors.white} />
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -36,9 +39,9 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         marginTop: 20,
-        padding: 10,
-        backgroundColor: 'white',
-        borderRadius: 5,
+        padding: 5,
+        borderRadius: 20,
+        backgroundColor: Colors.grayOpacity
     },
     closeButtonText: {
         textAlign: 'center',
