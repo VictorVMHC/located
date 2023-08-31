@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { Location } from '../Interfaces/MapInterfaces';
-import { NewLocal } from '../Interfaces/localInterfaces';
-
+import { NewLocal } from '../Interfaces/LocalInterfaces';
 
 const initialLocation: Location = {
     latitude: 0,
@@ -23,7 +22,7 @@ export const LocalInitialState: NewLocal ={
     contact: [],
 }
 
-interface LocalContextProps {
+type LocalContextProps = {
     localState: NewLocal;
     updateLocal: (updatedFields: Partial<NewLocal>) => void;
     cleanLocalContext: () => void;

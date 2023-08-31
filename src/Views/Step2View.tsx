@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, FlatList, KeyboardAvoidingView, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { addBusinessType, getBusinessTypes } from '../Api/businessTypes';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { CustomAlert } from '../Components/CustomAlert';
+import { LocalContext } from '../Context/NewLocalContext';
 
 
 export const Step2View = () => {
@@ -16,6 +17,7 @@ export const Step2View = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const { t } = useTranslation();
+    const {localState, updateLocal} = useContext(LocalContext);
 
     useEffect(() => {       
         if( businessOptions.length === 0 ){
