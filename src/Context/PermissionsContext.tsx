@@ -54,32 +54,6 @@ export const PermissionsProvider = ({ children }: any) => {
         setPermissions((prevPermissions) => ({ ...prevPermissions, cameraStatus: permissionStatus }));
     }
 
-    // const askCameraPermission = async() => {
-    //     let permissionStatus: PermissionStatus;
-    //     permissionStatus = await check( PERMISSIONS.ANDROID.CAMERA );
-
-    //     setPermissions({
-    //         ...permissions,
-    //         cameraStatus: permissionStatus
-    //     });
-    // }
-
-    // const checkCameraPermission = async() => {
-        
-    //     let permissionStatus: PermissionStatus;
-
-    //     permissionStatus = await request( PERMISSIONS.ANDROID.CAMERA );
-    //     if ( permissionStatus === 'blocked' ) {
-    //         openSettings();
-    //     }
-
-    //     setPermissions({
-    //         ...permissions,
-    //         cameraStatus: permissionStatus
-    //     });
-
-    // }
-
     useEffect(() => {
         checkLocationPermission();
         checkCameraPermission();
