@@ -65,8 +65,7 @@ export const Step2View = () => {
                 setBusinessOptions([...businessOptions, newBusiness]);
                 setSelectedBusiness(newBusiness);
                 setNewBusiness('');
-                setModalVisible(false);
-                
+                setModalVisible(false);   
             }
             ).catch(() => {
                 CustomAlert({
@@ -84,7 +83,6 @@ export const Step2View = () => {
             fetchBusinessTypes();
         }
     };
-
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
