@@ -10,7 +10,8 @@ import { BottomModal } from '../Components/BottomModal';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { ZoomModal } from '../Components/ZoomModal';
 import { PermissionsContext } from '../Context/PermissionsContext';
-import { CameraPermissionView } from './CameraPermissionsView';
+import { Colors } from '../Themes/Styles';
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -22,11 +23,15 @@ export const EditUserView = () => {
     const [enableSee, setEnableSee] = useState(false);
     const [zoomModalVisible, setZoomModalVisible] = useState(false);
     const [url, setUrl] = useState('');
-    const { permissions } = useContext(PermissionsContext);
+    const {askCameraPermission } = useContext( PermissionsContext );
 
     const { user } = contextAuthentication;
 
     useEffect(() => {
+        if (user?.image) {
+            setUrl(user.image);
+            setEnableSee(true); 
+        }
         if (modalVisible) {
             Animated.timing(slideAnimation, {
                 toValue: 1,
@@ -41,6 +46,11 @@ export const EditUserView = () => {
             }).start();
         }
     }, []);
+
+    const permissions = () => {
+        askCameraPermission();
+        setModalVisible(true);     
+    }
 
     const handleCloseModal = () => {
         setZoomModalVisible(false);
@@ -79,13 +89,17 @@ export const EditUserView = () => {
     };
 
     const handleSubmit = async (userUpdate: User) => {
+        console.log(user?.image);
+        userUpdate.image = url;
+        console.log(userUpdate.image);
+        
         try {
             if (!user) {
                 console.log('El usuario es nulo, no se puede actualizar');
                 return;
             }
             const response = compareUsers(user, userUpdate);
-            if (Object.keys(response).length > 0) {
+            if (Object.keys(response).length > 0) {     
                 const data = await putUser(user.email!, response as User);
                 if (data.status === 200) {
                     console.log('Usuario actualizado exitosamente');
@@ -101,21 +115,20 @@ export const EditUserView = () => {
 
     return (
         <>
-        {permissions.cameraStatus === 'granted' ? (
             <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={StyleEditUser.container}>
                     <View style={StyleEditUser.topContainer}>
                         <View style={StyleEditUser.containerImgEdit}>
-                                <View style={StyleEditUser.containerImg}>
-                                    <Image
-                                        style={StyleEditUser.img}
-                                        source={require('../Assets/Images/Lisa.png')}
-                                    />
-                                </View>
-                                    <TouchableHighlight  style={StyleEditUser.containerEditIcon} underlayColor="lightgray" onPress={() => setModalVisible(true)}>
-                                        <Icon name='pen' size={20} color="black" light/>
-                                    </TouchableHighlight>
+                            <View style={StyleEditUser.containerImg}>
+                                <Image
+                                    style={StyleEditUser.img}
+                                    source={url !== '' ? { uri: url } : require('../Assets/Images/Img_User.png')}
+                                />
+                            </View>
+                                <TouchableHighlight  style={StyleEditUser.containerEditIcon} underlayColor="lightgray" onPress={permissions}>
+                                    <Icon name='pen' size={20} color="black" light/>
+                                </TouchableHighlight>
                         </View>
                     </View>
                     <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
@@ -200,10 +213,6 @@ export const EditUserView = () => {
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
-
-        ): (
-            <CameraPermissionView />
-        )}
         
         </>
     )
@@ -235,7 +244,8 @@ const StyleEditUser = StyleSheet.create({
         width: windowWidth * 0.33, 
         height: windowWidth * 0.33,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
     containerEditIcon:{
         width: windowWidth * 0.12,
@@ -258,9 +268,16 @@ const StyleEditUser = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightgray',
+        borderColor: Colors.grayOpacity,
+        borderWidth: 3,
     },
     img:{
-        flex: 1,
+        width: '100%', // Adjust this value as needed
+        aspectRatio: 1,
+        borderRadius: 10,
+        borderWidth:  1,
+        marginVertical:10,
+        padding: 1,
         resizeMode: 'contain'
     },
     containerTextInput:{

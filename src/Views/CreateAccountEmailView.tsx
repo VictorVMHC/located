@@ -26,6 +26,7 @@ export const CreateAccountEmailView = () => {
     const userInitialValue = {
         name: "",
         email: "",
+        image: "https://www.nicepng.com/png/detail/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png",
         phone: "",
         password: "",
         username: "",

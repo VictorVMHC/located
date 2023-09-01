@@ -18,6 +18,9 @@ export const compareUsers = (user: User, updatedUser: User) => {
     if (user.age !== updatedUser.age && updatedUser.age !== undefined) {
         updatedFields.age = updatedUser.age;
     }
+    if (user.image !== updatedUser.image && updatedUser.image !== undefined) {
+        updatedFields.image = updatedUser.image;
+    }
 
     return updatedFields;
 };

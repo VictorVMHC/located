@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Animated, Image,TouchableOpacity} from 'react-native';
-import MapView from 'react-native-maps';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { useTranslation } from 'react-i18next';
 
 export const CameraPermissionView = () => {
     const {t, i18n } = useTranslation();
-    const { askLocationPermission, askCameraPermission } = useContext( PermissionsContext );
+    const {askCameraPermission } = useContext( PermissionsContext );
     const mapOpacity = new Animated.Value(0);
 
     useEffect(() =>{
