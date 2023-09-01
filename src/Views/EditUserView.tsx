@@ -11,7 +11,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { ZoomModal } from '../Components/ZoomModal';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { Colors } from '../Themes/Styles';
-
+import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -24,6 +24,9 @@ export const EditUserView = () => {
     const [zoomModalVisible, setZoomModalVisible] = useState(false);
     const [url, setUrl] = useState('');
     const {askCameraPermission } = useContext( PermissionsContext );
+    const cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dellfisyj/upload';
+    const apiKey = '542118896274844';
+    const uploadPreset = 'located';
 
     const { user } = contextAuthentication;
 
@@ -88,18 +91,37 @@ export const EditUserView = () => {
         setModalVisible(false);
     };
 
+    const urlCloudinary = async (image: string) => {
+        const formData = new FormData();
+        formData.append('file', {
+            uri: image,
+            type: 'image/jpeg', // Asegúrate de ajustar el tipo de archivo según corresponda
+            name: 'uploaded_image.jpg',
+        });
+        const responsecloudinary = await fetch(`${cloudinaryUrl}?api_key=${apiKey}&upload_preset=${uploadPreset}`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        return responsecloudinary.json()
+    }
+
     const handleSubmit = async (userUpdate: User) => {
         console.log(user?.image);
         userUpdate.image = url;
         console.log(userUpdate.image);
-        
         try {
             if (!user) {
                 console.log('El usuario es nulo, no se puede actualizar');
                 return;
             }
             const response = compareUsers(user, userUpdate);
-            if (Object.keys(response).length > 0) {     
+            if (Object.keys(response).length > 0) {   
+                if(response.image){
+                // Obtiene la URL de la imagen cargada desde la respuesta de Cloudinary
+                const data = await urlCloudinary(response.image);
+                    response.image = data.secure_url;
+                }
                 const data = await putUser(user.email!, response as User);
                 if (data.status === 200) {
                     console.log('Usuario actualizado exitosamente');
@@ -114,10 +136,7 @@ export const EditUserView = () => {
     };
 
     return (
-        <>
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View style={StyleEditUser.container}>
+            <ScrollView>
                     <View style={StyleEditUser.topContainer}>
                         <View style={StyleEditUser.containerImgEdit}>
                             <View style={StyleEditUser.containerImg}>
@@ -131,7 +150,6 @@ export const EditUserView = () => {
                                 </TouchableHighlight>
                         </View>
                     </View>
-                    <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
                         <View  style={StyleEditUser.centerContainer}>
                             <Formik
                                 initialValues={{
@@ -186,11 +204,11 @@ export const EditUserView = () => {
                                             <TextInput 
                                             style={StyleEditUser.textInput} 
                                             placeholder={`${user?.age}`}
+                                            placeholderTextColor={Colors.black}
                                             onChangeText={handleChange('age')}
-                                            
                                             ></TextInput>
                                         </View>
-                                        <View style={StyleEditUser.bottomContainer}>
+                                        <View style={StyleEditUser.containerTextInput}>
                                             <TouchableHighlight style={StyleEditUser.button} underlayColor= 'rgba(255,198,0,1)' onPress={handleSubmit}>
                                                 <Text style={StyleEditUser.textButton}>Actualizar</Text>
                                             </TouchableHighlight>
@@ -199,7 +217,6 @@ export const EditUserView = () => {
                                 )}
                             </Formik>
                         </View>
-                    </ScrollView>
                     <BottomModal
                         slideUp={slideUp}
                         modalVisible={modalVisible}
@@ -210,35 +227,22 @@ export const EditUserView = () => {
                         actionBtn3={handleLaunchCamera}
                     />
                     <ZoomModal url={url} zoomModalVisible={zoomModalVisible} closeZoomModal={handleCloseModal} />
-                </View>
             </ScrollView>
-        </KeyboardAvoidingView>
-        
-        </>
     )
 }
 
 const StyleEditUser = StyleSheet.create({
-    container:{
-        flex:1,
-    },
     topContainer:{
-        flex:1,
+        width: windowWidth,
+        height: windowWidth*0.55,
         justifyContent: 'center',
         alignItems: 'center',
-       // backgroundColor: 'blue'
     },
     centerContainer:{
-        flex:2,
+        width: windowWidth,
+        height: windowWidth*1.325,
         alignItems: 'center',
         justifyContent: 'space-evenly',
-       // backgroundColor: 'red'
-    },
-    bottomContainer:{
-        flex:0.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-       // backgroundColor: 'orange'
     },
     containerImgEdit:{
         width: windowWidth * 0.33, 
@@ -288,27 +292,31 @@ const StyleEditUser = StyleSheet.create({
     text:{
         fontFamily: 'Outfit.Regular',
         fontSize: 23,
-        color: 'black'
+        color: Colors.black
     },
     textInput:{
         borderColor: 'rgba(0,0,0,0.5)',
         borderWidth: 1,
         borderRadius: 7,
-        color: 'black',
+        color: Colors.black,
         fontSize: 19,
         fontFamily: 'Outfit.Regular'
     },
     button:{
         width: windowWidth * 0.85,
         height: windowWidth * 0.13,
-        backgroundColor: 'black',
+        backgroundColor: Colors.black,
         justifyContent: 'center',
         borderRadius: 11
     },
     textButton:{
-        color: 'white',
+        color: Colors.white,
         textAlign: 'center',
         fontFamily: 'Outfit.SemiBold',
         fontSize: 23
     }
 });
+function then(arg0: (data: any) => void) {
+    throw new Error('Function not implemented.');
+}
+

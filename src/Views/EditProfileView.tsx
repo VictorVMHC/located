@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, StyleSheet, Image, Dimensions, Text, TouchableHighlight } from 'react-native';
 import { Circles } from '../Components/Circles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -13,8 +13,15 @@ const windowWidth = Dimensions.get('window').width;
 
 export const EditProfileView = ({navigation}: Props) => {
     const contextoAutenticacion = useContext(AuthContext);
+    const [url, setUrl] = useState('');
 
-    const { user, token, status, logOut } = contextoAutenticacion;
+    const { user, logOut } = contextoAutenticacion;
+
+    useEffect(() => {
+        if (user?.image) {
+            setUrl(user.image);
+        }
+    });
 
     const deleteProfile = () =>{
         deleteUser(user?.email || '');
@@ -32,7 +39,7 @@ export const EditProfileView = ({navigation}: Props) => {
                     <View style={StyleEditProfile.containerImg}>
                         <Image
                             style={StyleEditProfile.img}
-                            source={require('../Assets/Images/Lisa.png')}
+                            source={ user?.image ?{ uri: user.image }: require('../Assets/Images/Img_User.png')}
                         />
                     </View>
                 </View>
@@ -138,7 +145,12 @@ const StyleEditProfile = StyleSheet.create({
         backgroundColor: 'lightgray',
     },
     img:{
-        flex: 1,
+        width: '100%', // Adjust this value as needed
+        aspectRatio: 1,
+        borderRadius: 10,
+        borderWidth:  1,
+        marginVertical:10,
+        padding: 1,
         resizeMode: 'contain'
     },
     textNameUser:{
