@@ -5,10 +5,8 @@ const createUser = (user: User) =>{
     return api.post<LoginResponse>('/api/users', user );
 }
 
-const putUser = async (email: string, updatedUser: User) => {
-    const route= `/api/users/${email}`;
-    console.log(route);
-    return api.put(route, updatedUser);
+const putUser = async ( updatedUser: User ) => {
+    return api.put('/api/users/', updatedUser);
 }
 
 const deleteUser = (email: string) => {

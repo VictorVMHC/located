@@ -12,6 +12,7 @@ import { ZoomModal } from '../Components/ZoomModal';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { Colors } from '../Themes/Styles';
 import axios from 'axios';
+import { CustomAlert } from '../Components/CustomAlert';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -117,14 +118,19 @@ export const EditUserView = () => {
             const response = compareUsers(user, userUpdate);
             if (Object.keys(response).length > 0) {   
                 if(response.image){
-                // Obtiene la URL de la imagen cargada desde la respuesta de Cloudinary
-                const data = await urlCloudinary(response.image);
+                    const data = await urlCloudinary(response.image);
                     response.image = data.secure_url;
                 }
-                const data = await putUser(user.email!, response as User);
+                console.log(response);
+                
+                const data = await putUser( response as User);
                 if (data.status === 200) {
-                    console.log('Usuario actualizado exitosamente');
-                    updateUser({ ...user, ...response }, "this is a token");
+                    console.log(data.data.token);
+                    updateUser({ ...user, ...response }, data.data.token);
+                    CustomAlert({
+                        title: "User updated successfully", 
+                        desc: "User data has been updated successfully",
+                    })
                 }
             } else {
                 console.log('No hay cambios para actualizar');
@@ -165,11 +171,11 @@ export const EditUserView = () => {
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Name</Text>
                                             <TextInput 
-                                            style={StyleEditUser.textInput} 
-                                            placeholder={user?.name}
-                                            onChangeText={handleChange('name')}
-                                            value={values.name}
-                                            ></TextInput>
+                                                style={StyleEditUser.textInput} 
+                                                placeholder={user?.name}
+                                                onChangeText={handleChange('name')}
+                                                value={values.name}
+                                            />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>User Name</Text>
@@ -192,11 +198,12 @@ export const EditUserView = () => {
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Telefono</Text>
                                             <TextInput 
-                                            style={StyleEditUser.textInput} 
-                                            placeholder={user?.phone}
-                                            onChangeText={handleChange('phone')}
-                                            value={values.phone}
-                                            ></TextInput>
+                                                style={StyleEditUser.textInput} 
+                                                placeholder={user?.phone}
+                                                onChangeText={handleChange('phone')}
+                                                value={values.phone}
+                                                onEndEditing={handleSubmit}
+                                            />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Edad</Text>
