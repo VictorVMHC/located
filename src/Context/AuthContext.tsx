@@ -17,7 +17,7 @@ type AuthContextProps = {
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
-    setUser: (user: User | null) => void;
+    updateUser: (user: User, token: string) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -204,10 +204,13 @@ export const AuthProvider = ({children}: any) => {
         dispatch({ type: 'removeError' });
     };
 
-    const setUser = (newUser: User | null) => {
+    const updateUser = (newUser: User, token:string ) => {
         dispatch({
-            type: 'setUser',
-            payload: newUser,
+            type: 'updateUser',
+            payload: {
+                token,
+                user: newUser
+            },
         });
     };
 
@@ -217,7 +220,7 @@ export const AuthProvider = ({children}: any) => {
             signUp,
             signIn,
             signInGuest,
-            setUser,
+            updateUser,
             logOut,
             removeError,
         }}>

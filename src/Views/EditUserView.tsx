@@ -16,7 +16,7 @@ import axios from 'axios';
 const windowWidth = Dimensions.get('window').width;
 
 export const EditUserView = () => {
-    const contextAuthentication = useContext(AuthContext);
+    const { user, updateUser }  = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
@@ -28,7 +28,6 @@ export const EditUserView = () => {
     const apiKey = '542118896274844';
     const uploadPreset = 'located';
 
-    const { user } = contextAuthentication;
 
     useEffect(() => {
         if (user?.image) {
