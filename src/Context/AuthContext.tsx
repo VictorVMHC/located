@@ -204,7 +204,8 @@ export const AuthProvider = ({children}: any) => {
         dispatch({ type: 'removeError' });
     };
 
-    const updateUser = (newUser: User, token:string ) => {
+    const updateUser = async (newUser: User, token:string ) => {
+        await AsyncStorage.setItem('x-token', token);
         dispatch({
             type: 'updateUser',
             payload: {

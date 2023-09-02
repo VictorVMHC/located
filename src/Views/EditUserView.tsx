@@ -124,7 +124,7 @@ export const EditUserView = () => {
                 const data = await putUser(user.email!, response as User);
                 if (data.status === 200) {
                     console.log('Usuario actualizado exitosamente');
-                    contextAuthentication.setUser({ ...user, ...response });
+                    updateUser({ ...user, ...response }, "this is a token");
                 }
             } else {
                 console.log('No hay cambios para actualizar');
