@@ -13,6 +13,7 @@ import { PermissionsContext } from '../Context/PermissionsContext';
 import { Colors } from '../Themes/Styles';
 import axios from 'axios';
 import { CustomAlert } from '../Components/CustomAlert';
+import { uploadPhoto } from '../Api/cloudinary';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -92,18 +93,14 @@ export const EditUserView = () => {
     };
 
     const urlCloudinary = async (image: string) => {
-        const formData = new FormData();
-        formData.append('file', {
-            uri: image,
-            type: 'image/jpeg', // Asegúrate de ajustar el tipo de archivo según corresponda
-            name: 'uploaded_image.jpg',
-        });
-        const responsecloudinary = await fetch(`${cloudinaryUrl}?api_key=${apiKey}&upload_preset=${uploadPreset}`, {
-            method: 'POST',
-            body: formData,
-        });
 
-        return responsecloudinary.json()
+        console.log("in the function for cloudinary");
+        
+        const responsecloudinary = await uploadPhoto(image);
+        
+        console.log("after execute function to upload the photo");
+        
+        return responsecloudinary;
     }
 
     const handleSubmit = async (userUpdate: User) => {
@@ -119,7 +116,7 @@ export const EditUserView = () => {
             if (Object.keys(response).length > 0) {   
                 if(response.image){
                     const data = await urlCloudinary(response.image);
-                    response.image = data.secure_url;
+                    response.image = data.data.secure_url;
                 }
                 console.log(response);
                 
@@ -175,25 +172,27 @@ export const EditUserView = () => {
                                                 placeholder={user?.name}
                                                 onChangeText={handleChange('name')}
                                                 value={values.name}
+                                                onEndEditing={handleSubmit}
                                             />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>User Name</Text>
                                             <TextInput 
-                                            style={StyleEditUser.textInput} 
-                                            placeholder={user?.username}
-                                            onChangeText={handleChange('username')}
-                                            value={values.username}
-                                            ></TextInput>
+                                                style={StyleEditUser.textInput} 
+                                                placeholder={user?.username}
+                                                onChangeText={handleChange('username')}
+                                                value={values.username}
+                                                onEndEditing={handleSubmit}
+                                            />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Email</Text>
                                             <TextInput 
-                                            style={StyleEditUser.textInput} 
-                                            placeholder={user?.email}
-                                            onChangeText={handleChange('email')}
-                                            value={values.email}
-                                            ></TextInput>
+                                                style={StyleEditUser.textInput} 
+                                                placeholder={user?.email}
+                                                onChangeText={handleChange('email')}
+                                                value={values.email}
+                                            />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Telefono</Text>
@@ -208,11 +207,12 @@ export const EditUserView = () => {
                                         <View style={StyleEditUser.containerTextInput}>
                                             <Text style={StyleEditUser.text}>Edad</Text>
                                             <TextInput 
-                                            style={StyleEditUser.textInput} 
-                                            placeholder={`${user?.age}`}
-                                            placeholderTextColor={Colors.black}
-                                            onChangeText={handleChange('age')}
-                                            ></TextInput>
+                                                style={StyleEditUser.textInput} 
+                                                placeholder={`${user?.age}`}
+                                                placeholderTextColor={Colors.black}
+                                                onChangeText={handleChange('age')}
+                                                onEndEditing={handleSubmit}
+                                            />
                                         </View>
                                         <View style={StyleEditUser.containerTextInput}>
                                             <TouchableHighlight style={StyleEditUser.button} underlayColor= 'rgba(255,198,0,1)' onPress={handleSubmit}>
