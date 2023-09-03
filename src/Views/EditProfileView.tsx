@@ -14,11 +14,10 @@ interface Props extends NativeStackScreenProps<any, any>{};
 const windowWidth = Dimensions.get('window').width;
 
 export const EditProfileView = ({navigation}: Props) => {
-    const contextoAutenticacion = useContext(AuthContext);
-    const [url, setUrl] = useState('');
+    const { user, logOut } = useContext(AuthContext);
+    const [url, setUrl] = useState(user?.image || '');
     const { t } = useTranslation();
 
-    const { user, logOut } = contextoAutenticacion;
 
     useEffect(() => {
         if (user?.image) {
@@ -55,7 +54,7 @@ export const EditProfileView = ({navigation}: Props) => {
                 <View style={StyleEditProfile.containerImgEdit}>
                     <Image
                         style={StyleEditProfile.img}
-                            source={ user?.image ?{ uri: user.image }: require('../Assets/Images/Img_User.png')}
+                        source={url !== '' ? { uri: url } : require('../Assets/Images/Img_User.png')}
                         />
                 </View>
                 <Text style={StyleEditProfile.textNameUser}>{user?.username}</Text>

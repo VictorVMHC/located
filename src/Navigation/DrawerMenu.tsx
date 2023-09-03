@@ -86,7 +86,7 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
             />
             <DrawerMenuButtons
               text = {t('DrawerNotification')}
-              onPress = {() => navigation.navigate('NotificationsView')}
+              onPress = {() => navigation.navigate('EditProfileView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
