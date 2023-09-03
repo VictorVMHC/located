@@ -1,10 +1,10 @@
-import { PrivacyPolicyInfo} from "../Interfaces/PrivacyPolicyInterface";
+import { PrivacyPolicyInfo, PrivacyPolicyEnd} from "../Interfaces/PrivacyPolicyInterface";
 
 export const PpDataEs: PrivacyPolicyInfo[] = [
     {   
         id: 1, 
         title: '1. Registro e Inicio de Sesión:', 
-        info: 'Cuando crea una cuenta en Located, podemos recopilar su nombre, dirección, correo electrónico, contraseña y otra información de registro.'
+        info: 'Cuando crea una cuenta en Located App, podemos recopilar su nombre, dirección, correo electrónico, contraseña y otra información de registro.'
     },
     {   
         id: 2,
@@ -65,7 +65,7 @@ export const PpData3Es: PrivacyPolicyInfo[] = [
     {   
         id: 2,
         title: '2. Cumplimiento Legal:', 
-        info: ' Divulgaremos su información cuando estemos legalmente obligados a hacerlo, en respuesta a solicitudes legales o para proteger nuestros derechos legales.'
+        info: 'Divulgaremos su información cuando estemos legalmente obligados a hacerlo, en respuesta a solicitudes legales o para proteger nuestros derechos legales.'
     },
     { 
         id: 3, 
@@ -78,20 +78,163 @@ export const PpData4Es: PrivacyPolicyInfo[] = [
     {   
         id: 1, 
         title: '1. Cambio en la Politica:', 
-        info: 'Esta política de privacidad puede ser actualizada periódicamente para reflejar cambios en nuestras prácticas. Le recomendamos revisar esta política regularmente para estar informado sobre cómo manejamos su información..'
+        info: 'Esta política de privacidad puede ser actualizada periódicamente para reflejar cambios en nuestras prácticas. Le recomendamos revisar esta política regularmente para estar informado sobre cómo manejamos su información.'
     },
 ];
 
-export const PpDataEn :PrivacyPolicyInfo[]=[
+export const PpData5Es: PrivacyPolicyInfo[] = [
+    {   
+        id: 1, 
+        title: '1. Seguridad:', 
+        info: 'Implementamos medidas razonables para proteger su información contra el acceso no autorizado o la divulgación. sin embargo le pedimos que cree contraseñas seguras y no acepte culaquir link o mensaje que no este seguro que provenga de Located App.'
+    },
+    {   
+        id: 2, 
+        title: '2. Desconfíe de Enlaces y Correos Electronicos no Solicitados:', 
+        info: 'No haga clic en enlaces o abra correos electrónicos que le pidan información personal o financiera, a menos que haya solicitado específicamente esta acción dentro de nuestra aplicación.'
+    },
+    {   
+        id: 3, 
+        title: '3. Comunicación Exclusiva a Través de la Aplicación:', 
+        info: 'Toda comunicación oficial de Located App se realizará exclusivamente a través de nuestra aplicación. Nunca solicitaremos información sensible por correo electrónico o mensajes de texto.'
+    },
+    {   
+        id: 4, 
+        title: '4. No Hay Cobros:', 
+        info: 'En located app no hay ningun tipo de cobro para registarrse, registrar algun local/negocio o para las funcionalidades que esta app ofrece.'
+    },
+    {   
+        id: 5, 
+        title: '5. Informar Actividades Sospechosas:', 
+        info: 'Si recibe un correo electrónico o mensaje sospechoso que parece provenir de Located App, o si experimenta cualquier actividad inusual en su cuenta, informe de inmediato a nuestro equipo de soporte.'
+    },
+];
 
+
+export const PPinfoEs: PrivacyPolicyEnd[]=[
+    {
+    id: 1,
+    text: 'Al utilizar Located App, usted acepta los términos y condiciones de esta política de privacidad.',
+    text2: 'Apreciamos su confianza en Located App y estamos comprometidos en brindarle un entorno seguro para su uso.',
+    text3: 'Si tiene más preguntas o inquietudes sobre esta política de privacidad o el manejo de su información, por favor contáctenos en:',
+    }
+];
+
+
+//The Folliwing Data is the part in English
+
+export const PpDataEn :PrivacyPolicyInfo[]=[
+    {   
+        id: 1, 
+        title: '1. Registration and Login:', 
+        info: 'When you create an account on Located App, we may collect your name, email address, password, and other registration information.'
+    },
+    {   
+        id: 2,
+        title: '2. Login with Google or Facebook:', 
+        info: 'If you choose to log in using your Google or Facebook account, we will collect certain information from your profile, such as your name and email address. We will only access this information with your explicit consent.'
+    },
+    { 
+        id: 3, 
+        title: '3. Google and Facebook Permissions:', 
+        info: 'If you grant permission, our app may access specific data from your Google or Facebook account, such as your list of friends or contacts, photos, and other relevant information to enhance your experience within the app.'
+    },
+    {   id: 4,
+        title:   '4. Location:',
+        info:  'If you grant us permission, we may collect your approximate location to provide location-based features within the app.'
+    },
+    {   id: 5,
+        title:   '5. Business Data:',
+        info:  'If you choose to provide additional information,  such as information specific to your business (for example, your phone number, address and/or business hours, etc.), we will collect it in the same way as when you created your Located account.'
+    },
+    {   id :6 ,
+        title:'6. App Usage Data:',
+        info: 'We collect information about how you use Located App, including your interactions, preferences, and settings within the app.'
+    },
 ];
 
 export const PpData2En :PrivacyPolicyInfo[]=[
-
+    {   
+        id: 1, 
+        title: '1. Provide and Maintain the App:', 
+        info: 'We use your information to enable registration, authentication, and the provision of services within the app.'
+    },
+    {   
+        id: 2,
+        title: '2. Content Customization:', 
+        info: 'We use your data to personalize the user experience and provide relevant content.'
+    },
+    { 
+        id: 3, 
+        title: '3. App Improvement:', 
+        info: 'We analyze the information to understand how users interact with Located App and how we can enhance it.'
+    },
+    {   id: 4,
+        title:   '4. Location Sharing:',
+        info:  'If you grant permission, we use your location to offer location-based features, such as nearby location searches and bussines details.'
+    },
+    {   id: 5,
+        title:   '5. Sharing of Personal and Business Data',
+        info:  'If you decide to share personal or business data, we will use this information only for the purposes you have authorized.'
+    },
 ];
 export const PpData3En :PrivacyPolicyInfo[]=[
-
+    {   
+        id: 1, 
+        title: '1. Service Providers:', 
+        info: 'We may share your information with trusted service providers who assist us in operating and maintaining the app, for example Google.'
+    },
+    {   
+        id: 2,
+        title: '2. Legal Compliance:', 
+        info: 'We will disclose your information when legally obligated to do so, in response to legal requests, or to protect our legal rights.'
+    },
+    { 
+        id: 3, 
+        title: '3. Consent:', 
+        info: 'We will share your personal information with third parties only when you have provided explicit consent.'
+    },
 ];
 export const PpData4En :PrivacyPolicyInfo[]=[
+    {   
+        id: 1, 
+        title: '1. Change in Policy:', 
+        info: 'This privacy policy may be updated periodically to reflect changes in our practices. We recommend checking this policy regularly to stay informed about how we handle your information.'
+    },
+];
+export const PpData5En: PrivacyPolicyInfo[] = [
+    {   
+        id: 1, 
+        title: '1. Security:', 
+        info: 'We implement reasonable measures to protect your information against unauthorized access or disclosure. however we ask you to create strong passwords and do not accept any link or message that you are not sure that comes from Located App.'
+    },
+    {
+        id:2,
+        title:'2. Caution with Unsolicited Links and Emails:',
+        info: 'Do not click on links or open emails that request personal or financial information unless you have specifically initiated such action within our Located App.'
+    },
+    {
+        id:3,
+        title:'3. Exclusive Communication Within the App:',
+        info: 'All official communication from Located App will be conducted solely within our application. We will never request sensitive information via email or text messages.'
+    },
+    {
+        id:4,
+        title:'4. There Are no Charges:',
+        info: 'In Located App there is no type of charge to register, register any location or for the functionalities that this app offers.'
+    },
+    {
+        id:5,
+        title:'5. Report Suspicious Activity:',
+        info: 'If you receive a suspicious email or message that appears to originate from Located App, or if you experience any unusual activity in your account, please report it immediately to our support team.'
+    }
+];
 
+export const PPinfoEn: PrivacyPolicyEnd[]=[
+    {
+    id: 1,
+    text: 'By using Located App, you agree to the terms and conditions of this privacy policy.',
+    text2: 'We appreciate your trust in Located App and are committed to providing you with a secure environment for your usage.',
+    text3: 'If you have more questions or concerns about this privacy policy or how we handle your information, please contact us at:',
+    }
 ];
