@@ -74,6 +74,7 @@
     "InfoForAsk": "Need more help? Send us your specific question!",
     "FAQ":"Frequently Asked Questions",
     "DrawerPrivacyPolicy":"Privacy Policy",
+    "PrivacyTitle":"Privacy Policy",
     "Password":"Password",
     "localCreatorTitle": "Creating local",
     "localStep1": "Name and description",
@@ -104,6 +105,10 @@
     "step2AlertErrDescSave": "An error occurred while trying to save your business type",
     "step2BtnText": "Add",
     "step3Instructions": "Drag the marker to the exact position where your business is located",
-    "step3Instructions2": "If you want to relocate the marker, hold it for a few seconds to move it"
+    "step3Instructions2": "If you want to relocate the marker, hold it for a few seconds to move it",
+    "PrivacySubtitle": "Information We Collect",
+    "privacySubtitle2": "How We Use Your Information",
+    "privacySubtitle3": "Information Sharing",
+    "privacySubtitle4": "Privacy Policy Changes"
   }
 }
