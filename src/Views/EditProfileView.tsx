@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, StyleSheet, Image, Dimensions, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, TouchableHighlight, Alert } from 'react-native';
 import { Circles } from '../Components/Circles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '../Context/AuthContext';
 import { deleteUser } from '../Api/userApi';
+import { CustomAlert } from '../Components/CustomAlert';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -23,10 +24,18 @@ export const EditProfileView = ({navigation}: Props) => {
         }
     });
 
-    const deleteProfile = () =>{
-        deleteUser(user?.email || '');
-        logOut();
-    }
+    const deleteProfile = () => {
+        // Llama a CustomAlert para confirmar la acción de eliminación
+        CustomAlert({
+            title: "Confirm Delete",
+            desc: `Are you sure you want to delete your profile?` + user?.email ,
+            action: () => {
+                // Si el usuario confirma la acción en CustomAlert, ejecuta la eliminación del perfil
+                deleteUser(user?.email || '');
+                logOut();
+            }
+        });
+    };
 
     return (
         <View style={StyleEditProfile.container}>
@@ -36,12 +45,10 @@ export const EditProfileView = ({navigation}: Props) => {
             />
             <View style={StyleEditProfile.topContainer}>
                 <View style={StyleEditProfile.containerImgEdit}>
-                    <View style={StyleEditProfile.containerImg}>
-                        <Image
-                            style={StyleEditProfile.img}
+                    <Image
+                        style={StyleEditProfile.img}
                             source={ user?.image ?{ uri: user.image }: require('../Assets/Images/Img_User.png')}
                         />
-                    </View>
                 </View>
                 <Text style={StyleEditProfile.textNameUser}>{user?.username}</Text>
                 <Text style={StyleEditProfile.textEmailUser}>{user?.email}</Text>
@@ -90,7 +97,8 @@ export const EditProfileView = ({navigation}: Props) => {
                     </TouchableHighlight>
                 </View>
                 <View style={StyleEditProfile.buttonsContainer}>
-                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={deleteProfile}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" 
+                    onPress={deleteProfile}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='sign-out-alt' size={25} color="black" light/>
                             <Text style={StyleEditProfile.textButton}>Delete profile</Text>
@@ -109,7 +117,7 @@ const StyleEditProfile = StyleSheet.create({
     topContainer:{
         flex:1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     bottomContainer:{
         flex:1.7,
@@ -119,8 +127,10 @@ const StyleEditProfile = StyleSheet.create({
     containerImgEdit:{
         width: windowWidth * 0.33, 
         height: windowWidth * 0.33,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: 'lightgray',
+        borderRadius: windowWidth/2
     },
     containerEditIcon:{
         width: windowWidth * 0.12,
@@ -135,23 +145,11 @@ const StyleEditProfile = StyleSheet.create({
         right: windowWidth * 0.01,
         
     },
-    containerImg:{
-        width: windowWidth * 0.32, 
-        height: windowWidth * 0.32,
-        borderRadius: (windowWidth * 0.4) / 2, 
-        overflow: 'hidden', 
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'lightgray',
-    },
     img:{
-        width: '100%', // Adjust this value as needed
-        aspectRatio: 1,
-        borderRadius: 10,
-        borderWidth:  1,
-        marginVertical:10,
-        padding: 1,
-        resizeMode: 'contain'
+        width: '100%', 
+        height: '100%', 
+        resizeMode: 'contain',
+        borderRadius: windowWidth/2
     },
     textNameUser:{
         fontFamily:'Outfit.SemiBold',

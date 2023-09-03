@@ -14,8 +14,9 @@ const deleteUser = (email: string) => {
     return api.delete(route);
 }
 
+
 export {
     createUser,
     putUser,
-    deleteUser
+    deleteUser,
 }
