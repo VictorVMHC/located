@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '../Context/AuthContext';
 import { deleteUser } from '../Api/userApi';
 import { CustomAlert } from '../Components/CustomAlert';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -15,6 +16,7 @@ const windowWidth = Dimensions.get('window').width;
 export const EditProfileView = ({navigation}: Props) => {
     const contextoAutenticacion = useContext(AuthContext);
     const [url, setUrl] = useState('');
+    const { t } = useTranslation();
 
     const { user, logOut } = contextoAutenticacion;
 
@@ -25,16 +27,22 @@ export const EditProfileView = ({navigation}: Props) => {
     });
 
     const deleteProfile = () => {
-        // Llama a CustomAlert para confirmar la acción de eliminación
-        CustomAlert({
-            title: "Confirm Delete",
-            desc: `Are you sure you want to delete your profile?` + user?.email ,
-            action: () => {
-                // Si el usuario confirma la acción en CustomAlert, ejecuta la eliminación del perfil
-                deleteUser(user?.email || '');
-                logOut();
-            }
-        });
+        Alert.alert(
+            `${t('confirmDelete')}`,
+            `${t('description')}`,
+            [
+                {
+                    text: `${t('Cancel')}`,
+                    onPress:() => console.log('Cancelado'),
+                    style: 'cancel',
+                },
+                {
+                    text:  `${t('Accept')}`,
+                    onPress: () => {deleteUser(user?.email || ''), logOut();},
+                },
+            ],
+            {cancelable: false}
+        );
     };
 
     return (
