@@ -116,6 +116,11 @@
     "privacySubtitle6": "Contact",
     "btn1SeeProfile": "See photo",
     "btn2Upload": "Choose a photo from gallery",
-    "btt3TakePicture": "Take picture"
+    "btt3TakePicture": "Take picture",
+    "Update": "Update",
+    "confirmDelete": "Confirm Delete",
+    "description": "Are you sure you want to delete your profile?",
+    "Cancel": "Cancel",
+    "Accept": "Accept"
   }
 }

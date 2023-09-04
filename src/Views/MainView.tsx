@@ -101,7 +101,7 @@ export const MainView = ({navigation } : Props) => {
             />
           </View>
         </View>
-        <View style={styles.footerView}>
+        <View style={styles.footerView }>
           <Text style={styles.bottomText} adjustsFontSizeToFit >{t('NoAccount')}</Text>
           <TouchableOpacity  onPress={() => navigation.navigate("MainCreateAccountView")}>
             <Text style={{...styles.singUpText}} adjustsFontSizeToFit >{t('Log')}</Text>
@@ -128,11 +128,9 @@ const styles = StyleSheet.create({
   },
   footerView: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
     flexDirection: 'row', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    bottom: 10
+    justifyContent: 'space-evenly',
   },
   bottomText: {
     ...FontStyles.SubTitles,

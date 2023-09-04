@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity,StyleSheet,Image } from 'react-native'
+import { View, Text, TouchableOpacity,StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
+const windowWidth = Dimensions.get('window').width;
 interface Props{
     text:string,
     style?: {},
@@ -18,7 +18,7 @@ return (
         onPress={ onPress }
     >
         <View style={{flex:2}}><Icon name={iconName} size={30} color={iconColor ? iconColor : 'white' }/></View>
-        <View style={{flex:6}}><Text style={{...styles.text, ...style}}>{ text }</Text></View>
+        <View style={{flex:5}}><Text style={{...styles.text, ...style}}>{ text }</Text></View>
         <View style={{flex:2}}><Icon name="chevron-forward-outline" size={20} color="white" style={{ marginStart: 30 }}/></View>
     </TouchableOpacity>
 )
@@ -26,11 +26,11 @@ return (
 
 const styles= StyleSheet.create({
     buttonContainer:{
-        top: 15,
-        marginBottom:15,
+        top: windowWidth*0.03,
+        marginBottom:windowWidth*0.05,
         alignItems:'center',
         flexDirection: 'row',
-        padding: 10,
+        padding: windowWidth*0.021,
     },
     text:{
         fontSize:18,

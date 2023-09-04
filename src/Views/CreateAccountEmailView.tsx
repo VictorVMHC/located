@@ -26,6 +26,7 @@ export const CreateAccountEmailView = () => {
     const userInitialValue = {
         name: "",
         email: "",
+        image: "https://www.nicepng.com/png/detail/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png",
         phone: "",
         password: "",
         username: "",
@@ -285,7 +286,7 @@ export const CreateAccountEmailView = () => {
                                         IconSize={15} 
                                         textStyle={{color: Colors.Yellow}}
                                     />}
-                                <TouchableOpacity style={StyleSingleText.boton}
+                                <TouchableOpacity style={StyleSingleText.button}
                                     onPress={handleSubmit}
                                 >
                                     <Text style={{...Styles.txtBtn, top:-1}}>{t('Registrar')}</Text>
@@ -316,7 +317,7 @@ export const CreateAccountEmailView = () => {
                                 />
                             ))}
                         </View>
-                        <TouchableOpacity style={{...StyleSingleText.boton,top:55}}
+                        <TouchableOpacity style={{...StyleSingleText.button,top:55}}
                             onPress={handleCloseModal}>
                             <Text style={{...Styles.txtBtn,top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
@@ -343,7 +344,7 @@ export const CreateAccountEmailView = () => {
                                 />
                             ))}
                         </View>
-                        <TouchableOpacity style={{...StyleSingleText.boton,top:60}}
+                        <TouchableOpacity style={{...StyleSingleText.button,top:60}}
                             onPress={handleCloseModalConfirm}>
                                 <Text style={{...Styles.txtBtn, top:-1}}>{t('ModalBtnVerify')}</Text>
                         </TouchableOpacity>
@@ -364,7 +365,7 @@ export const CreateAccountEmailView = () => {
                             </ScrollView>
                         </View>
                         <View style={{flex:1,}}>
-                            <TouchableOpacity style={StyleSingleText.boton} onPress={()=>setModalError(false)}>
+                            <TouchableOpacity style={StyleSingleText.button} onPress={()=>setModalError(false)}>
                                 <Text style={{...Styles.txtBtn, top: -1}}>{t('buttonGoBack')}</Text>
                             </TouchableOpacity>
                         </View>
@@ -441,7 +442,7 @@ const StyleSingleText = StyleSheet.create({
         fontFamily:'bold',
         textAlign:'center',
     },
-    boton:{
+    button:{
         ...Styles.boton,
         alignSelf: 'center',
         borderRadius:12,

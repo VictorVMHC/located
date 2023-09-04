@@ -17,6 +17,7 @@ type AuthContextProps = {
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
+    updateUser: (user: User, token: string) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -165,6 +166,7 @@ export const AuthProvider = ({children}: any) => {
     const signUp = async (user: createNewUser) => {
         try{
             const { data } = await createUser(user);
+            await AsyncStorage.setItem('x-token', data.token);
             dispatch({ 
                 type: 'signUp',
                 payload: {
@@ -203,12 +205,24 @@ export const AuthProvider = ({children}: any) => {
         dispatch({ type: 'removeError' });
     };
 
+    const updateUser = async (newUser: User, token:string ) => {
+        await AsyncStorage.setItem('x-token', token);
+        dispatch({
+            type: 'updateUser',
+            payload: {
+                token,
+                user: newUser
+            },
+        });
+    };
+
     return (
         <AuthContext.Provider value={{
             ...state,
             signUp,
             signIn,
             signInGuest,
+            updateUser,
             logOut,
             removeError,
         }}>
