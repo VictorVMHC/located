@@ -2,9 +2,7 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "disabled",
   "cSpell.words": [
-    "boton",
-    "Passwordtitle",
-    "Proyecto"
+    "Formik",
   ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#ab307e",

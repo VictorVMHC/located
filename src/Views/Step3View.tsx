@@ -18,6 +18,8 @@ export const Step3View = () => {
         setMarkerPosition({ latitude, longitude });
     };
 
+    
+
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>

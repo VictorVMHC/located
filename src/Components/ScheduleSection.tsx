@@ -5,6 +5,7 @@ import DatePicker from 'react-native-date-picker'
 import { Schedule } from '../Interfaces/DbInterfaces'
 import { Colors, Styles } from '../Themes/Styles';
 import Icon  from 'react-native-vector-icons/FontAwesome5';
+import { CustomDatePicker } from './CustomDatePicker'
 
 interface Props {
     schedule: Schedule[];
@@ -12,22 +13,26 @@ interface Props {
     updateScheduleItem: (scheduleNumber: number, updateData: Partial<Schedule>) => void;
 }
 export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Props) => {
-    const [hourOne, setHourOne] = useState(new Date())
-    const [hourTwo, setHourTwo] = useState(new Date())
-    const [openHourOne, setOpenHourOne] = useState(false)
-    const [openHourTwo, setOpenHourTwo] = useState(false)
     const [index, setIndex] = useState<number>(0);
 
     const handleAddSchedule = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setIndex( index + 1);
         if(index < 2){
-            setSchedule([...schedule, {day1: '', day2: '', open:`${new Date().getHours()} : ${new Date().getMinutes()}` , close: `${new Date().getHours()} : ${new Date().getMinutes()}` }]);
+            setIndex( index + 1);
+            setSchedule([
+                ...schedule, 
+                {
+                    day1: '',
+                    day2: '', 
+                    open:`${new Date().getHours()} : ${new Date().getMinutes()}`, 
+                    close: `${new Date().getHours()} : ${new Date().getMinutes()}` 
+                }
+            ]);
         }
     }
 
     const handleDeleteSchedule = (scheduleIndex: number) => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // Apply layout animation
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         const updatedSchedule = schedule.filter((_, index) => index !== scheduleIndex);
         setSchedule(updatedSchedule);
         setIndex(index - 1);
@@ -35,14 +40,14 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
 
     return (
         <View style={{...styles.containerSchedule}}>
-            { schedule.map( (element: Schedule, idx: number) => (
+            { schedule.map( ( element: Schedule, idx: number ) => (
                 <View key={idx}>
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={{color: 'black', fontWeight: 'bold'}}>{`Schedule: ${idx + 1}`}</Text>
                         {    
                             index >= 1 &&
                             <TouchableOpacity
-                                onPress={() => handleDeleteSchedule(idx)}
+                                onPress={ () => handleDeleteSchedule(idx) }
                                 style={{padding: 5}}
                             >
                                 <Icon name={'trash-alt'} size={20} color={'red'} light />
@@ -61,7 +66,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                             </View>
                             <View style={styles.containerPickerButton}>
                                 <PickerDayButton
-                                    title={element.day2 === '' ? 'Al dia': element.day1 }
+                                    title={element.day2 === '' ? 'Al dia': element.day2 }
                                     day='day2'
                                     action={updateScheduleItem}
                                     index={idx}
@@ -69,60 +74,22 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                             </View>
                         </View>
                         <View style={styles.containerHours}>
-                            <View style={styles.containerHourOpen} >
-                                <TouchableOpacity   
-                                    onPress={() => setOpenHourOne(true)}
-                                    style={styles.stylesTouchable}
-                                >
-                                    <Text style={{color: 'black', fontWeight: 'bold', marginRight: 5}} >De: </Text>
-                                    <Text style={{color: 'black', fontWeight: 'bold'}} >{ element.open }</Text>    
-                                </TouchableOpacity>
-                                <DatePicker
-                                    modal
-                                    title={'Hora de apertura (HH:MM)'}
-                                    mode='time'
-                                    open={openHourOne}
-                                    date={hourOne}
-                                    onConfirm={(date) => {
-                                        setOpenHourOne(false)
-                                        setHourOne(date)
-                                        var hour = `${date.getHours()} : ${date.getMinutes()}` 
-                                        updateScheduleItem(idx, {open: hour})
-                                    }}
-                                    onCancel={() => {
-                                        setOpenHourOne(false)
-                                    }}
-                                    is24hourSource= 'locale'
-                                    style={{ flex: 1 }}
-                                />
-                            </View>
-                            <View style={styles.containerHourClose}>
-                                <TouchableOpacity   
-                                    onPress={() => setOpenHourTwo(true)}
-                                    style={styles.stylesTouchable}
-                                >
-                                    <Text style={{color: 'black', fontWeight: 'bold', marginRight: 5}} >A: </Text>
-                                    <Text style={{color: 'black', fontWeight: 'bold'}} >{element.close}</Text>    
-                                </TouchableOpacity>
-                                <DatePicker
-                                    modal
-                                    title={'Hora de cierre (HH:MM)'}
-                                    mode='time'
-                                    open={openHourTwo}
-                                    date={hourTwo}
-                                    onConfirm={async (date) => {
-                                        setOpenHourTwo(false)
-                                        setHourTwo(date)
-                                        var hour = `${date.getHours()} : ${date.getMinutes()}` 
-                                        updateScheduleItem(idx, {close: hour})
-                                    }}
-                                    onCancel={() => {
-                                        setOpenHourTwo(false)
-                                    }}
-                                    is24hourSource='locale'
-                                    style={{ flex: 1 }}
-                                />
-                            </View>
+                            <CustomDatePicker
+                                type='open'
+                                modalTitle='Hora de apertura (HH:MM)'
+                                leftTag='De:'
+                                action={updateScheduleItem}
+                                index={idx}
+                                currentHour={element.open}
+                            />
+                            <CustomDatePicker
+                                type='close'
+                                modalTitle='Hora de cierre (HH:MM)'
+                                leftTag='A:'
+                                action={updateScheduleItem}
+                                index={idx}
+                                currentHour={element.close}
+                            />
                         </View>
                     </View>
                 </View>
@@ -139,6 +106,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
         </View>
     )
 };
+
 const styles = StyleSheet.create({
     containerSchedule: {
         borderColor: Colors.darkGray,

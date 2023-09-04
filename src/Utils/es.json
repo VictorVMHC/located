@@ -39,7 +39,7 @@
     "Food": "Comida",
     "Pharmacy": "Farmacia",
     "Others": "Otros",
-    "ModalMsgInicio": "!Código de verificación enviado!",
+    "ModalMsgStart": "!Código de verificación enviado!",
     "ModalMsgCheckEmail": "Revisa tu correo",
     "ModalEnterCodeMsg": "Ingresa el código",
     "ModalBtnVerify": "Verificar",
@@ -69,6 +69,8 @@
     "TimeOutConn": "No se pudo conectar a los servicios de located",
     "LoginToAccessLogText":"Inicia sesión en Located",
     "LoginToAccessTextInfo":"Para poder usar esta función necesitas iniciar sesión",
+    "buttonGoBack":"Regresar",
+    "attemptsVerification":"intentos de verificación",
     "Send": "Enviar",
     "WriteQuestion":"Escribe tu pregunta",
     "InfoForAsk": "¿Necesitas más ayuda? Envianos una pregunta especifica!",
@@ -111,6 +113,9 @@
     "privacySubtitle3": "Compartimiento de Información",
     "privacySubtitle4": "Cambios en la Política de Privacidad",
     "privacySubtitle5": "Seguridad de la Información",
-    "privacySubtitle6": "Contact"
+    "privacySubtitle6": "Contact",
+    "btn1SeeProfile": "Ver foto",
+    "btn2Upload": "Seleccionar foto de la galeria",
+    "btt3TakePicture": "Tomar foto"
   }
 }

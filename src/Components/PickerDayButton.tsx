@@ -1,8 +1,9 @@
 // PickerDayButton
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { Schedule } from '../Interfaces/DbInterfaces';
+import { Text } from 'react-native';
 
 interface Props {
     title: string,
@@ -12,23 +13,18 @@ interface Props {
 }
 
 export const PickerDayButton = ({ title, action, day, index }: Props) => {
-    const [selectedValue, setSelectedValue] = useState(title);
 
     const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
     const handleValueChange = (selectedDay: string) => {
-        if (day === 'day1') {
-            action(index, { day1: selectedDay });
-        }
-        else{
-            action(index, { day2: selectedDay });
-        }
-        setSelectedValue(selectedDay);
+        day === 'day1' 
+            ? action(index, { day1: selectedDay }) 
+            : action(index, { day2: selectedDay });
     };
 
     return (
         <Picker
-            selectedValue={selectedValue}
+            selectedValue={title}
             onValueChange={handleValueChange}
             style={{ ...FontStyles.SubTitles }}
             mode='dialog'

@@ -5,7 +5,7 @@ import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
 import { Formik } from 'formik';
-import { logInData } from '../Interfaces/UserInterfaces';
+import { logInData } from '../Interfaces/UserInterface';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
 import { AuthContext } from '../Context/AuthContext';
