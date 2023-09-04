@@ -10,6 +10,7 @@ import { AuthContext } from '../Context/AuthContext';
 import { Colors } from '../Themes/Styles';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
+import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
 
@@ -40,6 +41,7 @@ export function DrawerMenu() {
         <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
         <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
         <Drawer.Screen name="HelpView" component={HelpView}/>
+        <Drawer.Screen name='PrivacyPolicyView' component={PrivacyPolicyView}/>
         <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
       </Drawer.Navigator>
   );
@@ -83,6 +85,11 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
               text = {t('DrawerHelp')}
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
+            />
+            <DrawerMenuButtons
+              text = {t('DrawerPrivacyPolicy')}
+              onPress = {() => navigation.navigate('PrivacyPolicyView')}
+              iconName='information-circle-outline'
             />
             <CollapsibleButton
               title={t('DrawerLanguage')}
