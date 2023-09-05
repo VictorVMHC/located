@@ -1,25 +1,34 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Animated, Image,TouchableOpacity} from 'react-native';
+import React, { useEffect, useContext, useState, useRef } from 'react';
+import { View, Text, Animated, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { useTranslation } from 'react-i18next';
 
 export const LocationPermissionView = () => {
-    const {t, i18n } = useTranslation();
-    const { askLocationPermission } = useContext( PermissionsContext );
+    const { t, i18n } = useTranslation();
+    const { askLocationPermission } = useContext(PermissionsContext);
     const mapOpacity = new Animated.Value(0);
 
-    useEffect(() =>{
-        fadeInMap()
-    },[] )
+    useEffect(() => {
+        fadeInMap();
+    }, [])
 
     const fadeInMap = () => {
         Animated.timing(mapOpacity, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
         }).start();
     };
+
+    const handleGrantPermission = () => {
+        if (askLocationPermission) {
+            askLocationPermission().then((permissionStatus) => {
+            });
+        }
+    }
+
+  
 
     return (
         <View style={styles.container}>
@@ -27,17 +36,17 @@ export const LocationPermissionView = () => {
                 <MapView style={styles.map} />
             </Animated.View>
             <View style={styles.mapPermissionBox}>
-            <Image source={require('../Assets/Images/iconMarkMap.png')} style={{width: 150, height: 150, borderRadius: 5,}} />
-            <Text style={styles.title}>{t('LocationPermission')}</Text>
-            <Text style={styles.description}>{t('MsgPermission')}</Text>
-            <TouchableOpacity style={styles.mapBtn}
-                onPress={askLocationPermission} >
+                <Image source={require('../Assets/Images/iconMarkMap.png')} style={{ width: 150, height: 150, borderRadius: 5, }} />
+                <Text style={styles.title}>{t('LocationPermission')}</Text>
+                <Text style={styles.description}>{t('MsgPermission')}</Text>
+                <TouchableOpacity style={styles.mapBtn} onPress={handleGrantPermission}>
                     <Text style={styles.mapBtnText}>{t('GrantPermission')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
-    };
+};
+
 
     const styles = StyleSheet.create({
     container: {

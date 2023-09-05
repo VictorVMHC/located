@@ -15,6 +15,18 @@ export interface Local {
     long: string,
 }
 
+export interface Locals {
+    _id: string,
+    name: string,
+    address: string,
+    isVerify: boolean,
+    products: string,
+    schedules: string,
+    latitude:number,
+    longitude:number,
+    tags: string,
+}
+
 export interface Schedule {
     day1: string,
     day2: string,
