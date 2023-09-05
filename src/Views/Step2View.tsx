@@ -63,7 +63,7 @@ export const Step2View = () => {
                 }
 
                 setBusinessOptions([...businessOptions, newBusiness]);
-                setSelectedBusiness(newBusiness);
+                updateLocal({businessType: newBusiness});
                 setNewBusiness('');
                 setModalVisible(false);   
             }
@@ -93,7 +93,7 @@ export const Step2View = () => {
                         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
                             <View style={styles.buttonView}>
                                 <View style={{flex: 9}}>
-                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || `${t('step2ChooseOption')}` }</Text>
+                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{localState.businessType || `${t('step2ChooseOption')}` }</Text>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center'}} >
                                     <Icon name='chevron-down' size={18} color={Colors.darkGray} style={{ marginTop: 2 }}/>
@@ -106,21 +106,29 @@ export const Step2View = () => {
                         placeholder={`${t('step2PhCountry')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={localState.country}
+                        onChangeText={(text) => updateLocal({country: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhState')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={localState.state}
+                        onChangeText={(text) => updateLocal({state: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhTown')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={localState.town}
+                        onChangeText={(text) => updateLocal({town: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhPosCode')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={localState.postalCode}
+                        onChangeText={(text) => updateLocal({postalCode: text})}
                     />
                     <Modal
                         visible={modalVisible}
@@ -133,7 +141,7 @@ export const Step2View = () => {
                                 data={businessOptions}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity onPress={() => {
-                                        setSelectedBusiness(item)
+                                        updateLocal({ businessType: item });
                                         setModalVisible(false)
                                     }}>
                                         <Text style={styles.modalOption} adjustsFontSizeToFit >{item}</Text>
