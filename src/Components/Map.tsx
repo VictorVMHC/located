@@ -8,8 +8,6 @@ import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocalsRad } from '../Api/searchLocalsApi';
 
-
-
 interface Props {
     markers?: any,
 }
@@ -33,15 +31,13 @@ const mapStyle = [
     },
 ]
 
-
-
 export const Map = ({ markers }: Props) => {
     const carouselRef = useRef<ICarouselInstance>(null);
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
-    const [carouselVisible, setCarouselVisible] = useState(false);
     const radioKm = 10.0
     const [datosLocales, setDatosLocales] = useState<Locals[]>([]); // Inicializa datosLocales como un arreglo vacío
+    const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
 
     const fetchData = async (latitude: number, longitude: number) => {
         try {
@@ -55,12 +51,10 @@ export const Map = ({ markers }: Props) => {
             );
             const paginatedResults = resultados.data.results;
             setDatosLocales(paginatedResults);
-            
         } catch (error) {
             console.error(error);
         }
     };
-
 
     const {
         hasLocation,
@@ -74,6 +68,10 @@ export const Map = ({ markers }: Props) => {
         followUserLocation();
         return () => {
             stopFollowUserLocation();
+            // Limpia el intervalo cuando el componente se desmonta
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
         }
     }, []);
 
@@ -89,16 +87,22 @@ export const Map = ({ markers }: Props) => {
         if (carouselRef.current) {
             carouselRef.current.scrollTo({ index, animated: true })
         }
-        setCarouselVisible(true)
     };
 
     useEffect(() => {
         // Este efecto se ejecutará cada vez que initialPosition cambie
         fetchData(initialPosition.latitude, initialPosition.longitude);
+        // Configura un intervalo para actualizar los datos cada 60 segundos
+        const intervalId = setInterval(() => {
+            fetchData(initialPosition.latitude, initialPosition.longitude);
+        }, 60000);
+        // Guarda el identificador del intervalo en el estado
+        setRefreshInterval(intervalId);
+        // Limpia el intervalo cuando el componente se desmonta
+        return () => {
+            clearInterval(intervalId);
+        };
     }, [initialPosition]);
-
-
-    // Agregamos un controlador de eventos para refrescar la pantalla
 
     return (
         <>
@@ -138,10 +142,9 @@ export const Map = ({ markers }: Props) => {
                         </MapView>
                         <CarouselComponent
                             carouselRef={carouselRef}
-                            mapViewRef={mapViewRef}
-                            carouselVisible={carouselVisible}
-                            setCarouselVisible={setCarouselVisible}
-                        />
+                            mapViewRef={mapViewRef} carouselVisible={false} setCarouselVisible={function (value: React.SetStateAction<boolean>): void {
+                                throw new Error('Function not implemented.');
+                            } }                        />
                     </>
             }
         </>
