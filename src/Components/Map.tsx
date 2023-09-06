@@ -7,6 +7,7 @@ import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocalsRad } from '../Api/searchLocalsApi';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props {
     markers?: any,
@@ -36,24 +37,27 @@ export const Map = ({ markers }: Props) => {
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
     const radioKm = 10.0
-    const [datosLocales, setDatosLocales] = useState<Locals[]>([]); // Inicializa datosLocales como un arreglo vacío
-    const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
+    const [datosLocales, setDatosLocales] = useState<Locals[]>([]); 
+    const [fetching, setFetching] = useState(false);
+    
+
 
     const fetchData = async (latitude: number, longitude: number) => {
-        try {
-            // Solo realiza la solicitud cuando tengas las coordenadas válidas
-            console.log('Obteniendo datos...');
-            const resultados = await searchLocalsRad(
-                'locals',
-                latitude,
-                longitude,
-                radioKm
-            );
-            const paginatedResults = resultados.data.results;
-            setDatosLocales(paginatedResults);
-        } catch (error) {
-            console.error(error);
-        }
+            try {
+                console.log('Obteniendo datos...');
+                setFetching(true);
+                const resultados = await searchLocalsRad(
+                    'locals',
+                    latitude,
+                    longitude,
+                    radioKm
+                );
+                const paginatedResults = resultados.data.results;
+                setDatosLocales(paginatedResults);
+                
+            } catch (error) {
+                console.error(error);
+            }
     };
 
     const {
@@ -68,12 +72,17 @@ export const Map = ({ markers }: Props) => {
         followUserLocation();
         return () => {
             stopFollowUserLocation();
-            // Limpia el intervalo cuando el componente se desmonta
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-            }
         }
     }, []);
+
+    useEffect(() => {
+        console.log('hola useEffect');
+        console.log(datosLocales)
+        
+        if(datosLocales.length === 0 || !fetching){
+            fetchData(initialPosition.latitude, initialPosition.longitude);
+        }
+    },);
 
     useEffect(() => {
         if (!following.current) return;
@@ -88,21 +97,7 @@ export const Map = ({ markers }: Props) => {
             carouselRef.current.scrollTo({ index, animated: true })
         }
     };
-
-    useEffect(() => {
-        // Este efecto se ejecutará cada vez que initialPosition cambie
-        fetchData(initialPosition.latitude, initialPosition.longitude);
-        // Configura un intervalo para actualizar los datos cada 60 segundos
-        const intervalId = setInterval(() => {
-            fetchData(initialPosition.latitude, initialPosition.longitude);
-        }, 60000);
-        // Guarda el identificador del intervalo en el estado
-        setRefreshInterval(intervalId);
-        // Limpia el intervalo cuando el componente se desmonta
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [initialPosition]);
+    
 
     return (
         <>

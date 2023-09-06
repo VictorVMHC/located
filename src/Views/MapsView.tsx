@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
 import { Map } from '../Components/Map';
 import { LocationPermissionView } from './LocationPermissionsView';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Text } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native'; // Importa useFocusEffect
 
 export const MapsView = () => {
     const { permissions } = useContext( PermissionsContext );
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+        setIsInView(true);
+        console.log('hola');
+         // Establece isInView a true cuando el usuario entra en la vista
+    }, []);
+
     if ( permissions.locationStatus === 'unavailable' ) {
         return <LoadingView />
     }
