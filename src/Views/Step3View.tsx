@@ -1,24 +1,48 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, ToastAndroid } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { useLocation } from '../Hooks/useLocation'
-import { Coordinates } from '../Interfaces/MapInterfaces'
+import { Coordinates, Location } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
 import { LoadingView } from './LoadingView'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity } from 'react-native'
+import { LocalContext } from '../Context/NewLocalContext'
 
-export const Step3View = () => {
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Step3View = ({setCanGoNext}:Props) => {
+    const { localState, updateLocal } = useContext(LocalContext)
     const { userLocation, hasLocation } = useLocation();
     const { t } = useTranslation();
-    const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(null);
-    const [selectedButton, setSelectedButton] = useState('');
-    const [isMarkerSelected, setIsMarkerSelected] = useState(false); // Nuevo estado
+    const [markerPosition, setMarkerPosition] = useState<Location | null>(localState.location.latitude !== 0 ? localState.location : null);
+    const [selectedButton, setSelectedButton] = useState( markerPosition ? 'marker': '');
+    const [isMarkerSelected, setIsMarkerSelected] = useState(markerPosition ? true: false);
+
+    useEffect(()=> {
+        
+        if(localState.location.longitude !== 0 && localState.location.latitude !== 0){            
+            setCanGoNext(true);
+        }
+
+    }, [localState]);
+    
+    const showToast = (title: string) => {
+        ToastAndroid.showWithGravityAndOffset(
+            title,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+        );
+    };
 
     const handleMapPress = (e: any) => {
         const { latitude, longitude } = e.nativeEvent.coordinate;
         setMarkerPosition({ latitude, longitude });
-        setIsMarkerSelected(true); // Habilita el botón cuando se agrega el marcador
+        setIsMarkerSelected(true);
     };
 
     const handleMarkerDragEnd = (e: any) => {
@@ -26,8 +50,17 @@ export const Step3View = () => {
         setMarkerPosition({ latitude, longitude });
     };
 
-    const handleSelectButtonPress = () => {
-        setSelectedButton('marker');
+    const handleSelectButtonPress = (type: string) => {
+        setSelectedButton(type);
+        if(type == 'marker'){
+            updateLocal({location: {latitude: markerPosition!.latitude, longitude: markerPosition!.longitude}})
+            showToast('Marker location selected')
+        }
+
+        if(type === 'user') {
+            updateLocal({location: userLocation});
+            showToast('User location selected')
+        }
     };
 
     return (
@@ -67,7 +100,7 @@ export const Step3View = () => {
                         selectedButton === 'marker' && styles.selectedButton,
                         !isMarkerSelected && styles.disabledButton,
                     ]}
-                    onPress={handleSelectButtonPress}
+                    onPress={() => handleSelectButtonPress('marker')}
                     disabled={!isMarkerSelected}
                 >
                     <Text style={styles.buttonText}>
@@ -80,7 +113,7 @@ export const Step3View = () => {
                         styles.button,
                         selectedButton === 'user' && styles.selectedButton,
                     ]}
-                    onPress={() => setSelectedButton('user')}
+                    onPress={() => handleSelectButtonPress('user')}
                 >
                     <Text style={styles.buttonText}>
                         Select user position

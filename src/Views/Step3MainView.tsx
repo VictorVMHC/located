@@ -4,7 +4,11 @@ import { LoadingView } from './LoadingView';
 import { LocationPermissionView } from './LocationPermissionsView';
 import { Step3View } from './Step3View';
 
-export const Step3MainView = () => {
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Step3MainView = ({setCanGoNext}: Props) => {
     const { permissions } = useContext( PermissionsContext );
 
     if ( permissions.locationStatus === 'unavailable' ) {
@@ -15,7 +19,7 @@ export const Step3MainView = () => {
         <>
             {
                 ( permissions.locationStatus === 'granted' )
-                    ? <Step3View/>
+                    ? <Step3View setCanGoNext={setCanGoNext}/>
                     : <LocationPermissionView/>
             }
         </>

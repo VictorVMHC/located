@@ -22,8 +22,8 @@ export const LocalCreatorView = () => {
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} />},
-        {name: t('localStep2'), component: <Step2View/>},
-        {name: t('localStep3'), component: <Step3View/>},
+        {name: t('localStep2'), component: <Step2View setCanGoNext={setCanGoNext} />},
+        {name: t('localStep3'), component: <Step3View setCanGoNext={setCanGoNext}/>},
         {name: t('localStep4'), component: <Step4View/>},
         {name: t('localStep5'), component: <Step5View/>},
         {name: t('localStep6'), component: <Step6View/>},
@@ -43,7 +43,7 @@ export const LocalCreatorView = () => {
         setCurrentStep(currentStep - 1);
         }
     };
-    
+
     return (
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>

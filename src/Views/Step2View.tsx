@@ -11,15 +11,16 @@ import { LocalContext } from '../Context/NewLocalContext';
 interface Props{
     setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
 }
-export const Step2View = () => {
+
+export const Step2View = ({setCanGoNext}:Props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedBusiness, setSelectedBusiness] = useState('');
     const [newBusiness, setNewBusiness] = useState('');
     const [businessOptions, setBusinessOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const { t } = useTranslation();
     const {localState, updateLocal} = useContext(LocalContext);
+    const {businessType, country, state, town, postalCode} = localState
 
     useEffect(() => {       
         if( businessOptions.length === 0 ){
@@ -27,6 +28,11 @@ export const Step2View = () => {
         }
     }, []);
 
+    useEffect(()=> {
+        if(businessType && country && state && town && postalCode){
+            setCanGoNext(true);
+        }
+    }, [localState]);
 
     const fetchBusinessTypes = async () => {
         getBusinessTypes(currentPage).then((response) => {
@@ -95,7 +101,7 @@ export const Step2View = () => {
                         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
                             <View style={styles.buttonView}>
                                 <View style={{flex: 9}}>
-                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{localState.businessType || `${t('step2ChooseOption')}` }</Text>
+                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{businessType || `${t('step2ChooseOption')}` }</Text>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center'}} >
                                     <Icon name='chevron-down' size={18} color={Colors.darkGray} style={{ marginTop: 2 }}/>
@@ -108,28 +114,28 @@ export const Step2View = () => {
                         placeholder={`${t('step2PhCountry')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
-                        value={localState.country}
+                        value={country}
                         onChangeText={(text) => updateLocal({country: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhState')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
-                        value={localState.state}
+                        value={state}
                         onChangeText={(text) => updateLocal({state: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhTown')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
-                        value={localState.town}
+                        value={town}
                         onChangeText={(text) => updateLocal({town: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhPosCode')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
-                        value={localState.postalCode}
+                        value={postalCode}
                         onChangeText={(text) => updateLocal({postalCode: text})}
                     />
                     <Modal
