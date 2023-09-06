@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ToastAndroid } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
+import { ShowToast } from '../Components/ShowToast'
+import { LocalContext } from '../Context/NewLocalContext'
 import { useLocation } from '../Hooks/useLocation'
-import { Coordinates, Location } from '../Interfaces/MapInterfaces'
+import { Location } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
 import { LoadingView } from './LoadingView'
-import { useTranslation } from 'react-i18next'
-import { TouchableOpacity } from 'react-native'
-import { LocalContext } from '../Context/NewLocalContext'
 
 interface Props{
     setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
@@ -28,16 +28,6 @@ export const Step3View = ({setCanGoNext}:Props) => {
         }
 
     }, [localState]);
-    
-    const showToast = (title: string) => {
-        ToastAndroid.showWithGravityAndOffset(
-            title,
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-        );
-    };
 
     const handleMapPress = (e: any) => {
         const { latitude, longitude } = e.nativeEvent.coordinate;
@@ -54,12 +44,12 @@ export const Step3View = ({setCanGoNext}:Props) => {
         setSelectedButton(type);
         if(type == 'marker'){
             updateLocal({location: {latitude: markerPosition!.latitude, longitude: markerPosition!.longitude}})
-            showToast('Marker location selected')
+            ShowToast('Marker location selected')
         }
 
         if(type === 'user') {
             updateLocal({location: userLocation});
-            showToast('User location selected')
+            ShowToast('User location selected')
         }
     };
 
