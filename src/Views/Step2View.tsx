@@ -8,7 +8,9 @@ import { Colors, FontStyles } from '../Themes/Styles';
 import { CustomAlert } from '../Components/CustomAlert';
 import { LocalContext } from '../Context/NewLocalContext';
 
-
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
 export const Step2View = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedBusiness, setSelectedBusiness] = useState('');

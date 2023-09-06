@@ -1,24 +1,34 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import { Text } from 'react-native-paper'
 import { useLocation } from '../Hooks/useLocation'
 import { Coordinates } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
 import { LoadingView } from './LoadingView'
 import { useTranslation } from 'react-i18next'
+import { TouchableOpacity } from 'react-native'
 
 export const Step3View = () => {
     const { userLocation, hasLocation } = useLocation();
     const { t } = useTranslation();
     const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(null);
+    const [selectedButton, setSelectedButton] = useState('');
+    const [isMarkerSelected, setIsMarkerSelected] = useState(false); // Nuevo estado
 
     const handleMapPress = (e: any) => {
         const { latitude, longitude } = e.nativeEvent.coordinate;
         setMarkerPosition({ latitude, longitude });
+        setIsMarkerSelected(true); // Habilita el botón cuando se agrega el marcador
     };
 
-    
+    const handleMarkerDragEnd = (e: any) => {
+        const { latitude, longitude } = e.nativeEvent.coordinate;
+        setMarkerPosition({ latitude, longitude });
+    };
+
+    const handleSelectButtonPress = () => {
+        setSelectedButton('marker');
+    };
 
     return (
         <View style={styles.container}>
@@ -40,22 +50,49 @@ export const Step3View = () => {
                         onPress={handleMapPress}
                     >
                         {markerPosition && (
-                                <Marker
-                                    draggable
-                                    coordinate={markerPosition}
-                                    onDragEnd={(e) => {
-                                        const { latitude, longitude } = e.nativeEvent.coordinate;
-                                        setMarkerPosition({ latitude, longitude });
-                                    }}
-                                />
-                            )
-                        }
+                            <Marker
+                                draggable
+                                coordinate={markerPosition}
+                                onDragEnd={handleMarkerDragEnd}
+                            />
+                        )}
                     </MapView>
                 }
             </View>
             <View style={styles.viewText}>
-                <Text style= {styles.text} adjustsFontSizeToFit>{t('step3Instructions')}</Text>
-                <Text style= {{...FontStyles.Information,textAlign: 'center' }} adjustsFontSizeToFit>{t('step3Instructions2')}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                <TouchableOpacity
+                    style={[
+                        styles.button,
+                        selectedButton === 'marker' && styles.selectedButton,
+                        !isMarkerSelected && styles.disabledButton,
+                    ]}
+                    onPress={handleSelectButtonPress}
+                    disabled={!isMarkerSelected}
+                >
+                    <Text style={styles.buttonText}>
+                        Select marker position
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[
+                        styles.button,
+                        selectedButton === 'user' && styles.selectedButton,
+                    ]}
+                    onPress={() => setSelectedButton('user')}
+                >
+                    <Text style={styles.buttonText}>
+                        Select user position
+                    </Text>
+                </TouchableOpacity>
+                </View>
+                <Text style={styles.text} adjustsFontSizeToFit>
+                    {t('step3Instructions')}
+                </Text>
+                <Text style={{ ...FontStyles.Information, textAlign: 'center' }} adjustsFontSizeToFit>
+                    {t('step3Instructions2')}
+                </Text>
             </View>
         </View>
     )
@@ -64,7 +101,7 @@ export const Step3View = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: '5%'
+        padding: '5%',
     },
     mapContainer: {
         flex: 10,
@@ -88,9 +125,27 @@ const styles = StyleSheet.create({
     text: {
         ...FontStyles.Text,
         textAlign: 'center',
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
     },
     mapStyle: {
         flex: 1,
-    }
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        alignItems: 'center',
+        marginHorizontal: 15,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+    },
+    selectedButton: {
+        backgroundColor: 'green',
+    },
+    disabledButton: {
+        backgroundColor: 'gray',
+    },
 });
