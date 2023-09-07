@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView, LayoutAnimation, StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ScheduleSection } from '../Components/ScheduleSection';
@@ -9,21 +9,33 @@ import { addCategory, getCategories } from '../Api/categories';
 import { CustomAlert } from '../Components/CustomAlert';
 import { useTranslation } from 'react-i18next';
 import { Chip } from 'react-native-paper';
+import { LocalContext } from '../Context/NewLocalContext';
 
-export const Step4View = () => {
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Step4View = ({ setCanGoNext }:Props) => {
     const initialSchedule: Schedule[] = [
         {day1: '', day2: '', open:`${new Date().getHours()} : ${new Date().getMinutes()}` , close: `${new Date().getHours()} : ${new Date().getMinutes()}` }, 
     ];
-
-    const [schedule, setSchedule] = useState<Schedule[]>(initialSchedule);
+    const { localState, updateLocal } = useContext(LocalContext)
+    const [schedule, setSchedule] = useState<Schedule[]>(localState.schedules.length ? localState.schedules : initialSchedule);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [add, setAdd] = useState<boolean>(false);
+    const [add, setAdd] = useState<boolean>(localState.categories ? true : false);
     const [placeHolder, setPlaceHolder] = useState('');
     const { t } = useTranslation();
+    
+    useEffect(()=> {
+        
+        if(localState.schedules.length !== 0 && localState.categories.length !== 0){            
+            setCanGoNext(true);
+        }
+
+    }, [localState]);
     
     useEffect(() => {       
         if( categoryOptions.length === 0 ){
@@ -37,6 +49,7 @@ export const Step4View = () => {
             ...updatedSchedule[scheduleNumber],
             ...updateData,
         };
+        updateLocal({schedules: updatedSchedule})
         setSchedule(updatedSchedule);
     };
 
@@ -77,7 +90,8 @@ export const Step4View = () => {
                 }
 
                 setCategoryOptions([...categoryOptions, newCategory]);
-                setSelectedCategory([...selectedCategory, newCategory]);
+                updateLocal({categories: [...localState.categories, newCategory]});
+
                 setPlaceHolder(newCategory)
                 setModalVisible(false);
                 
@@ -94,11 +108,8 @@ export const Step4View = () => {
     };
 
     const handleSelected = (selected: string[]) =>{
-        setSelectedCategory(selected)
+        updateLocal({categories: selected})
         setPlaceHolder(selected.toString())
-        console.log(selected);
-        console.log(selectedCategory);
-        
     }
 
     const handleLoadMore = async () => {
@@ -109,9 +120,10 @@ export const Step4View = () => {
     
     const handleChipClose = (itemToRemove: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-        const updatedSelectedCategory = selectedCategory.filter(item => item !== itemToRemove);
-        setSelectedCategory(updatedSelectedCategory);
+        const updatedSelectedCategory = localState.categories.filter(item => item !== itemToRemove);
+        updateLocal({ categories:  updatedSelectedCategory});
     };
+
     const onPressOpenModal = () => {
         setAdd(false);
     }
@@ -145,14 +157,15 @@ export const Step4View = () => {
                                 onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); setAdd(true); setPlaceHolder('');
                                 }}
                             >
-                                <Text style={styles.buttonText}  adjustsFontSizeToFit >Add</Text>
+                                <Text style={styles.buttonText}  adjustsFontSizeToFit disabled={add} >Add</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.chipContainer}>
                         {add ? (
                             <View style={styles.chipsWrapper}>
-                                {selectedCategory.map((item, index) => (
+                                {
+                                    localState.categories.map((item, index) => (
                                     <Chip
                                         key={index}
                                         closeIcon="close"
@@ -161,11 +174,9 @@ export const Step4View = () => {
                                         onClose={() => {
                                             handleChipClose(item);
                                         }}
-                                        onPress={() => console.log('Pressed')}
                                         compact style={{ margin: 5 }}>
                                         {item}
                                     </Chip>
-                                    
                                 ))}
                             </View>
                         ) : null}

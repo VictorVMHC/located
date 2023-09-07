@@ -21,10 +21,10 @@ export const LocalCreatorView = () => {
     const [canGoNext, setCanGoNext] = useState(false)
 
     const steps: stepDto[] = [
-        {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} />},
-        {name: t('localStep2'), component: <Step2View setCanGoNext={setCanGoNext} />},
-        {name: t('localStep3'), component: <Step3View setCanGoNext={setCanGoNext}/>},
-        {name: t('localStep4'), component: <Step4View/>},
+        {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
+        {name: t('localStep2'), component: <Step2View setCanGoNext={setCanGoNext} /> },
+        {name: t('localStep3'), component: <Step3View setCanGoNext={setCanGoNext} /> },
+        {name: t('localStep4'), component: <Step4View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep5'), component: <Step5View/>},
         {name: t('localStep6'), component: <Step6View/>},
     ];
