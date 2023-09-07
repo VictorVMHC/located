@@ -26,7 +26,7 @@ export const LocalCreatorView = () => {
         {name: t('localStep3'), component: <Step3View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep4'), component: <Step4View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep5'), component: <Step5View setCanGoNext={setCanGoNext} /> },
-        {name: t('localStep6'), component: <Step6View/>},
+        {name: t('localStep6'), component: <Step6View setCanGoNext={setCanGoNext} /> },
     ];
 
     const handleNext = () => {
@@ -43,6 +43,10 @@ export const LocalCreatorView = () => {
         setCurrentStep(currentStep - 1);
         }
     };
+
+    const handleCreateLocal = () => {
+        
+    }
 
     return (
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
@@ -78,8 +82,9 @@ export const LocalCreatorView = () => {
                     {currentStep === steps.length - 1 
                         ? (
                             <TouchableOpacity 
-                                style={{...styles.button, justifyContent: 'center', backgroundColor: Colors.greenSuccess }} 
-                                onPress={handleNext} 
+                                style={{...styles.button, justifyContent: 'center', backgroundColor: (!canGoNext) ? Colors.grayOpacity : Colors.greenSuccess }}
+                                onPress={handleNext}
+                                disabled={!canGoNext}
                             >
                                 <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >{t('localCreatorCreate')}</Text>
                             </TouchableOpacity>

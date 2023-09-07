@@ -25,17 +25,17 @@ export const Step4View = ({ setCanGoNext }:Props) => {
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [add, setAdd] = useState<boolean>(localState.categories ? true : false);
+    const [add, setAdd] = useState<boolean>(localState.tags ? true : false);
     const [placeHolder, setPlaceHolder] = useState('');
     const { t } = useTranslation();
     
     useEffect(()=> {
         
-        if((localState.schedules.length !== 0 && localState.categories.length !== 0) && add ){            
+        if((localState.schedules.length !== 0 && localState.tags.length !== 0) && add ){            
             setCanGoNext(true);
         }
 
-    }, [localState]);
+    }, [localState, add]);
     
     useEffect(() => {       
         if( categoryOptions.length === 0 ){
@@ -90,7 +90,7 @@ export const Step4View = ({ setCanGoNext }:Props) => {
                 }
 
                 setCategoryOptions([...categoryOptions, newCategory]);
-                updateLocal({categories: [...localState.categories, newCategory]});
+                updateLocal({tags: [...localState.tags, newCategory]});
 
                 setPlaceHolder(newCategory)
                 setModalVisible(false);
@@ -108,7 +108,7 @@ export const Step4View = ({ setCanGoNext }:Props) => {
     };
 
     const handleSelected = (selected: string[]) =>{
-        updateLocal({categories: selected})
+        updateLocal({tags: selected})
         setPlaceHolder(selected.toString())
     }
 
@@ -120,8 +120,8 @@ export const Step4View = ({ setCanGoNext }:Props) => {
     
     const handleChipClose = (itemToRemove: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-        const updatedSelectedCategory = localState.categories.filter(item => item !== itemToRemove);
-        updateLocal({ categories:  updatedSelectedCategory});
+        const updatedSelectedCategory = localState.tags.filter(item => item !== itemToRemove);
+        updateLocal({ tags:  updatedSelectedCategory});
     };
 
     const onPressOpenModal = () => {
@@ -165,7 +165,7 @@ export const Step4View = ({ setCanGoNext }:Props) => {
                         {add ? (
                             <View style={styles.chipsWrapper}>
                                 {
-                                    localState.categories.map((item, index) => (
+                                    localState.tags.map((item, index) => (
                                     <Chip
                                         key={index}
                                         closeIcon="close"

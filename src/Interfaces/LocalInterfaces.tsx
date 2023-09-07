@@ -12,7 +12,6 @@ export interface NewLocal {
     location: Location;
     schedules: Schedule[];
     tags: string[];
-    categories: string[];
     contact: {
         [type: string]: Contact;
     };

@@ -28,9 +28,6 @@ export const Step5View = ({ setCanGoNext }:Props) => {
         updatedContact[type] = { info: value };
         updateLocal({ contact: updatedContact });
     }
-
-    console.log(JSON.stringify(contact));
-    
     
     return (
 
@@ -39,7 +36,7 @@ export const Step5View = ({ setCanGoNext }:Props) => {
                 <TextInputAndIcon
                     iconName='facebook-f'
                     placeHolder='Facebook'
-                    value={contact['facebook']?.info}
+                    value={contact['Facebook']?.info}
                     action={handleAddContact}
                 />
                 <TextInputAndIcon
@@ -51,7 +48,7 @@ export const Step5View = ({ setCanGoNext }:Props) => {
                 <TextInputAndIcon
                     iconName='instagram'
                     placeHolder='Instagram'
-                    value={contact['instagram']?.info}
+                    value={contact['Instagram']?.info}
                     action={handleAddContact}
                 />
                 <TextInputAndIcon
