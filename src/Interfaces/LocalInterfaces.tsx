@@ -13,8 +13,8 @@ export interface NewLocal {
     schedules: Schedule[];
     tags: string[];
     categories: string[];
-    contact: Contact[];
+    contact: {
+        [type: string]: Contact;
+    };
     uriImage: string
 }
-
-export 

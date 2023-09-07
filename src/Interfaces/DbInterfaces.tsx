@@ -28,6 +28,5 @@ interface User {
 }
 
 export interface Contact {
-    name: string;
-    data: string;
+    info: string;
 }

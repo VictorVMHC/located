@@ -25,7 +25,7 @@ export const LocalCreatorView = () => {
         {name: t('localStep2'), component: <Step2View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep3'), component: <Step3View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep4'), component: <Step4View setCanGoNext={setCanGoNext} /> },
-        {name: t('localStep5'), component: <Step5View/>},
+        {name: t('localStep5'), component: <Step5View setCanGoNext={setCanGoNext} /> },
         {name: t('localStep6'), component: <Step6View/>},
     ];
 

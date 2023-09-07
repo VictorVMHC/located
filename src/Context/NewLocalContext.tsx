@@ -19,7 +19,7 @@ export const LocalInitialState: NewLocal ={
     tags: [],
     location: initialLocation,
     postalCode: '',
-    contact: [],
+    contact: {},
     categories: []
 }
 

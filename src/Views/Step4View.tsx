@@ -31,7 +31,7 @@ export const Step4View = ({ setCanGoNext }:Props) => {
     
     useEffect(()=> {
         
-        if(localState.schedules.length !== 0 && localState.categories.length !== 0){            
+        if((localState.schedules.length !== 0 && localState.categories.length !== 0) && add ){            
             setCanGoNext(true);
         }
 
