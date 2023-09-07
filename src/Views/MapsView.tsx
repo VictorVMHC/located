@@ -3,7 +3,6 @@ import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
 import { Map } from '../Components/Map';
 import { LocationPermissionView } from './LocationPermissionsView';
-import { useFocusEffect } from '@react-navigation/native'; // Importa useFocusEffect
 
 export const MapsView = () => {
     const { permissions } = useContext( PermissionsContext );

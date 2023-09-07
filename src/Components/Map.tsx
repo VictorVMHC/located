@@ -36,16 +36,15 @@ export const Map = ({ markers }: Props) => {
     const carouselRef = useRef<ICarouselInstance>(null);
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
-    const radioKm = 10.0
+    const [carouselVisible, setCarouselVisible] = useState(false);
+    const radioKm = 0.2
     const [datosLocales, setDatosLocales] = useState<Locals[]>([]); 
-    const [fetching, setFetching] = useState(false);
     
 
 
     const fetchData = async (latitude: number, longitude: number) => {
             try {
                 console.log('Obteniendo datos...');
-                setFetching(true);
                 const resultados = await searchLocalsRad(
                     'locals',
                     latitude,
@@ -78,15 +77,18 @@ export const Map = ({ markers }: Props) => {
     useEffect(() => {
         console.log('hola useEffect');
         console.log(datosLocales)
-        
-        if(datosLocales.length === 0 || !fetching){
-            fetchData(initialPosition.latitude, initialPosition.longitude);
+        if(!hasLocation){
+            return ;
         }
-    },);
+        if(datosLocales.length === 0 ){
+            fetchData(userLocation.latitude, userLocation.longitude);
+        }
+    },[userLocation]);
 
     useEffect(() => {
         if (!following.current) return;
         const { latitude, longitude } = userLocation;
+        console.log(latitude)
         mapViewRef.current?.animateCamera({
             center: { latitude, longitude }
         });
@@ -95,6 +97,7 @@ export const Map = ({ markers }: Props) => {
     const handleMarkerPress = (index: number) => {
         if (carouselRef.current) {
             carouselRef.current.scrollTo({ index, animated: true })
+            setCarouselVisible(true)
         }
     };
     
@@ -120,6 +123,8 @@ export const Map = ({ markers }: Props) => {
                             onTouchStart={() => following.current = false}
                         >
                             {datosLocales.map(({ latitude, longitude }: Locals, index) => {
+                                {console.log(index);
+                                }
                                 return (
                                     <Marker
                                         key={index.toString()}
@@ -137,9 +142,9 @@ export const Map = ({ markers }: Props) => {
                         </MapView>
                         <CarouselComponent
                             carouselRef={carouselRef}
-                            mapViewRef={mapViewRef} carouselVisible={false} setCarouselVisible={function (value: React.SetStateAction<boolean>): void {
-                                throw new Error('Function not implemented.');
-                            } }                        />
+                            mapViewRef={mapViewRef} carouselVisible={carouselVisible} setCarouselVisible={setCarouselVisible}    
+                            datosLocales={datosLocales}
+                        />
                     </>
             }
         </>

@@ -6,15 +6,17 @@ import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescri
 import { local } from '../Utils/Data _Example';
 import { Card } from './Card';
 import { Colors } from '../Themes/Styles';
+import { Locals } from '../Interfaces/DbInterfaces';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
     mapViewRef: MutableRefObject<MapView | undefined>,
     carouselVisible: boolean,
     setCarouselVisible: React.Dispatch<React.SetStateAction<boolean>>
+    datosLocales: Locals[]
 }
 
-export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible }: Props) => {
+export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, datosLocales }: Props) => {
 
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
@@ -77,14 +79,17 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     };
 
     useEffect(() => {
-            const location = local[currentSlideIndex].location;
+        const selectedLocal = datosLocales[currentSlideIndex];
+        if (selectedLocal) {
+            const { latitude, longitude } = selectedLocal;
             mapViewRef.current?.animateCamera({
                 zoom: 15,
-                center:{
-                    latitude: location.latitude - 0.0005,
-                    longitude: location.longitude
+                center: {
+                    latitude: latitude - 0.0005,
+                    longitude: longitude
                 }
             });
+        }
         }, [currentSlideIndex]);
         
     return (

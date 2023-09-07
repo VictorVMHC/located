@@ -9,7 +9,7 @@ import {Locals} from '../Interfaces/DbInterfaces';
 export const ForYouView = () => {
     const latitudReferencia = 20.722242050154833;
     const longitudReferencia = -103.32044364317514;
-    const radioKm = 10.0;
+    const radioKm = 0.2;
     const [latitudMaxima,setlatitudMaxima] = useState(0);
     const [latitudMinima, setlatitudMinima] =useState(0);
     const [longitudMaxima, setlongitudMaxima] = useState(0);
