@@ -25,9 +25,6 @@ export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColo
     const [selectedItems, setSelectedItems] = useState<string[]>([]); 
 
     const handleSelection = (value:string) => {
-        console.log('this is the handle selection');
-        console.log(value);
-        
         
         if(multiSelection ){
             const newSelectedItems = selectedItems.includes(value)
