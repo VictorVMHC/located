@@ -20,6 +20,7 @@ export const LocalInitialState: NewLocal ={
     location: initialLocation,
     postalCode: '',
     contact: [],
+    categories: []
 }
 
 type LocalContextProps = {
