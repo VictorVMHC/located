@@ -11,6 +11,7 @@ export const LocalInitialState: NewLocal ={
     name: 'hola',
     description: 'hola',
     businessType: 'hola',
+    address: 'hola',
     country:  'hola',
     state: 'hola',
     town: 'hola',

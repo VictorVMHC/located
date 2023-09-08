@@ -20,7 +20,7 @@ export const Step2View = ({setCanGoNext}:Props) => {
     const [totalPages, setTotalPages] = useState(1);
     const { t } = useTranslation();
     const {localState, updateLocal} = useContext(LocalContext);
-    const {businessType, country, state, town, postalCode} = localState
+    const {businessType, country, state, town, postalCode, address} = localState
 
     useEffect(() => {       
         if( businessOptions.length === 0 ){
@@ -29,7 +29,7 @@ export const Step2View = ({setCanGoNext}:Props) => {
     }, []);
 
     useEffect(()=> {
-        if(businessType && country && state && town && postalCode){
+        if(businessType && country && state && town && postalCode && address){
             setCanGoNext(true);
         }
     }, [localState]);
@@ -110,6 +110,13 @@ export const Step2View = ({setCanGoNext}:Props) => {
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.title}> {t('step2Address')} </Text>
+                    <TextInput
+                        placeholder={'Address'}
+                        placeholderTextColor={Colors.darkGray}
+                        style={styles.textInputSty}
+                        value={address}
+                        onChangeText={(text) => updateLocal({address: text})}
+                    />
                     <TextInput
                         placeholder={`${t('step2PhCountry')}`}
                         placeholderTextColor={Colors.darkGray}
