@@ -7,6 +7,8 @@ import { t } from 'i18next';
 import { createUser } from '../Api/userApi';
 import { GuestLogIn } from '../Api/guestUser';
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
+import { GoogleUser } from '../Interfaces/GoogleUserInterfaces';
+import { createGoogleUser } from '../Api/googleUserApi';
 
 type AuthContextProps = {
     errorMessage: string;
@@ -165,6 +167,24 @@ export const AuthProvider = ({children}: any) => {
     const signUp = async (user: User) => {
         try{
             const { data } = await createUser(user);
+            dispatch({ 
+                type: 'signUp',
+                payload: {
+                    token: data.token,
+                    user: data.user
+                }
+            });
+        }catch(error: any){
+            dispatch({
+                type: 'addError',
+                payload: error.response.data.errors || t('ErrorMsgPayload')
+            })
+        }
+    }
+
+    const googleSignUp = async (user: GoogleUser, idToken: string ) => {
+        try{
+            const { data } = await createGoogleUser(user, idToken)
             dispatch({ 
                 type: 'signUp',
                 payload: {
