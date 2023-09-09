@@ -121,6 +121,8 @@
     "confirmDelete": "Confirm Delete",
     "description": "Are you sure you want to delete your profile?",
     "Cancel": "Cancel",
-    "Accept": "Accept"
+    "Accept": "Accept",
+    "Store": "Store",
+    "pets": "pets"
   }
 }

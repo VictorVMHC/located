@@ -103,7 +103,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                     loop
                     width={width}
                     height={carouselHeight}
-                    data={local}
+                    data={datosLocales}
                     mode='parallax'
                     scrollAnimationDuration={1000}
                     onSnapToItem={(index) => setCurrentSlideIndex(index)}

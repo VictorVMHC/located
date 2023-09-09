@@ -7,7 +7,6 @@ import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocalsRad } from '../Api/searchLocalsApi';
-import { useFocusEffect } from '@react-navigation/native';
 
 interface Props {
     markers?: any,
@@ -53,7 +52,6 @@ export const Map = ({ markers }: Props) => {
                 );
                 const paginatedResults = resultados.data.results;
                 setDatosLocales(paginatedResults);
-                
             } catch (error) {
                 console.error(error);
             }
@@ -76,7 +74,6 @@ export const Map = ({ markers }: Props) => {
 
     useEffect(() => {
         console.log('hola useEffect');
-        console.log(datosLocales)
         if(!hasLocation){
             return ;
         }
@@ -100,9 +97,8 @@ export const Map = ({ markers }: Props) => {
             setCarouselVisible(true)
         }
     };
-    
-
     return (
+        
         <>
             {
                 (!hasLocation)
@@ -121,9 +117,9 @@ export const Map = ({ markers }: Props) => {
                             }}
                             zoomControlEnabled
                             onTouchStart={() => following.current = false}
-                        >
-                            {datosLocales.map(({ latitude, longitude }: Locals, index) => {
-                                {console.log(index);
+                        > 
+                            {datosLocales.map(({ latitude, longitude }: Locals, index: number) => {
+                                {
                                 }
                                 return (
                                     <Marker

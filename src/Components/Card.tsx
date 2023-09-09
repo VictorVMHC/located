@@ -6,12 +6,13 @@ import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Local, Schedule } from '../Interfaces/DbInterfaces';
 import { useTranslation } from 'react-i18next';
+import { Locals } from '../Interfaces/DbInterfaces';
 
 interface Props{
     cardWidth?: number,
     cardHeight?: number,
     like: boolean,
-    local: Local, 
+    local: Locals, 
     routeToStore?: () => void 
 }
 
@@ -21,25 +22,25 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local, route
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
-    const {name, address: address, uriImage, isVerify, schedules, rate, quantityRate, tags, description} = local;
+    const {name, address: address, isVerify, schedules, latitude, longitude, tags} = local;
 
     return (
-    <View style={styles.container} key={local.id} >
+    <View style={styles.container} key={local._id} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
             onPress={routeToStore}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
-                    source={{ uri: uriImage }} 
+                    source={{ uri: 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000' }} 
                     style={styles.imageBackground} 
                     resizeMode='cover'
                     borderTopRightRadius={20} 
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{rate}</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit>rate</Text>
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit >({quantityRate})</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit >quantityRate</Text>
                     </View>
                     <TouchableOpacity style={styles.heartBtn}
                             onPress={() => {check()} }
@@ -68,13 +69,14 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local, route
                                 <Text style={FontStyles.Title} adjustsFontSizeToFit >{t('DescriptionText')}</Text>
                             </View>
                             <View style={{flex: 8}}>
-                                <Text style={FontStyles.Text} adjustsFontSizeToFit>{description}</Text>
+                                <Text style={FontStyles.Text} adjustsFontSizeToFit>description</Text>
                             </View>
                         </View>
                         <View style={{ flex: 5,  justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={FontStyles.SubTitles}>
                                 <IonIcon name={'calendar-outline'} size={20} color={Colors.blueAqua} />  {t('ScheduleTitle')}
                             </Text>
+                            {/*
                             {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
                                 <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <View style={{ flex: 5 }}>
@@ -92,15 +94,18 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, local, route
                                     </View>
                                 </View>
                             ))}
+                            */}
                         </View>
                     </View>
                 </View>
                 <View style={{ flex: 2, flexDirection: 'row', paddingHorizontal: 10, justifyContent: 'flex-start', marginBottom: 10 }}>
+                    {/*
                     {tags && tags.map((item, index) => (
                         <View key={index} style={styles.tagStyle}>
                         <Text style={styles.textTag}>{item}</Text>
                         </View>
                     ))}
+                     */}
                 </View>
             </View> 
         </TouchableOpacity>

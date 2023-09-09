@@ -63,6 +63,22 @@ return (
                     ),
                 }}  
             />
+            <Tab.Screen name="Store" component={OthersCategoriesView} 
+                options={{
+                    title:  t('Store').toString(),
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
+                    ),
+                }}   
+            />
+            <Tab.Screen name="Pets" component={OthersCategoriesView} 
+                options={{
+                    title:  t('Pets').toString(),
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons name="paw" size={20} color={'#CD5F28'} />
+                    ),
+                }}   
+            />
             <Tab.Screen name="OthersCategories" component={OthersCategoriesView} 
                 options={{
                     title:  t('Otros').toString(),

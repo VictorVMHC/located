@@ -49,30 +49,30 @@ export const CardCloseToMe = ({ Img = '', Name = '', categorie = '', like = fals
 
 const styles = StyleSheet.create({
     chart:{
+        width: '45%',
         borderRadius: 20,
-        margin: 8,
+        marginHorizontal: '2%',
+        marginVertical: '2%'
         
     },
     ChartImg:{
         flex:6,
+        shadowColor: "#000",
         borderRadius: 20,
-        marginBottom: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: "#000",
         shadowOffset: {
 	        width: 0,
 	        height: 2,
         },
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
-        elevation: 4,
+        elevation: 4, 
     },
     ChartText:{
         flex:4,
         alignItems: 'center',
         paddingHorizontal: 2,
-
     },
     imgen:{
         width: '95%',
