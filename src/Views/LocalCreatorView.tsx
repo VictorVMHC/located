@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, LayoutAnimation, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -9,6 +9,8 @@ import { Step4View } from './Step4View';
 import { Step5View } from './Step5View';
 import { Step6View } from './Step6View ';
 import { useTranslation } from 'react-i18next';
+import { createLocal } from '../Api/localApi';
+import { LocalContext } from '../Context/NewLocalContext';
 
 type stepDto = {
     name: string;
@@ -18,7 +20,8 @@ type stepDto = {
 export const LocalCreatorView = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const { t } = useTranslation();
-    const [canGoNext, setCanGoNext] = useState(false)
+    const [canGoNext, setCanGoNext] = useState(false);
+    const { localState } = useContext(LocalContext);
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -44,8 +47,16 @@ export const LocalCreatorView = () => {
         }
     };
 
-    const handleCreateLocal = () => {
-        
+    const handleCreateLocal = async () => {
+        try{
+            const response = await createLocal(localState);
+            //TODO: Add th  funcionality
+            if(response.status === 200){                
+                console.log(JSON.stringify(response.data));
+            }
+        }catch(err: any) {            
+            console.log(JSON.stringify(err.response.data.msg));
+        }
     }
 
     return (
@@ -83,7 +94,7 @@ export const LocalCreatorView = () => {
                         ? (
                             <TouchableOpacity 
                                 style={{...styles.button, justifyContent: 'center', backgroundColor: (!canGoNext) ? Colors.grayOpacity : Colors.greenSuccess }}
-                                onPress={handleNext}
+                                onPress={handleCreateLocal}
                                 disabled={!canGoNext}
                             >
                                 <Text style={{...styles.buttonText}} adjustsFontSizeToFit={true} >{t('localCreatorCreate')}</Text>
