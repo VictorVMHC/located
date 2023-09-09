@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/UserInterfaces';
+import { User, createNewUser, logInData } from '../Interfaces/UserInterface';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
@@ -19,6 +19,7 @@ type AuthContextProps = {
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
+    updateUser: (user: User, token: string) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -128,9 +129,16 @@ export const AuthProvider = ({children}: any) => {
             dispatch({
                 type: 'checking'
             })
-
-            const { data } = await GuestLogIn();            
-
+            
+            const {data, status} = await GuestLogIn();
+            
+            if(status !== 200){
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            }
+            
             await AsyncStorage.setItem('x-token', data.token);
 
             const user: User = {
@@ -159,14 +167,15 @@ export const AuthProvider = ({children}: any) => {
 
             return dispatch({
                 type: 'addError',
-                payload: error.response?.data?.error || t('ErrorMsgPayload')
+                payload: Object.keys( error.response?.data?.error).length !== 0 ? error.response?.data?.error : t('ErrorMsgPayload')
             });
         }
     }
 
-    const signUp = async (user: User) => {
+    const signUp = async (user: createNewUser) => {
         try{
             const { data } = await createUser(user);
+            await AsyncStorage.setItem('x-token', data.token);
             dispatch({ 
                 type: 'signUp',
                 payload: {
@@ -175,10 +184,24 @@ export const AuthProvider = ({children}: any) => {
                 }
             });
         }catch(error: any){
+            let errorMessages = [];
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                for (let i = 0; i < errors.length; i++) {
+                    if (errors[i].msg) {
+                        errorMessages.push(errors[i].msg);
+                    }
+                }
+            }
+            const errorMessage = errorMessages.length > 0
+            ? errorMessages.join('\n')
+            : t('ErrorMsgPayload'); 
+
             dispatch({
                 type: 'addError',
-                payload: error.response.data.errors || t('ErrorMsgPayload')
-            })
+                payload: errorMessage
+            });
+
         }
     }
 
@@ -209,12 +232,24 @@ export const AuthProvider = ({children}: any) => {
         dispatch({ type: 'removeError' });
     };
 
+    const updateUser = async (newUser: User, token:string ) => {
+        await AsyncStorage.setItem('x-token', token);
+        dispatch({
+            type: 'updateUser',
+            payload: {
+                token,
+                user: newUser
+            },
+        });
+    };
+
     return (
         <AuthContext.Provider value={{
             ...state,
             signUp,
             signIn,
             signInGuest,
+            updateUser,
             logOut,
             removeError,
         }}>
@@ -223,5 +258,3 @@ export const AuthProvider = ({children}: any) => {
     )
 
 }
-
-

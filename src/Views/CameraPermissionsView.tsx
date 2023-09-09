@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Animated, Image,TouchableOpacity} from 'react-native';
-import MapView from 'react-native-maps';
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { useTranslation } from 'react-i18next';
 
-export const LocationPermissionView = () => {
+export const CameraPermissionView = () => {
     const {t, i18n } = useTranslation();
-    const { askLocationPermission } = useContext( PermissionsContext );
+    const {askCameraPermission } = useContext( PermissionsContext );
     const mapOpacity = new Animated.Value(0);
 
     useEffect(() =>{
@@ -23,15 +22,12 @@ export const LocationPermissionView = () => {
 
     return (
         <View style={styles.container}>
-            <Animated.View style={[styles.mapContainer, { opacity: mapOpacity }]}>
-                <MapView style={styles.map} />
-            </Animated.View>
             <View style={styles.mapPermissionBox}>
-            <Image source={require('../Assets/Images/iconMarkMap.png')} style={{width: 150, height: 150, borderRadius: 5,}} />
+            <Image source={require('../Assets/Images/camera_icon.png')} resizeMode='stretch' style={{width: 150, height: 100, borderRadius: 5,}} />
             <Text style={styles.title}>{t('LocationPermission')}</Text>
             <Text style={styles.description}>{t('MsgPermission')}</Text>
             <TouchableOpacity style={styles.mapBtn}
-                onPress={askLocationPermission} >
+                onPress={askCameraPermission} >
                     <Text style={styles.mapBtnText}>{t('GrantPermission')}</Text>
                 </TouchableOpacity>
             </View>

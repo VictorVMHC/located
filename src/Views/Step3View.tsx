@@ -1,21 +1,56 @@
-import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import { Text } from 'react-native-paper'
+import { ShowToast } from '../Components/ShowToast'
+import { LocalContext } from '../Context/NewLocalContext'
 import { useLocation } from '../Hooks/useLocation'
-import { Coordinates } from '../Interfaces/MapInterfaces'
+import { Location } from '../Interfaces/MapInterfaces'
 import { FontStyles } from '../Themes/Styles'
 import { LoadingView } from './LoadingView'
-import { useTranslation } from 'react-i18next'
 
-export const Step3View = () => {
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Step3View = ({setCanGoNext}:Props) => {
+    const { localState, updateLocal } = useContext(LocalContext)
     const { userLocation, hasLocation } = useLocation();
     const { t } = useTranslation();
-    const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(null);
+    const [markerPosition, setMarkerPosition] = useState<Location | null>(localState.location.latitude !== 0 ? localState.location : null);
+    const [selectedButton, setSelectedButton] = useState( markerPosition ? 'marker': '');
+    const [isMarkerSelected, setIsMarkerSelected] = useState(markerPosition ? true: false);
+
+    useEffect(()=> {
+        
+        if(localState.location.longitude !== 0 && localState.location.latitude !== 0){            
+            setCanGoNext(true);
+        }
+
+    }, [localState]);
 
     const handleMapPress = (e: any) => {
         const { latitude, longitude } = e.nativeEvent.coordinate;
         setMarkerPosition({ latitude, longitude });
+        setIsMarkerSelected(true);
+    };
+
+    const handleMarkerDragEnd = (e: any) => {
+        const { latitude, longitude } = e.nativeEvent.coordinate;
+        setMarkerPosition({ latitude, longitude });
+    };
+
+    const handleSelectButtonPress = (type: string) => {
+        setSelectedButton(type);
+        if(type == 'marker'){
+            updateLocal({location: {latitude: markerPosition!.latitude, longitude: markerPosition!.longitude}})
+            ShowToast('Marker location selected')
+        }
+
+        if(type === 'user') {
+            updateLocal({location: userLocation});
+            ShowToast('User location selected')
+        }
     };
 
     return (
@@ -38,22 +73,49 @@ export const Step3View = () => {
                         onPress={handleMapPress}
                     >
                         {markerPosition && (
-                                <Marker
-                                    draggable
-                                    coordinate={markerPosition}
-                                    onDragEnd={(e) => {
-                                        const { latitude, longitude } = e.nativeEvent.coordinate;
-                                        setMarkerPosition({ latitude, longitude });
-                                    }}
-                                />
-                            )
-                        }
+                            <Marker
+                                draggable
+                                coordinate={markerPosition}
+                                onDragEnd={handleMarkerDragEnd}
+                            />
+                        )}
                     </MapView>
                 }
             </View>
             <View style={styles.viewText}>
-                <Text style= {styles.text} adjustsFontSizeToFit>{t('step3Instructions')}</Text>
-                <Text style= {{...FontStyles.Information,textAlign: 'center' }} adjustsFontSizeToFit>{t('step3Instructions2')}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                <TouchableOpacity
+                    style={[
+                        styles.button,
+                        selectedButton === 'marker' && styles.selectedButton,
+                        !isMarkerSelected && styles.disabledButton,
+                    ]}
+                    onPress={() => handleSelectButtonPress('marker')}
+                    disabled={!isMarkerSelected}
+                >
+                    <Text style={styles.buttonText}>
+                        Select marker position
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[
+                        styles.button,
+                        selectedButton === 'user' && styles.selectedButton,
+                    ]}
+                    onPress={() => handleSelectButtonPress('user')}
+                >
+                    <Text style={styles.buttonText}>
+                        Select user position
+                    </Text>
+                </TouchableOpacity>
+                </View>
+                <Text style={styles.text} adjustsFontSizeToFit>
+                    {t('step3Instructions')}
+                </Text>
+                <Text style={{ ...FontStyles.Information, textAlign: 'center' }} adjustsFontSizeToFit>
+                    {t('step3Instructions2')}
+                </Text>
             </View>
         </View>
     )
@@ -62,7 +124,7 @@ export const Step3View = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: '5%'
+        padding: '5%',
     },
     mapContainer: {
         flex: 10,
@@ -86,9 +148,27 @@ const styles = StyleSheet.create({
     text: {
         ...FontStyles.Text,
         textAlign: 'center',
-        textAlignVertical: 'center'
+        textAlignVertical: 'center',
     },
     mapStyle: {
         flex: 1,
-    }
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        alignItems: 'center',
+        marginHorizontal: 15,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+    },
+    selectedButton: {
+        backgroundColor: 'green',
+    },
+    disabledButton: {
+        backgroundColor: 'gray',
+    },
 });

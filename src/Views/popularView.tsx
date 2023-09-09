@@ -13,10 +13,6 @@ export const PopularView = ({navigation}:Props) => {
     useFocusEffect(() => {
         console.log('popular focused');
     });
-  
-    console.log(id);
-    console.log(id.history);
-    console.log(id.key);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList

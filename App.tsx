@@ -8,12 +8,15 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import { MainStackNavigator } from './src/Navigation/MainStackNavigator';
 import { PermissionsProvider } from './src/Context/PermissionsContext';
 import { AuthProvider } from './src/Context/AuthContext';
+import { LocalProvider } from './src/Context/NewLocalContext';
 
 const AppState = ({ children }: any) =>{
   return (
     <AuthProvider>
       <PermissionsProvider>
-        { children }
+        <LocalProvider>
+          { children }
+        </LocalProvider>
       </PermissionsProvider>
     </AuthProvider>
   )

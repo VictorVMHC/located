@@ -1,27 +1,47 @@
-import React, { useState } from 'react'
-import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { Colors, FontStyles } from '../Themes/Styles';
+import React, { useState } from 'react';
+import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
+import { Colors, FontStyles } from '../Themes/Styles';
+
 
 interface Props {
     modalInputTItle: string;
     borderColor?: string;
-    ActionSelected: (item: string) => void;
+    ActionSelected?: (item: string) => void;
+    ActionMultiSelected?: (item: string[]) => void;
     data: string[];
     ActionSubmit: (value:string) => void;
     onEndAction: () => void;
     placeHolder: string;
-    buttonTitle: string
+    buttonTitle: string;
+    modalVisible: boolean;
+    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    multiSelection: boolean;
+    actionOnPressOpenModal: () => void
 }
-export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit }: Props) => {
-    const [modalVisible, setModalVisible] = useState(false);
+export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColor, ActionMultiSelected, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
+    
     const [value, setValue] = useState('');
+    const [selectedItems, setSelectedItems] = useState<string[]>([]); 
 
-
+    const handleSelection = (value:string) => {
+        
+        if(multiSelection ){
+            const newSelectedItems = selectedItems.includes(value)
+                ? selectedItems.filter(selectedItem => selectedItem !== value)
+                : [...selectedItems, value];
+            setSelectedItems(newSelectedItems);
+            ActionMultiSelected!(newSelectedItems);
+            setModalVisible(true)
+        }
+        else {
+            ActionSelected!(value)
+            setModalVisible(false)
+        }
+    }
     return (
         <View style={{...styles.textInputSty, borderColor: borderColor || Colors.darkGray}}>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
+            <TouchableOpacity onPress={() => {setModalVisible(true); actionOnPressOpenModal();}} style={styles.button}>
                 <View style={styles.buttonView}>
                     <View style={{flex: 9}}>
                         <Text style={styles.selectedOption} adjustsFontSizeToFit >{ modalInputTItle }</Text>
@@ -37,15 +57,15 @@ export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected
                 transparent={true}
                 onRequestClose={() => setModalVisible(false)}
             >
+                
                 <View style={styles.modalContainer}>
                     <FlatList<string>
                         data={data}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => {
-                                ActionSelected(item)
-                                setModalVisible(false)
+                                handleSelection(item)
                             }}>
-                                <Text style={styles.modalOption} adjustsFontSizeToFit >{item}</Text>
+                                <Text style={{ ...styles.modalOption, color: selectedItems.includes(item) ? 'green' : 'white' }} adjustsFontSizeToFit >{item}</Text>
                             </TouchableOpacity>
                         )}
                         onEndReached={onEndAction}
@@ -56,11 +76,27 @@ export const CustomPicker = ({borderColor, modalInputTItle, data, ActionSelected
                         placeholderTextColor={Colors.greenSuccess}
                         placeholder={placeHolder}
                         onChangeText={(text) => setValue(text)}
-                        onEndEditing={() => ActionSubmit(value)}
+                        onEndEditing={() => {
+                            ActionSubmit(value)
+                            setModalVisible(multiSelection);
+                            setValue('');
+                        }}
                         value={value}
                     />
                     <Button title={buttonTitle} onPress={() => ActionSubmit(value)} />
+                    <TouchableOpacity 
+                        style={styles.styleFinishBtn} 
+                        onPress={() => setModalVisible(false)} 
+                    >
+                        <Text adjustsFontSizeToFit style={{color: 'white'}}>finish</Text>
+                    </TouchableOpacity>
                 </View>
+                <TouchableOpacity 
+                    style={{position:'absolute', right: 20, top:20}}
+                    onPress={() => setModalVisible(false)}
+                >
+                    <Icon name='times' size={25}  light color={Colors.white}/>
+                </TouchableOpacity>
             </Modal>
         </View>
     )
@@ -108,5 +144,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         color: Colors.greenSuccess
     },
+    styleFinishBtn:{
+        backgroundColor: Colors.greenSuccess, 
+        marginTop: 10, 
+        paddingHorizontal: 25, 
+        paddingVertical: 5, 
+        borderRadius: 8
+    }
 });
     

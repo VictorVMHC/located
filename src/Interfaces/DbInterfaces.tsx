@@ -26,3 +26,7 @@ interface User {
     id: string,
     name: string
 }
+
+export interface Contact {
+    info: string;
+}

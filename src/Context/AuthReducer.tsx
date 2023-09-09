@@ -1,5 +1,5 @@
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
-import { User } from "../Interfaces/UserInterfaces";
+import { User } from "../Interfaces/UserInterface";
 
 export interface AuthState {
     status: 'checking' | 'authenticated' | 'not-authenticated' ;
@@ -11,6 +11,7 @@ export interface AuthState {
 type AuthAction = 
     | { type: 'signUp', payload: { token: string, user: User } }
     | { type: 'signUpGuest', payload: { token: string, user: User, guestUser: GuestUser } }
+    | { type: 'updateUser'; payload: { token: string, user: User } }
     | { type: 'addError', payload: string }
     | { type: 'removeError' }
     | { type: 'notAuthenticated' }
@@ -74,6 +75,13 @@ export const authReducer = ( state: AuthState, action: AuthAction ): AuthState =
                 ...state,
                 status: 'checking',
             }
+
+        case 'updateUser':
+            return {
+                ...state,
+                user: action.payload.user,
+                token: action.payload.token,
+            };
 
         default:
             return state;

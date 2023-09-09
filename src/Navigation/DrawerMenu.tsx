@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { CollapsibleButton } from '../Components/CollapsibleButton';
@@ -10,8 +10,10 @@ import { AuthContext } from '../Context/AuthContext';
 import { Colors } from '../Themes/Styles';
 import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
+import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
+
 
 
 const Drawer = createDrawerNavigator();
@@ -40,6 +42,7 @@ export function DrawerMenu() {
         <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
         <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
         <Drawer.Screen name="HelpView" component={HelpView}/>
+        <Drawer.Screen name='PrivacyPolicyView' component={PrivacyPolicyView}/>
         <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
       </Drawer.Navigator>
   );
@@ -49,15 +52,24 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
   const {t,i18n} = useTranslation();
   const {logOut} = useContext(AuthContext);
   const { navigation } = props;
+  const contextAuthentication = useContext(AuthContext);
+  const { user } = contextAuthentication;
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    if (user?.image) {
+        setUrl(user.image);
+    }
+  })
 
   return(
     <View style={{flex: 1}}>
       <View style={styles.header}><Text style={styles.title}>Located</Text>
         <Image
           style={styles.avatar}
-          source={require('../Assets/Images/Lisa.png')}
+          source={ user?.image ?{ uri: user.image }: require('../Assets/Images/Img_User.png')}
         />
-        <Text style={styles.title}>Luis Daniel</Text>
+        <Text style={styles.title}>{user?.username}</Text>
       </View>
       <View style={styles.body} >
         <DrawerContentScrollView
@@ -76,13 +88,18 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
             />
             <DrawerMenuButtons
               text = {t('DrawerNotification')}
-              onPress = {() => navigation.navigate('NotificationsView')}
+              onPress = {() => navigation.navigate('EditProfileView')}
               iconName='notifications-outline'
             />
             <DrawerMenuButtons
               text = {t('DrawerHelp')}
               onPress = {() => navigation.navigate('HelpView')}
               iconName='help-circle-outline'
+            />
+            <DrawerMenuButtons
+              text = {t('DrawerPrivacyPolicy')}
+              onPress = {() => navigation.navigate('PrivacyPolicyView')}
+              iconName='information-circle-outline'
             />
             <CollapsibleButton
               title={t('DrawerLanguage')}
