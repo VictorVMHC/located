@@ -121,6 +121,15 @@
     "confirmDelete": "Confirm Delete",
     "description": "Are you sure you want to delete your profile?",
     "Cancel": "Cancel",
-    "Accept": "Accept"
+    "Accept": "Accept",
+    "security": "Security",
+    "NewPasswordText": "New Password",
+    "NewPasswordConfirmText": "New Password Confirm",
+    "UptadeBoton": "Update",
+    "EditLocal": "Edit Local",
+    "CommentsAndReplies":"Comments And Replies",
+    "DeleteProfile": "Delete Profile",
+    "Notifications": "Notifications",
+    "EditProfileInformation": "Edit Profile Information"
   }
 }

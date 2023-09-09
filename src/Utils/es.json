@@ -116,6 +116,15 @@
     "privacySubtitle6": "Contact",
     "btn1SeeProfile": "Ver foto",
     "btn2Upload": "Seleccionar foto de la galeria",
-    "btt3TakePicture": "Tomar foto"
+    "btt3TakePicture": "Tomar foto",
+    "security": "Seguridad",
+    "NewPasswordText": "Nueva contraseña",
+    "NewPasswordConfirmText": "Confirmar Nueva Contraseña",
+    "UptadeBoton": "Actualizar",
+    "EditLocal": "Editar Local",
+    "CommentsAndReplies":"Comentarios y Respuestas",
+    "DeleteProfile": "Eliminar Perfil",
+    "Notifications": "Notificaciones",
+    "EditProfileInformation": "Editar Perfil"
   }
 }

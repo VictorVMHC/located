@@ -12,6 +12,7 @@ import { EditProfileView } from '../Views/EditProfileView';
 import { HelpView } from '../Views/HelpView';
 import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { NotificationsView } from '../Views/NotificationsView';
+import { ChangePasswordView} from '../Views/ChangePasswordView'
 import { TabBarNavigation } from './TabBarNavigation';
 
 
@@ -44,6 +45,7 @@ export function DrawerMenu() {
         <Drawer.Screen name="HelpView" component={HelpView}/>
         <Drawer.Screen name='PrivacyPolicyView' component={PrivacyPolicyView}/>
         <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
+        <Drawer.Screen name="ChangePasswordView" component={ChangePasswordView}/>
       </Drawer.Navigator>
   );
 }

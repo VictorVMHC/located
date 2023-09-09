@@ -6,6 +6,7 @@ import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
 import { ForgotPasswordView } from '../Views/ForgotPasswordView';
 import { LoginView } from '../Views/LoginView';
 import { MainCreateAccountView } from '../Views/MainCreateAccountView';
+
 import { MainView } from '../Views/MainView';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { DrawerMenu } from './DrawerMenu';
