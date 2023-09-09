@@ -5,10 +5,12 @@ import { Colors } from '../Themes/Styles';
 
 interface Props {
     iconName: string,
-    placeHolder: string
+    placeHolder: string;
+    action: ( key: string, value: string ) => void;
+    value: string ;
 }
 
-export const TextInputAndIcon = ({ iconName, placeHolder }: Props) => {
+export const TextInputAndIcon = ({ iconName, placeHolder, value, action }: Props) => {
     
     return (
         <View style={{flexDirection: 'row', flex: 1}}>
@@ -19,6 +21,8 @@ export const TextInputAndIcon = ({ iconName, placeHolder }: Props) => {
                 placeholder={ placeHolder }
                 placeholderTextColor={Colors.darkGray}
                 style={styles.textInputSty}
+                value={value}
+                onChangeText={(text) => action(placeHolder, text )}
             />
         </View>
     )

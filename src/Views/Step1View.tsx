@@ -1,11 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { LocalContext } from '../Context/NewLocalContext';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export const Step1View = () => {
+export const Step1View = ({setCanGoNext}: Props) => {
     const { t } = useTranslation();
     const {localState, updateLocal} = useContext(LocalContext);
     const [editedName, setEditedName] = useState(localState.name);
@@ -14,6 +17,13 @@ export const Step1View = () => {
     const handleEndEditing = (value: Partial<NewLocal>) => {
         updateLocal(value);
     };
+
+    useEffect(() => {
+        if(localState.name && localState.description ){
+            setCanGoNext(true);
+        }
+
+    },[localState]); 
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>

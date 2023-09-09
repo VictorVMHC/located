@@ -8,16 +8,19 @@ import { Colors, FontStyles } from '../Themes/Styles';
 import { CustomAlert } from '../Components/CustomAlert';
 import { LocalContext } from '../Context/NewLocalContext';
 
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export const Step2View = () => {
+export const Step2View = ({setCanGoNext}:Props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedBusiness, setSelectedBusiness] = useState('');
     const [newBusiness, setNewBusiness] = useState('');
     const [businessOptions, setBusinessOptions] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const { t } = useTranslation();
     const {localState, updateLocal} = useContext(LocalContext);
+    const {businessType, country, state, town, postalCode, address} = localState
 
     useEffect(() => {       
         if( businessOptions.length === 0 ){
@@ -25,6 +28,11 @@ export const Step2View = () => {
         }
     }, []);
 
+    useEffect(()=> {
+        if(businessType && country && state && town && postalCode && address){
+            setCanGoNext(true);
+        }
+    }, [localState]);
 
     const fetchBusinessTypes = async () => {
         getBusinessTypes(currentPage).then((response) => {
@@ -63,7 +71,7 @@ export const Step2View = () => {
                 }
 
                 setBusinessOptions([...businessOptions, newBusiness]);
-                setSelectedBusiness(newBusiness);
+                updateLocal({businessType: newBusiness});
                 setNewBusiness('');
                 setModalVisible(false);   
             }
@@ -93,7 +101,7 @@ export const Step2View = () => {
                         <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.button}>
                             <View style={styles.buttonView}>
                                 <View style={{flex: 9}}>
-                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{selectedBusiness || `${t('step2ChooseOption')}` }</Text>
+                                    <Text style={styles.selectedOption} adjustsFontSizeToFit >{businessType || `${t('step2ChooseOption')}` }</Text>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center'}} >
                                     <Icon name='chevron-down' size={18} color={Colors.darkGray} style={{ marginTop: 2 }}/>
@@ -103,24 +111,39 @@ export const Step2View = () => {
                     </View>
                     <Text style={styles.title}> {t('step2Address')} </Text>
                     <TextInput
+                        placeholder={'Address'}
+                        placeholderTextColor={Colors.darkGray}
+                        style={styles.textInputSty}
+                        value={address}
+                        onChangeText={(text) => updateLocal({address: text})}
+                    />
+                    <TextInput
                         placeholder={`${t('step2PhCountry')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={country}
+                        onChangeText={(text) => updateLocal({country: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhState')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={state}
+                        onChangeText={(text) => updateLocal({state: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhTown')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={town}
+                        onChangeText={(text) => updateLocal({town: text})}
                     />
                     <TextInput
                         placeholder={`${t('step2PhPosCode')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
+                        value={postalCode}
+                        onChangeText={(text) => updateLocal({postalCode: text})}
                     />
                     <Modal
                         visible={modalVisible}
@@ -133,7 +156,7 @@ export const Step2View = () => {
                                 data={businessOptions}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity onPress={() => {
-                                        setSelectedBusiness(item)
+                                        updateLocal({ businessType: item });
                                         setModalVisible(false)
                                     }}>
                                         <Text style={styles.modalOption} adjustsFontSizeToFit >{item}</Text>

@@ -7,14 +7,25 @@ import { CameraPermissionView } from './CameraPermissionsView';
 import { ZoomModal } from '../Components/ZoomModal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../Themes/Styles';
+import { LocalContext } from '../Context/NewLocalContext';
 
-export const Step6View = () => {
+interface Props{
+    setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Step6View = ({ setCanGoNext }:Props ) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [zoomModalVisible, setZoomModalVisible] = useState(false);
     const [enableSee, setEnableSee] = useState(false);
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
-    const [url, setUrl] = useState('');
+    const { localState, updateLocal } = useContext(LocalContext);    
+    
+    useEffect(() => {
+        if (localState.uriImage !== '') {
+            setCanGoNext(true);
+        }
+    }, [localState]);
 
     const { permissions } = useContext(PermissionsContext);
 
@@ -44,10 +55,10 @@ export const Step6View = () => {
     };
 
     const handleUploadPicture = () => {
-        launchImageLibrary({ mediaType: 'photo', selectionLimit: 1 }, (response) => {
+        launchImageLibrary({ mediaType: 'photo', selectionLimit: 1 }, (response: any) => {
             if (response.assets && response.assets.length > 0) {
                 const firstImageUri = response.assets[0].uri;
-                setUrl(firstImageUri || '');
+                updateLocal({uriImage: firstImageUri || ''});
                 setEnableSee(true);
             }
         });
@@ -55,10 +66,10 @@ export const Step6View = () => {
     };
 
     const handleLaunchCamera = () => {
-        launchCamera({ mediaType: 'photo', cameraType: 'front' }, (response) => {
+        launchCamera({ mediaType: 'photo', cameraType: 'front' }, (response: any) => {
             if (response.assets && response.assets.length > 0) {
                 const firstImageUri = response.assets[0].uri;
-                setUrl(firstImageUri || '');
+                updateLocal({uriImage: firstImageUri || ''});
                 setEnableSee(true);
             }
         });
@@ -76,7 +87,7 @@ export const Step6View = () => {
                 <View style={styles.container}>
                     <View style={styles.imageContainer}>
                         <Image
-                            source={url !== '' ? { uri: url } : require('../Assets/Images/local3D.png')}
+                            source={localState.uriImage !== '' ? { uri: localState.uriImage } : require('../Assets/Images/local3D.png')}
                             style={styles.image}
                         />
                         <View style={styles.styleButton}>
@@ -103,7 +114,7 @@ export const Step6View = () => {
             ) : (
                 <CameraPermissionView />
             )}
-            <ZoomModal url={url} zoomModalVisible={zoomModalVisible} closeZoomModal={handleCloseModal} />
+            <ZoomModal url={localState.uriImage} zoomModalVisible={zoomModalVisible} closeZoomModal={handleCloseModal} />
         </>
     );
 };

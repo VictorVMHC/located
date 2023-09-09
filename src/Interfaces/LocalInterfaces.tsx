@@ -5,6 +5,7 @@ export interface NewLocal {
     name: string;
     description: string;
     businessType: string;
+    address: string;
     country:  string;
     state: string;
     town: string;
@@ -12,6 +13,8 @@ export interface NewLocal {
     location: Location;
     schedules: Schedule[];
     tags: string[];
-    contact: Contact[];
+    contact: {
+        [type: string]: Contact;
+    };
     uriImage: string
 }

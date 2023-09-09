@@ -8,18 +8,19 @@ const initialLocation: Location = {
 }
 
 export const LocalInitialState: NewLocal ={
-    name: '',
-    description: '',
-    businessType: '',
-    country:  '',
-    state: '',
-    town: '',
+    name: 'hola',
+    description: 'hola',
+    businessType: 'hola',
+    address: 'hola',
+    country:  'hola',
+    state: 'hola',
+    town: 'hola',
     uriImage: '',
-    schedules: [],
-    tags: [],
-    location: initialLocation,
-    postalCode: '',
-    contact: [],
+    schedules:  [{"close": "6 : 12", "day1": "Jueves", "day2": "Sábado", "open": "6 : 12"}],
+    tags: ["HLLA", "AADSGDFAGADFGAD"],
+    location: {"latitude": 20.626808333333333, "longitude": -103.35501666666667},
+    postalCode: '54645',
+    contact: {"Facebook": {"info": "asfgafg"}},
 }
 
 type LocalContextProps = {
