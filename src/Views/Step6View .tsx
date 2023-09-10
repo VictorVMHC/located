@@ -25,6 +25,7 @@ export const Step6View = ({ setCanGoNext }:Props ) => {
         if (localState.uriImage !== '') {
             setCanGoNext(true);
         }
+
     }, [localState]);
 
     const { permissions } = useContext(PermissionsContext);
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: 5,
-        width: '50%', // Adjust this value as needed
+        width: '50%',
         aspectRatio: 1,
         borderRadius: 10,
         borderWidth:  1,

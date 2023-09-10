@@ -127,9 +127,16 @@ export const AuthProvider = ({children}: any) => {
             dispatch({
                 type: 'checking'
             })
-
-            const { data } = await GuestLogIn();            
-
+            
+            const {data, status} = await GuestLogIn();
+            
+            if(status !== 200){
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            }
+            
             await AsyncStorage.setItem('x-token', data.token);
 
             const user: User = {
@@ -158,7 +165,7 @@ export const AuthProvider = ({children}: any) => {
 
             return dispatch({
                 type: 'addError',
-                payload: error.response?.data?.error || t('ErrorMsgPayload')
+                payload: Object.keys( error.response?.data?.error).length !== 0 ? error.response?.data?.error : t('ErrorMsgPayload')
             });
         }
     }
