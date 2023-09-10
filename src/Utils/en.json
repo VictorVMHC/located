@@ -130,6 +130,8 @@
     "CommentsAndReplies":"Comments And Replies",
     "DeleteProfile": "Delete Profile",
     "Notifications": "Notifications",
-    "EditProfileInformation": "Edit Profile Information"
+    "EditProfileInformation": "Edit Profile Information",
+    "ConfirmDelete": "Confirm Delete",
+    "Description": "Are you sure to delete your profile??"
   }
 }

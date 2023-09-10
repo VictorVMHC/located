@@ -125,6 +125,10 @@
     "CommentsAndReplies":"Comentarios y Respuestas",
     "DeleteProfile": "Eliminar Perfil",
     "Notifications": "Notificaciones",
-    "EditProfileInformation": "Editar Perfil"
+    "EditProfileInformation": "Editar Perfil",
+    "Cancel": "Cancelar",
+    "Accept": "Aceptar",
+    "ConfirmDelete": "Confirmar Eliminación",
+    "Description": "¿Realmente quieres eliminar tu perfil?"
   }
 }

@@ -27,8 +27,8 @@ export const EditProfileView = ({navigation}: Props) => {
 
     const deleteProfile = () => {
         Alert.alert(
-            `${t('confirmDelete')}`,
-            `${t('description')}`,
+            `${t('ConfirmDelete')}`,
+            `${t('Description')}`,
             [
                 {
                     text: `${t('Cancel')}`,
