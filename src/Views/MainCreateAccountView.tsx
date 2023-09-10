@@ -1,30 +1,46 @@
-import React, { useEffect, useState} from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Circles } from '../Components/Circles';
-import { FontStyles, Styles } from '../Themes/Styles'
-import { PickerButton } from '../Components/PickerButton';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useTranslation } from 'react-i18next';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { createGoogleUser } from '../Api/googleUserApi';
 import { GOOGLE_CLIENT_ID } from '@env';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Circles } from '../Components/Circles';
+import { CustomAlert } from '../Components/CustomAlert';
+import { PickerButton } from '../Components/PickerButton';
+import { AuthContext } from '../Context/AuthContext';
+import { FontStyles, Styles } from '../Themes/Styles';
+import { handleGoogleSignInErrors } from '../Utils/HandleUser';
 
 interface Props extends NativeStackScreenProps<any, any>{}
 
 
 export const MainCreateAccountView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
+    const { googleSignUp } = useContext( AuthContext );
+    const { errorMessage, removeError } =  useContext( AuthContext );
+
     
     GoogleSignin.configure({
         webClientId: GOOGLE_CLIENT_ID,
     });
-
+    useEffect(() => {
+        if( errorMessage.length === 0 ) return;
+    
+        CustomAlert({
+            title:`${t('LoginAlert')}`,
+            desc: errorMessage,
+            action: removeError
+        });
+    
+    }, [ errorMessage ]);
 
 const signInGoogle = async () => {
     try {
         await GoogleSignin.hasPlayServices();
+
         const userInfo = await GoogleSignin.signIn();
+
         const { user, idToken } = userInfo;
 
         console.log(idToken, user);
@@ -34,32 +50,17 @@ const signInGoogle = async () => {
         }
 
         } catch (error) {
-            handleGoogleSignInError(error);
+            handleGoogleSignInErrors(error);
         }
     };
 
     const createUserWithGoogle = async (userData: any, idUser: string) => {
         try {
-            const { data } = await createGoogleUser(userData, idUser );
-            console.log('User data:', JSON.stringify(data));
+            googleSignUp(userData, idUser );
         } catch (error:any) {
             console.log('Error creating user:', error.response.data);
         }
     };
-
-    const handleGoogleSignInError = (error: any) => {
-        
-            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            console.log('Error Action Canceled');
-            } else if (error.code === statusCodes.IN_PROGRESS) {
-            console.log('Action In Progress');
-            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            console.log('Error NOT AVAILABLE');
-            } else {
-            console.log('Error indefinido:', JSON.stringify(error));
-            }
-    };
-
 
     const  signOut = async () => {
         try {
