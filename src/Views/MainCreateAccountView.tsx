@@ -17,13 +17,12 @@ interface Props extends NativeStackScreenProps<any, any>{}
 
 export const MainCreateAccountView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
-    const { googleSignUp } = useContext( AuthContext );
-    const { errorMessage, removeError } =  useContext( AuthContext );
+    const { errorMessage, googleSignUp, removeError } =  useContext( AuthContext );
 
-    
     GoogleSignin.configure({
         webClientId: GOOGLE_CLIENT_ID,
     });
+    
     useEffect(() => {
         if( errorMessage.length === 0 ) return;
     

@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useEffect } from 'react'
 import { User, createNewUser, logInData } from '../Interfaces/UserInterface';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { auth, login } from '../Api/authApi';
+import { auth, googleLogin, login } from '../Api/authApi';
 import { t } from 'i18next';
 import { createUser } from '../Api/userApi';
 import { GuestLogIn } from '../Api/guestUser';
@@ -19,6 +19,7 @@ type AuthContextProps = {
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
     googleSignUp: (user: GoogleUser, tokenId: string) => void;
+    googleSignIn:(email: string, tokenId: string) => void;
     signInGuest: () => void;
     updateUser: (user: User, token: string) => void;
     logOut: () => void;
@@ -46,6 +47,7 @@ export const AuthProvider = ({children}: any) => {
     const checkToken = async() => {
         try{            
             const token = await AsyncStorage.getItem('x-token');
+            
             if(!token){
                 return dispatch({type: 'notAuthenticated'})
             }
@@ -124,6 +126,60 @@ export const AuthProvider = ({children}: any) => {
         }
     }
     
+    const googleSignIn = async (email: string, idToken: string) => {
+        try {
+            dispatch({
+                type: 'checking'
+            })
+            
+            const { data } = await googleLogin(email, idToken);
+            
+            await AsyncStorage.setItem('x-token', data.token);
+
+            dispatch({
+                type: 'signUp',
+                payload: {
+                    token: data.token,
+                    user: data.user
+                }
+            })            
+        } catch(error: any){
+            
+            if (error.code === 'ECONNABORTED'){                
+                return dispatch({
+                    type: 'addError',
+                    payload: t('TimeOutConn')
+                });
+            }
+
+            switch(error.response.status){
+                case 404: 
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('UserNotFound')
+                    });
+
+                case 401:
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('InvalidCredentials')
+                    });
+                    
+                case 500:
+                    return dispatch({
+                        type: 'addError',
+                        payload: t('InternalError')
+                    });
+
+                default:
+                    return dispatch({
+                        type: 'addError',
+                        payload: error.response.data.error || t('ErrorMsgPayload')
+                    });
+            }
+        }
+    }
+
     const signInGuest = async () => {        
         try {
 
@@ -267,7 +323,8 @@ export const AuthProvider = ({children}: any) => {
             updateUser,
             logOut,
             removeError,
-            googleSignUp
+            googleSignUp,
+            googleSignIn
         }}>
             {children}
         </AuthContext.Provider>
