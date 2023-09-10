@@ -1,6 +1,5 @@
 import React, {  useState } from 'react'
 import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
-import { Circles } from '../Components/Circles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontStyles} from '../Themes/Styles'
 import { useTranslation } from 'react-i18next';
