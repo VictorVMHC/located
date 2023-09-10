@@ -6,11 +6,11 @@ interface showAlertProps {
     action?: () => void
 }
 
-export const CustomAlert = ({title, desc, action}: showAlertProps) => {
+export const CustomAlert = ({title, desc, action = () => {return}}: showAlertProps) => {
     Alert.alert(
         title,
         desc,
-        [{ text: 'OK', onPress: () => { action! }}],
+        [{ text: 'OK', onPress: () => { action }}],
         { cancelable: false }
     );
 }

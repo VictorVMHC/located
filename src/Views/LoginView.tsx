@@ -14,12 +14,13 @@ import { IconWithText } from '../Components/IconWithText';
 import { AuthContext } from '../Context/AuthContext';
 import { test } from '../Api/authApi';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
+import { GoogleSignin,statusCodes } from '@react-native-google-signin/google-signin';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
-    
+
     const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
 
     useEffect(() => {

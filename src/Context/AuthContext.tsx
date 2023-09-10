@@ -7,6 +7,8 @@ import { t } from 'i18next';
 import { createUser } from '../Api/userApi';
 import { GuestLogIn } from '../Api/guestUser';
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
+import { GoogleUser } from '../Interfaces/GoogleUserInterfaces';
+import { createGoogleUser } from '../Api/googleUserApi';
 
 type AuthContextProps = {
     errorMessage: string;
@@ -16,6 +18,7 @@ type AuthContextProps = {
     status: 'checking' | 'authenticated' | 'not-authenticated';
     signUp: ( createNewUser: createNewUser ) => void;
     signIn: ( loginData: logInData ) => void;
+    googleSignUp: (user: GoogleUser, tokenId: string) => void;
     signInGuest: () => void;
     updateUser: (user: User, token: string) => void;
     logOut: () => void;
@@ -199,6 +202,38 @@ export const AuthProvider = ({children}: any) => {
                 type: 'addError',
                 payload: errorMessage
             });
+        }
+    }
+
+    const googleSignUp = async (user: GoogleUser, idToken: string ) => {
+        try{
+            const { data } = await createGoogleUser(user, idToken);
+            await AsyncStorage.setItem('x-token', data.token);
+            dispatch({ 
+                type: 'signUp',
+                payload: {
+                    token: data.token,
+                    user: data.user
+                }
+            });
+        }catch(error: any){
+            let errorMessages = [];
+            if (error.response.data.errors) {
+                const errors = error.response.data.errors;
+                for (let i = 0; i < errors.length; i++) {
+                    if (errors[i].msg) {
+                        errorMessages.push(errors[i].msg);
+                    }
+                }
+            }
+            const errorMessage = errorMessages.length > 0
+            ? errorMessages.join('\n')
+            : t('ErrorMsgPayload'); 
+
+            dispatch({
+                type: 'addError',
+                payload: errorMessage
+            });
 
         }
     }
@@ -232,6 +267,7 @@ export const AuthProvider = ({children}: any) => {
             updateUser,
             logOut,
             removeError,
+            googleSignUp
         }}>
             {children}
         </AuthContext.Provider>
