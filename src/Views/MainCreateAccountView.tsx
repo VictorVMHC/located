@@ -22,7 +22,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
     GoogleSignin.configure({
         webClientId: GOOGLE_CLIENT_ID,
     });
-    
+
     useEffect(() => {
         if( errorMessage.length === 0 ) return;
     
@@ -34,19 +34,15 @@ export const MainCreateAccountView = ({navigation}: Props) => {
     
     }, [ errorMessage ]);
 
-const signInGoogle = async () => {
-    try {
-        await GoogleSignin.hasPlayServices();
-
-        const userInfo = await GoogleSignin.signIn();
-
-        const { user, idToken } = userInfo;
-
-        console.log(idToken, user);
-        
-        if(idToken){
-            await createUserWithGoogle( user, idToken);
-        }
+    const signInGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            const { user, idToken } = userInfo;
+            
+            if(idToken){
+                await createUserWithGoogle( user, idToken);
+            }
 
         } catch (error) {
             handleGoogleSignInErrors(error);

@@ -9,6 +9,8 @@ import { GuestLogIn } from '../Api/guestUser';
 import { GuestUser } from '../Interfaces/GuestUserInterfaces';
 import { GoogleUser } from '../Interfaces/GoogleUserInterfaces';
 import { createGoogleUser } from '../Api/googleUserApi';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GOOGLE_CLIENT_ID } from '@env';
 
 type AuthContextProps = {
     errorMessage: string;
@@ -40,6 +42,10 @@ export const AuthProvider = ({children}: any) => {
 
     const [ state, dispatch ] = useReducer( authReducer, AuthInitialState );
 
+    GoogleSignin.configure({
+        webClientId: GOOGLE_CLIENT_ID,
+    });
+    
     useEffect(() => {
         checkToken()
     }, [] )
@@ -295,6 +301,10 @@ export const AuthProvider = ({children}: any) => {
     }
 
     const logOut = async() => {
+        const { user } = state;
+        if(user?.google){
+            await GoogleSignin.signOut();
+        }
         await AsyncStorage.removeItem('x-token');
         dispatch({ type: 'logout' });
     };

@@ -54,9 +54,9 @@ export const LoginView = ({navigation}: Props) =>{
                 googleSignIn( email, idToken);
             }
     
-            } catch (error) {
-                handleGoogleSignInErrors(error);
-            }
+        } catch (error) {
+            handleGoogleSignInErrors(error);
+        }
     } 
 
     const validationSchema = Yup.object().shape({
