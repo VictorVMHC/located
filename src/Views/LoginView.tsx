@@ -1,26 +1,32 @@
+import { GOOGLE_CLIENT_ID } from '@env';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Formik } from 'formik';
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Circles } from '../Components/Circles';
-import { PickerButton } from '../Components/PickerButton';
-import { Colors, FontStyles, Styles } from '../Themes/Styles';
-import { Formik } from 'formik';
-import { logInData } from '../Interfaces/UserInterface';
 import * as Yup from 'yup';
+import { Circles } from '../Components/Circles';
 import { IconWithText } from '../Components/IconWithText';
-import { AuthContext } from '../Context/AuthContext';
-import { test } from '../Api/authApi';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
+import { PickerButton } from '../Components/PickerButton';
+import { AuthContext } from '../Context/AuthContext';
+import { logInData } from '../Interfaces/UserInterface';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
+import { handleGoogleSignInErrors } from '../Utils/HandleUser';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
-export const LoginView = ({navigation}: Props) => {
+export const LoginView = ({navigation}: Props) =>{
     const { t, i18n } = useTranslation();
-    
-    const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
+
+    const { signIn, errorMessage, removeError, status, googleSignIn } = useContext( AuthContext );
+
+    GoogleSignin.configure({
+        webClientId: GOOGLE_CLIENT_ID,
+    });
 
     useEffect(() => {
         if( errorMessage.length === 0 ) return;
@@ -35,6 +41,23 @@ export const LoginView = ({navigation}: Props) => {
     const handleSubmit = async (loginData: logInData) => {
         signIn(loginData)   
     }
+
+    const handleGoogleSingIn = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+
+            const userInfo = await GoogleSignin.signIn();
+            const { user, idToken } = userInfo;
+            const {email} = user;
+                
+            if(idToken){
+                googleSignIn( email, idToken);
+            }
+    
+        } catch (error) {
+            handleGoogleSignInErrors(error);
+        }
+    } 
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
@@ -142,7 +165,10 @@ export const LoginView = ({navigation}: Props) => {
                                 <View style={StylesLogIn.viewLine}></View>
                         </View>
                         <View style={StylesLogIn.containerIcons}>
-                            <TouchableOpacity style={StylesLogIn.btnIcon}>
+                            <TouchableOpacity 
+                                style={StylesLogIn.btnIcon}
+                                onPress={handleGoogleSingIn}
+                            >
                                 <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
                             </TouchableOpacity>
                             <TouchableOpacity  style={StylesLogIn.btnIcon}>

@@ -17,8 +17,6 @@ import { Colors } from '../Themes/Styles';
 
 const Stack = createStackNavigator();
 
-
-
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
 	const screenOptions: StackNavigationOptions = {
@@ -53,7 +51,6 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="CommentsView" options={screenOptions} component={CommentsView}/>
 						<Stack.Screen name="EditUserView" options={screenOptions} component={EditUserView}/>
 					</>
-					
 				)			
 			}
 		</Stack.Navigator>

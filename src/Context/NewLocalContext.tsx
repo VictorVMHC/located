@@ -52,7 +52,7 @@ export const LocalProvider = ({ children }: any) => {
                 cleanLocalContext
             }
         }>
-        {children}
+            {children}
         </LocalContext.Provider>
     );
 };
