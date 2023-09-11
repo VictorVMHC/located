@@ -8,7 +8,7 @@ const initialLocation: Location = {
 }
 
 export const LocalInitialState: NewLocal ={
-    name: 'hola',
+    name: 'local_3',
     description: 'hola',
     businessType: 'hola',
     address: 'hola',
@@ -16,9 +16,11 @@ export const LocalInitialState: NewLocal ={
     state: 'hola',
     town: 'hola',
     uriImage: '',
+    rate: 4,
+    quantityRate: 10,
     schedules:  [{"close": "6 : 12", "day1": "Jueves", "day2": "Sábado", "open": "6 : 12"}],
-    tags: ["HLLA", "AADSGDFAGADFGAD"],
-    location: {"latitude": 20.626808333333333, "longitude": -103.35501666666667},
+    tags: ["HLLA", "AADSGDFAGADFGAD","Farmacia"],
+    location: {"latitude": 20.72264017896672, "longitude": -103.32121031003345},
     postalCode: '54645',
     contact: {"Facebook": {"info": "asfgafg"}},
 }

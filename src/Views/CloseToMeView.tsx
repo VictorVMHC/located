@@ -1,6 +1,6 @@
 import { Slider } from '@miblanchard/react-native-slider';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
@@ -15,6 +15,12 @@ export const CloseToMeView = () =>{
 const {width, height} = useWindowDimensions();
 const [value, setValue] = useState(0);
 const { t } = useTranslation();
+
+
+useEffect(()=>{
+    console.log((value));
+},[value]);
+
 return (
     <View style={styles.container}>
         <View style={styles.containerBarraK}>

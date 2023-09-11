@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { useLocation } from '../Hooks/useLocation';
-import { Locals } from '../Interfaces/DbInterfaces';
 import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocalsRad } from '../Api/searchLocalsApi';
+import { NewLocal } from '../Interfaces/LocalInterfaces';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props {
     markers?: any,
@@ -36,8 +37,9 @@ export const Map = ({ markers }: Props) => {
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
-    const radioKm = 0.2
-    const [datosLocales, setDatosLocales] = useState<Locals[]>([]); 
+    const radioKm = 50.0
+    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
+    const [hasFetchedData, setHasFetchedData] = useState(false); // Nueva variable de estado
     
 
 
@@ -52,6 +54,7 @@ export const Map = ({ markers }: Props) => {
                 );
                 const paginatedResults = resultados.data.results;
                 setDatosLocales(paginatedResults);
+                setHasFetchedData(true); // Establece hasFetchedData a true después de obtener los datos
             } catch (error) {
                 console.error(error);
             }
@@ -65,6 +68,12 @@ export const Map = ({ markers }: Props) => {
         stopFollowUserLocation
     } = useLocation();
 
+    useFocusEffect(
+        React.useCallback(() => {
+            setHasFetchedData(false);
+        }, [])
+    );
+
     useEffect(() => {
         followUserLocation();
         return () => {
@@ -74,18 +83,19 @@ export const Map = ({ markers }: Props) => {
 
     useEffect(() => {
         console.log('hola useEffect');
+        console.log(hasFetchedData);
         if(!hasLocation){
             return ;
         }
-        if(datosLocales.length === 0 ){
+        if (!hasFetchedData) {
             fetchData(userLocation.latitude, userLocation.longitude);
         }
-    },[userLocation]);
+    },[userLocation, hasLocation, hasFetchedData]);
+
 
     useEffect(() => {
         if (!following.current) return;
         const { latitude, longitude } = userLocation;
-        console.log(latitude)
         mapViewRef.current?.animateCamera({
             center: { latitude, longitude }
         });
@@ -118,15 +128,15 @@ export const Map = ({ markers }: Props) => {
                             zoomControlEnabled
                             onTouchStart={() => following.current = false}
                         > 
-                            {datosLocales.map(({ latitude, longitude }: Locals, index: number) => {
+                            {datosLocales.map(({ location }: NewLocal, index: number) => {
                                 {
                                 }
                                 return (
                                     <Marker
                                         key={index.toString()}
                                         coordinate={{
-                                            latitude: latitude,
-                                            longitude: longitude
+                                            latitude: location.latitude,
+                                            longitude: location.longitude
                                         }}
                                         anchor={{ x: 0.5, y: 0.10 }}
                                         onPress={() => handleMarkerPress(index)}
