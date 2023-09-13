@@ -16,15 +16,16 @@ export const ChangePasswordView = () => {
     const { t } = useTranslation();
 
     const validationSchema = Yup.object().shape({
-        password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
+        oldPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
         newPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
         confirmNewPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
     });
 
+
     const handleSubmit = async (updateUserPass:UpdateUserPassword) => {
         try{
-
             const {newPassword, confirmNewPassword} = updateUserPass;
+            
             if (newPassword !== confirmNewPassword) {
                 CustomAlert({
                     title: 'Error',
@@ -64,7 +65,7 @@ export const ChangePasswordView = () => {
                             newPassword: "",
                             confirmNewPassword: "",
                         }}
-                        onSubmit={(User)=>{handleSubmit(User)}}
+                        onSubmit={(passwords) => {handleSubmit(passwords)}}
                         validationSchema={validationSchema}
                 >
                     {({ handleChange, handleSubmit, values, errors }) => (
@@ -78,13 +79,13 @@ export const ChangePasswordView = () => {
                             secureTextEntry>
                         </TextInput>
                         {errors.oldPassword && 
-                                    <IconWithText 
-                                        NameIcon='exclamation-circle' 
-                                        text={errors.oldPassword} 
-                                        ColorIcon={Colors.Yellow} 
-                                        IconSize={15} 
-                                        textStyle={{color: Colors.Yellow}}
-                                    />}
+                            <IconWithText 
+                                NameIcon='exclamation-circle' 
+                                text={errors.oldPassword} 
+                                ColorIcon={Colors.Yellow} 
+                                IconSize={15} 
+                                textStyle={{color: Colors.Yellow}}
+                            />}
                         <Text style={StylePasswordView.text}>{t('NewPasswordText')}</Text>
                         <TextInput style={[StylePasswordView.textInput, errors.newPassword ? StylePasswordView.addProperty : null]}
                             value={values.newPassword}
@@ -92,13 +93,13 @@ export const ChangePasswordView = () => {
                             secureTextEntry>
                         </TextInput>
                         {errors.newPassword && 
-                                    <IconWithText 
-                                        NameIcon='exclamation-circle' 
-                                        text={errors.newPassword} 
-                                        ColorIcon={Colors.Yellow} 
-                                        IconSize={15} 
-                                        textStyle={{color: Colors.Yellow}}
-                                    />}
+                            <IconWithText 
+                                NameIcon='exclamation-circle' 
+                                text={errors.newPassword} 
+                                ColorIcon={Colors.Yellow} 
+                                IconSize={15} 
+                                textStyle={{color: Colors.Yellow}}
+                            />}
                         <Text style={StylePasswordView.text}>{t('NewPasswordConfirmText')}</Text>
                         <TextInput style={[StylePasswordView.textInput, errors.confirmNewPassword ? StylePasswordView.addProperty : null]}
                             value={values.confirmNewPassword}
@@ -106,17 +107,17 @@ export const ChangePasswordView = () => {
                             onChangeText={handleChange('confirmNewPassword')}>
                         </TextInput>
                         {errors.confirmNewPassword && 
-                                    <IconWithText 
-                                        NameIcon='exclamation-circle' 
-                                        text={errors.confirmNewPassword} 
-                                        ColorIcon={Colors.Yellow} 
-                                        IconSize={15} 
-                                        textStyle={{color: Colors.Yellow}}
-                                    />}
-                    <TouchableOpacity style={StylePasswordView.buttonSend}
-                        onPress={handleSubmit}>
-                        <Text style={StylePasswordView.txtBtn}>{t('UpdateButton')}</Text>
-                    </TouchableOpacity>
+                            <IconWithText 
+                                NameIcon='exclamation-circle' 
+                                text={errors.confirmNewPassword} 
+                                ColorIcon={Colors.Yellow} 
+                                IconSize={15} 
+                                textStyle={{color: Colors.Yellow}}
+                            />
+                        }
+                        <TouchableOpacity style={StylePasswordView.buttonSend} onPress={handleSubmit}>
+                            <Text style={StylePasswordView.txtBtn}>{t('UpdateButton')}</Text>
+                        </TouchableOpacity>
                     </View>
                     )}
                     </Formik>
