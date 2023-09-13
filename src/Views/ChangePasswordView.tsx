@@ -27,15 +27,15 @@ export const ChangePasswordView = () => {
             console.log('Las contraseñas nuevas no coinciden');
             return;
         }
-        const oldPassword = UpdateUserPass.password;
+        const oldPassword = UpdateUserPass.oldPassword;
         const newPassword = UpdateUserPass.newPassword;
-        const data = await putUserPassword(user, UpdateUserPass);
+        const data = await putUserPassword(UpdateUserPass);
         try{
                 if (data.status === 200) {
                     updatePassword({ oldPassword,newPassword}, data.data.token);
                     CustomAlert({
-                        title: "User updated successfully", 
-                        desc: "User data has been updated successfully",
+                        title: "User password updated successfully", 
+                        desc: "User password has been updated successfully",
                     })
                 }
             } catch (error: any) {
