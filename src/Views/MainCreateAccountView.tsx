@@ -11,6 +11,8 @@ import { PickerButton } from '../Components/PickerButton';
 import { AuthContext } from '../Context/AuthContext';
 import { FontStyles, Styles } from '../Themes/Styles';
 import { handleGoogleSignInErrors } from '../Utils/HandleUser';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+
 
 interface Props extends NativeStackScreenProps<any, any>{}
 
@@ -57,14 +59,24 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         }
     };
 
-    const  signOut = async () => {
+    const handleFacebookLogin = async () => {
         try {
-            const userInfo =  await GoogleSignin.signOut();
-            console.log(userInfo);
+            const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+            console.log(result);
+            
+            if (result.isCancelled) {
+                // Handle cancellation
+            } else {
+                const data = await AccessToken.getCurrentAccessToken();
+                const accessToken = data!.accessToken.toString();
+        
+                
+            }
         } catch (error) {
-            console.error(error);
+        console.log('Error logging in with Facebook:', error);
         }
     };
+    
 
     return (
         <SafeAreaView style={Styles.container}>
@@ -108,7 +120,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
                         <AntDesign name="mail"style={StylesLogIn.IconMail}/>
                         <Text style= {StylesLogIn.textInformation}>{t('SingUpEmail')}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={signOut}>
+                    <TouchableOpacity onPress={handleFacebookLogin}>
                     <Text style= {{...StylesLogIn.textInformation, top:30}}>Salir</Text>
                     </TouchableOpacity>
                 </View>
