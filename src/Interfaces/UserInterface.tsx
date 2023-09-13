@@ -46,7 +46,7 @@ export interface UserUpdate {
 }
 
 export interface UpdateUserPassword {
-    password?: string,
+    oldPassword?: string,
     newPassword?: string,
     confirmNewPassword?: string,
 }

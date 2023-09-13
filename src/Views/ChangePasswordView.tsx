@@ -13,7 +13,7 @@ import { CustomAlert } from '../Components/CustomAlert';
 
 export const ChangePasswordView = () => {
     const { t ,i18n } = useTranslation();
-    const { user, UpdateUserPass }  = useContext(AuthContext);
+    const { user, updatePassword }  = useContext(AuthContext);
 
     const validationSchema = Yup.object().shape({
         password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
@@ -29,9 +29,10 @@ export const ChangePasswordView = () => {
         }
         const oldPassword = UpdateUserPass.password;
         const newPassword = UpdateUserPass.newPassword;
-        const data = await putUserPassword( UserUpdatePassword);
+        const data = await putUserPassword(user, UpdateUserPass);
+        try{
                 if (data.status === 200) {
-                    UpdateUserPass({ oldPassword,newPassword}, data.data.token);
+                    updatePassword({ oldPassword,newPassword}, data.data.token);
                     CustomAlert({
                         title: "User updated successfully", 
                         desc: "User data has been updated successfully",
