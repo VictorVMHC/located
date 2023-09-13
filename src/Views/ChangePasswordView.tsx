@@ -1,16 +1,14 @@
-import React, {  useState,useContext, useEffect } from 'react'
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors, FontStyles, Styles } from '../Themes/Styles';
-import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Yup from 'yup';
-import { UpdateUserPassword,  } from '../Interfaces/UserInterface';
-import { IconWithText } from '../Components/IconWithText';
-import { AuthContext } from '../Context/AuthContext';
 import { putUserPassword } from '../Api/userApi';
 import { CustomAlert } from '../Components/CustomAlert';
-import { err } from 'react-native-svg/lib/typescript/xml';
+import { IconWithText } from '../Components/IconWithText';
+import { UpdateUserPassword, } from '../Interfaces/UserInterface';
+import { Colors, FontStyles } from '../Themes/Styles';
 
 export const ChangePasswordView = () => {
     const { t } = useTranslation();
@@ -135,7 +133,6 @@ const StylePasswordView = StyleSheet.create({
     },
     viewContainer:{
         flex: 1,
-        width: 330,
         padding:7,
     },
     textTitle:{
@@ -156,7 +153,7 @@ const StylePasswordView = StyleSheet.create({
     },
     textInput:{
         height: 42,
-        width: 330,
+        width: '100%',
         backgroundColor: 'white',
         borderColor: '#ccc',
         borderRadius: 8,
@@ -168,7 +165,7 @@ const StylePasswordView = StyleSheet.create({
         backgroundColor:'black',
         height:40,
         borderRadius: 8,  
-        width: 330,
+        width: '100%',
         marginVertical: 30,
     },
     txtBtn:{
