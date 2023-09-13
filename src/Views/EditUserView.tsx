@@ -124,8 +124,8 @@ export const EditUserView = () => {
                     setImageFlag(false);
                     updateUser({ ...user, ...partialUser }, data.data.token);
                     CustomAlert({
-                        title: "User updated successfully", 
-                        desc: "User data has been updated successfully",
+                        title: t('UserUpdatedTitle'), 
+                        desc: t('UserUpdated'),
                     })
                 }
             } else {

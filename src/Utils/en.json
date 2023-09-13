@@ -133,6 +133,16 @@
     "EditProfileInformation": "Edit Profile Information",
     "ConfirmDelete": "Confirm Delete",
     "Description": "Are you sure to delete your profile?",
-    "CurrentPassword": "Your Current Password"
+    "CurrentPassword": "Your Current Password",
+    "UserUpdatedTitle":"User updated successfully",
+    "UserUpdated": "User data has been updated successfully",
+    "ErrorPasswordsInfo": "New passwords do not match",
+    "UserPasswordUpdatedTitle":"Password updated",
+    "UserPasswordUpdated": "User password has been updated successfully",
+    "ErrorToUpdatePassword": "Was not possible to update your password",
+    "LocalAddBottom": "Add",
+    "AddCategory":"Add other category",
+    "AddCategoryModal":"Add category",
+    "AddCategoryTitleBottom":" ADD CATEGORY"
   }
 }

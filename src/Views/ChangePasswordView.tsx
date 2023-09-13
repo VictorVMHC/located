@@ -27,7 +27,7 @@ export const ChangePasswordView = () => {
             if (newPassword !== confirmNewPassword) {
                 CustomAlert({
                     title: 'Error',
-                    desc: 'Las contraseña no coinciden'
+                    desc: t('ErrorPasswordsInfo')
                 })
                 return;
             }
@@ -36,8 +36,8 @@ export const ChangePasswordView = () => {
 
             if (response.status === 200) {
                 CustomAlert({
-                    title: "User updated successfully", 
-                    desc: "User data has been updated successfully",
+                    title: t('UserPasswordUpdatedTitle'),
+                    desc: t('UserPasswordUpdated'),
                 })
             }
         } catch (error: any) {
@@ -45,7 +45,7 @@ export const ChangePasswordView = () => {
             
             CustomAlert({
                 title: "Error", 
-                desc: "Was not possible to update your password",
+                desc: t('ErrorToUpdatePassword'),
             })
         }
     };    
@@ -56,7 +56,7 @@ export const ChangePasswordView = () => {
                 <View>
                     <Text style={StylePasswordView.textTitle}>{t('security')}</Text>
                 </View>
-                <View style={StylePasswordView.viewContainer}>
+                <View style={{...StylePasswordView.viewContainer, width:320}}>
                 <Formik
                         initialValues={{
                             oldPassword: "",
@@ -128,12 +128,11 @@ export const ChangePasswordView = () => {
 const StylePasswordView = StyleSheet.create({
     container:{
         flex: 1,
-        paddingHorizontal: 8,
         alignItems:'center',
     },
     viewContainer:{
-        flex: 1,
-        padding:7,
+        padding:5,
+        width:'100%',
     },
     textTitle:{
         fontSize:32,

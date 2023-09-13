@@ -130,6 +130,16 @@
     "Accept": "Aceptar",
     "ConfirmDelete": "Confirmar Eliminación",
     "Description": "¿Realmente quieres eliminar tu perfil?",
-    "CurrentPassword": "Tu Contraseña Actual"
+    "UserUpdatedTitle":"Usuario actualizado",
+    "UserUpdated": "Los datos del usuario se han actualizado correctamente",
+    "CurrentPassword": "Tu Contraseña Actual",
+    "ErrorPasswordsInfo": "Las nuevas contraseñas no coinciden",
+    "UserPasswordUpdatedTitle":"Contraseña actualizada",
+    "UserPasswordUpdated": "La contraseña del usuario se ha actualizado correctamente",
+    "ErrorToUpdatePassword": "No fue posible actualizar su contraseña",
+    "LocalAddBottom": "Agregar",
+    "AddCategory":"Agregar otra catehoria",
+    "AddCategoryModal":"Agregar Categoria",
+    "AddCategoryTitleBottom":" AGREGAR CATEGORIA"
   }
 }

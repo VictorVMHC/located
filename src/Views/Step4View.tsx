@@ -138,11 +138,11 @@ export const Step4View = ({ setCanGoNext }:Props) => {
                     <View style={styles.pickerSection}>
                         <View style={{flex: 7}} >
                             <CustomPicker
-                                modalInputTItle={ placeHolder || 'Add category'}
-                                placeHolder='add other category'
+                                modalInputTItle={ placeHolder || t('AddCategoryModal')}
+                                placeHolder={t('AddCategory')}
                                 data={categoryOptions}
                                 ActionMultiSelected={handleSelected}
-                                buttonTitle='Agregar categoria'
+                                buttonTitle={t('AddCategoryTitleBottom')}
                                 onEndAction={handleLoadMore}
                                 ActionSubmit={handleAddNewCategory}
                                 borderColor={Colors.darkGray}
@@ -157,7 +157,7 @@ export const Step4View = ({ setCanGoNext }:Props) => {
                                 onPress={() => {LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); setAdd(true); setPlaceHolder('');
                                 }}
                             >
-                                <Text style={styles.buttonText}  adjustsFontSizeToFit disabled={add} >Add</Text>
+                                <Text style={styles.buttonText}  adjustsFontSizeToFit disabled={add} >{t('LocalAddBottom')}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
