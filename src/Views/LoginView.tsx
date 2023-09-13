@@ -109,6 +109,7 @@ export const LoginView = ({navigation}: Props) => {
                                         secureTextEntry
                                         value={values.password}
                                         onChangeText={handleChange('password')}
+                                        onEndEditing={handleSubmit}
                                     />
                                     {errors.password && 
                                         <IconWithText 

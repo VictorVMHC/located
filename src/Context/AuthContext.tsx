@@ -18,7 +18,6 @@ type AuthContextProps = {
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
     updateUser: (user: User, token: string) => void;
-    updatePassword: (user:UpdateUserPassword, token: string) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -217,16 +216,6 @@ export const AuthProvider = ({children}: any) => {
         });
     };
 
-    const updatePassword =async (newPass:UpdateUserPassword, token:string ) => {
-        await AsyncStorage.setItem('x-token', token);
-        dispatch({
-            type: 'updatePassword',
-            payload:{
-                token,
-                userPassword:newPass
-            },
-        });
-    };
 
     return (
         <AuthContext.Provider value={{
@@ -235,7 +224,6 @@ export const AuthProvider = ({children}: any) => {
             signIn,
             signInGuest,
             updateUser,
-            updatePassword,
             logOut,
             removeError,
         }}>

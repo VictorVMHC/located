@@ -10,36 +10,44 @@ import { IconWithText } from '../Components/IconWithText';
 import { AuthContext } from '../Context/AuthContext';
 import { putUserPassword } from '../Api/userApi';
 import { CustomAlert } from '../Components/CustomAlert';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
 export const ChangePasswordView = () => {
-    const { t ,i18n } = useTranslation();
-    const { user, updatePassword }  = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const validationSchema = Yup.object().shape({
         password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
         newPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
         confirmNewPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
-
     });
 
-    const handleSubmit = async (UpdateUserPass:UpdateUserPassword) => {
-        if (UpdateUserPass.newPassword !== UpdateUserPass.confirmNewPassword) {
-            console.log('Las contraseñas nuevas no coinciden');
-            return;
-        }
-        const oldPassword = UpdateUserPass.password;
-        const newPassword = UpdateUserPass.newPassword;
-        const data = await putUserPassword(user, UpdateUserPass);
+    const handleSubmit = async (updateUserPass:UpdateUserPassword) => {
         try{
-                if (data.status === 200) {
-                    updatePassword({ oldPassword,newPassword}, data.data.token);
-                    CustomAlert({
-                        title: "User updated successfully", 
-                        desc: "User data has been updated successfully",
-                    })
-                }
-            } catch (error: any) {
-            console.log(JSON.stringify(error));
+
+            const {newPassword, confirmNewPassword} = updateUserPass;
+            if (newPassword !== confirmNewPassword) {
+                CustomAlert({
+                    title: 'Error',
+                    desc: 'Las contraseña no coinciden'
+                })
+                return;
+            }
+
+            const response = await putUserPassword(updateUserPass);
+
+            if (response.status === 200) {
+                CustomAlert({
+                    title: "User updated successfully", 
+                    desc: "User data has been updated successfully",
+                })
+            }
+        } catch (error: any) {
+            console.log(error);
+            
+            CustomAlert({
+                title: "Error", 
+                desc: "Was not possible to update your password",
+            })
         }
     };    
 
@@ -52,7 +60,7 @@ export const ChangePasswordView = () => {
                 <View style={StylePasswordView.viewContainer}>
                 <Formik
                         initialValues={{
-                            password: "",
+                            oldPassword: "",
                             newPassword: "",
                             confirmNewPassword: "",
                         }}
@@ -62,17 +70,17 @@ export const ChangePasswordView = () => {
                     {({ handleChange, handleSubmit, values, errors }) => (
                         <View>
                             <Text style={StylePasswordView.text}>{t('Password')}</Text>
-                            <TextInput style={[StylePasswordView.textInput, errors.password ? StylePasswordView.addProperty : null, ]}
+                            <TextInput style={[StylePasswordView.textInput, errors.oldPassword ? StylePasswordView.addProperty : null, ]}
                             placeholderTextColor={Colors.blueText}
                             placeholder={`${t('CurrentPassword')}`}
-                            value={values.password}
-                            onChangeText={handleChange('password')}
+                            value={values.oldPassword}
+                            onChangeText={handleChange('oldPassword')}
                             secureTextEntry>
                         </TextInput>
-                        {errors.password && 
+                        {errors.oldPassword && 
                                     <IconWithText 
                                         NameIcon='exclamation-circle' 
-                                        text={errors.password} 
+                                        text={errors.oldPassword} 
                                         ColorIcon={Colors.Yellow} 
                                         IconSize={15} 
                                         textStyle={{color: Colors.Yellow}}
