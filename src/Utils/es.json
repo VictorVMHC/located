@@ -120,7 +120,7 @@
     "security": "Seguridad",
     "NewPasswordText": "Nueva contraseña",
     "NewPasswordConfirmText": "Confirmar Nueva Contraseña",
-    "UptadeBoton": "Actualizar",
+    "UpdateButton": "Actualizar",
     "EditLocal": "Editar Local",
     "CommentsAndReplies":"Comentarios y Respuestas",
     "DeleteProfile": "Eliminar Perfil",
@@ -129,6 +129,7 @@
     "Cancel": "Cancelar",
     "Accept": "Aceptar",
     "ConfirmDelete": "Confirmar Eliminación",
-    "Description": "¿Realmente quieres eliminar tu perfil?"
+    "Description": "¿Realmente quieres eliminar tu perfil?",
+    "CurrentPassword": "Tu Contraseña Actual"
   }
 }

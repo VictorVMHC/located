@@ -125,13 +125,14 @@
     "security": "Security",
     "NewPasswordText": "New Password",
     "NewPasswordConfirmText": "New Password Confirm",
-    "UptadeBoton": "Update",
+    "UpdateButton": "Update",
     "EditLocal": "Edit Local",
     "CommentsAndReplies":"Comments And Replies",
     "DeleteProfile": "Delete Profile",
     "Notifications": "Notifications",
     "EditProfileInformation": "Edit Profile Information",
     "ConfirmDelete": "Confirm Delete",
-    "Description": "Are you sure to delete your profile??"
+    "Description": "Are you sure to delete your profile?",
+    "CurrentPassword": "Your Current Password"
   }
 }

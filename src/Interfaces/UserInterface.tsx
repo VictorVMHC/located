@@ -44,3 +44,9 @@ export interface UserUpdate {
     state?: boolean,
     username?: string
 }
+
+export interface UpdateUserPassword {
+    password?: string,
+    newPassword?: string,
+    confirmNewPassword?: string,
+}

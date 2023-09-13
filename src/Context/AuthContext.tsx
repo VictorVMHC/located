@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/UserInterface';
+import { UpdateUserPassword, User, createNewUser, logInData } from '../Interfaces/UserInterface';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, login } from '../Api/authApi';
@@ -18,6 +18,7 @@ type AuthContextProps = {
     signIn: ( loginData: logInData ) => void;
     signInGuest: () => void;
     updateUser: (user: User, token: string) => void;
+    updatePassword: (user:UpdateUserPassword, token: string) => void;
     logOut: () => void;
     removeError: () => void;
 }
@@ -216,6 +217,17 @@ export const AuthProvider = ({children}: any) => {
         });
     };
 
+    const updatePassword =async (newPass:UpdateUserPassword, token:string ) => {
+        await AsyncStorage.setItem('x-token', token);
+        dispatch({
+            type: 'updatePassword',
+            payload:{
+                token,
+                userPassword:newPass
+            },
+        });
+    };
+
     return (
         <AuthContext.Provider value={{
             ...state,
@@ -223,6 +235,7 @@ export const AuthProvider = ({children}: any) => {
             signIn,
             signInGuest,
             updateUser,
+            updatePassword,
             logOut,
             removeError,
         }}>
