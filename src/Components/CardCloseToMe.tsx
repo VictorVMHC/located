@@ -11,7 +11,6 @@ import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
-import { TouchableHighlight } from 'react-native';
 
 interface Props{
     Img: string,

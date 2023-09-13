@@ -39,7 +39,7 @@ export const Map = ({ markers }: Props) => {
     const [carouselVisible, setCarouselVisible] = useState(false);
     const radioKm = 50.0
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
-    const [hasFetchedData, setHasFetchedData] = useState(false); // Nueva variable de estado
+    const [hasFetchedData, setHasFetchedData] = useState(false); 
     
 
 
@@ -54,7 +54,7 @@ export const Map = ({ markers }: Props) => {
                 );
                 const paginatedResults = resultados.data.results;
                 setDatosLocales(paginatedResults);
-                setHasFetchedData(true); // Establece hasFetchedData a true después de obtener los datos
+                setHasFetchedData(true);
             } catch (error) {
                 console.error(error);
             }
