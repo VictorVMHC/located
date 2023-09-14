@@ -9,9 +9,11 @@ import { CustomAlert } from '../Components/CustomAlert';
 import { IconWithText } from '../Components/IconWithText';
 import { UpdateUserPassword, } from '../Interfaces/UserInterface';
 import { Colors, FontStyles } from '../Themes/Styles';
+import { useNavigation } from '@react-navigation/native';
 
 export const ChangePasswordView = () => {
     const { t } = useTranslation();
+    const navigation = useNavigation();
 
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),
@@ -38,7 +40,9 @@ export const ChangePasswordView = () => {
                 CustomAlert({
                     title: t('UserPasswordUpdatedTitle'),
                     desc: t('UserPasswordUpdated'),
+                    
                 })
+                return navigation.goBack();
             }
         } catch (error: any) {
             console.log(error);
@@ -113,7 +117,8 @@ export const ChangePasswordView = () => {
                                 textStyle={{color: Colors.Yellow}}
                             />
                         }
-                        <TouchableOpacity style={StylePasswordView.buttonSend} onPress={handleSubmit}>
+                        <TouchableOpacity style={StylePasswordView.buttonSend} 
+                        onPress={handleSubmit}>
                             <Text style={StylePasswordView.txtBtn}>{t('UpdateButton')}</Text>
                         </TouchableOpacity>
                     </View>
