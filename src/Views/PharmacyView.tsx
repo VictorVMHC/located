@@ -1,10 +1,65 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList, SafeAreaView, StyleSheet} from 'react-native'
+import { local } from '../Utils/Data _Example'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CardCloseToMe } from '../Components/CardCloseToMe';
+import { NewLocal } from '../Interfaces/LocalInterfaces';
+import { fetchData } from '../Utils/FetchFunctions';
+import { useLocation } from '../Hooks/useLocation';
 
-export const PharmacyView = () => {
+
+interface Props extends NativeStackScreenProps<any, any>{};
+
+export const PharmacyView = ({navigation}:Props) => {
+    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
+
+    const sata = async () =>{
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'Farmacia');
+        setDatosLocales(await data);
+    }
+
+    const {
+        hasLocation,
+        followUserLocation,
+        userLocation,
+        stopFollowUserLocation
+    } = useLocation();
+
+    useEffect(() => {
+        followUserLocation();
+        return () => {
+            stopFollowUserLocation();
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log('hola useEffect');
+        if(!hasLocation){
+            return ;
+        }
+        sata();
+    },[userLocation, hasLocation]);
+
+    const id = navigation.getState();
     return (
-        <View>
-            <Text>PharmacyView</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+        <FlatList 
+            numColumns={2}
+            data={datosLocales}
+            renderItem={ ( { item } ) => {
+                return(
+                    <CardCloseToMe Img={'../Assets/Images/Img_User.png' } like={false} Name={item.name} categorie={item.tags[0]}
+                    />
+                )
+            } }
+            keyExtractor={(item) => item.name.toString()}
+        />
+    </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});

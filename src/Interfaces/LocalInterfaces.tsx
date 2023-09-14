@@ -17,4 +17,6 @@ export interface NewLocal {
         [type: string]: Contact;
     };
     uriImage: string;
+    rate?: number;
+    quantityRate?: number;
 }
