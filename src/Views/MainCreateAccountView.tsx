@@ -69,7 +69,7 @@ export const MainCreateAccountView = ({navigation}: Props) => {
             } else {
                 const data = await AccessToken.getCurrentAccessToken();
                 const accessToken = data!.accessToken.toString();
-        
+                console.log(accessToken);               
                 
             }
         } catch (error) {
