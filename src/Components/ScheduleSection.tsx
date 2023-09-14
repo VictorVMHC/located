@@ -6,6 +6,7 @@ import { Schedule } from '../Interfaces/DbInterfaces'
 import { Colors, Styles } from '../Themes/Styles';
 import Icon  from 'react-native-vector-icons/FontAwesome5';
 import { CustomDatePicker } from './CustomDatePicker'
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     schedule: Schedule[];
@@ -13,6 +14,7 @@ interface Props {
     updateScheduleItem: (scheduleNumber: number, updateData: Partial<Schedule>) => void;
 }
 export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Props) => {
+    const { t } = useTranslation();
     const [index, setIndex] = useState<number>(0);
 
     const handleAddSchedule = () => {
@@ -43,7 +45,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
             { schedule.map( ( element: Schedule, idx: number ) => (
                 <View key={idx}>
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text style={{color: 'black', fontWeight: 'bold'}}>{`Schedule: ${idx + 1}`}</Text>
+                        <Text style={{color: 'black', fontWeight: 'bold'}}>{t('ScheduleInfoSection')}{`${idx + 1}`}</Text>
                         {    
                             index >= 1 &&
                             <TouchableOpacity
@@ -58,7 +60,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                         <View style={styles.containerDays}>
                             <View style={styles.containerPickerButton} >
                                 <PickerDayButton
-                                    title={element.day1 === '' ? 'Del dia': element.day1 }
+                                    title={element.day1 === '' ? t('FromDay'): element.day1 }
                                     day='day1'
                                     action={updateScheduleItem}
                                     index={idx}
@@ -66,7 +68,7 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                             </View>
                             <View style={styles.containerPickerButton}>
                                 <PickerDayButton
-                                    title={element.day2 === '' ? 'Al dia': element.day2 }
+                                    title={element.day2 === '' ? t('ToDay'): element.day2 }
                                     day='day2'
                                     action={updateScheduleItem}
                                     index={idx}
@@ -76,16 +78,16 @@ export const ScheduleSection = ({updateScheduleItem, schedule, setSchedule}: Pro
                         <View style={styles.containerHours}>
                             <CustomDatePicker
                                 type='open'
-                                modalTitle='Hora de apertura (HH:MM)'
-                                leftTag='De:'
+                                modalTitle={t('OpeningTime')}
+                                leftTag={t('From')}
                                 action={updateScheduleItem}
                                 index={idx}
                                 currentHour={element.open}
                             />
                             <CustomDatePicker
                                 type='close'
-                                modalTitle='Hora de cierre (HH:MM)'
-                                leftTag='A:'
+                                modalTitle={t('ClosingTime')}
+                                leftTag={t('To')}
                                 action={updateScheduleItem}
                                 index={idx}
                                 currentHour={element.close}

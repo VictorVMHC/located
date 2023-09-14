@@ -140,6 +140,15 @@
     "LocalAddBottom": "Agregar",
     "AddCategory":"Agregar otra catehoria",
     "AddCategoryModal":"Agregar Categoria",
-    "AddCategoryTitleBottom":" AGREGAR CATEGORIA"
+    "AddCategoryTitleBottom":" AGREGAR CATEGORIA",
+    "CustomPickerFinish": "Terminar",
+    "Steps":"Paso",
+    "ScheduleInfoSection":"Horario: ",
+    "OpeningTime":"Hora de Apertura (HH:MM)",
+    "ClosingTime": "Hora de cierre (HH:MM)",
+    "From":"De:",
+    "To":"A:",
+    "FromDay": "Del día",
+    "ToDay": "Al día"
   }
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors, FontStyles } from '../Themes/Styles';
+import { useTranslation } from 'react-i18next';
 
 
 interface Props {
@@ -21,6 +22,8 @@ interface Props {
 }
 export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColor, ActionMultiSelected, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
     
+    const { t } = useTranslation();
+
     const [value, setValue] = useState('');
     const [selectedItems, setSelectedItems] = useState<string[]>([]); 
 
@@ -88,7 +91,7 @@ export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColo
                         style={styles.styleFinishBtn} 
                         onPress={() => setModalVisible(false)} 
                     >
-                        <Text adjustsFontSizeToFit style={{color: 'white'}}>finish</Text>
+                        <Text adjustsFontSizeToFit style={{color: 'white'}}>{t('CustomPickerFinish')}</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity 

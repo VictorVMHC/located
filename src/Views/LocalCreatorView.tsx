@@ -56,7 +56,7 @@ export const LocalCreatorView = () => {
                         <Text style={styles.headerTitle} adjustsFontSizeToFit={true} >{t('localCreatorTitle')}</Text>
                     </View>
                     <View style={styles.stepTitleView}>
-                        <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{`Step ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
+                        <Text style={styles.stepTitle} adjustsFontSizeToFit={true} >{t('Steps')}{` ${currentStep + 1}: ${steps[currentStep].name}`}</Text>
                     </View>
                     <View style={styles.progressBar}>
                         {steps.map((_, index) => (

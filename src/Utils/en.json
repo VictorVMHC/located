@@ -143,6 +143,15 @@
     "LocalAddBottom": "Add",
     "AddCategory":"Add other category",
     "AddCategoryModal":"Add category",
-    "AddCategoryTitleBottom":" ADD CATEGORY"
+    "AddCategoryTitleBottom":" ADD CATEGORY",
+    "CustomPickerFinish": "Finish",
+    "Steps":"Step",
+    "ScheduleInfoSection":"Schedule: ",
+    "OpeningTime":"Opening time (HH:MM)",
+    "ClosingTime": "Closing time (HH:MM)",
+    "From":"From:",
+    "To":"To:",
+    "FromDay": "From day",
+    "ToDay": "To day"
   }
 }
