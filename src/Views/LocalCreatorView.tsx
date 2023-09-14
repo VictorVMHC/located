@@ -49,8 +49,10 @@ export const LocalCreatorView = () => {
 
     const handleCreateLocal = async () => {
         try{
+            console.log(localState);
             const response = await createLocal(localState);
             //TODO: Add th  funcionality
+            
             if(response.status === 200){                
                 console.log(JSON.stringify(response.data));
             }
