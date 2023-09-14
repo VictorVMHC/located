@@ -14,7 +14,7 @@ export const PharmacyView = ({navigation}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'');
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'Farmacia');
         setDatosLocales(await data);
     }
 
@@ -48,7 +48,7 @@ export const PharmacyView = ({navigation}:Props) => {
             data={datosLocales}
             renderItem={ ( { item } ) => {
                 return(
-                    <CardCloseToMe Img={item.uriImage ? item.uriImage : '../Assets/Images/Img_User.png' } like={false} Name={item.name} categorie={item.tags[0]}
+                    <CardCloseToMe Img={'../Assets/Images/Img_User.png' } like={false} Name={item.name} categorie={item.tags[0]}
                     />
                 )
             } }

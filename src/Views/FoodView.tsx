@@ -8,13 +8,15 @@ import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useLocation } from '../Hooks/useLocation';
 import { fetchData } from '../Utils/FetchFunctions';
 
-interface Props extends NativeStackScreenProps<any, any>{};
+interface Props {
+    kilometres: number;
+};
 
-export const FoodView = ({navigation}:Props) => {
+export const FoodView = ({kilometres}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'Food');
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'Comida');
         setDatosLocales(await data);
     }
 
@@ -38,7 +40,7 @@ export const FoodView = ({navigation}:Props) => {
             return ;
         }
         sata();
-    },[userLocation, hasLocation]);
+    },[userLocation, hasLocation, kilometres ]);
 
     return (
         <SafeAreaView style={styles.container}>
