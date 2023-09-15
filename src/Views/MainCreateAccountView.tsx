@@ -59,25 +59,6 @@ export const MainCreateAccountView = ({navigation}: Props) => {
         }
     };
 
-    const handleFacebookLogin = async () => {
-        try {
-            const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-            console.log(result);
-            
-            if (result.isCancelled) {
-                // Handle cancellation
-            } else {
-                const data = await AccessToken.getCurrentAccessToken();
-                const accessToken = data!.accessToken.toString();
-                console.log(accessToken);               
-                
-            }
-        } catch (error) {
-        console.log('Error logging in with Facebook:', error);
-        }
-    };
-    
-
     return (
         <SafeAreaView style={Styles.container}>
             <Circles
@@ -112,16 +93,9 @@ export const MainCreateAccountView = ({navigation}: Props) => {
                         <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
                         <Text style= {StylesLogIn.textInformation}>{t('SingUpGoogle')}</Text>
                     </TouchableOpacity>    
-                    <TouchableOpacity>
-                        <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
-                        <Text style= {StylesLogIn.textInformation}>{t('SingUpFacebook')}</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate("CreateAccountEmailView")}>
                         <AntDesign name="mail"style={StylesLogIn.IconMail}/>
                         <Text style= {StylesLogIn.textInformation}>{t('SingUpEmail')}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleFacebookLogin}>
-                    <Text style= {{...StylesLogIn.textInformation, top:30}}>Salir</Text>
                     </TouchableOpacity>
                 </View>
             </View>
