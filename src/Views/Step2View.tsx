@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textInputSty: {
+        color: 'black',
         borderRadius: 8,
         borderColor: Colors.darkGray,
         borderWidth: 1,

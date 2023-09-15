@@ -1,5 +1,5 @@
 import { GOOGLE_CLIENT_ID } from '@env';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Formik } from 'formik';
 import React, { useContext, useEffect } from 'react';
@@ -8,6 +8,7 @@ import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, To
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Yup from 'yup';
+
 import { Circles } from '../Components/Circles';
 import { IconWithText } from '../Components/IconWithText';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
@@ -166,18 +167,9 @@ export const LoginView = ({navigation}: Props) =>{
                                 <View style={StylesLogIn.viewLine}></View>
                         </View>
                         <View style={StylesLogIn.containerIcons}>
-                            <TouchableOpacity 
-                                style={StylesLogIn.btnIcon}
+                            <GoogleSigninButton
                                 onPress={handleGoogleSingIn}
-                            >
-                                <AntDesign name="google"style={StylesLogIn.IconGoogle}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity  style={StylesLogIn.btnIcon}>
-                                <AntDesign name="facebook-square"style={StylesLogIn.IconFace}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={StylesLogIn.btnIcon}>
-                                <AntDesign name="apple1"style={StylesLogIn.IconApple}/>
-                            </TouchableOpacity>
+                            />
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{...FontStyles.Information, left:5,width:239, fontSize:18.5,textAlign:'center'}}>{t('NoSingUp')}</Text>
@@ -185,6 +177,7 @@ export const LoginView = ({navigation}: Props) =>{
                                 onPress={() => navigation.navigate("MainCreateAccountView")}>
                                     <Text style={{...FontStyles.Information, color: 'black', width:130, left:-13,fontSize:17.5,textAlign:'center'}}>{t('CreateAccount')}</Text>
                             </TouchableOpacity>
+                            
                         </View>       
                     </View>
                 </View>
@@ -244,7 +237,6 @@ const StylesLogIn = StyleSheet.create({
     },
     containerIcons:{
         flexDirection: 'row', 
-        width: 300, 
         alignContent: 'space-around', 
         marginBottom: '8%'
     },
@@ -278,35 +270,25 @@ const StylesLogIn = StyleSheet.create({
 
     },
     btnIcon:{
+        flex: 1,
+        alignContent: 'center',
+        paddingVertical: 20,
         marginHorizontal: 10,
-        width: 80,
-        height:60,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 1,
-        shadowRadius: 10.00,
-        elevation: 4,
-        borderRadius: 5,
+        shadowRadius: 1,
+        elevation: 1,
+        borderRadius: 10,
         justifyContent: 'center', 
         alignItems: 'center'
-    },
-    IconFace:{
-        color: 'blue',
-        fontSize: 35,
-        marginTop: 10
     },
     IconGoogle:{
         color:'red',
         fontSize: 35,
-        marginTop: 10
-    },
-    IconApple:{
-        color:'black',
-        fontSize: 35,
-        marginTop: 10
     },
     addProperty: {
         borderColor: Colors.Yellow

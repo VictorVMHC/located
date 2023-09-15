@@ -20,6 +20,7 @@ interface Props {
     multiSelection: boolean;
     actionOnPressOpenModal: () => void
 }
+
 export const CustomPicker = ({multiSelection, actionOnPressOpenModal, borderColor, ActionMultiSelected, modalInputTItle, data, ActionSelected, onEndAction, buttonTitle, placeHolder, ActionSubmit, modalVisible, setModalVisible }: Props) => {
     
     const { t } = useTranslation();
