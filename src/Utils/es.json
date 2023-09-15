@@ -151,6 +151,7 @@
     "FromDay": "Del día",
     "ToDay": "Al día",
     "Store": "Tienda",
-    "pets": "Mascotas"
+    "pets": "Mascotas",
+    "RecoveryPasswordTitle": "Nueva Contraseña"
   }
 }

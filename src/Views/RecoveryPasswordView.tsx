@@ -3,56 +3,14 @@ import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView}
 import { Circles } from '../Components/Circles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PickerButton } from '../Components/PickerButton';
-import { Colors, Styles, FontStyles } from '../Themes/Styles'
-import { IconWithText } from '../Components/IconWithText';
+import { Colors, Styles } from '../Themes/Styles'
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { useNavigation } from '@react-navigation/native';
 
-interface Code {
-    v1: string,
-    v2: string,
-    v3: string,
-    v4: string,
-    v5: string,
-    v6: string,
-}
-
-export const ForgotPasswordView = () => {
+export const RecoveryPasswordView = () => {
     const { t ,i18n } = useTranslation();
-    const navigation = useNavigation();
-    const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
-    const textInputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
-
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
-    });
-
-    const updateValue = (name: string, newValue: string) => {
-        setCode((prevData) => ({
-            ...prevData,
-            [name]: newValue,
-        }));     
-    };
-
-    const handleTextInputChange = (index: number, text: string) => {
-        const fieldName = `v${index + 1}`as keyof typeof code;
-        updateValue(fieldName, text);
-        if (text.length > 0 && index < textInputRefs.length - 1) {
-            textInputRefs[index + 1].current?.focus();
-        } 
-    };
-
-
-    const handleSubmit =(email:string) =>{
-        if(email){
-        console.log(email);
-        navigation.navigate('RecoveryPasswordView' as never);
-        }else{
-            console.log('error');
-        }
-    };
+    
     return (
         <SafeAreaView style={Styles.container}>
             <ScrollView>
@@ -63,7 +21,7 @@ export const ForgotPasswordView = () => {
                 <View style={StyleSingleText.contentOne}>
                     <View style={{flex:1}}>
                         <View style={StyleSingleText.containerTitle}>
-                            <Text style={{...Styles.textStyle, top:5, fontSize:34}}>{t('Passwordtitle')}</Text>
+                            <Text style={{...Styles.textStyle, top:5, fontSize:34}}>{t('RecoveryPasswordTitle')}</Text>
                         </View>
                     </View>    
                     <View style={StyleSingleText.containerLong} >
@@ -84,39 +42,14 @@ export const ForgotPasswordView = () => {
                 />
                 <View style={StyleSingleText.bodyView}>
                     <Text style={StyleSingleText.onlyText}>{t('ForgotPassword')}</Text>
-                    <Formik
-                        initialValues={{
-                            email: "",
-                        }}
-                        onSubmit={(Value) => {handleSubmit(Value.email)}}
-                        validationSchema={validationSchema}
-                    >
-                    {({ handleChange, handleSubmit, values, errors }) => (
-                        <View>
-                    <TextInput 
-                        style={[Styles.input, errors.email ? StyleSingleText.addProperty : null, FontStyles.SubTitles]}
+                    <TextInput style={{...Styles.input, width:340, fontSize:20, top:1}}
                         placeholderTextColor={Colors.blueText}
-                        placeholder={`${t('Email')}`}
-                        keyboardType='email-address'
-                        onChangeText={handleChange('email')}
-                        value={values.email}
+                        placeholder={`${t('EnterEmail')}`}   
                     />
-                    {errors.email && 
-                        <IconWithText 
-                            NameIcon='exclamation-circle' 
-                            text={errors.email} 
-                            ColorIcon={Colors.Yellow} 
-                            IconSize={15} 
-                            textStyle={{color: Colors.Yellow}}
-                    />}
                     <TouchableOpacity style={{...Styles.boton,top:4, borderRadius:15}}
-                        onPress={handleSubmit}
                     >
                         <Text style={{...Styles.txtBtn,top:1}}>{t('Recovery')}</Text>
                     </TouchableOpacity>
-                    </View>
-                    )}
-                    </Formik>
                 </View>
             </ScrollView>
         </SafeAreaView> 
@@ -157,7 +90,4 @@ const StyleSingleText = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center', 
     },
-    addProperty: {
-        borderColor: Colors.Yellow
-    }
 });

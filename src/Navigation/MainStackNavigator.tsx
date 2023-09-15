@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
 import { ForgotPasswordView } from '../Views/ForgotPasswordView';
+import { RecoveryPasswordView } from '../Views/RecoveryPasswordView';
 import { LoginView } from '../Views/LoginView';
 import { MainCreateAccountView } from '../Views/MainCreateAccountView';
 
@@ -45,6 +46,7 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name='LoginView' options={{ headerShown: false}} component={LoginView}/>
 						<Stack.Screen name='MainView' options={{ headerShown: false}} component={MainView}/>
 						<Stack.Screen name='MainCreateAccountView' options={{ headerShown: false}} component={MainCreateAccountView}/>
+						<Stack.Screen name='RecoveryPasswordView' options={{ headerShown: false}} component={RecoveryPasswordView}/>
 					</>
 				)
 				: (
