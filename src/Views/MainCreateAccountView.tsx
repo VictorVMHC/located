@@ -5,13 +5,13 @@ import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import { Circles } from '../Components/Circles';
 import { CustomAlert } from '../Components/CustomAlert';
 import { PickerButton } from '../Components/PickerButton';
 import { AuthContext } from '../Context/AuthContext';
 import { FontStyles, Styles } from '../Themes/Styles';
 import { handleGoogleSignInErrors } from '../Utils/HandleUser';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 
 interface Props extends NativeStackScreenProps<any, any>{}
