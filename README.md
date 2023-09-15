@@ -65,6 +65,8 @@ If you are having, because the BASE_URL is not updating, try this
 | 27017 | Mongo db (in docker compose)     | MongodB        |
 | 8082  | Located                          | Metro          |
 
+# Diagrama Google
+
 ```mermaid
 sequenceDiagram
     participant A as App
@@ -83,3 +85,27 @@ sequenceDiagram
     A->>A: Muestra la interfaz de la aplicación con el usuario autenticado
 
 ```
+# Diagrama Facebook
+
+```mermaid
+sequenceDiagram
+    participant A as App
+    participant S as Server
+    participant G as Facebook
+    A->>A: Inicia la aplicación React Native
+    A->>S: Realiza solicitudes HTTP al servidor
+    S->>S: Configura el servidor Node.js con Express y MongoDB
+    A->>F: Inicia sesión con Facebook
+    F->>F: Verifica las credenciales de Facebook
+    F-->>A: Retorna los datos del usuario autenticado
+    A->>S: Envía datos del usuario al servidor para registrarlo o iniciar sesión
+    S->>DB: Consulta la base de datos para verificar al usuario existe en la base de datos
+    S->>S: Verifica si el usuario ya existe en la base de datos
+    S-->>A: Retorna el resultado del registro o inicio de sesión
+    A->>A: Almacena los datos del usuario autenticado
+    A->>A: Muestra la interfaz de la aplicación con el usuario autenticado
+
+```
+
+
+

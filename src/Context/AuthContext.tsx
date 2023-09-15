@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { User, createNewUser, logInData } from '../Interfaces/UserInterface';
+import { UpdateUserPassword, User, createNewUser, logInData } from '../Interfaces/UserInterface';
 import { AuthState, authReducer } from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, googleLogin, login } from '../Api/authApi';
@@ -323,6 +323,7 @@ export const AuthProvider = ({children}: any) => {
             },
         });
     };
+
 
     return (
         <AuthContext.Provider value={{

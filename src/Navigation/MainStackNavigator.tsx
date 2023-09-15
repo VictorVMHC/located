@@ -6,12 +6,15 @@ import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
 import { ForgotPasswordView } from '../Views/ForgotPasswordView';
 import { LoginView } from '../Views/LoginView';
 import { MainCreateAccountView } from '../Views/MainCreateAccountView';
+
 import { MainView } from '../Views/MainView';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { DrawerMenu } from './DrawerMenu';
 import { EditUserView } from '../Views/EditUserView';
 import { StoreView } from '../Views/StoreView';
 import { CommentsView } from '../Views/CommentsView';
+import { ChangePasswordView} from '../Views/ChangePasswordView';
+import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 
@@ -50,6 +53,8 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="StoreView" options={screenOptions} component={StoreView}/>
 						<Stack.Screen name="CommentsView" options={screenOptions} component={CommentsView}/>
 						<Stack.Screen name="EditUserView" options={screenOptions} component={EditUserView}/>
+						<Stack.Screen name="ChangePasswordView" options={screenOptions} component={ChangePasswordView}/>
+						<Stack.Screen name="PrivacyPolicyView" options={screenOptions} component={PrivacyPolicyView}/>
 					</>
 				)			
 			}

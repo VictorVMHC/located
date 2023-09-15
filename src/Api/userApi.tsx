@@ -1,5 +1,5 @@
 import api from "./api"
-import { LoginResponse, User} from '../Interfaces/UserInterface';
+import { LoginResponse, UpdateUserPassword, User} from '../Interfaces/UserInterface';
 
 const createUser = (user: User) =>{
     return api.post<LoginResponse>('/api/users', user );
@@ -14,9 +14,19 @@ const deleteUser = (email: string) => {
     return api.delete(route);
 }
 
+const putUserPassword = async (updatedPassword: UpdateUserPassword) =>{
+    
+    const {oldPassword, newPassword } = updatedPassword;
+
+    return api.put("/api/users/changePassword", {
+        password: oldPassword,
+        newPassword: newPassword
+    });
+}
 
 export {
     createUser,
     putUser,
+    putUserPassword,
     deleteUser,
 }

@@ -3,7 +3,9 @@ import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { Schedule } from '../Interfaces/DbInterfaces';
-import { Text } from 'react-native';
+import { daysOfWeekEs, daysOfWeekEn} from '../Utils/DaysOfWeek';
+import { useTranslation } from 'react-i18next';
+
 
 interface Props {
     title: string,
@@ -14,7 +16,8 @@ interface Props {
 
 export const PickerDayButton = ({ title, action, day, index }: Props) => {
 
-    const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    const {i18n} = useTranslation();
+    const daysOfWeek = i18n.language === 'es-MX' ? daysOfWeekEs : daysOfWeekEn;
 
     const handleValueChange = (selectedDay: string) => {
         day === 'day1' 

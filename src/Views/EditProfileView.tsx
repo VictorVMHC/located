@@ -27,8 +27,8 @@ export const EditProfileView = ({navigation}: Props) => {
 
     const deleteProfile = () => {
         Alert.alert(
-            `${t('confirmDelete')}`,
-            `${t('description')}`,
+            `${t('ConfirmDelete')}`,
+            `${t('Description')}`,
             [
                 {
                     text: `${t('Cancel')}`,
@@ -65,13 +65,13 @@ export const EditProfileView = ({navigation}: Props) => {
                     <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={() => navigation.navigate("EditUserView")}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='id-card' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Edit profile information</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('EditProfileInformation')}</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='bell' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Notifications</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('Notifications')}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -79,27 +79,30 @@ export const EditProfileView = ({navigation}: Props) => {
                     <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='edit' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Edit Local</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('EditLocal')}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
                 <View style={StyleEditProfile.buttonsContainer}>
-                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" 
+                            onPress={() => navigation.navigate("ChangePasswordView")}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='shield-alt' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Security</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('security')}</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
+                    <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray"  
+                        onPress={() => navigation.navigate("PrivacyPolicyView")}
+                    >
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='user-secret' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Privacy policy</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('PrivacyTitle')}</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight style={StyleEditProfile.button} underlayColor="lightgray" onPress={()=>console.log('hola')}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='question-circle' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Comments and replys</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('CommentsAndReplies')}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -108,7 +111,7 @@ export const EditProfileView = ({navigation}: Props) => {
                     onPress={deleteProfile}>
                         <View style={{flexDirection: 'row',}}>
                             <Icon name='sign-out-alt' size={25} color="black" light/>
-                            <Text style={StyleEditProfile.textButton}>Delete profile</Text>
+                            <Text style={StyleEditProfile.textButton}>{t('DeleteProfile')}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
