@@ -149,6 +149,8 @@
     "From":"De:",
     "To":"A:",
     "FromDay": "Del día",
-    "ToDay": "Al día"
+    "ToDay": "Al día",
+    "Store": "Tienda",
+    "pets": "Mascotas"
   }
 }

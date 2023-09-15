@@ -10,10 +10,13 @@ const api = axios.create({
 api.interceptors.request.use(
     
     async(config) => {
-        const token = await AsyncStorage.getItem('x-token');      
-        if ( token ) {
+        
+        const token = await AsyncStorage.getItem('x-token');
+        
+        if ( token && !config.headers['x-token']) {
             config.headers['x-token'] = token;
         }
+        
         return config;
     }
 );

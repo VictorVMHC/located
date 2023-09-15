@@ -1,6 +1,10 @@
-import { NewLocal } from "../Interfaces/LocalInterfaces";
+import { NewLocal } from '../Interfaces/LocalInterfaces';
 import api from "./api";
 
-const createLocal = (businessType: NewLocal) =>{
-    return api.post('/api/businessTypes', {businessType} );
-};
+const createLocal = (local: NewLocal) => {
+    return api.post('/api/locals',  local );
+}
+
+export {
+    createLocal
+}

@@ -152,6 +152,8 @@
     "From":"From:",
     "To":"To:",
     "FromDay": "From day",
-    "ToDay": "To day"
+    "ToDay": "To day",
+    "Store": "Store",
+    "pets": "pets"
   }
 }

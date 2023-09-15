@@ -3,18 +3,19 @@ import { Animated, PanResponder, StyleSheet, View, useWindowDimensions } from 'r
 import MapView from 'react-native-maps';
 import Carousel from 'react-native-reanimated-carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
-import { local } from '../Utils/Data _Example';
 import { Card } from './Card';
 import { Colors } from '../Themes/Styles';
+import { NewLocal } from '../Interfaces/LocalInterfaces';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
     mapViewRef: MutableRefObject<MapView | undefined>,
     carouselVisible: boolean,
     setCarouselVisible: React.Dispatch<React.SetStateAction<boolean>>
+    datosLocales: NewLocal[]
 }
 
-export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible }: Props) => {
+export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, datosLocales }: Props) => {
 
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
@@ -77,14 +78,17 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     };
 
     useEffect(() => {
-            const location = local[currentSlideIndex].location;
+        const selectedLocal = datosLocales[currentSlideIndex];
+        if (selectedLocal) {
+            const {location} = selectedLocal;
             mapViewRef.current?.animateCamera({
                 zoom: 15,
-                center:{
+                center: {
                     latitude: location.latitude - 0.0005,
                     longitude: location.longitude
                 }
             });
+        }
         }, [currentSlideIndex]);
         
     return (
@@ -98,13 +102,13 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                     loop
                     width={width}
                     height={carouselHeight}
-                    data={local}
+                    data={datosLocales}
                     mode='parallax'
                     scrollAnimationDuration={1000}
                     onSnapToItem={(index) => setCurrentSlideIndex(index)}
                     renderItem={({ item }) => (
                         <View style={{marginTop: -15}}>
-                            <Card like={false} local={item} cardHeight={-30}/>
+                            <Card like={false} newLocal={item} cardHeight={-30} routeToStore={()=>{}}/>
                         </View>
                     )}
                 />

@@ -16,5 +16,7 @@ export interface NewLocal {
     contact: {
         [type: string]: Contact;
     };
-    uriImage: string
+    uriImage: string;
+    rate?: number;
+    quantityRate?: number;
 }

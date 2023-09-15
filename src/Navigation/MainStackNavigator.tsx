@@ -20,8 +20,6 @@ import { Colors } from '../Themes/Styles';
 
 const Stack = createStackNavigator();
 
-
-
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
 	const screenOptions: StackNavigationOptions = {
@@ -58,7 +56,6 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="ChangePasswordView" options={screenOptions} component={ChangePasswordView}/>
 						<Stack.Screen name="PrivacyPolicyView" options={screenOptions} component={PrivacyPolicyView}/>
 					</>
-					
 				)			
 			}
 		</Stack.Navigator>

@@ -14,37 +14,35 @@ import { PrivacyPolicyViewDrawer } from '../Views/PrivacyPolicyViewDrawer';
 import { NotificationsView } from '../Views/NotificationsView';
 import { TabBarNavigation } from './TabBarNavigation';
 
-
-
 const Drawer = createDrawerNavigator();
 
 export function DrawerMenu() {
   const {width} = useWindowDimensions();
   return (
-      <Drawer.Navigator
-        screenOptions={{
-          headerTitleAlign: 'center',
-          headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
-          headerStyle: {
-            elevation: 0,
-            shadowColor: 'transparent',
-            backgroundColor: Colors.YellowOpacity
-          },
-          drawerPosition: 'left',
-          drawerStyle:{
-            backgroundColor: 'rgba(0,0,0,0.85)',
-            backfaceVisibility: 'hidden',
-            width: width/1.7
-          }
-        }}
-        drawerContent={(props) => < InternalMenu {...props} />}
-      >
-        <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
-        <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
-        <Drawer.Screen name="HelpView" component={HelpView}/>
-        <Drawer.Screen name='PrivacyPolicyViewDrawer' component={PrivacyPolicyViewDrawer}/>
-        <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
-      </Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerTitle:() => ( <Image source={require('../Assets/Images/logo_located.png')} style={styles.imageStyle}/> ) ,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+          backgroundColor: Colors.YellowOpacity
+        },
+        drawerPosition: 'left',
+        drawerStyle:{
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          backfaceVisibility: 'hidden',
+          width: width/1.7
+        }
+      }}
+      drawerContent={(props) => < InternalMenu {...props} />}
+    >
+      <Drawer.Screen name="TabBarNavigator" component={TabBarNavigation}/>
+      <Drawer.Screen name="EditProfileView" component={EditProfileView}/>
+      <Drawer.Screen name="HelpView" component={HelpView}/>
+      <Drawer.Screen name='PrivacyPolicyViewDrawer' component={PrivacyPolicyViewDrawer}/>
+      <Drawer.Screen name="NotificationsView" component={NotificationsView}/>
+    </Drawer.Navigator>
   );
 }
 
@@ -54,13 +52,6 @@ const InternalMenu = ( props: DrawerContentComponentProps ) => {
   const { navigation } = props;
   const contextAuthentication = useContext(AuthContext);
   const { user } = contextAuthentication;
-  const [url, setUrl] = useState('');
-
-  useEffect(() => {
-    if (user?.image) {
-        setUrl(user.image);
-    }
-  })
 
   return(
     <View style={{flex: 1}}>
