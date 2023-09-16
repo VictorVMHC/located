@@ -1,10 +1,15 @@
 import React from 'react';
 import { CreateLocalAlertView } from './CreateLocalAlertView';
 import { LocalCreatorView } from './LocalCreatorView';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+interface Props extends NativeStackScreenProps<any, any>{};
 
-export const MyLocalsView = () => {
+export const MyLocalsView = ({navigation, route}:Props) => {
     return (
-        <LocalCreatorView/>
+        <CreateLocalAlertView
+            navigation={navigation}
+            route={route}
+        />
     )
 }
 

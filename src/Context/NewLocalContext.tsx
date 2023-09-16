@@ -1,27 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { Location } from '../Interfaces/MapInterfaces';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
-
-const initialLocation: Location = {
-    latitude: 0,
-    longitude: 0,
-}
-
-export const LocalInitialState: NewLocal ={
-    name: '',
-    description: '',
-    businessType: '',
-    address: '',
-    country:  '',
-    state: '',
-    town: '',
-    uriImage: '',
-    schedules:  [],
-    tags: [],
-    location: initialLocation,
-    postalCode: '',
-    contact:{},
-}
+import { LocalInitialState, NewLocal } from '../Interfaces/LocalInterfaces';
 
 type LocalContextProps = {
     localState: NewLocal;

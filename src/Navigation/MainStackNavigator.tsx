@@ -17,6 +17,8 @@ import { ChangePasswordView} from '../Views/ChangePasswordView';
 import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
+import { LocalCreatorView } from '../Views/LocalCreatorView';
+import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +57,8 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="EditUserView" options={screenOptions} component={EditUserView}/>
 						<Stack.Screen name="ChangePasswordView" options={screenOptions} component={ChangePasswordView}/>
 						<Stack.Screen name="PrivacyPolicyView" options={screenOptions} component={PrivacyPolicyView}/>
+						<Stack.Screen name="LocalCreatorView" options={screenOptions} component={LocalCreatorView} />
+						<Stack.Screen name="CreateLocalAlertView" options={screenOptions} component={CreateLocalAlertView} />
 					</>
 				)			
 			}

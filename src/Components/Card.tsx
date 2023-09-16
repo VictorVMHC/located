@@ -7,7 +7,6 @@ import { useHeartHook } from '../Hooks/useHeartHook';
 import { useTranslation } from 'react-i18next';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { Schedule } from '../Interfaces/DbInterfaces';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 
 

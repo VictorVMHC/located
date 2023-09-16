@@ -11,17 +11,22 @@ import { Step6View } from './Step6View ';
 import { useTranslation } from 'react-i18next';
 import { createLocal } from '../Api/localApi';
 import { LocalContext } from '../Context/NewLocalContext';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CustomAlert } from '../Components/CustomAlert';
+import { LocalInitialState } from '../Interfaces/LocalInterfaces';
+
+interface Props extends NativeStackScreenProps<any, any>{};
 
 type stepDto = {
     name: string;
     component: any;
 };
 
-export const LocalCreatorView = () => {
+export const LocalCreatorView = ({navigation}:Props) => {
     const [currentStep, setCurrentStep] = useState(0);
     const { t } = useTranslation();
     const [canGoNext, setCanGoNext] = useState(false);
-    const { localState } = useContext(LocalContext);
+    const { localState, updateLocal } = useContext(LocalContext);
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -49,15 +54,22 @@ export const LocalCreatorView = () => {
 
     const handleCreateLocal = async () => {
         try{
-            console.log(localState);
             const response = await createLocal(localState);
-            //TODO: Add th  funcionality
-            
+
             if(response.status === 200){                
-                console.log(JSON.stringify(response.data));
+                CustomAlert({
+                    title: 'Success',
+                    desc: 'The local was created successfully, you will be able to found it in your locals'
+                });
+                updateLocal(LocalInitialState);
+                navigation.pop();
             }
-        }catch(err: any) {            
-            console.log(JSON.stringify(err.response.data.msg));
+            
+        }catch(err: any) {
+            CustomAlert({
+                title: 'Error',
+                desc: 'Was no possible to create you local, Please try again!'
+            });           
         }
     }
 

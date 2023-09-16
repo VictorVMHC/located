@@ -20,3 +20,24 @@ export interface NewLocal {
     rate?: number;
     quantityRate?: number;
 }
+
+const initialLocation: Location = {
+    latitude: 0,
+    longitude: 0,
+}
+
+export const LocalInitialState: NewLocal ={
+    name: '',
+    description: '',
+    businessType: '',
+    address: '',
+    country:  '',
+    state: '',
+    town: '',
+    uriImage: '',
+    schedules:  [],
+    tags: [],
+    location: initialLocation,
+    postalCode: '',
+    contact:{},
+}
