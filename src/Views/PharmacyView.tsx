@@ -8,13 +8,16 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { useLocation } from '../Hooks/useLocation';
 
 
-interface Props extends NativeStackScreenProps<any, any>{};
 
-export const PharmacyView = ({navigation}:Props) => {
+interface Props {
+    kilometres: number;
+};
+
+export const PharmacyView = ({kilometres}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'Farmacia');
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'Farmacia');
         setDatosLocales(await data);
     }
 
@@ -40,7 +43,6 @@ export const PharmacyView = ({navigation}:Props) => {
         sata();
     },[userLocation, hasLocation]);
 
-    const id = navigation.getState();
     return (
         <SafeAreaView style={styles.container}>
         <FlatList 
@@ -48,7 +50,7 @@ export const PharmacyView = ({navigation}:Props) => {
             data={datosLocales}
             renderItem={ ( { item } ) => {
                 return(
-                    <CardCloseToMe Img={'../Assets/Images/Img_User.png' } like={false} Name={item.name} categorie={item.tags[0]}
+                    <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000' } like={false} Name={item.name} categorie={item.tags[0]}
                     />
                 )
             } }

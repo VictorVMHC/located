@@ -65,46 +65,61 @@ return (
                         tabBarGap: 10,
                         tabBarScrollEnabled: true,   
                         }}>
-                        <Tab.Screen name="Food" component={()=><FoodView kilometres={value} />}      
+                        <Tab.Screen
+                            name="Food"
+                            initialParams={{ kilometres: value }}
                             options={{
                                 title: t('Food').toString(),
                                 tabBarIcon: ({ color }) => (
-                                    <Ionicons name="utensils" size={20} color={'#CD5F28'} />
+                                <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                                 ),
-                            }} 
-                        />
-                        <Tab.Screen name="Pharmacy" component={PharmacyView}
+                            }}>
+                            {() => <FoodView kilometres={value} />}
+                        </Tab.Screen>
+                        <Tab.Screen
+                            name="Pharmacy"
+                            initialParams={{ kilometres: value }}
                             options={{
-                                title:  t('Pharmacy').toString(),
+                                title: t('Pharmacy').toString(),
                                 tabBarIcon: ({ color }) => (
-                                    <Ionicons name="pills" size={20} color={'#CD5F28'} />
+                                <Ionicons name="pills" size={20} color={'#CD5F28'} />
                                 ),
-                            }}  
-                        />
-                        <Tab.Screen name="Store" component={()=><OthersCategoriesView kilometres={value} nameTag={'Store'} />} 
+                            }}>
+                            {() => <PharmacyView kilometres={value} />}
+                        </Tab.Screen>
+                        <Tab.Screen
+                            name="Store"
+                            initialParams={{ kilometres: value }}
                             options={{
-                                title:  t('Store').toString(),
+                                title: t('Store').toString(),
                                 tabBarIcon: ({ color }) => (
-                                    <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
+                                <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
                                 ),
-                            }}   
-                        />
-                        <Tab.Screen name="Pets" component={()=><OthersCategoriesView kilometres={value} nameTag={'Store'} />} 
+                            }}>
+                            {() => <OthersCategoriesView kilometres={value} />}
+                        </Tab.Screen>
+                        <Tab.Screen
+                            name="Pets"
+                            initialParams={{ kilometres: value }}
                             options={{
-                                title:  t('Pets').toString(),
+                                title: t('Pets').toString(),
                                 tabBarIcon: ({ color }) => (
-                                    <Ionicons name="paw" size={20} color={'#CD5F28'} />
+                                <Ionicons name="paw" size={20} color={'#CD5F28'} />
                                 ),
-                            }}   
-                        />
-                        <Tab.Screen name="OthersCategories" component={()=><OthersCategoriesView kilometres={value} nameTag={'Store'} />} 
+                            }}>
+                            {() => <OthersCategoriesView kilometres={value} />}
+                        </Tab.Screen>
+                        <Tab.Screen
+                            name="Otros"
+                            initialParams={{ kilometres: value }}
                             options={{
-                                title:  t('Otros').toString(),
+                                title: t('Otros').toString(),
                                 tabBarIcon: ({ color }) => (
-                                    <Ionicons name="ellipsis-v" size={20} color={'#CD5F28'} />
+                                <Ionicons name="ellipsis-v" size={20} color={'#CD5F28'} />
                                 ),
-                            }}   
-                        />
+                            }}>
+                            {() => <OthersCategoriesView kilometres={value} />}
+                        </Tab.Screen>
                     </Tab.Navigator>
                 </View>
             </>

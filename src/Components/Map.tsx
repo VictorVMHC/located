@@ -5,7 +5,7 @@ import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { searchLocalsRad } from '../Api/searchLocalsApi';
+import { searchLocals } from '../Api/searchLocalsApi';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -46,8 +46,7 @@ export const Map = ({ markers }: Props) => {
     const fetchData = async (latitude: number, longitude: number) => {
             try {
                 console.log('Obteniendo datos...');
-                const resultados = await searchLocalsRad(
-                    'locals',
+                const resultados = await searchLocals(
                     latitude,
                     longitude,
                     radioKm

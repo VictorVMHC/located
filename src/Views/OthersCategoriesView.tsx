@@ -9,14 +9,13 @@ import { useLocation } from '../Hooks/useLocation';
 
 interface Props {
     kilometres: number,
-    nameTag: string,
 };
 
-export const OthersCategoriesView = ({kilometres, nameTag}:Props) => {
+export const OthersCategoriesView = ({kilometres}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,nameTag);
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'store');
         setDatosLocales(await data);
     }
 
@@ -50,7 +49,7 @@ export const OthersCategoriesView = ({kilometres, nameTag}:Props) => {
             data={datosLocales}
             renderItem={ ( { item } ) => {
                 return(
-                    <CardCloseToMe Img={item.uriImage} like={false} Name={item.name} categorie={item.tags[0]}
+                    <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} like={false} Name={item.name} categorie={item.tags[0]}
                     />
                 )
             } }

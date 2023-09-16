@@ -1,11 +1,9 @@
-import { string } from "yup";
-import { searchCloseTome } from "../Api/searchLocalsApi";
+import { searchByTags } from "../Api/searchLocalsApi";
 
 const fetchData = async (latitude: number, longitude: number, radioKm: number, tags: string) => {
     try {
         console.log('Obteniendo datos...');
-        const resultados = await searchCloseTome(
-            'closetome',
+        const resultados = await searchByTags(
             latitude,
             longitude,
             radioKm,
