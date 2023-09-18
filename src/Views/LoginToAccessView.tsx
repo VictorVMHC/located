@@ -1,23 +1,23 @@
+import { GOOGLE_CLIENT_ID } from '@env';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Formik } from 'formik';
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Colors, FontStyles, Styles } from '../Themes/Styles';
-import { Formik } from 'formik';
-import { logInData } from '../Interfaces/UserInterface';
 import * as Yup from 'yup';
 import { IconWithText } from '../Components/IconWithText';
-import { AuthContext } from '../Context/AuthContext';
-import { test } from '../Api/authApi';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
+import { AuthContext } from '../Context/AuthContext';
+import { logInData } from '../Interfaces/UserInterface';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
+import { handleGoogleSignInErrors } from '../Utils/HandleUser';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginToAccessView = ({navigation}: Props) => {
     const { t, i18n } = useTranslation();
-    
-    const { signIn, errorMessage, removeError, status} = useContext( AuthContext );
+    const { signIn, errorMessage, removeError, status, googleSignIn } = useContext( AuthContext );
 
     useEffect(() => {
         if( errorMessage.length === 0 ) return;
@@ -37,6 +37,27 @@ export const LoginToAccessView = ({navigation}: Props) => {
         email: Yup.string().email(t('ValidEmail').toString()).required(t('RequireField').toString()),
         password: Yup.string().min(6, t('PasswordValidation').toString()).required(t('RequireField').toString()),  
     });
+
+    GoogleSignin.configure({
+        webClientId: GOOGLE_CLIENT_ID,
+    });
+    
+    const handleGoogleSingIn = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+
+            const userInfo = await GoogleSignin.signIn();
+            const { user, idToken } = userInfo;
+            const {email} = user;
+                
+            if(idToken){
+                googleSignIn( email, idToken);
+            }
+    
+        } catch (error) {
+            handleGoogleSignInErrors(error);
+        }
+    } 
 
     return (
         <SafeAreaView  style={StylesLogInAccess.container}>
@@ -112,16 +133,10 @@ export const LoginToAccessView = ({navigation}: Props) => {
                                 <View style={StylesLogInAccess.viewLine}></View>
                         </View>
                         <View style={StylesLogInAccess.containerIcons}>
-                            <TouchableOpacity style={StylesLogInAccess.btnIcon}>
-                                <AntDesign name="google"style={StylesLogInAccess.IconGoogle}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity  style={StylesLogInAccess.btnIcon}>
-                                <AntDesign name="facebook-square"style={StylesLogInAccess.IconFace}/>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={StylesLogInAccess.btnIcon}>
-                                <AntDesign name="apple1"style={StylesLogInAccess.IconApple}/>
-                            </TouchableOpacity>
-                        </View>    
+                            <GoogleSigninButton
+                                onPress={handleGoogleSingIn}
+                            />
+                        </View>
                     </View>
                     <View style={{flexDirection: 'row',}}>
                             <Text style={StylesLogInAccess.txt}>{t('NoSingUp')}</Text>
@@ -213,9 +228,10 @@ const StylesLogInAccess = StyleSheet.create({
         alignItems: 'center',
     },
     containerIcons:{
+        justifyContent: 'center',
         flexDirection: 'row',
         padding:5, 
-        top:-5,
+        alignItems:'center',
         width: 300, 
         alignContent: 'space-around', 
         marginBottom: '4%',
