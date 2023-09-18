@@ -45,7 +45,7 @@ export const PharmacyView = ({kilometres}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-        <FlatList 
+       {/* <FlatList 
             numColumns={2}
             data={datosLocales}
             renderItem={ ( { item } ) => {
@@ -55,7 +55,7 @@ export const PharmacyView = ({kilometres}:Props) => {
                 )
             } }
             keyExtractor={(item) => item.name.toString()}
-        />
+        />*/}
     </SafeAreaView>
     )
 }

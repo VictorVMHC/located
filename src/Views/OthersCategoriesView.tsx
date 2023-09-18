@@ -44,7 +44,7 @@ export const OthersCategoriesView = ({kilometres}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-        <FlatList 
+      {/* <FlatList 
             numColumns={2}
             data={datosLocales}
             renderItem={ ( { item } ) => {
@@ -54,7 +54,7 @@ export const OthersCategoriesView = ({kilometres}:Props) => {
                 )
             } }
             keyExtractor={(item) => item.name.toString()}
-        />
+        /> */}
     </SafeAreaView>
     )
 }

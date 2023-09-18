@@ -11,8 +11,10 @@ export const FoodView = ({kilometres}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'Comida');
-        setDatosLocales(await data);
+        const tags = ['Comida', 'Restaurante', 'Cafetería', 'Food', 'Almuerzo'];
+        const results = await Promise.all(tags.map(tag => fetchData(userLocation.latitude, userLocation.longitude, kilometres, tag)));
+        const combinedResults = results.flat(); 
+        setDatosLocales(combinedResults );
     }
 
     const {
