@@ -152,6 +152,7 @@
     "ToDay": "Al día",
     "Store": "Tienda",
     "pets": "Mascotas",
-    "RecoveryPasswordTitle": "Nueva Contraseña"
+    "RecoveryPasswordTitle": "Nueva Contraseña",
+    "RepeatPasswordText": "Repite la contraseña"
   }
 }
