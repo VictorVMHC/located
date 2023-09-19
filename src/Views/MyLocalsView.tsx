@@ -29,6 +29,9 @@ export const MyLocalsView = ({ navigation, route }: Props) => {
         );
     }
 
-    return <LocalsView />;
+    return <LocalsView 
+            navigation={navigation}
+            route={route}
+        />;
 };
 

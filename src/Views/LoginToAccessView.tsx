@@ -16,7 +16,7 @@ import { handleGoogleSignInErrors } from '../Utils/HandleUser';
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginToAccessView = ({navigation}: Props) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { signIn, errorMessage, removeError, status, googleSignIn } = useContext( AuthContext );
 
     useEffect(() => {

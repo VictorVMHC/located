@@ -1,19 +1,26 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View, FlatList, LayoutAnimation, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View, FlatList, LayoutAnimation, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Circles } from '../Components/Circles';
-import { Colors } from '../Themes/Styles';
+import { Colors, FontStyles } from '../Themes/Styles';
 import { AuthContext } from '../Context/AuthContext';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
 import { searchByUser } from '../Api/searchLocalsApi';
 import { CustomAlert } from '../Components/CustomAlert';
+import { ErrorMessage } from 'formik';
+import { CardLocalView } from '../Components/CardLocalView';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+interface Props extends NativeStackScreenProps<any, any>{};
 
 const windowWidth = Dimensions.get('window').width;
 
-export const LocalsView = () => {
+export const LocalsView = ({navigation}:Props) => {
     const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [userLocals, setUserLocals] = useState([]);
     const [error, setError] = useState(false);
+    const {width, height} = useWindowDimensions();
 
     useEffect(() => {
         setLoading(true);
@@ -37,12 +44,6 @@ export const LocalsView = () => {
             });
     }, []);
 
-    const renderItem = ({ item }: any) => {
-        return (
-            
-        );
-    };
-
     return (
         <View style={styles.container}>
             <Circles position='top' quantity={2} />
@@ -55,14 +56,34 @@ export const LocalsView = () => {
                 </View>
                 <Text style={styles.textNameUser}>{user?.name}</Text>
                 <Text style={styles.textEmailUser}>{user?.email}</Text>
+                <Text style={{...FontStyles.Title, justifyContent: 'center', marginTop: 5}} >My locals</Text>
             </View>
             <View style={styles.bottomContainer}>
-                {!loading ? (!error ? <FlatList
-                    data={userLocals}
-                    renderItem={renderItem}
-                    keyExtractor={(item: any) => item._id.toString()}
-                /> : null) : <LoadingOverlay />}
+            {!loading ? (!error ? (
+                    <FlatList
+                        data={userLocals}
+                        renderItem={({item}:any) => 
+                            <CardLocalView 
+                                uri={item.uriImage} 
+                                name={item.name}
+                                titleStyles={styles.cardTitle}
+                                containerStyle={{...styles.cardContainer, width: width * 0.90, height: height * 0.25}}
+                                Action={() => navigation.navigate('StoreView')}
+                            />
+                        }
+                        keyExtractor={(item: any) => item._id.toString()} // Replace 'id' with your unique identifier
+                    />
+                ) : (
+                    <ErrorMessage message="Error: No se pudieron cargar los datos." />
+                )) : (
+                    <LoadingOverlay />
+            )}
             </View>
+            <TouchableOpacity onPress={() =>  navigation.navigate('LocalCreatorView') } style={styles.buttonContainer}>
+                <View style={styles.button}>
+                    <Icon name='plus' size={25}  light color={Colors.white}/>
+                </View>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -72,14 +93,13 @@ const styles = StyleSheet.create({
         flex: 1
     },
     topContainer: {
-        flex: 4,
+        flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
     },
     bottomContainer: {
         flex: 6,
         alignItems: 'center',
-        backgroundColor: 'red',
         justifyContent: 'space-evenly'
     },
     containerImgEdit: {
@@ -114,10 +134,33 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     cardTitle: {
-        fontSize: 18,
+        fontSize: 20,
         textAlign: 'center',
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: Colors.YellowOpacity,
         fontWeight: 'bold',
-    }
+        color: Colors.darkGray,
+        justifyContent: 'center',
+    },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        backgroundColor: Colors.Yellow,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 10,
+        shadowColor: 'black'
+    },
+    button: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
 });

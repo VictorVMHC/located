@@ -22,7 +22,7 @@ export const CardLocalView = ({uri, name, containerStyle, titleStyles, imageStyl
                 style={{ ...styles.cardImage, ...imageStyle}}
                 source={{ uri }}
             />
-            <Text style={titleStyles}>{name}</Text>
+            <Text style={titleStyles} adjustsFontSizeToFit >{name}</Text>
         </TouchableOpacity>
     )
 }
