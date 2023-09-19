@@ -11,7 +11,7 @@ interface Props extends NativeStackScreenProps<any, any> {};
 export const MyLocalsView = ({ navigation, route }: Props) => {
     const { user, guestUser } = useContext(AuthContext);
     
-    if (user?.haveLocals && !guestUser) {
+    if (!user?.haveLocals && !guestUser) {
         return (
             <CreateLocalAlertView
                 navigation={navigation}

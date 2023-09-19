@@ -10,7 +10,12 @@ const searchCloseTome = (collection: string,latitude: number, longitude: number,
     return api.get(route);
 }
 
+const searchByUser = () => {
+    return api.get('/api/searchLocals/byUser');
+}
+
 export {
     searchLocalsRad,
     searchCloseTome,
+    searchByUser,
 }
