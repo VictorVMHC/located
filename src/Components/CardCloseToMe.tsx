@@ -20,7 +20,7 @@ interface Props{
 }
 
 export const CardCloseToMe = ({ Img = '', Name = '', categorie = '', like = false }: Props ) => {
-    const {width, height} = useWindowDimensions();
+    const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
     return (
     <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8}>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Outfit.Regular',
         fontSize: 18,
         textAlign: 'center',
-        fontWeight: '500'
+        fontWeight: '500',
+        color: 'black'
     },
     heartBtn:{
         backgroundColor:Colors.gray,
