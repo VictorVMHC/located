@@ -19,7 +19,22 @@ import { PrivacyPolicyView } from '../Views/PrivacyPolicyView';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 
-const Stack = createStackNavigator();
+export type ViewStackParams = {
+	RecoveryPasswordView: { email?: string }
+	CreateAccountEmailView: undefined,
+	ForgotPasswordView: undefined,
+	LoginView: undefined,
+	MainCreateAccountView: undefined,
+	MainView: undefined,
+	SplashScreenView: undefined,
+	DrawerMenu: undefined,
+	EditUserView: undefined,
+	StoreView: undefined,
+	CommentsView: undefined,
+	ChangePasswordView: undefined,
+	PrivacyPolicyView: undefined,
+}
+const Stack = createStackNavigator<ViewStackParams>();
 
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
@@ -34,9 +49,9 @@ export const MainStackNavigator = () => {
 	};
 	return (
 		<Stack.Navigator
-			initialRouteName='SplashScreen'
+			initialRouteName='SplashScreenView'
 		>
-			<Stack.Screen name='SplashScreen' component={SplashScreenView} options={{headerShown: false}}/>
+			<Stack.Screen name='SplashScreenView' component={SplashScreenView} options={{headerShown: false}}/>
 			{
 				(status !== 'authenticated') 
 				? (

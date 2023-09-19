@@ -7,9 +7,15 @@ import { Colors, Styles } from '../Themes/Styles'
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 
-export const RecoveryPasswordView = () => {
+interface Props extends StackScreenProps<ViewStackParams, 'RecoveryPasswordView'>{};
+
+export const RecoveryPasswordView = ({ route }: Props) => {
     const { t ,i18n } = useTranslation();
+    
+    const {email} = route.params;
     
     return (
         <SafeAreaView style={Styles.container}>

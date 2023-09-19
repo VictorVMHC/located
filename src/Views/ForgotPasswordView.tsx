@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
 
 interface Code {
     v1: string,
@@ -18,10 +20,10 @@ interface Code {
     v5: string,
     v6: string,
 }
+interface Props extends StackScreenProps<ViewStackParams, 'ForgotPasswordView'>{};
 
-export const ForgotPasswordView = () => {
+export const ForgotPasswordView = ({ navigation }: Props) => {
     const { t ,i18n } = useTranslation();
-    const navigation = useNavigation();
     const [code, setCode] = useState<Code>({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
     const textInputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
 
@@ -48,7 +50,7 @@ export const ForgotPasswordView = () => {
     const handleSubmit =(email:string) =>{
         if(email){
         console.log(email);
-        navigation.navigate('RecoveryPasswordView' as never);
+        navigation.navigate('RecoveryPasswordView', {email: 'holaaa'});
         }else{
             console.log('error');
         }
