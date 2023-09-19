@@ -29,8 +29,6 @@ export const EditUserView = () => {
     const [imageFlag, setImageFlag] = useState(false);
     const {askCameraPermission } = useContext( PermissionsContext );
 
-
-
     useEffect(() => {
         if (modalVisible) {
             Animated.timing(slideAnimation, {
@@ -115,7 +113,6 @@ export const EditUserView = () => {
             const partialUser = compareUsers(user, userUpdate);
             if (Object.keys(partialUser).length > 0) {   
                 if(imageFlag == true){
-                    console.log('hola');
                     const urlImg = await  urlCloudinary(url);
                     partialUser.image = urlImg;
                 }
@@ -317,7 +314,3 @@ const StyleEditUser = StyleSheet.create({
         fontSize: 23
     }
 });
-function then(arg0: (data: any) => void) {
-    throw new Error('Function not implemented.');
-}
-

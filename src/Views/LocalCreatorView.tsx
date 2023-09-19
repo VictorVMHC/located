@@ -14,6 +14,7 @@ import { LocalContext } from '../Context/NewLocalContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CustomAlert } from '../Components/CustomAlert';
 import { LocalInitialState } from '../Interfaces/LocalInterfaces';
+import { postImage } from '../Api/imageApi';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -51,9 +52,34 @@ export const LocalCreatorView = ({navigation}:Props) => {
         setCurrentStep(currentStep - 1);
         }
     };
+    
+    const urlCloudinary = async (image: string) => {
+        try{
+            const formData = new FormData();
+            formData.append('image',{
+                uri: image,
+                type: 'image/jpeg', 
+                name: 'uploaded_image.jpg',
+            });
+            const response = await postImage(formData); 
+
+            if(response.status !== 200 ){
+                throw new Error('Was no possible to create your image, Please try again!')
+            }
+
+            return response.data.response.url;
+        }catch(error){
+            throw new Error('Was no possible to create your image, Please try again!')
+        }
+        
+    }
 
     const handleCreateLocal = async () => {
         try{
+            const uriResponse = await urlCloudinary(localState.uriImage);
+
+            updateLocal({uriImage: uriResponse});
+
             const response = await createLocal(localState);
 
             if(response.status === 200){                
