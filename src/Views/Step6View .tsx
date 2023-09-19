@@ -123,13 +123,13 @@ export const Step6View = ({ setCanGoNext }:Props ) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding:10,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f0f0f0',
     },
     imageContainer: {
         flex: 5,
-        width: '50%',
         aspectRatio: 1,
         borderRadius: 10,
         borderWidth:  1,

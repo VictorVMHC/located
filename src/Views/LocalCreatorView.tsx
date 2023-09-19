@@ -28,6 +28,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
     const { t } = useTranslation();
     const [canGoNext, setCanGoNext] = useState(false);
     const { localState, updateLocal } = useContext(LocalContext);
+    const [attempt, setAttempt] = useState(0);
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -76,6 +77,11 @@ export const LocalCreatorView = ({navigation}:Props) => {
 
     const handleCreateLocal = async () => {
         try{
+            if(attempt !== 0 ) {
+                return;
+            }
+            
+            setAttempt(1);
             const uriResponse = await urlCloudinary(localState.uriImage);
 
             updateLocal({uriImage: uriResponse});
@@ -92,6 +98,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
             }
             
         }catch(err: any) {
+            setAttempt(0);
             CustomAlert({
                 title: 'Error',
                 desc: 'Was no possible to create you local, Please try again!'
