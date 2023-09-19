@@ -7,32 +7,26 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { useFocusEffect } from '@react-navigation/native';
 import { foodTags } from '../Utils/ArraysTags';
 interface Props {
-    kilometres: number;
+    kilometers: number;
 };
 
-export const FoodView = ({kilometres}:Props) => {
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
+export const FoodView = ({kilometers}:Props) => {
+    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const fetchMoreLocales  = async () =>{
+    const fetchMoreLocales = async () =>{
+        fetchData(userLocation.latitude, userLocation.longitude, kilometers, tag, limit)
         const limit = 2
-        const results = await Promise.all(foodTags.map(tag => fetchData(userLocation.latitude, userLocation.longitude, kilometres, tag, limit)));
+        const results = await Promise.all(foodTags.map(tag => ));
         const combinedResults = results.flat(); 
-        setDatosLocales(combinedResults );
+        setDataLocals(combinedResults);
     }
 
     const {
         hasLocation,
-        followUserLocation,
         userLocation,
-        stopFollowUserLocation
     } = useLocation();
-
-    useEffect(() => {
-        followUserLocation();
-        return () => {
-            stopFollowUserLocation();
-        }
-    }, []);
 
     useEffect(() => {
         console.log('hola useEffect');
@@ -41,20 +35,22 @@ export const FoodView = ({kilometres}:Props) => {
         }
     
         fetchMoreLocales ();
-    },[userLocation, hasLocation, kilometres ]);
+    },[userLocation, hasLocation, kilometers ]);
 
     const onEndReached = () => {
-        fetchMoreLocales();
+        if (currentPage <= totalPages) {
+            fetchMoreLocales();
+        }
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <FlatList 
                 numColumns={2}
-                data={datosLocales}
+                data={dataLocals}
                 renderItem={ ( { item } ) => {
                     return(
-                        <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} like={false} Name={item.name} categorie={item.tags[0]}
+                        <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} like={false} Name={item.name} categories={item.tags[0]}
                         />
                     )
                 } }

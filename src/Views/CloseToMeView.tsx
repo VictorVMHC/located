@@ -33,9 +33,9 @@ return (
     <>
     {
         ( permissions.locationStatus === 'granted' )
-            ?<>
+            ?
                 <View style={styles.container}>
-                    <View style={styles.containerBarraK}>
+                    <View style={styles.containerBar}>
                         <View style={{...styles.containerSlider, width: width - (width * 0.1), height: height - (height * 0.85)}}>
                             <Slider 
                                 value={value}
@@ -74,7 +74,7 @@ return (
                                 <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                                 ),
                             }}>
-                            {() => <FoodView kilometres={value} />}
+                            {() => <FoodView kilometers={value} />}
                         </Tab.Screen>
                         <Tab.Screen
                             name="Pharmacy"
@@ -122,8 +122,7 @@ return (
                         </Tab.Screen>
                     </Tab.Navigator>
                 </View>
-            </>
-:            <LocationPermissionView/>
+        :   <LocationPermissionView/>
     }
     </>
 );
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#D9D9D9'
     },
-        containerBarraK:{
+        containerBar:{
         flex: 0.2,
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
