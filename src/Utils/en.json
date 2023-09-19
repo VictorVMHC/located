@@ -23,7 +23,7 @@
     "Registrar": "Sing up",
     "EnterEmail": "Enter your email",
     "Passwordtitle": "Password",
-    "Recovery": "Send",
+    "Recovery": "Recovery",
     "DrawerHome": "Home",
     "DrawerProfile": "Edit Profile",
     "DrawerNotification": "Notification",
@@ -155,6 +155,7 @@
     "ToDay": "To day",
     "Store": "Store",
     "pets": "pets",
-    "RecoveryPasswordTitle": "New Password"
+    "RecoveryPasswordTitle": "New Password",
+    "RepeatPasswordText": "Repeat Password"
   }
 }
