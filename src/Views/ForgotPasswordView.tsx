@@ -141,10 +141,8 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
                     quantity={2}
                 />
                 <View style={StyleSingleText.contentOne}>
-                    <View style={{flex:1}}>
-                        <View style={StyleSingleText.containerTitle}>
-                            <Text style={{...Styles.textStyle, top:5, fontSize:34}}>{t('Passwordtitle')}</Text>
-                        </View>
+                    <View style={{flex:1, paddingLeft: 10}}>
+                        <Text style={{...Styles.textStyle, top:5, fontSize:34}}>{t('Passwordtitle')}</Text>
                     </View>    
                     <View style={StyleSingleText.containerLong} >
                         <View style={StyleSingleText.containerImgLong}>
@@ -158,11 +156,11 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
                         </View>   
                     </View>
                 </View>
-                <Image
-                    style={{...Styles.imageStyle, left: -124, top:60}}
-                    source={require('../Assets/Images/logo_located.png')}
-                />
                 <View style={StyleSingleText.bodyView}>
+                    <Image
+                        style={{...Styles.imageStyle, marginBottom: 40}}
+                        source={require('../Assets/Images/logo_located.png')}
+                    />
                     <Text style={StyleSingleText.onlyText}>{t('ForgotPassword')}</Text>
                     <Formik
                         initialValues={{
@@ -283,7 +281,6 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
 const StyleSingleText = StyleSheet.create({
     onlyText:{
         ...Styles.textos,
-        width:'92%',
         color:'#4E7098',
         fontSize:23,
     },
@@ -293,12 +290,9 @@ const StyleSingleText = StyleSheet.create({
         marginTop:90,
     },
     contentOne:{
-        flexDirection: 'row', 
+        flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    containerTitle:{
-        width:'130%',
-        left:10,
+        alignContent: 'center'
     },
     containerLong:{
         flexDirection: 'row', 
