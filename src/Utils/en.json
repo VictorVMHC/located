@@ -23,7 +23,7 @@
     "Registrar": "Sing up",
     "EnterEmail": "Enter your email",
     "Passwordtitle": "Password",
-    "Recovery": "Send",
+    "Recovery": "Confirm",
     "DrawerHome": "Home",
     "DrawerProfile": "Edit Profile",
     "DrawerNotification": "Notification",
@@ -138,6 +138,7 @@
     "UserUpdated": "User data has been updated successfully",
     "ErrorPasswordsInfo": "New passwords do not match",
     "UserPasswordUpdatedTitle":"Password updated",
+    "PasswordRecoveryInfo": "Your password has been changed successfully",
     "UserPasswordUpdated": "User password has been updated successfully",
     "ErrorToUpdatePassword": "Was not possible to update your password",
     "LocalAddBottom": "Add",
@@ -154,6 +155,9 @@
     "FromDay": "From day",
     "ToDay": "To day",
     "Store": "Store",
-    "pets": "pets"
+    "pets": "pets",
+    "RecoveryPasswordTitle": "New Password",
+    "RepeatPasswordText": "Repeat Password",
+    "ErrorTryAgain": "An error occurred while verifying the email, please try again"
   }
 }
