@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import { CreateAccountEmailView } from '../Views/CreateAccountEmailView';
 import { ForgotPasswordView } from '../Views/ForgotPasswordView';
+import { RecoveryPasswordView } from '../Views/RecoveryPasswordView';
 import { LoginView } from '../Views/LoginView';
 import { MainCreateAccountView } from '../Views/MainCreateAccountView';
 
@@ -20,7 +21,22 @@ import { Colors } from '../Themes/Styles';
 import { LocalCreatorView } from '../Views/LocalCreatorView';
 import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
 
-const Stack = createStackNavigator();
+export type ViewStackParams = {
+	RecoveryPasswordView: { email?: string }
+	CreateAccountEmailView: undefined,
+	ForgotPasswordView: undefined,
+	LoginView: undefined,
+	MainCreateAccountView: undefined,
+	MainView: undefined,
+	SplashScreenView: undefined,
+	DrawerMenu: undefined,
+	EditUserView: undefined,
+	StoreView: undefined,
+	CommentsView: undefined,
+	ChangePasswordView: undefined,
+	PrivacyPolicyView: undefined,
+}
+const Stack = createStackNavigator<ViewStackParams>();
 
 export const MainStackNavigator = () => {
 	const { status } = useContext(AuthContext)
@@ -35,9 +51,9 @@ export const MainStackNavigator = () => {
 	};
 	return (
 		<Stack.Navigator
-			initialRouteName='SplashScreen'
+			initialRouteName='SplashScreenView'
 		>
-			<Stack.Screen name='SplashScreen' component={SplashScreenView} options={{headerShown: false}}/>
+			<Stack.Screen name='SplashScreenView' component={SplashScreenView} options={{headerShown: false}}/>
 			{
 				(status !== 'authenticated') 
 				? (
@@ -47,6 +63,7 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name='LoginView' options={{ headerShown: false}} component={LoginView}/>
 						<Stack.Screen name='MainView' options={{ headerShown: false}} component={MainView}/>
 						<Stack.Screen name='MainCreateAccountView' options={{ headerShown: false}} component={MainCreateAccountView}/>
+						<Stack.Screen name='RecoveryPasswordView' options={{ headerShown: false}} component={RecoveryPasswordView}/>
 					</>
 				)
 				: (

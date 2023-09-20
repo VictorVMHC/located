@@ -19,7 +19,6 @@ export const Step1View = ({setCanGoNext}: Props) => {
     };
 
     useEffect(() => {
-        console.log(localState.description);
         
         if(localState.name && localState.description ){
             setCanGoNext(true);

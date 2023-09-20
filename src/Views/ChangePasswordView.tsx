@@ -44,13 +44,11 @@ export const ChangePasswordView = () => {
                 })
                 return navigation.goBack();
             }
-        } catch (error: any) {
-            console.log(error);
-            
+        }catch (error: any) {            
             CustomAlert({
                 title: "Error", 
                 desc: t('ErrorToUpdatePassword'),
-            })
+        })
         }
     };    
 

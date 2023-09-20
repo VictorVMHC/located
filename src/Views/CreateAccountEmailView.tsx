@@ -107,15 +107,13 @@ export const CreateAccountEmailView = () => {
     const handleOpenModal = () => {
         setCode({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
         setModalVisible(true);
-        console.log("open modal");
     };
     
     const handleCloseModal = async () => {
         const codeConcat = concatenateValues(code);
-        console.log(codeConcat);
         try{
-            const verifycode = await VerifyCode(emailUser,codeConcat);
-            if(verifycode.status == 200){
+            const verifyCode = await VerifyCode(emailUser, codeConcat);
+            if(verifyCode.status == 200){
                 signUp(userState)
                 setModalVisible(false);
             }  
