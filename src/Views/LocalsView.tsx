@@ -10,6 +10,7 @@ import { ErrorMessage } from 'formik';
 import { CardLocalView } from '../Components/CardLocalView';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -22,27 +23,32 @@ export const LocalsView = ({navigation}:Props) => {
     const [error, setError] = useState(false);
     const {width, height} = useWindowDimensions();
 
-    useEffect(() => {
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchLocals();
+        }, [])
+    );
+    const fetchLocals = () => {        
         setLoading(true);
         setError(false);
+        
         searchByUser()
-            .then((value) => {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-                const { locals } = value.data;
-                setUserLocals(locals);
-                setLoading(false);
-            })
-            .catch(() => {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-                CustomAlert({
-                    title: 'No locals were found',
-                    desc: 'Was not possible to retrieve your locals. Please try again!'
-                });
-                setError(true);
-                setLoading(false);
+        .then((value) => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            const { locals } = value.data;
+            setUserLocals(locals);
+            setLoading(false);
+        })
+        .catch(() => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            CustomAlert({
+                title: 'No locals were found',
+                desc: 'Was not possible to retrieve your locals. Please try again!'
             });
-    }, []);
-
+            setError(true);
+            setLoading(false);
+        });
+    }
     return (
         <View style={styles.container}>
             <Circles position='top' quantity={2} />
