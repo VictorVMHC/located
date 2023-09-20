@@ -10,14 +10,14 @@ import { useLocation } from '../Hooks/useLocation';
 
 
 interface Props {
-    kilometres: number;
+    kilometers: number;
 };
 
-export const PharmacyView = ({kilometres}:Props) => {
+export const PharmacyView = ({kilometers}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'Farmacia');
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometers,'Farmacia');
         setDatosLocales(await data);
     }
 

@@ -21,6 +21,8 @@ const foodTags = [
     'comida chatarra' 
 ];
 
+
+
 export {
     foodTags
 };

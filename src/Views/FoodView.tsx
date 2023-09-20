@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useLocation } from '../Hooks/useLocation';
 import { fetchData } from '../Utils/FetchFunctions';
-import { useFocusEffect } from '@react-navigation/native';
 import { foodTags } from '../Utils/ArraysTags';
 interface Props {
     kilometers: number;
@@ -12,15 +11,14 @@ interface Props {
 
 export const FoodView = ({kilometers}:Props) => {
     const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    
 
-    const fetchMoreLocales = async () =>{
-        fetchData(userLocation.latitude, userLocation.longitude, kilometers, tag, limit)
-        const limit = 2
-        const results = await Promise.all(foodTags.map(tag => ));
-        const combinedResults = results.flat(); 
-        setDataLocals(combinedResults);
+    const fetchMoreLocales  = async () =>{
+        const combinedResults = await fetchData(userLocation.latitude, userLocation.longitude, kilometers,foodTags);
+        if (combinedResults) {
+            setDataLocals(combinedResults);
+           // setCurrentPage(prevPage => prevPage + 1);
+        }
     }
 
     const {
@@ -28,20 +26,16 @@ export const FoodView = ({kilometers}:Props) => {
         userLocation,
     } = useLocation();
 
+
     useEffect(() => {
         console.log('hola useEffect');
         if(!hasLocation){
             return ;
         }
-    
         fetchMoreLocales ();
-    },[userLocation, hasLocation, kilometers ]);
+    },[userLocation, hasLocation, kilometers]);
 
-    const onEndReached = () => {
-        if (currentPage <= totalPages) {
-            fetchMoreLocales();
-        }
-    }
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -55,8 +49,9 @@ export const FoodView = ({kilometers}:Props) => {
                     )
                 } }
                 keyExtractor={(item) => item.name.toString()}
-                onEndReached={onEndReached}
-                onEndReachedThreshold={0.1}
+                onEndReached={fetchMoreLocales} 
+                onEndReachedThreshold={0.1} 
+                ListFooterComponent={<ActivityIndicator size="large" color="#0000ff" />}
             />
         </SafeAreaView>
     )

@@ -8,14 +8,14 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { useLocation } from '../Hooks/useLocation';
 
 interface Props {
-    kilometres: number,
+    kilometers: number,
 };
 
-export const OthersCategoriesView = ({kilometres}:Props) => {
+export const OthersCategoriesView = ({kilometers}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
     const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometres,'store');
+        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometers,'store');
         setDatosLocales(await data);
     }
 
@@ -39,7 +39,7 @@ export const OthersCategoriesView = ({kilometres}:Props) => {
             return ;
         }
         sata();
-    },[userLocation, hasLocation, kilometres ]);
+    },[userLocation, hasLocation, kilometers ]);
 
 
     return (

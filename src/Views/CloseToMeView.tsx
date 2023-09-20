@@ -67,7 +67,7 @@ return (
                         }}>
                         <Tab.Screen
                             name="Food"
-                            initialParams={{ kilometres: value }}
+                            initialParams={{ kilometers: value }}
                             options={{
                                 title: t('Food').toString(),
                                 tabBarIcon: ({ color }) => (
@@ -78,47 +78,47 @@ return (
                         </Tab.Screen>
                         <Tab.Screen
                             name="Pharmacy"
-                            initialParams={{ kilometres: value }}
+                            initialParams={{ kilometers: value }}
                             options={{
                                 title: t('Pharmacy').toString(),
                                 tabBarIcon: ({ color }) => (
                                 <Ionicons name="pills" size={20} color={'#CD5F28'} />
                                 ),
                             }}>
-                            {() => <PharmacyView kilometres={value} />}
+                            {() => <PharmacyView kilometers={value} />}
                         </Tab.Screen>
                         <Tab.Screen
                             name="Store"
-                            initialParams={{ kilometres: value }}
+                            initialParams={{ kilometers: value }}
                             options={{
                                 title: t('Store').toString(),
                                 tabBarIcon: ({ color }) => (
                                 <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
                                 ),
                             }}>
-                            {() => <OthersCategoriesView kilometres={value} />}
+                            {() => <OthersCategoriesView kilometers={value} />}
                         </Tab.Screen>
                         <Tab.Screen
                             name="Pets"
-                            initialParams={{ kilometres: value }}
+                            initialParams={{ kilometers: value }}
                             options={{
                                 title: t('Pets').toString(),
                                 tabBarIcon: ({ color }) => (
                                 <Ionicons name="paw" size={20} color={'#CD5F28'} />
                                 ),
                             }}>
-                            {() => <OthersCategoriesView kilometres={value} />}
+                            {() => <OthersCategoriesView kilometers={value} />}
                         </Tab.Screen>
                         <Tab.Screen
                             name="Otros"
-                            initialParams={{ kilometres: value }}
+                            initialParams={{ kilometers: value }}
                             options={{
                                 title: t('Otros').toString(),
                                 tabBarIcon: ({ color }) => (
                                 <Ionicons name="ellipsis-v" size={20} color={'#CD5F28'} />
                                 ),
                             }}>
-                            {() => <OthersCategoriesView kilometres={value} />}
+                            {() => <OthersCategoriesView kilometers={value} />}
                         </Tab.Screen>
                     </Tab.Navigator>
                 </View>
