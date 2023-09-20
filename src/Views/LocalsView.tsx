@@ -29,7 +29,6 @@ export const LocalsView = ({navigation}:Props) => {
             .then((value) => {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
                 const { locals } = value.data;
-                console.log(locals);
                 setUserLocals(locals);
                 setLoading(false);
             })
@@ -96,6 +95,9 @@ const styles = StyleSheet.create({
         flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
+        borderBottomWidth: 3,
+        borderBottomColor: Colors.Yellow,
+        borderRadius: 20,
     },
     bottomContainer: {
         flex: 6,
