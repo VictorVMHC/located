@@ -1,20 +1,19 @@
-import React, {  useRef, useState } from 'react'
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
-import { Circles } from '../Components/Circles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PickerButton } from '../Components/PickerButton';
-import { Colors, Styles, FontStyles } from '../Themes/Styles'
-import { IconWithText } from '../Components/IconWithText';
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { useNavigation } from '@react-navigation/native';
-import { VerifiedEmail,VerifyCode, deleteVerifyEmail, VerifyEmail} from '../Api/verifyEmail';
+import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Yup from 'yup';
+import { VerifiedEmail, VerifyCode, deleteVerifyEmail } from '../Api/verifyEmail';
+import { Circles } from '../Components/Circles';
+import { IconWithText } from '../Components/IconWithText';
 import { ModalVerifyUser } from '../Components/ModalVerifyUser';
+import { PickerButton } from '../Components/PickerButton';
+import { Colors, FontStyles, Styles } from '../Themes/Styles';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { CustomAlert } from '../Components/CustomAlert';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
 
 interface Code {
     v1: string,
