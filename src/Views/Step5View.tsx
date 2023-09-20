@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
 import { Colors, FontStyles } from '../Themes/Styles'
 import { useTranslation } from 'react-i18next'
 import { TextInputAndIcon } from '../Components/TextInputAndIcon'
 import { LocalContext } from '../Context/NewLocalContext'
+import { useWindowDimensions } from 'react-native';
 
 interface Props{
     setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,8 +13,7 @@ interface Props{
 
 export const Step5View = ({ setCanGoNext }:Props) => {
     const { localState, updateLocal } = useContext(LocalContext);
-    const { contact } = localState
-    const { t } = useTranslation();
+    const { contact } = localState;
 
     useEffect(() => {
         if (Object.keys(contact).length > 0) {
@@ -38,12 +38,14 @@ export const Step5View = ({ setCanGoNext }:Props) => {
                     placeHolder='Facebook'
                     value={contact['Facebook']?.info}
                     action={handleAddContact}
+                    height='45'
                 />
                 <TextInputAndIcon
                     iconName='envelope'
                     placeHolder='Email'
                     value={contact['Email']?.info}
                     action={handleAddContact}
+                    height='45'
                 />
                 <TextInputAndIcon
                     iconName='instagram'
@@ -73,51 +75,4 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: '5%'
     },
-    title: {
-        fontSize: 20,
-        marginBottom: 10,
-        color: Colors.black
-    },
-    button: {
-        flex:1,
-    },
-    buttonView:{
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    textInputSty: {
-        borderRadius: 8,
-        borderColor: Colors.darkGray,
-        borderWidth: 1,
-        paddingHorizontal: 10,
-        marginVertical: 10,
-    },
-    selectedOption: {
-        ...FontStyles.Text,
-        padding: 5,
-    },
-    modalContainer: {
-        flex: 1,
-        paddingVertical: '10%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    },
-    modalOption: {
-        fontSize: 18,
-        marginVertical: 10,
-        color: 'white',
-        textAlign: 'center'
-    },
-    textInputModal:{
-        borderRadius: 8,
-        borderColor: Colors.greenSuccess,
-        borderWidth: 2,
-        paddingHorizontal: 10,
-        marginVertical: 10,
-        backgroundColor: Colors.white,
-        color: Colors.greenSuccess
-    }
 });

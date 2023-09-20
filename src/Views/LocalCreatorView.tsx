@@ -11,17 +11,24 @@ import { Step6View } from './Step6View ';
 import { useTranslation } from 'react-i18next';
 import { createLocal } from '../Api/localApi';
 import { LocalContext } from '../Context/NewLocalContext';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CustomAlert } from '../Components/CustomAlert';
+import { LocalInitialState } from '../Interfaces/LocalInterfaces';
+import { postImage } from '../Api/imageApi';
+
+interface Props extends NativeStackScreenProps<any, any>{};
 
 type stepDto = {
     name: string;
     component: any;
 };
 
-export const LocalCreatorView = () => {
+export const LocalCreatorView = ({navigation}:Props) => {
     const [currentStep, setCurrentStep] = useState(0);
     const { t } = useTranslation();
     const [canGoNext, setCanGoNext] = useState(false);
-    const { localState } = useContext(LocalContext);
+    const { localState, updateLocal } = useContext(LocalContext);
+    const [attempt, setAttempt] = useState(0);
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -46,18 +53,56 @@ export const LocalCreatorView = () => {
         setCurrentStep(currentStep - 1);
         }
     };
+    
+    const urlCloudinary = async (image: string) => {
+        try{
+            const formData = new FormData();
+            formData.append('image',{
+                uri: image,
+                type: 'image/jpeg', 
+                name: 'uploaded_image.jpg',
+            });
+            const response = await postImage(formData); 
+
+            if(response.status !== 200 ){
+                throw new Error('Was no possible to create your image, Please try again!')
+            }
+
+            return response.data.response.url;
+        }catch(error){
+            throw new Error('Was no possible to create your image, Please try again!')
+        }
+        
+    }
 
     const handleCreateLocal = async () => {
         try{
-            console.log(localState);
-            const response = await createLocal(localState);
-            //TODO: Add th  funcionality
-            
-            if(response.status === 200){                
-                console.log(JSON.stringify(response.data));
+            if(attempt !== 0 ) {
+                return;
             }
-        }catch(err: any) {            
-            console.log(JSON.stringify(err.response.data.msg));
+            
+            setAttempt(1);
+            const uriResponse = await urlCloudinary(localState.uriImage);
+
+            updateLocal({uriImage: uriResponse});
+
+            const response = await createLocal(localState);
+
+            if(response.status === 200){                
+                CustomAlert({
+                    title: 'Success',
+                    desc: 'The local was created successfully, you will be able to found it in your locals'
+                });
+                updateLocal(LocalInitialState);
+                navigation.pop();
+            }
+            
+        }catch(err: any) {
+            setAttempt(0);
+            CustomAlert({
+                title: 'Error',
+                desc: 'Was no possible to create you local, Please try again!'
+            });           
         }
     }
 

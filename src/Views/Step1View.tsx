@@ -49,7 +49,7 @@ export const Step1View = ({setCanGoNext}: Props) => {
                         placeholder={`${t('step1PlaceDesc')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputStyleDescription}
-                        multiline={true}
+                        returnKeyType='done'
                         value={editedDescription}
                         onChangeText={setEditedDescription}
                         onEndEditing={() => handleEndEditing({description: editedDescription})}
@@ -88,12 +88,14 @@ const styles = StyleSheet.create({
     },
     textInputStyleName: {
         borderRadius: 8,
+        color: 'black',
         borderColor: Colors.darkGray,
         borderWidth: 1,
         paddingHorizontal: 10,
     },
     textInputStyleDescription: {
         flex: 1,
+        color: 'black',
         borderRadius: 8,
         borderColor: Colors.darkGray,
         borderWidth: 1,

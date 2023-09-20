@@ -23,20 +23,20 @@ export const BottomModal = ({actionBtn1, actionBtn2, actionBtn3, modalVisible, h
                         onPress={actionBtn1}
                     >
                         <View style={styles.buttons}>
-                            <Icon name='eye' light size={25} adjustsFontSizeToFit style={{marginRight: 5}}/>
-                            <Text adjustsFontSizeToFit>{t('btn1SeeProfile')}</Text>
+                            <Icon name='eye' light size={25} adjustsFontSizeToFit style={{marginRight: 5}} color={'black'} />
+                            <Text adjustsFontSizeToFit style={styles.textStyle} >{t('btn1SeeProfile')}</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton} onPress={actionBtn2}>
                         <View style={styles.buttons}>
-                            <Icon  style={{marginRight: 5}} name='images' light size={25} adjustsFontSizeToFit/>
-                            <Text adjustsFontSizeToFit>{t('btn2Upload')}</Text>
+                            <Icon  style={{marginRight: 5}} name='images' light size={25} adjustsFontSizeToFit color={'black'} />
+                            <Text adjustsFontSizeToFit style={styles.textStyle} >{t('btn2Upload')}</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalButton} onPress={actionBtn3}>
                         <View style={styles.buttons}>
-                            <Icon  style={{marginRight: 5}} name='camera-retro' light size={25} adjustsFontSizeToFit/>
-                            <Text adjustsFontSizeToFit>{t('btt3TakePicture')}</Text>
+                            <Icon  style={{marginRight: 5}} name='camera-retro' light size={25} adjustsFontSizeToFit color={'black'}/>
+                            <Text adjustsFontSizeToFit style={styles.textStyle} >{t('btt3TakePicture')}</Text>
                         </View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -79,5 +79,8 @@ const styles = StyleSheet.create({
     buttons:{
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    textStyle:{
+        color: 'black'
     }
 });

@@ -143,6 +143,8 @@ export const Step2View = ({setCanGoNext}:Props) => {
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                         value={postalCode}
+                        maxLength={5}
+                        keyboardType='number-pad'
                         onChangeText={(text) => updateLocal({postalCode: text})}
                     />
                     <Modal
@@ -202,6 +204,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textInputSty: {
+        color: 'black',
         borderRadius: 8,
         borderColor: Colors.darkGray,
         borderWidth: 1,

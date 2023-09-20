@@ -2,8 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+interface Props extends NativeStackScreenProps<any, any>{};
 
-export const CreateLocalAlertView = () => {
+export const CreateLocalAlertView = ({navigation}: Props) => {
     const {height, width} = useWindowDimensions();
     const {t} = useTranslation();
     return (
@@ -13,7 +15,9 @@ export const CreateLocalAlertView = () => {
                 <Text style={styles.firstText} adjustsFontSizeToFit >{t('MyLocalsTitleText')}</Text>
                 <Text style={styles.msgText} adjustsFontSizeToFit >{t('MyLocalsDescriptionText')}</Text>
                 <View style={styles.btnView}>
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity style={styles.btn}
+                        onPress={() => navigation.navigate("LocalCreatorView")}
+                    >
                         <Text style={styles.btnText}>{t('Create')}</Text>
                     </TouchableOpacity>
                 </View>

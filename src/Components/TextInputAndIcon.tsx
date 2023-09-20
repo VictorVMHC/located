@@ -7,20 +7,23 @@ interface Props {
     iconName: string,
     placeHolder: string;
     action: ( key: string, value: string ) => void;
-    value: string ;
+    value: string;
+    height?: string;
+    textColor?: string;
+    iconColor?: string
 }
 
-export const TextInputAndIcon = ({ iconName, placeHolder, value, action }: Props) => {
+export const TextInputAndIcon = ({ iconName, placeHolder, value, action, height, textColor, iconColor }: Props) => {
     
     return (
         <View style={{flexDirection: 'row', flex: 1}}>
             <View style={styles.icon} >
-                <Icon name={ iconName } light size={25} adjustsFontSizeToFit />
+                <Icon name={ iconName } light size={25} adjustsFontSizeToFit color={iconColor || 'black'}/>
             </View>
             <TextInput
                 placeholder={ placeHolder }
                 placeholderTextColor={Colors.darkGray}
-                style={styles.textInputSty}
+                style={{...styles.textInputSty, color: textColor || 'black'}}
                 value={value}
                 onChangeText={(text) => action(placeHolder, text )}
             />
