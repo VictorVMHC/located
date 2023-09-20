@@ -14,6 +14,7 @@ import { ModalVerifyUser } from '../Components/ModalVerifyUser';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { CustomAlert } from '../Components/CustomAlert';
 
 interface Code {
     v1: string,
@@ -64,15 +65,13 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
     const handleOpenModal = () => {
         setCode({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
         setModalVisible(true);
-        console.log("open modal");
     };
 
     const handleCloseModal = async () => {
         const codeConcat = concatenateValues(code);
-        console.log(codeConcat);
         try{
-            const verifycode = await VerifyCode(emailUser,codeConcat);
-            if(verifycode.status == 200){
+            const verifyCode = await VerifyCode(emailUser,codeConcat);
+            if(verifyCode.status == 200){
                 setModalVisible(false);
                 navigation.navigate('RecoveryPasswordView',{email:emailUser});
             }  
@@ -105,14 +104,19 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
 
 
     const handleSubmit = async (email:string) =>{
-    try{ 
-        if(email){
+        try{ 
+            if(!email){
+                CustomAlert({
+                    title: 'Email required',
+                    desc: 'the email must not be empty'
+                })
+            }
+
             await VerifiedEmail(email, i18n.language);
-                setEmailUser(email);
-                handleOpenModal();
-        }else{
-            console.log('error');
-        }}catch(error: any) {
+            setEmailUser(email);
+            handleOpenModal();
+            
+        }catch(error: any) {
             let errorMessages = [];
             if (error.response && error.response.data && error.response.data.errors) {
                 const errors = error.response.data.errors;
@@ -123,9 +127,8 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
                 }
             } 
             const errorMessage = errorMessages.length > 0
-            ? errorMessages.join('\n')
-            : t('ErrorTryAgain');
-            console.log(email);
+                ? errorMessages.join('\n')
+                : t('ErrorTryAgain');
             setErrorMessages(errorMessage);
             setModalError(true);
         }

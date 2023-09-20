@@ -42,18 +42,16 @@ export const RecoveryPasswordView = ({ route }: Props) => {
             }
             const response = await recoverUserPassword(newRecoveryPasswords);
             if (response.status === 200) {
-                CustomAlertGood({
+                CustomAlert({
                     title: t('UserPasswordUpdatedTitle'),
                     desc: t('PasswordRecoveryInfo'),
-                    action: () => navigation.navigate('LoginView' as never),
+                    action: () => {navigation.navigate('LoginView' as never)},
                 })
             }
-            }catch (error: any) {
-                console.log(error);
-                
-                CustomAlert({
-                    title: "Error", 
-                    desc: t('ErrorToUpdatePassword'),
+        }catch (error: any) {                
+            CustomAlert({
+                title: "Error", 
+                desc: t('ErrorToUpdatePassword'),
             })
         }
     }; 
@@ -65,73 +63,73 @@ export const RecoveryPasswordView = ({ route }: Props) => {
                     position='top'
                     quantity={2}
                 />
-                    <View style={{flex:1}}>
-                        <View>
-                            <Text style={{...Styles.textStyle, top:10, left:10, fontSize:30}}>{t('RecoveryPasswordTitle')}</Text>
-                        </View>
-                    </View>    
-                    <View style={StylePasswordView.containerLong} >
-                        <View style={StylePasswordView.containerImgLong}>
-                            {i18n.language === 'es-MX'
-                                ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                                :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
-                            }
-                        </View>
-                        <View style={{width: '10%', bottom:35, left:2}}>
-                            <PickerButton/>
-                        </View>   
+                <View style={{flex:1}}>
+                    <View>
+                        <Text style={{...Styles.textStyle, top:10, left:10, fontSize:30}}>{t('RecoveryPasswordTitle')}</Text>
                     </View>
+                </View>    
+                <View style={StylePasswordView.containerLong} >
+                    <View style={StylePasswordView.containerImgLong}>
+                        {i18n.language === 'es-MX'
+                            ?   <Image source={require('../Assets/Images/Es.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                            :   <Image source={require('../Assets/Images/En.png')} style={{width: 25, height: 25, borderRadius: 15}} />
+                        }
+                    </View>
+                    <View style={{width: '10%', bottom:35, left:2}}>
+                        <PickerButton/>
+                    </View>   
+                </View>
                 <Image
                     style={{...Styles.imageStyle, left: -124, top:16}}
                     source={require('../Assets/Images/logo_located.png')}
                 />
                 <View style={{...StylePasswordView.viewContainer}}>
-                <Formik
-                        initialValues={{
-                            newPassword: "",
-                            repeatPassword: "",
-                            userEmail:email,
-                        }}
-                        onSubmit={(values) => {handleSubmit(values)}}
-                        validationSchema={validationSchema}
-                >
-                    {({ handleChange, handleSubmit, values, errors }) => (
-                        <View>
-                        <Text style={StylePasswordView.text}>{t('NewPasswordText')}</Text>
-                        <TextInput style={[StylePasswordView.textInput, errors.newPassword ? StylePasswordView.addProperty : null]}
-                            value={values.newPassword}
-                            onChangeText={handleChange('newPassword')}
-                            secureTextEntry>
-                        </TextInput>
-                        {errors.newPassword && 
-                            <IconWithText 
-                                NameIcon='exclamation-circle' 
-                                text={errors.newPassword} 
-                                ColorIcon={Colors.Yellow} 
-                                IconSize={15} 
-                                textStyle={{color: Colors.Yellow}}
-                            />}
-                        <Text style={StylePasswordView.text}>{t('RepeatPasswordText')}</Text>
-                        <TextInput style={[StylePasswordView.textInput, errors.repeatPassword ? StylePasswordView.addProperty : null]}
-                            value={values.repeatPassword}
-                            secureTextEntry
-                            onChangeText={handleChange('repeatPassword')}>
-                        </TextInput>
-                        {errors.repeatPassword && 
-                            <IconWithText 
-                                NameIcon='exclamation-circle' 
-                                text={errors.repeatPassword} 
-                                ColorIcon={Colors.Yellow} 
-                                IconSize={15} 
-                                textStyle={{color: Colors.Yellow}}
-                            />
-                        }
-                    <TouchableOpacity style={StylePasswordView.buttonSend} 
-                        onPress={handleSubmit}>
-                            <Text style={StylePasswordView.txtBtn}>{t('Recovery')}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    )}
+                    <Formik
+                            initialValues={{
+                                newPassword: "",
+                                repeatPassword: "",
+                                userEmail:email,
+                            }}
+                            onSubmit={(values) => {handleSubmit(values)}}
+                            validationSchema={validationSchema}
+                    >
+                        {({ handleChange, handleSubmit, values, errors }) => (
+                            <View>
+                            <Text style={StylePasswordView.text}>{t('NewPasswordText')}</Text>
+                            <TextInput style={[StylePasswordView.textInput, errors.newPassword ? StylePasswordView.addProperty : null]}
+                                value={values.newPassword}
+                                onChangeText={handleChange('newPassword')}
+                                secureTextEntry>
+                            </TextInput>
+                            {errors.newPassword && 
+                                <IconWithText 
+                                    NameIcon='exclamation-circle' 
+                                    text={errors.newPassword} 
+                                    ColorIcon={Colors.Yellow} 
+                                    IconSize={15} 
+                                    textStyle={{color: Colors.Yellow}}
+                                />}
+                            <Text style={StylePasswordView.text}>{t('RepeatPasswordText')}</Text>
+                            <TextInput style={[StylePasswordView.textInput, errors.repeatPassword ? StylePasswordView.addProperty : null]}
+                                value={values.repeatPassword}
+                                secureTextEntry
+                                onChangeText={handleChange('repeatPassword')}>
+                            </TextInput>
+                            {errors.repeatPassword && 
+                                <IconWithText 
+                                    NameIcon='exclamation-circle' 
+                                    text={errors.repeatPassword} 
+                                    ColorIcon={Colors.Yellow} 
+                                    IconSize={15} 
+                                    textStyle={{color: Colors.Yellow}}
+                                />
+                            }
+                        <TouchableOpacity style={StylePasswordView.buttonSend} 
+                            onPress={handleSubmit}>
+                                <Text style={StylePasswordView.txtBtn}>{t('Recovery')}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        )}
                     </Formik>
                 </View>
             </ScrollView>
