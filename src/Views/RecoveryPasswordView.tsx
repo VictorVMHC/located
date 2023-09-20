@@ -14,7 +14,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 interface Props extends StackScreenProps<ViewStackParams, 'RecoveryPasswordView'>{};
 import { IconWithText } from '../Components/IconWithText';
-import { CustomAlert, CustomAlertGood} from '../Components/CustomAlert';
+import { CustomAlert} from '../Components/CustomAlert';
 import { useNavigation } from '@react-navigation/native';
 
 export const RecoveryPasswordView = ({ route }: Props) => {
