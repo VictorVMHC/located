@@ -23,7 +23,7 @@
     "Registrar": "Registrarse",
     "EnterEmail": "Ingresa tu correo electronico",
     "Passwordtitle": "Contraseña",
-    "Recovery": "Recuperar",
+    "Recovery": "Confirmar",
     "DrawerHome": "Inicio",
     "DrawerProfile": "Editar Perfil",
     "DrawerNotification": "Notificación",
@@ -135,6 +135,7 @@
     "CurrentPassword": "Tu Contraseña Actual",
     "ErrorPasswordsInfo": "Las nuevas contraseñas no coinciden",
     "UserPasswordUpdatedTitle":"Contraseña actualizada",
+    "PasswordRecoveryInfo": "Tu contraseña ha sido cambiada con éxito",
     "UserPasswordUpdated": "La contraseña del usuario se ha actualizado correctamente",
     "ErrorToUpdatePassword": "No fue posible actualizar su contraseña",
     "LocalAddBottom": "Agregar",
@@ -153,6 +154,7 @@
     "Store": "Tienda",
     "pets": "Mascotas",
     "RecoveryPasswordTitle": "Nueva Contraseña",
-    "RepeatPasswordText": "Repite la contraseña"
+    "RepeatPasswordText": "Repite la contraseña",
+    "ErrorTryAgain": "ocurrio un error miestras verificabamos el crreo, intenta de nuevo"
   }
 }

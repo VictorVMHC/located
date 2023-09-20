@@ -50,3 +50,9 @@ export interface UpdateUserPassword {
     newPassword?: string,
     confirmNewPassword?: string,
 }
+
+export interface RecoveryPassword{
+    userEmail?: string,
+    newPassword?: string,
+    repeatPassword?: string,
+}

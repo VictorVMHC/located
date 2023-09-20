@@ -74,7 +74,7 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
             const verifycode = await VerifyCode(emailUser,codeConcat);
             if(verifycode.status == 200){
                 setModalVisible(false);
-                navigation.navigate('RecoveryPasswordView' as never);
+                navigation.navigate('RecoveryPasswordView',{email:emailUser});
             }  
         }catch(err){
             setCode({v1: '', v2: '', v3: '', v4: '', v5: '', v6: ''});
@@ -100,9 +100,7 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
                     setModalConfirm(false); 
                     await deleteVerifyEmail(emailUser);
                 }
-                
             }
-            
     };
 
 
@@ -126,7 +124,7 @@ export const ForgotPasswordView = ({ navigation }: Props) => {
             } 
             const errorMessage = errorMessages.length > 0
             ? errorMessages.join('\n')
-            : 'An error occurred while verifying the email';
+            : t('ErrorTryAgain');
             console.log(email);
             setErrorMessages(errorMessage);
             setModalError(true);

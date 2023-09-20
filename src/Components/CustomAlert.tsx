@@ -14,3 +14,12 @@ export const CustomAlert = ({title, desc, action = () => {return}}: showAlertPro
         { cancelable: false }
     );
 }
+
+export const CustomAlertGood = ({title, desc, action = () => {}}: showAlertProps) => {
+    Alert.alert(
+        title,
+        desc,
+        [{ text: 'OK', onPress: () => { action() } }],
+        {}
+    );
+}

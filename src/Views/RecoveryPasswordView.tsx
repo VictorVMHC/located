@@ -5,14 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PickerButton } from '../Components/PickerButton';
 import { Colors, Styles, FontStyles } from '../Themes/Styles'
 import { useTranslation } from 'react-i18next';
+import { RecoveryPassword } from '../Interfaces/UserInterface';
+import { recoverUserPassword } from '../Api/userApi';
 import * as Yup from 'yup';
-import { Formik, FormikValues } from 'formik';
+import { Formik} from 'formik';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 
 interface Props extends StackScreenProps<ViewStackParams, 'RecoveryPasswordView'>{};
 import { IconWithText } from '../Components/IconWithText';
-import { CustomAlert } from '../Components/CustomAlert';
+import { CustomAlert, CustomAlertGood} from '../Components/CustomAlert';
 import { useNavigation } from '@react-navigation/native';
 
 export const RecoveryPasswordView = ({ route }: Props) => {
@@ -27,9 +29,9 @@ export const RecoveryPasswordView = ({ route }: Props) => {
     });
 
     
-    const handleSubmit = async (passwords:FormikValues) => {
+    const handleSubmit = async (newRecoveryPasswords:RecoveryPassword) => {
         try{
-            const {newPassword, repeatPassword} = passwords;
+            const {newPassword, repeatPassword} = newRecoveryPasswords;
             
             if (newPassword !== repeatPassword) {
                 CustomAlert({
@@ -38,13 +40,22 @@ export const RecoveryPasswordView = ({ route }: Props) => {
                 })
                 return;
             }
-            CustomAlert({
-                title: t('UserPasswordUpdatedTitle'),
-                desc: t('UserPasswordUpdated'),
+            const response = await recoverUserPassword(newRecoveryPasswords);
+            if (response.status === 200) {
+                CustomAlertGood({
+                    title: t('UserPasswordUpdatedTitle'),
+                    desc: t('PasswordRecoveryInfo'),
+                    action: () => navigation.navigate('LoginView' as never),
+                })
+            }
+            }catch (error: any) {
+                console.log(error);
                 
+                CustomAlert({
+                    title: "Error", 
+                    desc: t('ErrorToUpdatePassword'),
             })
-            navigation.navigate('LoginView' as never);
-            }catch(error){}
+        }
     }; 
     
     return (
@@ -79,6 +90,7 @@ export const RecoveryPasswordView = ({ route }: Props) => {
                         initialValues={{
                             newPassword: "",
                             repeatPassword: "",
+                            userEmail:email,
                         }}
                         onSubmit={(values) => {handleSubmit(values)}}
                         validationSchema={validationSchema}
