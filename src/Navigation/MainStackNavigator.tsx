@@ -20,6 +20,8 @@ import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 import { LocalCreatorView } from '../Views/LocalCreatorView';
 import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
+import { MyLocalsStoreView } from '../Views/MyLocalsStoreView';
+import { Local } from '../Interfaces/DbInterfaces';
 
 export type ViewStackParams = {
 	RecoveryPasswordView: { email?: string }
@@ -35,6 +37,7 @@ export type ViewStackParams = {
 	CommentsView: undefined,
 	ChangePasswordView: undefined,
 	PrivacyPolicyView: undefined,
+	MyLocalsStoreView: {local: Local}
 }
 const Stack = createStackNavigator<ViewStackParams>();
 
@@ -76,6 +79,8 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="PrivacyPolicyView" options={screenOptions} component={PrivacyPolicyView}/>
 						<Stack.Screen name="LocalCreatorView" options={screenOptions} component={LocalCreatorView} />
 						<Stack.Screen name="CreateLocalAlertView" options={screenOptions} component={CreateLocalAlertView} />
+						<Stack.Screen name="MyLocalsStoreView" options={screenOptions} component={MyLocalsStoreView} />
+
 					</>
 				)			
 			}

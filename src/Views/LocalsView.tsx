@@ -28,10 +28,11 @@ export const LocalsView = ({navigation}:Props) => {
             fetchLocals();
         }, [])
     );
+    
     const fetchLocals = () => {        
         setLoading(true);
         setError(false);
-        
+
         searchByUser()
         .then((value) => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
