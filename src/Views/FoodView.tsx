@@ -7,9 +7,11 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { foodTags } from '../Utils/ArraysTags';
 interface Props {
     kilometers: number;
+    latitude: number,
+    longitude:number
 };
 
-export const FoodView = ({kilometers}:Props) => {
+export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
@@ -20,7 +22,7 @@ export const FoodView = ({kilometers}:Props) => {
         
         if(page <= totalPage && !fetching){
             setFetching(true)
-            const {locals, totalPages} = await fetchData(userLocation.latitude, userLocation.longitude, kilometers,foodTags, page, 2);
+            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page, 2);
             if (locals) {
                 setDataLocals([...dataLocals, ...locals]);
                 setTotalPage(totalPages);
@@ -31,16 +33,7 @@ export const FoodView = ({kilometers}:Props) => {
         }
     }
 
-    const {
-        hasLocation,
-        userLocation,
-    } = useLocation();
-
-
     useEffect(() => {
-        if(!hasLocation){
-            return ;
-        }
         console.log('hola useEffect');
         setPage(1);
         setTotalPage(1);
