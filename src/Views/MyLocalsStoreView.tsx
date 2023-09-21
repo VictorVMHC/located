@@ -1,16 +1,18 @@
-import React, {useRef} from 'react'
-import { ScrollView, StyleSheet, Text, View, useWindowDimensions} from 'react-native'
+import React, {useRef, useState} from 'react'
+import { ScrollView, StyleSheet, Text, View} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useFocusEffect } from '@react-navigation/native';
+import { Local } from '../Interfaces/DbInterfaces';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { Colors } from '../Themes/Styles';
+import { FlatList } from 'react-native-gesture-handler';
+import { getProductsByLocalId } from '../Api/productsApi';
 
-interface Props extends NativeStackScreenProps<any, any>{};
-
-
+interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
 const rendererBusiness = (item: any) => {
     
@@ -26,7 +28,16 @@ const rendererBusiness = (item: any) => {
     );
 }
 
-export const MyLocalsStoreView = ({navigation}: Props) => {
+export const MyLocalsStoreView = ({navigation, route}: Props) => {
+    const { local } = route.params;
+    const [ page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [ products, setProducts ] = useState<Product[]>();
+
+
+    const {name, description, uriImage,_id, address, isVerify: boolean, country, state, town, 
+            postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
+
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
@@ -42,21 +53,35 @@ export const MyLocalsStoreView = ({navigation}: Props) => {
             );
         }
     };
-    
+
+
+    const fetchProducts = async () => {
+        const result = await getProductsByLocalId(_id, page);
+        const { locals } = result.data;
+        if(locals){
+            setProducts([...products, ...locals]);
+        }
+    }
+
+    const handleLoadMore = () => {
+        if(page > totalPage){
+            return; 
+        }
+        fetchProducts();
+    } 
     return (
         <>
             <ScrollView style={StylesStore.container} ref={scrollViewRef}  stickyHeaderIndices={[1]}>
                 <View>
                     <ImgBusiness 
-                        Img = 'https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo-1200x670.png'
+                        Img = {uriImage}
                         open = {false}
                         like = {false}
                     />
                     <View style={StylesStore.valuesText}>
-                        <Text style={StylesStore.textName}>Mcdonalds</Text>
-                        <Text style={{...StylesStore.textInformation}}>Product/service</Text>
-                        <Text style={{...StylesStore.textInformation, color: 'green'}}>Open</Text>
-                        <Text style={{...StylesStore.textInformation}}>Guadalajara(Mexico)</Text> 
+                        <Text style={StylesStore.textName}>{name}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{businessType}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{town}({country})</Text> 
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
@@ -74,35 +99,54 @@ export const MyLocalsStoreView = ({navigation}: Props) => {
                             NameIcon ={'directions'}
                             IconSize ={20}
                             ColorIcon={'#CD5F28'}
-                            text ={'AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico'}
+                            text ={`${address}, ${town}, ${state}, ${country}`}
                         />
-                        <IconWithText 
-                            NameIcon ={'envelope'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={'sayulitrostaquepaque2013@gmail.com'}
-                        />
-                        <IconWithText 
-                            NameIcon ={'globe'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={'Website'}
-                        />
-                        <IconWithText 
-                            NameIcon ={'info-circle'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={'promocion'}
-                        />
+                        {
+                            contact['Facebook'] && <IconWithText 
+                                NameIcon= {'facebook-f'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.blue}
+                                text= {contact['Facebook'].info}
+                            />
+                        }
+                        {
+                            contact['Email'] && <IconWithText 
+                                NameIcon= {'envelope'}
+                                IconSize= {20}
+                                ColorIcon= {'#CD5F28'}
+                                text= {contact['Email'].info}
+                            />
+                        }
+                        {
+                            contact['Instagram'] && <IconWithText 
+                                NameIcon= {'instagram'}
+                                IconSize= {20}
+                                ColorIcon= {'#CD5F28'}
+                                text= {contact['Instagram'].info}
+                            />
+                        }
+                        {
+                            contact['Web page'] && <IconWithText 
+                                NameIcon= {'globe'}
+                                IconSize= {20}
+                                ColorIcon= {'#CD5F28'}
+                                text= {contact['Web page'].info}
+                            />
+                        }
+                        {
+                            contact['Whatsapp'] && <IconWithText 
+                                NameIcon= {'whatsapp'}
+                                IconSize= {20}
+                                ColorIcon= {'#CD5F28'}
+                                text= {contact['Whatsapp'].info}
+                            />
+                        }
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>
-                        {
-                            listArray.map((item, index) => (
-                                <View key={index}>
-                                    {rendererBusiness(item)}
-                                </View>
-                            ))
-                        }
+                        <FlatList 
+                            data={undefined} 
+                            renderItem={undefined}                        
+                        />
                     </View>
                 </View>
             </ScrollView>

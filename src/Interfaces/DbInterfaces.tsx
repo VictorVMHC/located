@@ -1,6 +1,6 @@
 import { Location } from './MapInterfaces';
 export interface Local {
-    _id: number,
+    _id: string,
     name: string,
     description: string,
     address: string,
@@ -10,13 +10,16 @@ export interface Local {
     state: string,
     town: string,
     postalCode: string,
-    contact: {},
+    contact: {
+        [type: string]: Contact;
+    };
     schedules: Schedule[],
     rate: number,
     quantityRate: number,
     tags: string[],
     location: Location,
     open: string
+    businessType: string
 }
 
 export interface Locals {
