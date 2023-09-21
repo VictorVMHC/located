@@ -11,6 +11,8 @@ import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Colors } from '../Themes/Styles';
 import { FlatList } from 'react-native-gesture-handler';
 import { getProductsByLocalId } from '../Api/productsApi';
+import { Products } from '../Interfaces/ProductsInterfaces';
+import { CustomAlert } from '../Components/CustomAlert';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
@@ -21,8 +23,7 @@ const rendererBusiness = (item: any) => {
             ProductName = {item.productNamee}
             Price = {item.price}
             Img = {item.img}
-            punctuation = {item.puntuation}
-            DescripcionB = {item.DescripcionB}
+            DescriptionBox = {item.DescripcionB}
             like = {item.like}
         />
     );
@@ -32,7 +33,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const { local } = route.params;
     const [ page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
-    const [ products, setProducts ] = useState<Product[]>();
+    const [ products, setProducts ] = useState<Products[]>([]);
 
 
     const {name, description, uriImage,_id, address, isVerify: boolean, country, state, town, 
@@ -56,10 +57,19 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
 
 
     const fetchProducts = async () => {
-        const result = await getProductsByLocalId(_id, page);
-        const { locals } = result.data;
-        if(locals){
-            setProducts([...products, ...locals]);
+        try{
+            const result = await getProductsByLocalId(_id, page);
+            const { products, totalPages } = result.data;
+            if(products){
+                setProducts([...products, ...products]);
+                setPage(page + 1);
+                setTotalPage(totalPages);
+            }
+        }catch(err){
+            CustomAlert({
+                title: "Error",
+                desc: "Was not possible to retrieve the local products, ¡Please try again!"
+            });
         }
     }
 
@@ -144,8 +154,10 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>
                         <FlatList 
-                            data={undefined} 
-                            renderItem={undefined}                        
+                            data={products} 
+                            renderItem={(item) => rendererBusiness(item)}
+                            onEndReached={handleLoadMore}
+                            onEndReachedThreshold={0.4}                      
                         />
                     </View>
                 </View>

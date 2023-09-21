@@ -2,7 +2,7 @@ import React from 'react'
 import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
 
 interface Props{
-  Descripcion?: string,
+  Description?: string,
   
 }
 
@@ -10,14 +10,14 @@ interface TextEtiqueta{
   tags: string[]
 }
 
-export const DescriptionBox = ({Descripcion = '' }:Props) => {
+export const DescriptionBox = ({ Description = '' }:Props) => {
   const {width, height} = useWindowDimensions();
 
 
   return (
     <View style={{...styles.box ,width: width - (width * 0.1), height: height - (height * 0.8)}}>
       <View>
-        <Text style={styles.text}>{Descripcion}</Text>
+        <Text style={styles.text}>{Description}</Text>
       </View>
       <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
       

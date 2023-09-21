@@ -41,7 +41,7 @@ const rendererBusiness = (item: any) => {
             Price = {item.price}
             Img = {item.img}
             punctuation = {item.puntuation}
-            DescripcionB = {item.DescripcionB}
+            DescriptionBox = {item.DescripcionB}
             like = {item.like}
         />
     );
