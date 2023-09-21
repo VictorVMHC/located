@@ -20,7 +20,6 @@ export const DescriptionBox = ({ Description = '' }:Props) => {
         <Text style={styles.text}>{Description}</Text>
       </View>
       <View style={{ flex: 1.5, flexDirection: 'row', paddingHorizontal: 10, justifyContent:'flex-start', marginBottom: 10}}>
-      
       </View> 
     </View>
   )

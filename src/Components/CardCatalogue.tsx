@@ -14,9 +14,10 @@ interface Props {
     Description ?: string,
     like: boolean,
     action?: () => {},
+    showLike: boolean,
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '', action, children, like = false }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '', action, children, like = false, showLike }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -42,14 +43,14 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
                 </View>
                 <Text style={styles.price}> $ {Price} MX</Text>
             </View>
-            <TouchableOpacity style={styles.heartBtn}
-                            onPress={() => {check()} }
-                    >
-                        {!isActive 
-                            ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
-                            : <IonIcon name='heart' size={35} color={Colors.red} />
-                        }
-                </TouchableOpacity>
+            {showLike && <TouchableOpacity style={styles.heartBtn}
+                onPress={() => {check()} }
+            >
+                {!isActive 
+                    ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
+                    : <IonIcon name='heart' size={35} color={Colors.red} />
+                }
+            </TouchableOpacity>}
             <View style={styles.ChartQualification}>
             <Icon name='star' size={20} color="#FF5C28" solid/>
             </View>

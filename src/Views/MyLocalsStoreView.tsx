@@ -23,7 +23,7 @@ const rendererBusiness = (item: any) => {
             ProductName = {item.productNamee}
             Price = {item.price}
             Img = {item.img}
-            DescriptionBox = {item.DescripcionB}
+            Description= {item.des}
             like = {item.like}
         />
     );
