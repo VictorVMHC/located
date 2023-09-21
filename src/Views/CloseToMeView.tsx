@@ -16,18 +16,13 @@ const Tab = createMaterialTopTabNavigator();
 
 export const CloseToMeView = () =>{
 const {width, height} = useWindowDimensions();
-const [value, setValue] = useState(0);
+const [value, setValue] = useState(0.1);
 const { t } = useTranslation();
 const { permissions } = useContext( PermissionsContext );
 
 if ( permissions.locationStatus === 'unavailable' ) {
     return <LoadingView />
 }
-
-
-useEffect(()=>{
-    console.log((value));
-},[value]);
 
 return (
     <>
@@ -41,7 +36,7 @@ return (
                                 value={value}
                                 step={1}
                                 maximumValue={10}
-                                minimumValue={0}
+                                minimumValue={0.1}
                                 maximumTrackTintColor= 'rgba(255,198,0,0.4)'
                                 minimumTrackTintColor = '#FFC600'
                                 thumbTintColor = '#FFC600'

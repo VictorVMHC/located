@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useLocation } from '../Hooks/useLocation';
@@ -11,13 +11,23 @@ interface Props {
 
 export const FoodView = ({kilometers}:Props) => {
     const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
-    
+    const [page, setPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1);
+    const [fetching, setFetching] = useState(false);
 
     const fetchMoreLocales  = async () =>{
-        const combinedResults = await fetchData(userLocation.latitude, userLocation.longitude, kilometers,foodTags);
-        if (combinedResults) {
-            setDataLocals(combinedResults);
-           // setCurrentPage(prevPage => prevPage + 1);
+        console.log('More Locals');
+        
+        if(page <= totalPage && !fetching){
+            setFetching(true)
+            const {locals, totalPages} = await fetchData(userLocation.latitude, userLocation.longitude, kilometers,foodTags, page, 2);
+            if (locals) {
+                setDataLocals([...dataLocals, ...locals]);
+                setTotalPage(totalPages);
+                console.log(totalPage, page);
+                setFetching(false)
+            }
+            setPage(page + 1);
         }
     }
 
@@ -28,12 +38,15 @@ export const FoodView = ({kilometers}:Props) => {
 
 
     useEffect(() => {
-        console.log('hola useEffect');
         if(!hasLocation){
             return ;
         }
+        console.log('hola useEffect');
+        setPage(1);
+        setTotalPage(1);
+        setDataLocals([]);
         fetchMoreLocales ();
-    },[userLocation, hasLocation, kilometers]);
+    },[kilometers]);
 
 
 
@@ -51,7 +64,7 @@ export const FoodView = ({kilometers}:Props) => {
                 keyExtractor={(item) => item.name.toString()}
                 onEndReached={fetchMoreLocales} 
                 onEndReachedThreshold={0.1} 
-                ListFooterComponent={<ActivityIndicator size="large" color="#0000ff" />}
+                ListFooterComponent={<Text>Hola</Text>}
             />
         </SafeAreaView>
     )
