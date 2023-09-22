@@ -74,7 +74,7 @@ export const LocalsView = ({navigation}:Props) => {
                                 name={item.name}
                                 titleStyles={styles.cardTitle}
                                 containerStyle={{...styles.cardContainer, width: width * 0.90, height: height * 0.25}}
-                                Action={() => navigation.navigate('StoreView')}
+                                Action={() => navigation.navigate('MyLocalsStoreView', {local: item})}
                             />
                         }
                         keyExtractor={(item: any) => item._id.toString()} // Replace 'id' with your unique identifier

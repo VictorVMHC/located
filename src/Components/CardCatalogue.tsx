@@ -12,7 +12,7 @@ interface Props {
     Img: string,
     children ?: any,
     Description ?: string,
-    like: boolean,
+    like?: boolean,
     action?: () => {},
     showLike: boolean,
 }
