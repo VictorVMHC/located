@@ -5,8 +5,7 @@ const postImage =(formData: FormData) =>{
         headers:{
             'Content-Type': 'multipart/form-data',
         }
-    })
-    
+    })   
 }
 
 export {

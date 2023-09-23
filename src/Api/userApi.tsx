@@ -1,5 +1,5 @@
 import api from "./api"
-import { LoginResponse, UpdateUserPassword, User} from '../Interfaces/UserInterface';
+import { LoginResponse, UpdateUserPassword, RecoveryPassword, User} from '../Interfaces/UserInterface';
 
 const createUser = (user: User) =>{
     return api.post<LoginResponse>('/api/users', user );
@@ -24,9 +24,18 @@ const putUserPassword = async (updatedPassword: UpdateUserPassword) =>{
     });
 }
 
+const recoverUserPassword = async (recoveredPassword: RecoveryPassword) =>{
+    const {userEmail, newPassword} = recoveredPassword;
+    return api.put("/api/users/recoveryPassword", {
+        email: userEmail,
+        password : newPassword 
+    })
+}
+
 export {
     createUser,
     putUser,
     putUserPassword,
+    recoverUserPassword,
     deleteUser,
 }

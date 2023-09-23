@@ -10,7 +10,7 @@ export const CustomAlert = ({title, desc, action = () => {return}}: showAlertPro
     Alert.alert(
         title,
         desc,
-        [{ text: 'OK', onPress: () => { action }}],
+        [{ text: 'OK', onPress: () => { action() }}],
         { cancelable: false }
     );
 }

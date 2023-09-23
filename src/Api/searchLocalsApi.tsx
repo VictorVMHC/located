@@ -15,7 +15,12 @@ const searchByTags = (latitude: number, longitude: number, kilometers: number, t
     } );
 }
 
+const searchByUser = () => {
+    return api.get('/api/searchLocals/byUser');
+}
+
 export {
     searchLocals,
     searchByTags,
+    searchByUser,
 }

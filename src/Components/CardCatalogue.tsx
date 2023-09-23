@@ -10,21 +10,21 @@ interface Props {
     ProductName: string,
     Price: string,
     Img: string,
-    punctuation: string,
     children ?: any,
-    DescripcionB ?: string,
-    like: boolean,
+    Description ?: string,
+    like?: boolean,
     action?: () => {},
+    showLike: boolean,
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuation = '', DescripcionB  = '', action, children, like = false }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '', action, children, like = false, showLike }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
     const viewRef = useRef(null);
 
     const toggle = () => {
-        if(DescripcionB != ''){
+        if(Description != ''){
             setExpanded(!expanded );
         }
     }
@@ -43,23 +43,22 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', punctuat
                 </View>
                 <Text style={styles.price}> $ {Price} MX</Text>
             </View>
-            <TouchableOpacity style={styles.heartBtn}
-                            onPress={() => {check()} }
-                    >
-                        {!isActive 
-                            ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
-                            : <IonIcon name='heart' size={35} color={Colors.red} />
-                        }
-                </TouchableOpacity>
+            {showLike && <TouchableOpacity style={styles.heartBtn}
+                onPress={() => {check()} }
+            >
+                {!isActive 
+                    ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
+                    : <IonIcon name='heart' size={35} color={Colors.red} />
+                }
+            </TouchableOpacity>}
             <View style={styles.ChartQualification}>
             <Icon name='star' size={20} color="#FF5C28" solid/>
-            <Text style={styles.TestQualification}>{punctuation}</Text>
             </View>
         </TouchableOpacity>
         {
             expanded &&
-                <DescriptionBox 
-                    Descripcion = {DescripcionB} 
+                <DescriptionBox
+                    Description= {Description} 
                 />
         }      
     </View>

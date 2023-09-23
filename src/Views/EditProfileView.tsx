@@ -18,7 +18,6 @@ export const EditProfileView = ({navigation}: Props) => {
     const [url, setUrl] = useState(user?.image || '');
     const { t } = useTranslation();
 
-
     useEffect(() => {
         if (user?.image) {
             setUrl(user.image);

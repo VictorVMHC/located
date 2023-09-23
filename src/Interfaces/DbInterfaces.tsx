@@ -1,18 +1,25 @@
 import { Location } from './MapInterfaces';
 export interface Local {
-    id: number,
+    _id: string,
     name: string,
-    location: Location,
     description: string,
     address: string,
     uriImage: string,
     isVerify: boolean,
+    country: string,
+    state: string,
+    town: string,
+    postalCode: string,
+    contact: {
+        [type: string]: Contact;
+    };
     schedules: Schedule[],
     rate: number,
     quantityRate: number,
     tags: string[],
-    lat: string,
-    long: string,
+    location: Location,
+    open: string
+    businessType: string
 }
 
 export interface Locals {

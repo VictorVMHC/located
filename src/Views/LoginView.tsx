@@ -5,7 +5,6 @@ import { Formik } from 'formik';
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Yup from 'yup';
 

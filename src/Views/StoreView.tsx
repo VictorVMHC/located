@@ -41,7 +41,7 @@ const rendererBusiness = (item: any) => {
             Price = {item.price}
             Img = {item.img}
             punctuation = {item.puntuation}
-            DescripcionB = {item.DescripcionB}
+            DescriptionBox = {item.DescripcionB}
             like = {item.like}
         />
     );
@@ -51,13 +51,6 @@ export const StoreView = ({navigation}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-
-    const id = navigation.getState();
-    useFocusEffect(() => {
-        console.log('store focused');
-    });
-    console.log(id.history);
-    console.log(id.key);
     
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
