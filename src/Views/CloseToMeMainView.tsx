@@ -7,8 +7,11 @@ import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import { FoodView } from './FoodView';
 import { OthersCategoriesView } from './OthersCategoriesView';
 import { PharmacyView } from './PharmacyView';
+import { BusinessView} from './BusinessView';
+import { PetsView } from './PetsView';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
+import useEffect from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,6 +24,14 @@ export const CloseToMeMainView = () => {
         hasLocation,
         userLocation,
     } = useLocation();
+
+    const valueKilometers = () => {
+        if(value >= 1){
+            return (value);
+        }else{
+            return (value * 1000);
+        }
+    }; 
     
     return (
         <>
@@ -33,18 +44,36 @@ export const CloseToMeMainView = () => {
                         <Slider 
                             value={value}
                             step={1}
-                            maximumValue={10}
-                            minimumValue={0.1}
+                            maximumValue={20}
+                            minimumValue={1}
                             maximumTrackTintColor= 'rgba(255,198,0,0.4)'
                             minimumTrackTintColor = '#FFC600'
                             thumbTintColor = '#FFC600'
                             trackStyle ={{height: 10, borderColor: 'black', borderWidth: 1, borderRadius: 20}}
                             renderAboveThumbComponent = {()=>
                             <View>
-                                <Text style={styles.topContainerSlider}>{value} Km</Text>
+                                <Text style={styles.topContainerSlider}>{valueKilometers()} M</Text>
                                 <View style={styles.bottomContainerSlider}></View>
                             </View>}
-                            onValueChange={(val)=>setValue(val[0])}
+                            onValueChange={(val)=>{
+                                console.log(value);
+                                let valueSlide = (parseFloat(val.toString()) / 10)
+                                if(valueSlide < 0.5){
+                                    setValue(0.1);
+                                }
+                                if(valueSlide >0.5 && valueSlide < 1){
+                                    setValue(0.5);
+                                }
+                                if(valueSlide >1.0 && valueSlide < 1.5){
+                                    setValue(1);
+                                }
+                                if(valueSlide >1.5 && valueSlide < 2.0){
+                                    setValue(1.5);
+                                }
+                                if(valueSlide == 2.0){
+                                    setValue(2.0);
+                                }
+                            }}
                             thumbStyle = {{width: 25, height: 25}}        
                         />  
                     </View>
@@ -78,7 +107,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="pills" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <PharmacyView kilometers={value} />}
+                        {() => <PharmacyView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Store"
@@ -89,7 +118,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <OthersCategoriesView kilometers={value} />}
+                        {() => <BusinessView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Pets"
@@ -100,7 +129,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="paw" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <OthersCategoriesView kilometers={value} />}
+                        {() => <PetsView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude}/>}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Others"

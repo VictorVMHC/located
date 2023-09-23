@@ -21,8 +21,57 @@ const foodTags = [
     'comida chatarra' 
 ];
 
+const pharmacydTags = [
+    'farmacia',
+    'botica',
+    'droguería',
+    'apoteca',
+    'botiga',
+    'medicamento',
+    'medicina',
+    'fármaco',
+    'drugstore',
+    'pharmacy',
+    'chemists',
+];
+
+const BusinesTags = [
+    'store',
+    'comercio',
+    'almacen',
+    'market',
+    'supermarket',
+    'outlet',
+    'warehouse',
+    'mart',
+    'bazaar',
+    'shop',
+    'tianguis',
+    'supermercado',
+    'mercado',
+    'súper',
+    'hipermercado',
+    'tienda',
+    'establecimiento'
+];
+
+const PetsTags = [
+    'veterinario',
+    'veterinaria',
+    'albéitar',
+    'mascotas',
+    'animales',
+    'veterinary',
+    'vet',
+    'veterinarian',
+    'mascot',
+    'pet',
+];
 
 
 export {
-    foodTags
+    foodTags,
+    pharmacydTags,
+    BusinesTags,
+    PetsTags,
 };

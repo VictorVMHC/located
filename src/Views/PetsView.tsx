@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } fro
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
-import { foodTags } from '../Utils/ArraysTags';
+import { PetsTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
 interface Props {
     kilometers: number;
@@ -11,7 +11,7 @@ interface Props {
     longitude:number
 };
 
-export const FoodView = ({kilometers, latitude, longitude}:Props) => {
+export const PetsView = ({kilometers, latitude, longitude}:Props) => {
     const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
@@ -23,7 +23,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
         if(page <= totalPage && !fetching){
             setFetching(true)
             console.log(page);        
-            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);
+            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,PetsTags, page);
             console.log('More Locals');
             if (locals) {
                 setDataLocals([...dataLocals, ...locals]);

@@ -1,62 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet} from 'react-native'
-import { local } from '../Utils/Data _Example'
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CardCloseToMe } from '../Components/CardCloseToMe';
+import React, {useEffect, useState } from 'react'
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
-import { useLocation } from '../Hooks/useLocation';
+import { pharmacydTags } from '../Utils/ArraysTags';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { CardCloseToMe } from '../Components/CardCloseToMe';
+import { Colors } from '../Themes/Styles';
 
 
 
 interface Props {
     kilometers: number;
+    latitude: number,
+    longitude:number
 };
 
-export const PharmacyView = ({kilometers}:Props) => {
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
+export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
+    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [page, setPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1);
+    const [fetching, setFetching] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometers,'Farmacia');
-        setDatosLocales(await data);
+    const fetchMoreLocales  = async () =>{
+        if(page <= totalPage && !fetching){
+            setFetching(true)
+            console.log(page);        
+            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,pharmacydTags, page);
+            console.log('More Locals');
+            if (locals) {
+                setDataLocals([...dataLocals, ...locals]);
+                setTotalPage(totalPages);
+                console.log(totalPage, page);
+                setFetching(false);
+                setLoading(false); 
+            }
+            setPage(page + 1);
+        }
     }
 
-    const {
-        hasLocation,
-        followUserLocation,
-        userLocation,
-        stopFollowUserLocation
-    } = useLocation();
-
     useEffect(() => {
-        followUserLocation();
-        return () => {
-            stopFollowUserLocation();
-        }
-    }, []);
-
-    useEffect(() => {
-        console.log('hola useEffect');
-        if(!hasLocation){
-            return ;
-        }
-        sata();
-    },[userLocation, hasLocation]);
+        console.log('Entro');
+        console.log('kilometers:', kilometers);
+        setPage(1);
+        setTotalPage(1);
+        setDataLocals([]);
+        setLoading(true);
+    },[kilometers]);
 
     return (
         <SafeAreaView style={styles.container}>
-       {/* <FlatList 
-            numColumns={2}
-            data={datosLocales}
-            renderItem={ ( { item } ) => {
-                return(
-                    <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000' } like={false} Name={item.name} categorie={item.tags[0]}
-                    />
-                )
-            } }
-            keyExtractor={(item) => item.name.toString()}
-        />*/}
-    </SafeAreaView>
+            <FlatList 
+                numColumns={2}
+                data={dataLocals}
+                renderItem={ ( { item } ) => {
+                    return(
+                        <CardCloseToMe Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} like={false} Name={item.name} categories={item.tags[0]}
+                        />
+                    )
+                } }
+                keyExtractor={(item) => item.name.toString()}
+                onEndReached={fetchMoreLocales} 
+                onEndReachedThreshold={0.1} 
+                ListFooterComponent={()=>(
+                    loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
+                )}
+            />
+        </SafeAreaView>
     )
 }
 

@@ -2,8 +2,6 @@ import { searchByTags } from "../Api/searchLocalsApi";
 
 const fetchData = async (latitude: number, longitude: number, radioKm: number, tags: string[], page?: number, limit?:number) => {
     try {
-        console.log('Obteniendo datos...');
-
         const result = await searchByTags(
             latitude,
             longitude,

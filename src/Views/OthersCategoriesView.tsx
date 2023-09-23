@@ -14,32 +14,18 @@ interface Props {
 export const OthersCategoriesView = ({kilometers}:Props) => {
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
 
-    const sata = async () =>{
+   /* const sata = async () =>{
         const data =  fetchData(userLocation.latitude, userLocation.longitude,kilometers,'store');
         setDatosLocales(await data);
-    }
+    }*/
 
-    const {
-        hasLocation,
-        followUserLocation,
-        userLocation,
-        stopFollowUserLocation
-    } = useLocation();
-
-    useEffect(() => {
-        followUserLocation();
-        return () => {
-            stopFollowUserLocation();
-        }
-    }, []);
-
-    useEffect(() => {
+  /*  useEffect(() => {
         console.log('hola useEffect');
         if(!hasLocation){
             return ;
         }
         sata();
-    },[userLocation, hasLocation, kilometers ]);
+    },[userLocation, hasLocation, kilometers ]);*/
 
 
     return (

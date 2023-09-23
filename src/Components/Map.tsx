@@ -37,7 +37,7 @@ export const Map = ({ markers }: Props) => {
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
-    const radioKm = 0.2
+    const radioKm = 0.5;
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
     
