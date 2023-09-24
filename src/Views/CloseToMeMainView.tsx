@@ -140,7 +140,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="ellipsis-v" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <OthersCategoriesView kilometers={value} />}
+                        {() => <OthersCategoriesView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
                     </Tab.Screen>
                 </Tab.Navigator>
             </View>

@@ -6,7 +6,6 @@ import { Colors } from '../Themes/Styles';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '../Context/AuthContext';
 import { deleteUser } from '../Api/userApi';
-import { CustomAlert } from '../Components/CustomAlert';
 import { useTranslation } from 'react-i18next';
 
 interface Props extends NativeStackScreenProps<any, any>{};
