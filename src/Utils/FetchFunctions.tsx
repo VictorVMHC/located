@@ -1,23 +1,21 @@
-import { string } from "yup";
-import { searchCloseTome } from "../Api/searchLocalsApi";
+import { searchByTags } from "../Api/searchLocalsApi";
 
-const fetchData = async (latitude: number, longitude: number, radioKm: number, tags: string) => {
+const fetchData = async (latitude: number, longitude: number, radioKm: number, tags: string[], page?: number, limit?:number) => {
     try {
-        console.log('Obteniendo datos...');
-        const resultados = await searchCloseTome(
-            'closetome',
+        const result = await searchByTags(
             latitude,
             longitude,
             radioKm,
-            tags
+            tags,
+            page, 
+            limit 
         );
-        const paginatedResults = resultados.data.results;
-        console.log(paginatedResults);
-        return paginatedResults;
+        return result.data;
     } catch (error) {
         console.error(error);
     }
 };
+
 
 export {
     fetchData

@@ -8,31 +8,32 @@ import {
     View
 } from 'react-native';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 
 interface Props{
     Img: string,
     Name: string,
-    categorie: string,
+    categories: string,
     like: boolean,
+    routeComments?: () => void,
 }
 
-export const CardCloseToMe = ({ Img = '', Name = '', categorie = '', like = false }: Props ) => {
-    const {width, height} = useWindowDimensions();
+export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = false }: Props ) => {
+    const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
+
     return (
     <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8}>
             <View style={styles.ChartImg}>
                 <Image 
-                    style ={styles.imgen}
+                    style ={styles.image}
                     source={{uri: Img}} 
                 />
             </View>
             <View style={styles.ChartText}>
                 <Text numberOfLines={3} style={styles.textName}>{Name}</Text>
-                <Text numberOfLines={2} style={styles.categorie}>{categorie}</Text>
+                <Text numberOfLines={2} style={styles.categories}>{categories}</Text>
             </View>
             <TouchableOpacity style={styles.heartBtn}
                 onPress={() => {check()} }
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 2,
     },
-    imgen:{
+    image:{
         width: '95%',
         height: '95%',
         borderRadius: 20,
@@ -90,16 +91,12 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         color: 'black'
     },
-    chartTextgiro:{
-        overflow: 'hidden', 
-        flex: 1
-
-    },
-    categorie:{
+    categories:{
         fontFamily: 'Outfit.Regular',
         fontSize: 18,
         textAlign: 'center',
-        fontWeight: '500'
+        fontWeight: '500',
+        color: 'black'
     },
     heartBtn:{
         backgroundColor:Colors.gray,

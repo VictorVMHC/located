@@ -7,7 +7,7 @@ import { CloseToMeView } from '../Views/CloseToMeView';
 import { ForYouView } from '../Views/ForYouView';
 import { MapsView } from '../Views/MapsView';
 import { MyLocalsView } from '../Views/MyLocalsView';
-import { PopularView } from '../Views/PopularView';
+import { PopularView } from '../Views/PopularView'
 
 const Tab = createMaterialBottomTabNavigator();
 

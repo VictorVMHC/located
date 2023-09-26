@@ -1,13 +1,18 @@
 import api from "./api"
 
-const searchLocalsRad = (collection: string,latitude: number, longitude: number, kilometres: number) => {
-    const route = `/api/searchLocals/${collection}/${latitude}/${longitude}/${kilometres}`
+const searchLocals = (latitude: number, longitude: number, kilometers: number) => {
+    const route = `/api/searchLocals/byRange/${latitude}/${longitude}/${kilometers}`
     return api.get(route);
 }
 
-const searchCloseTome = (collection: string,latitude: number, longitude: number, kilometres: number, tags: string) => {
-    const route = `/api/searchLocals/${collection}/${latitude}/${longitude}/${kilometres}/${tags}`
-    return api.get(route);
+const searchByTags = (latitude: number, longitude: number, kilometers: number, tags: string[], page?: number, limit?:number) => {
+    const route = `/api/searchLocals/byTags/${latitude}/${longitude}/${kilometers}/${tags}`;
+    return api.get(route, {
+        params:{
+            page,
+            limit
+        }
+    } );
 }
 
 const searchByUser = () => {
@@ -15,7 +20,7 @@ const searchByUser = () => {
 }
 
 export {
-    searchLocalsRad,
-    searchCloseTome,
+    searchLocals,
+    searchByTags,
     searchByUser,
 }

@@ -1,60 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet} from 'react-native'
-import { local } from '../Utils/Data _Example'
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CardCloseToMe } from '../Components/CardCloseToMe';
+import React, {useEffect, useState } from 'react'
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
-import { useLocation } from '../Hooks/useLocation';
+import { pharmacyTags } from '../Utils/ArraysTags';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { CardCloseToMe } from '../Components/CardCloseToMe';
+import { Colors } from '../Themes/Styles';
 
+interface Props {
+    kilometers: number;
+    latitude: number,
+    longitude:number
+};
 
-interface Props extends NativeStackScreenProps<any, any>{};
+export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
+    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [page, setPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1);
+    const [fetching, setFetching] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-export const PharmacyView = ({navigation}:Props) => {
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]);
-
-    const sata = async () =>{
-        const data =  fetchData(userLocation.latitude, userLocation.longitude,2,'Farmacia');
-        setDatosLocales(await data);
+    const fetchMoreLocales  = async () =>{
+        if(page <= totalPage && !fetching){
+            setFetching(true) 
+            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,pharmacyTags, page);
+            if (locals) {
+                setDataLocals([...dataLocals, ...locals]);
+                setTotalPage(totalPages);
+                setFetching(false);
+                setLoading(false); 
+            }
+            setPage(page + 1);
+        }
     }
 
-    const {
-        hasLocation,
-        followUserLocation,
-        userLocation,
-        stopFollowUserLocation
-    } = useLocation();
-
     useEffect(() => {
-        followUserLocation();
-        return () => {
-            stopFollowUserLocation();
-        }
-    }, []);
+        setPage(1);
+        setTotalPage(1);
+        setDataLocals([]);
+        setLoading(true);
+    },[kilometers]);
 
-    useEffect(() => {
-        console.log('hola useEffect');
-        if(!hasLocation){
-            return ;
-        }
-        sata();
-    },[userLocation, hasLocation]);
-
-    const id = navigation.getState();
     return (
         <SafeAreaView style={styles.container}>
-        <FlatList 
-            numColumns={2}
-            data={datosLocales}
-            renderItem={ ( { item } ) => {
-                return(
-                    <CardCloseToMe Img={'../Assets/Images/Img_User.png' } like={false} Name={item.name} categorie={item.tags[0]}
-                    />
-                )
-            } }
-            keyExtractor={(item) => item.name.toString()}
-        />
-    </SafeAreaView>
+            <FlatList 
+                numColumns={2}
+                data={dataLocals}
+                renderItem={ ( { item } ) => {
+                    return(
+                        <CardCloseToMe 
+                            Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                            like={false} 
+                            Name={item.name} 
+                            categories={item.tags[0]}
+                        />
+                    )
+                } }
+                keyExtractor={(item) => item.name.toString()}
+                onEndReached={fetchMoreLocales} 
+                onEndReachedThreshold={0.1} 
+                ListFooterComponent={()=>(
+                    loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
+                )}
+            />
+        </SafeAreaView>
     )
 }
 
