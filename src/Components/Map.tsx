@@ -5,7 +5,7 @@ import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { searchLocalsRad } from '../Api/searchLocalsApi';
+import { searchLocals } from '../Api/searchLocalsApi';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -37,7 +37,7 @@ export const Map = ({ markers }: Props) => {
     const mapViewRef = useRef<MapView>();
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
-    const radioKm = 50.0
+    const radioKm = 0.5;
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
     
@@ -45,9 +45,7 @@ export const Map = ({ markers }: Props) => {
 
     const fetchData = async (latitude: number, longitude: number) => {
             try {
-                console.log('Obteniendo datos...');
-                const resultados = await searchLocalsRad(
-                    'locals',
+                const resultados = await searchLocals(
                     latitude,
                     longitude,
                     radioKm
@@ -82,7 +80,6 @@ export const Map = ({ markers }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log('hola useEffect');
         console.log(hasFetchedData);
         if(!hasLocation){
             return ;

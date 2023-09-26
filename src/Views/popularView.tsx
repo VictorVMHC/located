@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native'
-import { local } from '../Utils/Data _Example'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
-import { searchLocalsRad } from '../Api/searchLocalsApi';
+import { searchLocals } from '../Api/searchLocalsApi';
 import { useLocation } from '../Hooks/useLocation';
 
 interface Props extends NativeStackScreenProps<any, any>{};
@@ -17,8 +16,7 @@ export const PopularView = ({navigation}:Props) => {
     const fetchData = async (latitude: number, longitude: number) => {
         try {
             console.log('Obteniendo datos...');
-            const resultados = await searchLocalsRad(
-                'locals',
+            const resultados = await searchLocals(
                 latitude,
                 longitude,
                 radioKm
