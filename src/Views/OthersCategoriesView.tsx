@@ -72,8 +72,6 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
 
 
     useEffect(() => {
-        console.log('Entro');
-        console.log('kilometers:', kilometers);
         setPage(1);
         setTotalPage(1);
         setDataLocals([]);

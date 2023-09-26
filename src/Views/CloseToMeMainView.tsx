@@ -23,7 +23,6 @@ export const CloseToMeMainView = () => {
     const [value, setValue] = useState(0.1);
     const { t } = useTranslation();
 
-    
     const {
         hasLocation,
         userLocation,

@@ -21,7 +21,7 @@ const foodTags = [
     'comida chatarra' 
 ];
 
-const pharmacydTags = [
+const pharmacyTags = [
     'farmacia',
     'botica',
     'droguería',
@@ -35,7 +35,7 @@ const pharmacydTags = [
     'chemists',
 ];
 
-const BusinesTags = [
+const businessTags = [
     'store',
     'comercio',
     'almacen',
@@ -71,7 +71,7 @@ const PetsTags = [
 
 export {
     foodTags,
-    pharmacydTags,
-    BusinesTags,
+    pharmacyTags,
+    businessTags,
     PetsTags,
 };
