@@ -5,6 +5,7 @@ import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
 import { foodTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
+
 interface Props {
     kilometers: number;
     latitude: number,
@@ -17,18 +18,16 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
+   
     
 
     const fetchMoreLocales  = async () =>{
         if(page <= totalPage && !fetching){
-            setFetching(true)
-            console.log(page);        
+            setFetching(true)    
             const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);
-            console.log('More Locals');
             if (locals) {
                 setDataLocals([...dataLocals, ...locals]);
                 setTotalPage(totalPages);
-                console.log(totalPage, page);
                 setFetching(false);
                 setLoading(false); 
             }
@@ -37,8 +36,6 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     }
 
     useEffect(() => {
-        console.log('Entro');
-        console.log('kilometers:', kilometers);
         setPage(1);
         setTotalPage(1);
         setDataLocals([]);

@@ -11,6 +11,8 @@ interface Props {
     longitude:number
 };
 
+
+
 export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) => {
     const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
     const [page, setPage] = useState(1)
@@ -22,12 +24,8 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     const [foodTagsInput, setFoodTagsInput] = useState('.*');
     const [flagSearchLocal, setFlagSearchLocal] = useState(false);
 
-    const updateDataStyles = (valueHeightContainerTexImput: number) => {
-        setHeightContainerTexInput(valueHeightContainerTexImput);
-    }
-    
-    const handleFoodTagsInputChange = (text: string) => {
-        setFoodTagsInput(text);
+    const updateDataStyles = (valueHeightContainerTexInput: number) => {
+        setHeightContainerTexInput(valueHeightContainerTexInput);
     }
 
     const fetchDataAndUpdateLocals = async (pageToFetch: number = 1) => {
@@ -42,6 +40,15 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         setLoading(false);
     }
 
+    const fetchMoreLocales  = async () =>{
+        console.log('otros'+ page, totalPage);
+        
+        if(page <= totalPage && !fetching && !flagSearchLocal){
+            fetchDataAndUpdateLocals(page);
+            setPage(page + 1);
+        }
+    }
+
     const handleSearch = async () => {
         setLoading(true);
         setDataLocals([]);
@@ -52,12 +59,16 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         setFlagSearchLocal(true);
     }
 
-    const fetchMoreLocales  = async () =>{
-        if(page <= totalPage && !fetching && !flagSearchLocal){
-            fetchDataAndUpdateLocals(page);
-            setPage(page + 1);
+    const handleFoodTagsInputChange = (text: string) => {
+        if(text.trim() === ''){
+            setFoodTagsInput('.*')
+            handleSearch();
+            
+        }else{
+            setFoodTagsInput(text);
         }
     }
+
 
 
     useEffect(() => {
@@ -73,15 +84,13 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             () => {
-                console.log('El teclado se ha abierto');
                 updateDataStyles(1); 
             }
         );
-    
+
         const keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             () => {
-                console.log('El teclado se ha cerrado');
                 updateDataStyles(0.5); 
             }
         );

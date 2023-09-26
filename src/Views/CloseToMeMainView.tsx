@@ -11,15 +11,19 @@ import { BusinessView} from './BusinessView';
 import { PetsView } from './PetsView';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
-import useEffect from 'react';
+import React from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 
 const Tab = createMaterialTopTabNavigator();
 
+interface Props extends NativeStackScreenProps<any, any>{};
 export const CloseToMeMainView = () => {    
     const {width, height} = useWindowDimensions();
     const [value, setValue] = useState(0.1);
     const { t } = useTranslation();
 
+    
     const {
         hasLocation,
         userLocation,
@@ -56,12 +60,11 @@ export const CloseToMeMainView = () => {
                                 <View style={styles.bottomContainerSlider}></View>
                             </View>}
                             onValueChange={(val)=>{
-                                console.log(value);
                                 let valueSlide = (parseFloat(val.toString()) / 10)
                                 if(valueSlide < 0.5){
                                     setValue(0.1);
                                 }
-                                if(valueSlide >0.5 && valueSlide < 1){
+                                if(valueSlide >0.5 && valueSlide < 1.0){
                                     setValue(0.5);
                                 }
                                 if(valueSlide >1.0 && valueSlide < 1.5){
@@ -95,7 +98,7 @@ export const CloseToMeMainView = () => {
                             tabBarIcon: ({ color }) => (
                             <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                             ),
-                        }}>
+                        }} >
                         {() => <FoodView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
                     </Tab.Screen>
                     <Tab.Screen

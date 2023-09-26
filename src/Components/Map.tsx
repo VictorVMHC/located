@@ -45,7 +45,6 @@ export const Map = ({ markers }: Props) => {
 
     const fetchData = async (latitude: number, longitude: number) => {
             try {
-                console.log('Obteniendo datos...');
                 const resultados = await searchLocals(
                     latitude,
                     longitude,
@@ -81,7 +80,6 @@ export const Map = ({ markers }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log('hola useEffect');
         console.log(hasFetchedData);
         if(!hasLocation){
             return ;
