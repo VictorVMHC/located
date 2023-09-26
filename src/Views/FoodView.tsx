@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { CardCloseToMe } from '../Components/CardCloseToMe';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
-import { fetchData } from '../Utils/FetchFunctions';
-import { foodTags } from '../Utils/ArraysTags';
+import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
+import { foodTags } from '../Utils/ArraysTags';
+import { fetchData } from '../Utils/FetchFunctions';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -12,7 +12,7 @@ interface Props {
 };
 
 export const FoodView = ({kilometers, latitude, longitude}:Props) => {
-    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
@@ -50,7 +50,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
                         />
                     )
                 } }
-                keyExtractor={(item) => item.name.toString()}
+                keyExtractor={(item) => item._id }
                 onEndReached={fetchMoreLocales} 
                 onEndReachedThreshold={0.1} 
                 ListFooterComponent={()=>(

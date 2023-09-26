@@ -8,6 +8,7 @@ import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocals } from '../Api/searchLocalsApi';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useFocusEffect } from '@react-navigation/native';
+import { Local } from '../Interfaces/DbInterfaces';
 
 interface Props {
     markers?: any,
@@ -38,7 +39,7 @@ export const Map = ({ markers }: Props) => {
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
     const radioKm = 0.5;
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
+    const [datosLocales, setDatosLocales] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
     
 

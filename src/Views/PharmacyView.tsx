@@ -5,6 +5,7 @@ import { pharmacyTags } from '../Utils/ArraysTags';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { Colors } from '../Themes/Styles';
+import { Local } from '../Interfaces/DbInterfaces';
 
 interface Props {
     kilometers: number;
@@ -13,7 +14,7 @@ interface Props {
 };
 
 export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
-    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
@@ -55,7 +56,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
                         />
                     )
                 } }
-                keyExtractor={(item) => item.name.toString()}
+                keyExtractor={(item) => item._id }
                 onEndReached={fetchMoreLocales} 
                 onEndReachedThreshold={0.1} 
                 ListFooterComponent={()=>(

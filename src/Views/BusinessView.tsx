@@ -5,6 +5,7 @@ import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
 import { businessTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
+import { Local } from '../Interfaces/DbInterfaces';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -12,7 +13,7 @@ interface Props {
 };
 
 export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
-    const [dataLocals, setDataLocals] = useState<NewLocal[]>([]);
+    const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
@@ -57,7 +58,7 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
                         />
                     )
                 } }
-                keyExtractor={(item) => item.name.toString()}
+                keyExtractor={(item) => item._id}
                 onEndReached={fetchMoreLocales} 
                 onEndReachedThreshold={0.1} 
                 ListFooterComponent={()=>(

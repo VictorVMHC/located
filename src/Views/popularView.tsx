@@ -6,11 +6,12 @@ import { useFocusEffect } from '@react-navigation/native';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { searchLocals } from '../Api/searchLocalsApi';
 import { useLocation } from '../Hooks/useLocation';
+import { Local } from '../Interfaces/DbInterfaces';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const PopularView = ({navigation}:Props) => {
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
+    const [datosLocales, setDatosLocales] = useState<Local[]>([]); 
     const radioKm = 0.2
 
     const fetchData = async (latitude: number, longitude: number) => {
@@ -61,7 +62,7 @@ export const PopularView = ({navigation}:Props) => {
                         />
                     )
                 } }
-                keyExtractor={(item) => item.name.toString()}
+                keyExtractor={(item) => item._id }
             />
         </SafeAreaView>
     );
