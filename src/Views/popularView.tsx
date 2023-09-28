@@ -3,7 +3,6 @@ import { SafeAreaView, FlatList, StyleSheet } from 'react-native'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { searchLocals } from '../Api/searchLocalsApi';
 import { useLocation } from '../Hooks/useLocation';
 import { Local } from '../Interfaces/DbInterfaces';
@@ -16,7 +15,6 @@ export const PopularView = ({navigation}:Props) => {
 
     const fetchData = async (latitude: number, longitude: number) => {
         try {
-            console.log('Obteniendo datos...');
             const resultados = await searchLocals(
                 latitude,
                 longitude,
@@ -31,10 +29,7 @@ export const PopularView = ({navigation}:Props) => {
 
     const {
         hasLocation,
-        initialPosition,
-        followUserLocation,
         userLocation,
-        stopFollowUserLocation
     } = useLocation();
 
     useEffect(() => {
@@ -57,7 +52,9 @@ export const PopularView = ({navigation}:Props) => {
                 data={datosLocales}
                 renderItem={ ( { item } ) => {
                     return(
-                        <Card like={false} newLocal={item} 
+                        <Card 
+                            like={false} 
+                            newLocal={item} 
                             routeToStore={() => navigation.navigate("StoreView")}
                         />
                     )

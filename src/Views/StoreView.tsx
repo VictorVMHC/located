@@ -1,13 +1,17 @@
-import React, {useRef} from 'react'
-import { ScrollView, StyleSheet, Text, View} from 'react-native'
+import React, { useEffect, useRef, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { getLocal } from '../Api/localApi';
+import { Local } from '../Interfaces/DbInterfaces';
+import { Location } from '../Interfaces/MapInterfaces';
 
 interface Props extends NativeStackScreenProps<any, any>{};
+
 interface Store {
     id: number;
     productNamee: string;
@@ -15,25 +19,32 @@ interface Store {
     img:  string;
     puntuation: string;
     DescripcionB: string;
-    like: boolean
+    like: boolean;
 }
 
 const listArray: Store[] = [
-    { id: 1, productNamee: 'paracetamol 1', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 2, productNamee: 'paracetamol 2', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 3, productNamee: 'paracetamol 3', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: false },
-    { id: 4, productNamee: 'paracetamol 4', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 5, productNamee: 'paracetamol 5', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 6, productNamee: 'paracetamol 1', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 7, productNamee: 'paracetamol 2', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 8, productNamee: 'paracetamol 3', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: false },
-    { id: 9, productNamee: 'paracetamol 4', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
-    { id: 10, productNamee: 'paracetamol 5', price: '50.00', img: 'https://m.media-amazon.com/images/I/61uutWxTEIL._AC_SX679_.jpg', puntuation: '4.5', DescripcionB: 'BUENO', like: true },
+    // ... Tu lista de elementos ...
 ];
-
+const mapStyle = [
+    {
+        elementType: 'labels.icon',
+        stylers: [
+            {
+                visibility: 'off',
+            },
+        ],
+    },
+    {
+        featureType: 'poi',
+        stylers: [
+            {
+                visibility: 'off',
+            },
+        ],
+    },
+]
 
 const rendererBusiness = (item: any) => {
-    
     return (
         <CardCatalogue
             ProductName = {item.productNamee}
@@ -46,11 +57,35 @@ const rendererBusiness = (item: any) => {
     );
 }
 
-export const StoreView = ({navigation}: Props) => {
+export const StoreView = ({navigation, route}: Props) => {
+    const id = route.params?.id;
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-    
+
+    const mapViewRef = useRef<MapView>();
+    const following = useRef<boolean>(true);
+
+    const initialLocation: Location = {
+        latitude: 0,
+        longitude: 0,
+    }
+    const [dataLocals, setDataLocals] = useState<Local>();
+
+    const fetchLocalData = async () => {
+        try {
+            const response = await getLocal(id);
+            setDataLocals(response.data.locals);    
+        } catch (error) {
+            console.error('Error fetching local data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocalData();
+        console.log('name'+ dataLocals?.name);  
+    }, [id]);
+
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
             targetElement.current.measureLayout(
@@ -62,7 +97,7 @@ export const StoreView = ({navigation}: Props) => {
             );
         }
     };
-    
+
     return (
         <>
             <ScrollView style={StylesStore.container} ref={scrollViewRef}  stickyHeaderIndices={[1]}>
@@ -73,10 +108,10 @@ export const StoreView = ({navigation}: Props) => {
                         like = {false}
                     />
                     <View style={StylesStore.valuesText}>
-                        <Text style={StylesStore.textName}>Mcdonalds</Text>
-                        <Text style={{...StylesStore.textInformation}}>Product/service</Text>
-                        <Text style={{...StylesStore.textInformation, color: 'green'}}>Open</Text>
-                        <Text style={{...StylesStore.textInformation}}>Guadalajara(Mexico)</Text> 
+                        <Text style={StylesStore.textName}>{dataLocals?.name}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{dataLocals?.businessType}</Text>
+                        <Text style={{...StylesStore.textInformation, color: 'green'}}>{dataLocals?.open}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{`${dataLocals?.town}(${dataLocals?.state})`}</Text> 
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
@@ -88,19 +123,32 @@ export const StoreView = ({navigation}: Props) => {
                     />
                 </View>
                 <View ref={addressRef}>
-                    <MapView style={StylesStore.map} />
+                    <MapView 
+                        ref={(el) => mapViewRef.current = el!}
+                        style={StylesStore.map}
+                        customMapStyle={mapStyle}
+                            showsUserLocation
+                            initialRegion={{
+                                latitude: dataLocals?.location?.latitude || 0,
+                                longitude: dataLocals?.location.longitude || 0,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}
+                            zoomControlEnabled
+                            onTouchStart={() => following.current = false}
+                        />
                     <View style={StylesStore.valuesText}>
                         <IconWithText 
                             NameIcon ={'directions'}
                             IconSize ={20}
                             ColorIcon={'#CD5F28'}
-                            text ={'AV. La Paz #1925, col. Americana, CP 44150 Guadalajara, Jalisco. Mexico'}
+                            text ={`${dataLocals?.address}, CP ${dataLocals?.postalCode} ${dataLocals?.town}, ${dataLocals?.state}. ${dataLocals?.country}  `}
                         />
                         <IconWithText 
                             NameIcon ={'envelope'}
                             IconSize ={20}
                             ColorIcon={'#CD5F28'}
-                            text ={'sayulitrostaquepaque2013@gmail.com'}
+                            text ={`${dataLocals?.contact}`}
                         />
                         <IconWithText 
                             NameIcon ={'globe'}
@@ -112,7 +160,7 @@ export const StoreView = ({navigation}: Props) => {
                             NameIcon ={'info-circle'}
                             IconSize ={20}
                             ColorIcon={'#CD5F28'}
-                            text ={'promocion'}
+                            text ={`${dataLocals?.description}`}
                         />
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>

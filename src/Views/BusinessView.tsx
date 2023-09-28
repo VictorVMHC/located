@@ -6,6 +6,7 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { businessTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
+import { useNavigation } from '@react-navigation/native';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -18,6 +19,7 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
     
 
     const fetchMoreLocales  = async () =>{
@@ -55,6 +57,7 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
                             like={false} 
                             Name={item.name} 
                             categories={item.tags[0]}
+                            navigation={navigation}
                         />
                     )
                 } }

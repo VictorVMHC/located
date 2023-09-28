@@ -6,6 +6,7 @@ import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-nat
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     kilometers: number;
@@ -19,6 +20,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
     const [totalPage, setTotalPage] = useState(1);
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
     const fetchMoreLocales  = async () =>{
         if(page <= totalPage && !fetching){
@@ -53,6 +55,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
                             like={false} 
                             Name={item.name} 
                             categories={item.tags[0]}
+                            navigation={navigation}
                         />
                     )
                 } }

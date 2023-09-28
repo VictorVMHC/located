@@ -12,12 +12,9 @@ import { PetsView } from './PetsView';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
 import React from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
 
 const Tab = createMaterialTopTabNavigator();
 
-interface Props extends NativeStackScreenProps<any, any>{};
 export const CloseToMeMainView = () => {    
     const {width, height} = useWindowDimensions();
     const [value, setValue] = useState(0.1);
