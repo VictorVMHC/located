@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator, Animated, ImageBackground, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Animated, ImageBackground, StyleSheet, View, useWindowDimensions } from 'react-native'
 const img = require('../Assets/Images/fondo_main.png');
 
 export const LoadingView = () => {

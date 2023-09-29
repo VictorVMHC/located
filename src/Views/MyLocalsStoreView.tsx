@@ -6,13 +6,12 @@ import MapView, { Marker } from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Local } from '../Interfaces/DbInterfaces';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Colors } from '../Themes/Styles';
-import { FlatList } from 'react-native-gesture-handler';
 import { getProductsByLocalId } from '../Api/productsApi';
 import { Product } from '../Interfaces/ProductsInterfaces';
 import { CustomAlert } from '../Components/CustomAlert';
+import { CreateProductAlertView } from './CreateProductAlertView';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
@@ -34,7 +33,8 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [ page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [ productsList, setProductsList ] = useState<Product[]>([]);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [ isLoadingMore, setIsLoadingMore ] = useState(false);
+    const [ haveProducts, setHaveProducts ] = useState(true);
 
     const {name, description, uriImage,_id, address, isVerify, country, state, town, 
             postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
@@ -67,7 +67,6 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
 
     const fetchProducts = async () => {
         try{
-
             const result = await getProductsByLocalId(_id, page, 2);
             const { products, totalPages } = result.data;
 
@@ -75,23 +74,34 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                 setProductsList([...productsList, ...products]);
                 setTotalPage(totalPages);
             }
-        }catch(err){
-            CustomAlert({
-                title: "Error",
-                desc: "Was not possible to retrieve the local products, ¡Please try again!"
-            });
+        }catch(err: any){
+            
+            if(err.response.status === 404){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the local products, ¡Please try again!",
+                    action: () =>  setHaveProducts(false)
+                });
+            }
+            if(err.response.status === 500){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the local products, ¡Please try again!"
+                });
+            }
+            setTotalPage(0);
         }finally{
+            setHaveProducts(true);
             setPage(page + 1);
         }
     }
 
     useEffect( () => {
-
-        if(productsList.length !== 0){
+        if(productsList.length !== 0 && page >= totalPage){
             return;
         }
         fetchProducts();
-    })
+    }, [])
 
     const renderProductList = () => {
         return productsList.map((item) => (
@@ -205,7 +215,10 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                         }
                     </View>
                         <View style={StylesStore.containerList} ref={catalogueRef}>
-                            {renderProductList()}
+                            {haveProducts 
+                                ? renderProductList()
+                                : <CreateProductAlertView navigation={navigation} route={route}/>
+                            }
                         </View>
                     </View>
             </ScrollView>

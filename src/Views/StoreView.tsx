@@ -1,12 +1,11 @@
 import React, {useRef} from 'react'
-import { ScrollView, StyleSheet, Text, View, useWindowDimensions} from 'react-native'
+import { ScrollView, StyleSheet, Text, View} from 'react-native'
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 interface Store {

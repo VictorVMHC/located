@@ -27,11 +27,10 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCa
     const { t} = useTranslation();
     const [inputValue, setInputValue] = useState(0);
     const [like, setLike] = useState(likes);
-    const [dislike, setdislike] = useState(dislikes);
+    const [dislike, setDislike] = useState(dislikes);
 
 
     const handleSendValue = (idUser: number) => {
-        // Llamamos a la función onCallback para enviar el valor al componente padre
         setInputValue(idUser);
         onCallback(inputValue);
     };
@@ -52,9 +51,9 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCa
     const checkdislike =() =>{
         if(dislike || like)
         {
-            setdislike(false)
+            setDislike(false)
         } else {
-            setdislike(true)
+            setDislike(true)
         }
     }
 
@@ -154,15 +153,13 @@ const StyleContainerComment = StyleSheet.create({
     },
     TextComment:{
         fontSize: 16,
-        borderBottomWidth: 1, 
-        borderBottomColor: '#C1C1C1',
+        borderBottomWidth: 2, 
+        borderBottomColor: Colors.Yellow,
         color: Colors.black
     },
     ContainerLikeAndDeslike:{
         flexDirection: 'row',
         marginHorizontal: 20,
         marginTop: 5
-
     }
-    
 });
