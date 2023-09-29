@@ -20,6 +20,7 @@ import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 import { LocalCreatorView } from '../Views/LocalCreatorView';
 import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
+import { NoPopularLocalsToShowAlertView } from '../Views/NoPopularLocalsToShowAlertView';
 import { MyLocalsStoreView } from '../Views/MyLocalsStoreView';
 import { Local } from '../Interfaces/DbInterfaces';
 
@@ -79,6 +80,7 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="PrivacyPolicyView" options={screenOptions} component={PrivacyPolicyView}/>
 						<Stack.Screen name="LocalCreatorView" options={screenOptions} component={LocalCreatorView} />
 						<Stack.Screen name="CreateLocalAlertView" options={screenOptions} component={CreateLocalAlertView} />
+						<Stack.Screen name="NoPopularLocalsToShowAlertView" options={screenOptions} component={NoPopularLocalsToShowAlertView} />
 						<Stack.Screen name="MyLocalsStoreView" options={screenOptions} component={MyLocalsStoreView} />
 
 					</>

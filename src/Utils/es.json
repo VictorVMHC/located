@@ -155,6 +155,8 @@
     "pets": "Mascotas",
     "RecoveryPasswordTitle": "Nueva Contraseña",
     "RepeatPasswordText": "Repite la contraseña",
-    "ErrorTryAgain": "ocurrio un error miestras verificabamos el crreo, intenta de nuevo"
+    "ErrorTryAgain": "ocurrio un error miestras verificabamos el crreo, intenta de nuevo",
+    "NoPopularLocalsTitleText":"No se encontraron negocios populares",
+    "NoPopularLocalsDescriptionText": "No tenemos ningún local popular para mostrar en este momento. Por favor, consulte nuevamente más tarde"
   }
 }

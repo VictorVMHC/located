@@ -158,6 +158,8 @@
     "pets": "pets",
     "RecoveryPasswordTitle": "New Password",
     "RepeatPasswordText": "Repeat Password",
-    "ErrorTryAgain": "An error occurred while verifying the email, please try again"
+    "ErrorTryAgain": "An error occurred while verifying the email, please try again",
+    "NoPopularLocalsTitleText": "No popular locals found",
+    "NoPopularLocalsDescriptionText": "We don't have any popular local  to show you at the moment. Please check it again later"
   }
 }
