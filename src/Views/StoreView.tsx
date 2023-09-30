@@ -134,6 +134,9 @@ export const StoreView = ({navigation, route}: Props) => {
             />
         ));
     };
+    console.log(dataLocals?.location?.latitude);
+    console.log(dataLocals?.location?.longitude);
+    
 
     return (
         <>
@@ -169,7 +172,7 @@ export const StoreView = ({navigation, route}: Props) => {
                         style={StylesStore.map}
                         showsUserLocation
                         initialRegion={{
-                            latitude: dataLocals?.location?.latitude || 0,
+                            latitude: dataLocals?.location.latitude || 0,
                             longitude: dataLocals?.location.longitude || 0,
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
@@ -185,7 +188,7 @@ export const StoreView = ({navigation, route}: Props) => {
                             }}
                             anchor={{ x: 0.5, y: 0.10 }}
                         /> 
-                        </MapView>
+                    </MapView>
                     <View style={StylesStore.valuesText}>
                         <IconWithText 
                             NameIcon ={'directions'}

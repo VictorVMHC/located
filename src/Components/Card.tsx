@@ -36,7 +36,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
-                    source={url !== '' ? { uri: url } : require('../Assets/Images/Img_User.png')}
+                    source={{ uri: url }}
                     style={styles.imageBackground} 
                     resizeMode='cover'
                     borderTopRightRadius={20} 
@@ -84,7 +84,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                             
                             {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
                                 <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View style={{ flex: 5 }}>
+                                    <View style={{ flex: 3 }}>
                                         <View style={styles.internalDayView}>
                                             <Text style={styles.textSchedule} adjustsFontSizeToFit>{day1}{' '}</Text>
                                             {day2 && <Text style={styles.textSchedule} adjustsFontSizeToFit >-{' '}{day2}{' '}</Text>}
