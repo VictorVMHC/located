@@ -28,6 +28,8 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
                 setFetching(true)    
                 const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);           
                 if (locals) {
+                    console.log(locals);
+                    
                     setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
                     setTotalPage(totalPages);
                     setFetching(false);

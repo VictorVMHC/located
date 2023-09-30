@@ -22,6 +22,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+    const [noLocalsFound, setNoLocalsFound] = useState(false);
 
     const fetchMoreLocales = async () => {
         setPage(1);
@@ -29,6 +30,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
             setFetching(true);
             const { locals, totalPages } = await fetchData(latitude, longitude, kilometers, pharmacyTags, page);
             if (locals) {
+                console.log(locals);
                 setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
                 setTotalPage(totalPages);
                 setFetching(false);
@@ -36,6 +38,10 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
             }
             if (totalPages >= 1) {
                 setPage(page + 1);
+            }
+
+            if (locals.length === 0) {
+                setNoLocalsFound(true);
             }
         }
     }
@@ -45,6 +51,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
         setTotalPage(1);
         setDataLocals([]);
         setLoading(true); 
+        setNoLocalsFound(false); 
         fetchMoreLocales();
     },[kilometers]);
 
@@ -58,7 +65,7 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {dataLocals.length === 0 ? (
+            {noLocalsFound ? (
                 <ThereAreNoLocals
                     text={'No se ha encontrado ningún local'}
                     information={'Al parecer no se pudo encontrar ningún local en el rango de'}
