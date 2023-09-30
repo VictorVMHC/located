@@ -19,39 +19,9 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [heightContainerTexInput, setHeightContainerTexInput] = useState(0.5);
     const navigation = useNavigation();
     const [fetching, setFetching] = useState(false);
-    const [f, setf] = useState(false);
     const [noLocalsFound, setNoLocalsFound] = useState(false);
-
-    const updateDataStyles = (valueHeightContainerTexInput: number) => {
-        setHeightContainerTexInput(valueHeightContainerTexInput);
-    }
-
-/* const fetchDataAndUpdateLocals = async (pageToFetch: number = 1) => {
-        setLoading(true);
-        fetchData(
-            latitude, longitude, kilometers, [foodTagsInput], pageToFetch
-        ).then(
-            ({locals, totalPages}) => {
-                if (locals) {
-                    setDataLocals(prevLocals => [...prevLocals, ...locals]);
-                    setTotalPage(totalPages);
-                    setFoundLocals(true);
-                }
-            }
-        ).catch(
-            (result) => {
-                setFoundLocals(false);
-            }
-        ).finally(
-            () => {
-                setPage( page + 1);
-                setLoading(false);
-            }
-        )
-    }*/
 
     const fetchMoreLocales  = async () =>{
         try {
@@ -91,26 +61,6 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         }
     }
 
-    useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => {
-                updateDataStyles(1); 
-            }
-        );
-
-        const keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => {
-                updateDataStyles(0.5); 
-            }
-        );
-    
-        return () => {
-            keyboardDidShowListener.remove();
-            keyboardDidHideListener.remove();
-        };
-    }, []);
     return (
         <>
         <KeyboardAvoidingView style={{ flex: 1 }}>

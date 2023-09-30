@@ -1,6 +1,6 @@
 import { Slider } from '@miblanchard/react-native-slider';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
@@ -12,6 +12,7 @@ import { PetsView } from './PetsView';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
 import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,11 +20,18 @@ export const CloseToMeMainView = () => {
     const {width, height} = useWindowDimensions();
     const [value, setValue] = useState(0.1);
     const { t } = useTranslation();
+    
 
     const {
         hasLocation,
         userLocation,
     } = useLocation();
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setValue(0.1);
+        }, [])
+    );
 
     const valueKilometers = () => {
         if(value >= 1){
