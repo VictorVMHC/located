@@ -69,37 +69,39 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                         <Text style={FontStyles.SubTitles} adjustsFontSizeToFit>{address + ',' + postalCode +',' + town + ',' + country }</Text>
                     </View>
                     <View style={styles.middleSection}>
-                        <View style={{flex: 5}}>
-                            <View style={{flex: 3}}>
-                                <Text style={FontStyles.Title} adjustsFontSizeToFit >{t('DescriptionText')}</Text>
+                        <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
+                            <View style={{flex: 1, alignSelf: 'stretch'}}>
+                                <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >{t('DescriptionText')}</Text>
                             </View>
-                            <View style={{flex: 8}}>
+                            <View style={{flex: 2}}>
                                 <Text style={FontStyles.Text} adjustsFontSizeToFit>{description}</Text>
                             </View>
                         </View>
-                        <View style={{ flex: 5,  justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={FontStyles.SubTitles}>
-                                <IonIcon name={'calendar-outline'} size={20} color={Colors.blueAqua} />  {t('ScheduleTitle')}
-                            </Text>
-                            
-                            {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
-                                <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View style={{ flex: 3 }}>
-                                        <View style={styles.internalDayView}>
-                                            <Text style={styles.textSchedule} adjustsFontSizeToFit>{day1}{' '}</Text>
-                                            {day2 && <Text style={styles.textSchedule} adjustsFontSizeToFit >-{' '}{day2}{' '}</Text>}
+                        <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
+                            <View style={{flex: 1, alignSelf: 'stretch'}}>
+                                <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >
+                                    <IonIcon name={'calendar-outline'} size={20} color={Colors.blueAqua} />  {t('ScheduleTitle')}
+                                </Text>
+                            </View>
+                            <View style={{flex: 2}}>
+                                {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
+                                    <View key={index} style={{}}>
+                                        <View>
+                                            <View style={styles.internalDayView}>
+                                                <Text style={{color: Colors.black}} adjustsFontSizeToFit>{day1}{' '}</Text>
+                                                {day2 && <Text style={{color: Colors.black}} adjustsFontSizeToFit >-{' '}{day2}{' '}</Text>}
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={{color: Colors.black}} adjustsFontSizeToFit>
+                                                <IonIcon name={'time-outline'} size={10} color={Colors.blueAqua} />
+                                                {' '}
+                                                {open}{' '}-{' '}{close}
+                                            </Text>
                                         </View>
                                     </View>
-                                    <View style={styles.viewHour}>
-                                        <Text style={styles.textSchedule} adjustsFontSizeToFit>
-                                            <IonIcon name={'time-outline'} size={10} color={Colors.blueAqua} />
-                                            {' '}
-                                            {open}{' '}-{' '}{close}
-                                        </Text>
-                                    </View>
-                                </View>
-                            ))}
-                            
+                                ))}
+                            </View> 
                         </View>
                     </View>
                 </View>
@@ -200,14 +202,12 @@ const styles = StyleSheet.create({
     },
     viewHour: {
         alignSelf: 'flex-start',
-        flex: 5
     },
     viewDay: {
         alignSelf: 'flex-start',
         flex: 5
     },
     internalDayView: {
-        alignSelf: 'flex-end', 
         flexDirection: 'row'
     },
     tagStyle: {
