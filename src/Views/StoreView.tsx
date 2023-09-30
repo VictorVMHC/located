@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -84,7 +84,7 @@ export const StoreView = ({navigation, route}: Props) => {
 
     useEffect(() => {
         fetchLocalData();
-        console.log('name'+ dataLocals?.name);  
+        console.log('name '+ dataLocals?.name);  
     }, [id]);
 
     const handleScrollTo = (targetElement: any ) => {
@@ -101,10 +101,13 @@ export const StoreView = ({navigation, route}: Props) => {
 
     return (
         <>
-            <ScrollView style={StylesStore.container} ref={scrollViewRef}  stickyHeaderIndices={[1]}>
+            <ScrollView 
+                style={StylesStore.container} 
+                ref={scrollViewRef}  
+                stickyHeaderIndices={[1]}>
                 <View>
                     <ImgBusiness 
-                        Img = 'https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo-1200x670.png'
+                        Img = {dataLocals ? dataLocals.uriImage : ''}
                         open = {false}
                         like = {false}
                     />
@@ -125,19 +128,27 @@ export const StoreView = ({navigation, route}: Props) => {
                 </View>
                 <View ref={addressRef}>
                     <MapView 
-                        ref={(el) => mapViewRef.current = el!}
                         style={StylesStore.map}
                         customMapStyle={mapStyle}
-                            showsUserLocation
-                            initialRegion={{
+                        showsUserLocation
+                        initialRegion={{
+                            latitude: dataLocals?.location?.latitude || 0,
+                            longitude: dataLocals?.location.longitude || 0,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                        zoomControlEnabled
+                        minZoomLevel={13} 
+                        >
+                        <Marker
+                            key={id}
+                            coordinate={{
                                 latitude: dataLocals?.location?.latitude || 0,
                                 longitude: dataLocals?.location.longitude || 0,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
                             }}
-                            zoomControlEnabled
-                            onTouchStart={() => following.current = false}
-                        />
+                            anchor={{ x: 0.5, y: 0.10 }}
+                        /> 
+                        </MapView>
                     <View style={StylesStore.valuesText}>
                         <IconWithText 
                             NameIcon ={'directions'}
@@ -163,7 +174,7 @@ export const StoreView = ({navigation, route}: Props) => {
                         }
                         {
                             dataLocals?.contact['Instagram'] && <IconWithText 
-                                NameIcon= {'Instagram'}
+                                NameIcon= {'globe'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
                                 text= { dataLocals?.contact['Instagram'].info}

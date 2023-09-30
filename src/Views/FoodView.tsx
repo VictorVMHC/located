@@ -59,7 +59,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     }
 
     return (
-       <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {dataLocals.length === 0 ? (
                 <ThereAreNoLocals
                 text={'No se ha encontrado ningún local'}
@@ -78,6 +78,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
                             Name={item.name} 
                             categories={item.tags[0]}
                             navigation={navigation}
+                            id={item._id}
                         />
                     )
                 }}
