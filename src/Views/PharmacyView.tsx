@@ -7,7 +7,7 @@ import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
-import {CreateProductAlertView} from '../Components/ThereAreNoLocals'
+import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 
 interface Props {
     kilometers: number;
@@ -24,24 +24,16 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
     const navigation = useNavigation();
 
     const fetchMoreLocales = async () => {
-        console.log(fetching);
-        console.log('kilometers' + kilometers);
         setPage(1);
-        console.log('page'+ page);
-    
         if (page <= totalPage && !fetching) {
             setFetching(true);
             const { locals, totalPages } = await fetchData(latitude, longitude, kilometers, pharmacyTags, page);
-    
-            console.log('ddddd' + totalPages);
-    
             if (locals) {
                 setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
                 setTotalPage(totalPages);
                 setFetching(false);
                 setLoading(false);
             }
-            // Añade la comprobación de totalPage aquí
             if (totalPages >= 1) {
                 setPage(page + 1);
             }
@@ -62,14 +54,12 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
         }else{
             return (kilometers * 1000) + 'M'
         }
-
     }
-
 
     return (
         <SafeAreaView style={styles.container}>
             {dataLocals.length === 0 ? (
-                <CreateProductAlertView
+                <ThereAreNoLocals
                 text={'No se ha encontrado ningún local'}
                 information={'Al parecer no se pudo encontrar ningún local en el rango de'}
                 range={dataRange().toString()}

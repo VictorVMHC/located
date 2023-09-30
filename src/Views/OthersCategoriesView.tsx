@@ -5,6 +5,7 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
+import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 interface Props {
     kilometers: number;
     latitude: number,
@@ -22,12 +23,14 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     const [foodTagsInput, setFoodTagsInput] = useState('.*');
     const [ foundLocals, setFoundLocals] = useState(true);
     const navigation = useNavigation();
+    const [fetching, setFetching] = useState(false);
+    const [f, setf] = useState(false);
 
     const updateDataStyles = (valueHeightContainerTexInput: number) => {
         setHeightContainerTexInput(valueHeightContainerTexInput);
     }
 
-    const fetchDataAndUpdateLocals = async (pageToFetch: number = 1) => {
+/* const fetchDataAndUpdateLocals = async (pageToFetch: number = 1) => {
         setLoading(true);
         fetchData(
             latitude, longitude, kilometers, [foodTagsInput], pageToFetch
@@ -49,11 +52,26 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
                 setLoading(false);
             }
         )
-    }
+    }*/
 
     const fetchMoreLocales  = async () =>{
-        if(page <= totalPage){
+       /* if(page <= totalPage){
             fetchDataAndUpdateLocals(page);
+        }*/
+        setPage(1);
+        if (page <= totalPage && !fetching) {
+            setFetching(true);
+            const { locals, totalPages } = await fetchData(latitude, longitude, kilometers, ['.*'], page);
+            if (locals) {
+                setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
+                setTotalPage(totalPages);
+                setf(true)
+                setFetching(false);
+                setLoading(false);
+            }
+            if (totalPages >= 1) {
+                setPage(page + 1);
+            }
         }
     }
 
@@ -62,7 +80,16 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         setTotalPage(1);
         setDataLocals([]);
         setLoading(true);
+        fetchMoreLocales();
     },[kilometers]);
+
+    const dataRange = () => {
+        if(kilometers >= 1){
+            return (kilometers) + 'Km';
+        }else{
+            return (kilometers * 1000) + 'M'
+        }
+    }
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -87,6 +114,13 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     return (
         <>
         <KeyboardAvoidingView style={{ flex: 1 }}>
+        {dataLocals.length === 0 ? (
+            <ThereAreNoLocals
+                text={'No se ha encontrado ningún local'}
+                information={'Al parecer no se pudo encontrar ningún local en el rango de'}
+                range={dataRange().toString()}
+            />
+        ):(
             <View style={styles.container}>
                 <FlatList
                     keyboardShouldPersistTaps='always'
@@ -112,6 +146,8 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
                         loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
                 )} />
             </View>
+
+        )}
         </KeyboardAvoidingView>
         </>
     )

@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 interface Props {
     text: string,
@@ -11,7 +10,7 @@ interface Props {
 }
 
 
-export const CreateProductAlertView = ({text, information, range}:Props) => {
+export const ThereAreNoLocals = ({text, information, range}:Props) => {
     const {height, width} = useWindowDimensions();
     const {t} = useTranslation();
     return (
