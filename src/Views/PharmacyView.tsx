@@ -60,9 +60,9 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
         <SafeAreaView style={styles.container}>
             {dataLocals.length === 0 ? (
                 <ThereAreNoLocals
-                text={'No se ha encontrado ningún local'}
-                information={'Al parecer no se pudo encontrar ningún local en el rango de'}
-                range={dataRange().toString()}
+                    text={'No se ha encontrado ningún local'}
+                    information={'Al parecer no se pudo encontrar ningún local en el rango de'}
+                    range={dataRange().toString()}
                 />
             ) : (
                 <FlatList 
@@ -71,11 +71,12 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
                     renderItem={({ item }) => {
                     return (
                         <CardCloseToMe 
-                            Img={'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                            Img={item ? item.uriImage :'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
                             like={false} 
                             Name={item.name} 
                             categories={item.tags[0]}
                             navigation={navigation}
+                            id={item._id}
                         />
                     )
                 }}
