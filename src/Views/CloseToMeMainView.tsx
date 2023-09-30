@@ -60,13 +60,13 @@ export const CloseToMeMainView = () => {
                                 if(valueSlide < 0.5){
                                     setValue(0.1);
                                 }
-                                if(valueSlide >0.5 && valueSlide < 1.0){
+                                if(valueSlide >= 0.5 && valueSlide < 1.0){
                                     setValue(0.5);
                                 }
-                                if(valueSlide >1.0 && valueSlide < 1.5){
-                                    setValue(1);
+                                if(valueSlide >= 1.0 && valueSlide < 1.5){
+                                    setValue(1.0);
                                 }
-                                if(valueSlide >1.5 && valueSlide < 2.0){
+                                if(valueSlide >= 1.5 && valueSlide < 2.0){
                                     setValue(1.5);
                                 }
                                 if(valueSlide == 2.0){

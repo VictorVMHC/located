@@ -24,7 +24,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
         try{
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);           
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);

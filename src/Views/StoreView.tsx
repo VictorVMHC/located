@@ -9,6 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { getLocal } from '../Api/localApi';
 import { Local } from '../Interfaces/DbInterfaces';
 import { Location } from '../Interfaces/MapInterfaces';
+import { Colors } from '../Themes/Styles';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -144,24 +145,46 @@ export const StoreView = ({navigation, route}: Props) => {
                             ColorIcon={'#CD5F28'}
                             text ={`${dataLocals?.address}, CP ${dataLocals?.postalCode} ${dataLocals?.town}, ${dataLocals?.state}. ${dataLocals?.country}  `}
                         />
-                        <IconWithText 
-                            NameIcon ={'envelope'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={`${dataLocals?.contact}`}
-                        />
-                        <IconWithText 
-                            NameIcon ={'globe'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={'Website'}
-                        />
-                        <IconWithText 
-                            NameIcon ={'info-circle'}
-                            IconSize ={20}
-                            ColorIcon={'#CD5F28'}
-                            text ={`${dataLocals?.description}`}
-                        />
+                        {
+                            dataLocals?.contact['Facebook'] && <IconWithText 
+                                NameIcon= {'facebook-f'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.orange}
+                                text= { dataLocals?.contact['Facebook'].info}
+                            />
+                        }
+                        {
+                            dataLocals?.contact['Email'] && <IconWithText 
+                                NameIcon= {'envelope'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.orange}
+                                text= { dataLocals?.contact['Email'].info}
+                            />
+                        }
+                        {
+                            dataLocals?.contact['Instagram'] && <IconWithText 
+                                NameIcon= {'Instagram'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.orange}
+                                text= { dataLocals?.contact['Instagram'].info}
+                            />
+                        }
+                        {
+                            dataLocals?.contact['Web page'] && <IconWithText 
+                                NameIcon= {'globe'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.orange}
+                                text= { dataLocals?.contact['Web page'].info}
+                            />
+                        }
+                        {
+                            dataLocals?.contact['Whatsapp'] && <IconWithText 
+                                NameIcon= {'whatsapp'}
+                                IconSize= {20}
+                                ColorIcon= {Colors.orange}
+                                text= { dataLocals?.contact['Whatsapp'].info}
+                            />
+                        } 
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>
                         {

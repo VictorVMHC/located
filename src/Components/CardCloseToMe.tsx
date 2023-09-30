@@ -17,8 +17,8 @@ interface Props{
     Name: string,
     categories: string,
     like: boolean,
-    navigation: any,
-    id: string,
+    navigation?: any,
+    id?: string,
 }
 
 export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = false, navigation, id, }: Props ) => {
