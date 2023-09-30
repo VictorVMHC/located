@@ -16,11 +16,13 @@ interface Props {
     like: boolean,
     newLocal: NewLocal, 
     routeToStore?: () => void 
+    navigation?: any,
+    id?: string,
 }
 
 
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, routeToStore: routeToStore}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, routeToStore: routeToStore, navigation, id}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
@@ -30,7 +32,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
     return (
     <View style={styles.container} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
-            onPress={routeToStore}
+            onPress={() => navigation.navigate('StoreView', {id})}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 

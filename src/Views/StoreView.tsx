@@ -145,7 +145,7 @@ export const StoreView = ({navigation, route}: Props) => {
                 >
                 <View>
                     <ImgBusiness 
-                        Img = {dataLocals ? dataLocals.uriImage : ''}
+                        Img = {dataLocals ? dataLocals.uriImage : 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'}
                         open = {false}
                         like = {false}
                     />
@@ -167,7 +167,6 @@ export const StoreView = ({navigation, route}: Props) => {
                 <View ref={addressRef}>
                     <MapView 
                         style={StylesStore.map}
-                        customMapStyle={mapStyle}
                         showsUserLocation
                         initialRegion={{
                             latitude: dataLocals?.location?.latitude || 0,

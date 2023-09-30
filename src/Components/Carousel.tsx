@@ -5,14 +5,15 @@ import Carousel from 'react-native-reanimated-carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import { Card } from './Card';
 import { Colors } from '../Themes/Styles';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
+import { Local } from '../Interfaces/DbInterfaces';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
     mapViewRef: MutableRefObject<MapView | undefined>,
     carouselVisible: boolean,
     setCarouselVisible: React.Dispatch<React.SetStateAction<boolean>>
-    datosLocales: NewLocal[]
+    datosLocales: Local[]
 }
 
 export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, datosLocales }: Props) => {
@@ -21,6 +22,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     const carouselHeight = height * 0.35
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const slideAnimation = useRef(new Animated.Value(0)).current;
+    const navigation = useNavigation();
 
     const handlePanResponderMove = (_: any, gestureState: any) => {
         const { dy } = gestureState;
@@ -108,7 +110,13 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                     onSnapToItem={(index) => setCurrentSlideIndex(index)}
                     renderItem={({ item }) => (
                         <View style={{marginTop: -15}}>
-                            <Card like={false} newLocal={item} cardHeight={-30} routeToStore={()=>{}}/>
+                            <Card 
+                            like={false} 
+                            newLocal={item} 
+                            cardHeight={-30} 
+                            routeToStore={()=>{}} 
+                            navigation={navigation}
+                            id={item._id}/>
                         </View>
                     )}
                 />
