@@ -1,5 +1,4 @@
 import React, {useEffect, useState } from 'react'
-import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
 import { pharmacyTags } from '../Utils/ArraysTags';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
@@ -24,25 +23,25 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
     const navigation = useNavigation();
     const [noLocalsFound, setNoLocalsFound] = useState(false);
 
-    const fetchMoreLocales = async () => {
-        setPage(1);
-        if (page <= totalPage && !fetching) {
-            setFetching(true);
-            const { locals, totalPages } = await fetchData(latitude, longitude, kilometers, pharmacyTags, page);
-            if (locals) {
-                console.log(locals);
-                setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
-                setTotalPage(totalPages);
-                setFetching(false);
-                setLoading(false);
-            }
-            if (totalPages >= 1) {
-                setPage(page + 1);
-            }
+    const fetchMoreLocales  = async () =>{
+        try {
+            if(page <= totalPage && !fetching){
+                setFetching(true)    
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,pharmacyTags, page);
+                if (locals) {
+                    setDataLocals([...dataLocals, ...locals]);
+                    setTotalPage(totalPages);
+                    setFetching(false);
+                    setLoading(false); 
 
-            if (locals.length === 0) {
-                setNoLocalsFound(true);
-            }
+                    if (locals.length === 0) {
+                        setNoLocalsFound(true);
+                    }
+                }
+                setPage(page + 1);
+            }      
+        } catch (error) {
+            console.error('Error fetching locales:', error);
         }
     }
 
@@ -52,7 +51,6 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
         setDataLocals([]);
         setLoading(true); 
         setNoLocalsFound(false); 
-        fetchMoreLocales();
     },[kilometers]);
 
     const dataRange = () => {

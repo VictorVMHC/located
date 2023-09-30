@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { CardCloseToMe } from '../Components/CardCloseToMe';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { fetchData } from '../Utils/FetchFunctions';
 import { PetsTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
@@ -21,21 +20,27 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+    const [noLocalsFound, setNoLocalsFound] = useState(false);
     
     const fetchMoreLocales  = async () =>{
-        setPage(1);
-        if(page <= totalPage && !fetching){
-            setFetching(true)     
-            const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,PetsTags, page);
-            if (locals) {
-                setDataLocals([...dataLocals, ...locals]);
-                setTotalPage(totalPages);
-                setFetching(false);
-                setLoading(false); 
-            }
-            if (totalPages >= 1) {
+        try {
+            if(page <= totalPage && !fetching){
+                setFetching(true)    
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,PetsTags, page);
+                if (locals) {
+                    setDataLocals([...dataLocals, ...locals]);
+                    setTotalPage(totalPages);
+                    setFetching(false);
+                    setLoading(false); 
+
+                    if (locals.length === 0) {
+                        setNoLocalsFound(true);
+                    }
+                }
                 setPage(page + 1);
-            }
+            }      
+        } catch (error) {
+            console.error('Error fetching locales:', error);
         }
     }
 
@@ -44,7 +49,7 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
         setTotalPage(1);
         setDataLocals([]);
         setLoading(true);
-        fetchMoreLocales();
+        setNoLocalsFound(false); 
     },[kilometers]);
 
     const dataRange = () => {
@@ -57,7 +62,7 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {dataLocals.length === 0 ? (
+            {noLocalsFound ? (
                 <ThereAreNoLocals
                 text={'No se ha encontrado ningún local'}
                 information={'Al parecer no se pudo encontrar ningún local en el rango de'}

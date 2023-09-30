@@ -20,11 +20,10 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     const [totalPage, setTotalPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [heightContainerTexInput, setHeightContainerTexInput] = useState(0.5);
-    const [foodTagsInput, setFoodTagsInput] = useState('.*');
-    const [ foundLocals, setFoundLocals] = useState(true);
     const navigation = useNavigation();
     const [fetching, setFetching] = useState(false);
     const [f, setf] = useState(false);
+    const [noLocalsFound, setNoLocalsFound] = useState(false);
 
     const updateDataStyles = (valueHeightContainerTexInput: number) => {
         setHeightContainerTexInput(valueHeightContainerTexInput);
@@ -55,23 +54,24 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     }*/
 
     const fetchMoreLocales  = async () =>{
-       /* if(page <= totalPage){
-            fetchDataAndUpdateLocals(page);
-        }*/
-        setPage(1);
-        if (page <= totalPage && !fetching) {
-            setFetching(true);
-            const { locals, totalPages } = await fetchData(latitude, longitude, kilometers, ['.*'], page);
-            if (locals) {
-                setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
-                setTotalPage(totalPages);
-                setf(true)
-                setFetching(false);
-                setLoading(false);
-            }
-            if (totalPages >= 1) {
+        try {
+            if(page <= totalPage && !fetching){
+                setFetching(true)    
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers, ['.*'], page);
+                if (locals) {
+                    setDataLocals([...dataLocals, ...locals]);
+                    setTotalPage(totalPages);
+                    setFetching(false);
+                    setLoading(false); 
+
+                    if (locals.length === 0) {
+                        setNoLocalsFound(true);
+                    }
+                }
                 setPage(page + 1);
-            }
+            }      
+        } catch (error) {
+            console.error('Error fetching locales:', error);
         }
     }
 
@@ -80,7 +80,7 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
         setTotalPage(1);
         setDataLocals([]);
         setLoading(true);
-        fetchMoreLocales();
+        setNoLocalsFound(false); 
     },[kilometers]);
 
     const dataRange = () => {
@@ -114,7 +114,7 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude}:Props) =>
     return (
         <>
         <KeyboardAvoidingView style={{ flex: 1 }}>
-        {dataLocals.length === 0 ? (
+        {noLocalsFound ? (
             <ThereAreNoLocals
                 text={'No se ha encontrado ningún local'}
                 information={'Al parecer no se pudo encontrar ningún local en el rango de'}

@@ -20,26 +20,26 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     const [fetching, setFetching] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+    const [noLocalsFound, setNoLocalsFound] = useState(false);
 
     const fetchMoreLocales  = async () =>{
-        setPage(1);
-        try{
+        try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);           
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);
                 if (locals) {
-                    console.log(locals);
-                    
-                    setDataLocals(prevDataLocals => [...prevDataLocals, ...locals]);
+                    setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);
                     setFetching(false);
                     setLoading(false); 
+
+                    if (locals.length === 0) {
+                        setNoLocalsFound(true);
+                    }
                 }
-                if (totalPages >= 1) {
-                    setPage(page + 1);
-                }
-            }
-        }catch (error){
+                setPage(page + 1);
+            }      
+        } catch (error) {
             console.error('Error fetching locales:', error);
         }
     }
@@ -49,7 +49,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
         setTotalPage(1);
         setDataLocals([]);
         setLoading(true);
-        fetchMoreLocales();
+        setNoLocalsFound(false);
     },[kilometers]);
 
     const dataRange = () => {
@@ -62,7 +62,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {dataLocals.length === 0 ? (
+            {noLocalsFound  ? (
                 <ThereAreNoLocals
                     text={'No se ha encontrado ningún local'}
                     information={'Al parecer no se pudo encontrar ningún local en el rango de'}
