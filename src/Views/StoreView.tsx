@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView, { Marker } from 'react-native-maps';
@@ -8,24 +8,15 @@ import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { getLocal } from '../Api/localApi';
 import { Local } from '../Interfaces/DbInterfaces';
-import { Location } from '../Interfaces/MapInterfaces';
 import { Colors } from '../Themes/Styles';
+import { getProductsByLocalId } from '../Api/productsApi';
+import { Product } from '../Interfaces/ProductsInterfaces';
+import { CustomAlert } from '../Components/CustomAlert';
+import { CreateProductAlertView } from './CreateProductAlertView';
+import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
-interface Store {
-    id: number;
-    productNamee: string;
-    price: string;
-    img:  string;
-    puntuation: string;
-    DescripcionB: string;
-    like: boolean;
-}
-
-const listArray: Store[] = [
-    // ... Tu lista de elementos ...
-];
 const mapStyle = [
     {
         elementType: 'labels.icon',
@@ -44,48 +35,19 @@ const mapStyle = [
         ],
     },
 ]
-
-const rendererBusiness = (item: any) => {
-    return (
-        <CardCatalogue
-            ProductName = {item.productNamee}
-            Price = {item.price}
-            Img = {item.img}
-            punctuation = {item.puntuation}
-            DescriptionBox = {item.DescripcionB}
-            like = {item.like}
-        />
-    );
-}
-
 export const StoreView = ({navigation, route}: Props) => {
     const id = route.params?.id;
+
+    const [ page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [ productsList, setProductsList ] = useState<Product[]>([]);
+    const [ isLoadingMore, setIsLoadingMore ] = useState(false);
+    const [ haveProducts, setHaveProducts ] = useState(true);
+
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-
-    const mapViewRef = useRef<MapView>();
-    const following = useRef<boolean>(true);
-
-    const initialLocation: Location = {
-        latitude: 0,
-        longitude: 0,
-    }
     const [dataLocals, setDataLocals] = useState<Local>();
-
-    const fetchLocalData = async () => {
-        try {
-            const response = await getLocal(id);
-            setDataLocals(response.data.locals);    
-        } catch (error) {
-            console.error('Error fetching local data:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchLocalData();
-        console.log('name '+ dataLocals?.name);  
-    }, [id]);
 
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -99,12 +61,88 @@ export const StoreView = ({navigation, route}: Props) => {
         }
     };
 
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+        const distanceToBottom = contentSize.height - (contentOffset.y + layoutMeasurement.height);
+    
+        if (distanceToBottom < 100 && !isLoadingMore && page <= totalPage) {
+            setIsLoadingMore(true);
+            fetchProducts().then(() => setIsLoadingMore(false));
+        }
+    };
+
+    const fetchProducts = async () => {
+        try{
+            const result = await getProductsByLocalId(id, page, 2);
+            const { products, totalPages } = result.data;
+
+            if(products){
+                setProductsList([...productsList, ...products]);
+                setTotalPage(totalPages);
+            }
+        }catch(err: any){
+            
+            if(err.response.status === 404){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the local products, ¡Please try again!",
+                    action: () =>  setHaveProducts(false)
+                });
+            }
+            if(err.response.status === 500){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the local products, ¡Please try again!"
+                });
+            }
+            setTotalPage(0);
+        }finally{
+            setHaveProducts(true);
+            setPage(page + 1);
+        }
+    }
+
+    const fetchLocalData = async () => {
+        try {
+            const response = await getLocal(id);
+            setDataLocals(response.data.locals);    
+        } catch (error) {
+            console.error('Error fetching local data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if(productsList.length !== 0 && page >= totalPage){
+            return;
+        }
+        fetchProducts();
+        fetchLocalData();
+        console.log('name '+ dataLocals?.name);  
+    }, [id]);
+
+    
+
+    const renderProductList = () => {
+        return productsList.map((item) => (
+            <CardCatalogue
+                key={item._id}
+                ProductName={item.productName}
+                Price={`${item.price}`}
+                Img={item.img}
+                Description={item.description}
+                showLike={false}
+            />
+        ));
+    };
+
     return (
         <>
             <ScrollView 
                 style={StylesStore.container} 
                 ref={scrollViewRef}  
-                stickyHeaderIndices={[1]}>
+                stickyHeaderIndices={[1]}
+                onScroll={handleScroll} 
+                >
                 <View>
                     <ImgBusiness 
                         Img = {dataLocals ? dataLocals.uriImage : ''}
@@ -198,13 +236,10 @@ export const StoreView = ({navigation, route}: Props) => {
                         } 
                     </View>
                     <View style={StylesStore.containerList} ref={catalogueRef}>
-                        {
-                            listArray.map((item, index) => (
-                                <View key={index}>
-                                    {rendererBusiness(item)}
-                                </View>
-                            ))
-                        }
+                            {haveProducts 
+                                ? renderProductList()
+                                : <ThereAreNoLocals text={'No hay productos'} information={'El local en cuestión no cuenta con productos en el momento'}/>
+                            }
                     </View>
                 </View>
             </ScrollView>

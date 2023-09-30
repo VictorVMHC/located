@@ -6,7 +6,7 @@ import { FontStyles } from '../Themes/Styles';
 interface Props {
     text: string,
     information: string,
-    range: string
+    range?: string
 }
 
 
