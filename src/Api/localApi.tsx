@@ -5,6 +5,12 @@ const createLocal = (local: NewLocal) => {
     return api.post('/api/locals',  local );
 }
 
+const getLocal = (id: number) => {
+    const route =  `/api/locals/${id}`;
+    return api.get(route);
+}
+
 export {
-    createLocal
+    createLocal,
+    getLocal
 }

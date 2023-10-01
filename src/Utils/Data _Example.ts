@@ -53,11 +53,11 @@ const locations: Location[] = [
 ]
 const local: Local[] = [
     {
-        id: 2222,
+        _id: 2222,
         name: 'hola',
         location: locations[0],
         address: 'hola',
-        uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
+        uriImage: 'https://www.creax_id.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
         description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
@@ -85,11 +85,11 @@ const local: Local[] = [
         tags: ['hola','hola','hola','hola']
     },
     {
-        id: 1333,
+        _id: 1333,
         name: 'hola',
         location: locations[1],
         address: 'hola',
-        uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
+        uriImage: 'https://www.creax_id.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
         description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
@@ -117,11 +117,11 @@ const local: Local[] = [
         tags: ['hola','hola','hola','hola']
     },
     {
-        id: 1555,
+        _id: 1555,
         name: 'hola',
         location: locations[2],
         address: 'hola',
-        uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
+        uriImage: 'https://www.creax_id.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
         description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [
@@ -149,11 +149,11 @@ const local: Local[] = [
         tags: ['hola','hola','hola','hola']
     },
     {
-        id: 16666,
+        _id: 16666,
         name: 'hola',
         location: locations[3],
         address: 'hola',
-        uriImage: 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
+        uriImage: 'https://www.creax_id.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg',
         isVerify: true,
         description: 'hola esta es la descripcion del local este solo es un ejemplo',
         schedules: [

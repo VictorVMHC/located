@@ -77,7 +77,7 @@ export const LocalsView = ({navigation}:Props) => {
                                 Action={() => navigation.navigate('MyLocalsStoreView', {local: item})}
                             />
                         }
-                        keyExtractor={(item: any) => item._id.toString()} // Replace 'id' with your unique identifier
+                        keyExtractor={(item: any) => item._id }
                     />
                 ) : (
                     <ErrorMessage message="Error: No se pudieron cargar los datos." />
