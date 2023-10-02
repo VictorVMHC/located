@@ -15,7 +15,10 @@ interface Props {
 export const ImgBusiness = ({Img = '', open = false, like= false}: Props) => {
     return (
         <View style={{width: '100%', height: 180}}>
-            <Image style={stylesImg.Img} source={{uri: Img }} />
+            <Image 
+                style={stylesImg.Img} 
+                source={Img !== '' ? { uri: Img } : require('../Assets/Images/Img_User.png')} 
+            />
         </View>
     )
 }

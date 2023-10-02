@@ -15,19 +15,6 @@ import { CreateProductAlertView } from './CreateProductAlertView';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
-const rendererBusiness = (item: Product) => {
-    
-    return (
-        <CardCatalogue
-            ProductName={item.productName}
-            Price={`${item.price}`}
-            Img={item.img}
-            Description={item.description}
-            showLike={false} 
-        />
-    );
-}
-
 export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const { local } = route.params;
     const [ page, setPage] = useState(1);
