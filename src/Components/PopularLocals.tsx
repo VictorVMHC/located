@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
+import { SafeAreaView, FlatList, StyleSheet, ActivityIndicator, Alert  } from 'react-native'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import { useLocation } from '../Hooks/useLocation';
 import { Local } from '../Interfaces/DbInterfaces';
 import { ThereAreNoLocals } from './ThereAreNoLocals';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { CustomAlert } from './CustomAlert';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -16,7 +17,7 @@ export const PopularLocals = ({navigation}:Props) => {
     const [hasFetchedData ,setHasFetchedData] = useState(false);
     const [emptyData, setEmptyData] = useState(false);
     const [loading, setLoading] = useState(true);
-    const radioKm = 0.0
+    const radioKm = 2.0
 
     const localSearch = async (latitude: number, longitude: number) =>{
         try{
@@ -35,7 +36,23 @@ export const PopularLocals = ({navigation}:Props) => {
             }else{
                 setEmptyData(true);
             }
-        }catch(error){
+        }catch(error: any){
+            if(error.response.status === 500){
+                CustomAlert({
+                    title: "Error",
+                    desc: "An error occurred while trying to find popular locals"
+                });
+            } else if (error.request) {
+                CustomAlert({
+                    title: "Error",
+                    desc: "Network error: No response received from server"
+                });
+            } else {
+                CustomAlert({
+                    title: "Error",
+                    desc: 'Error: ' + error.message
+                });
+            }
         }
     }
 
