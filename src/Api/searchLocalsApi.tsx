@@ -15,6 +15,11 @@ const searchByTags = (latitude: number, longitude: number, kilometers: number, t
     } );
 }
 
+const searchPopularLocals = (latitude: number, longitude: number, kilometers: number) => {
+    const route = `/api/searchLocals/localsPopular/${latitude}/${longitude}/${kilometers}`;
+    return api.get(route);
+}
+
 const searchByUser = () => {
     return api.get('/api/searchLocals/byUser');
 }
@@ -22,5 +27,6 @@ const searchByUser = () => {
 export {
     searchLocals,
     searchByTags,
+    searchPopularLocals,
     searchByUser,
 }

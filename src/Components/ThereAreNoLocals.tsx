@@ -18,7 +18,7 @@ export const ThereAreNoLocals = ({text, information, range}:Props) => {
             <View style={{...styles.boxImg, width: width * 0.8,  height: height * 0.69,}}>
                 <Image source={require('../Assets/Images/local3D.png')} style={styles.img}  />
                 <Text style={styles.firstText} adjustsFontSizeToFit >{text}</Text>
-                <Text style={styles.msgText} adjustsFontSizeToFit >{`${information} ${range}`}</Text>
+                <Text style={styles.msgText} adjustsFontSizeToFit >{`${information} ${range || ''}`}</Text>
                 <View style={styles.btnView}>
                 </View>
                 

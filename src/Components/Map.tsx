@@ -6,7 +6,6 @@ import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocals } from '../Api/searchLocalsApi';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { useFocusEffect } from '@react-navigation/native';
 import { Local } from '../Interfaces/DbInterfaces';
 
@@ -39,20 +38,20 @@ export const Map = ({ markers }: Props) => {
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
     const radioKm = 0.5;
-    const [datosLocales, setDatosLocales] = useState<Local[]>([]); 
+    const [dataLocals, setDataLocals] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
     
 
 
     const fetchData = async (latitude: number, longitude: number) => {
             try {
-                const resultados = await searchLocals(
+                const resultsLocals = await searchLocals(
                     latitude,
                     longitude,
                     radioKm
                 );
-                const paginatedResults = resultados.data.results;
-                setDatosLocales(paginatedResults);
+                const paginatedResults = resultsLocals.data.results;
+                setDataLocals(paginatedResults);
                 setHasFetchedData(true);
             } catch (error) {
                 console.error(error);
@@ -81,7 +80,6 @@ export const Map = ({ markers }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log(hasFetchedData);
         if(!hasLocation){
             return ;
         }
@@ -106,7 +104,6 @@ export const Map = ({ markers }: Props) => {
         }
     };
     return (
-        
         <>
             {
                 (!hasLocation)
@@ -126,7 +123,7 @@ export const Map = ({ markers }: Props) => {
                             zoomControlEnabled
                             onTouchStart={() => following.current = false}
                         > 
-                            {datosLocales.map(({ location, uriImage }: NewLocal, index: number) => {
+                            {dataLocals.map(({ location, uriImage }: Local, index: number) => {
                                 {
                                 }
                                 return (
@@ -147,7 +144,7 @@ export const Map = ({ markers }: Props) => {
                         <CarouselComponent
                             carouselRef={carouselRef}
                             mapViewRef={mapViewRef} carouselVisible={carouselVisible} setCarouselVisible={setCarouselVisible}    
-                            datosLocales={datosLocales}
+                            dataLocal={dataLocals}
                         />
                     </>
             }

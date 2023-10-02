@@ -69,7 +69,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                         <Text style={FontStyles.SubTitles} adjustsFontSizeToFit>{address + ',' + postalCode +',' + town + ',' + country }</Text>
                     </View>
                     <View style={styles.middleSection}>
-                        <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
+                        <View style={{flex: 1}}>
                             <View style={{flex: 1, alignSelf: 'stretch'}}>
                                 <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >{t('DescriptionText')}</Text>
                             </View>
@@ -79,13 +79,13 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                         </View>
                         <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
                             <View style={{flex: 1, alignSelf: 'stretch'}}>
-                                <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >
+                                <Text style={[FontStyles.SubTitles, { textAlign: 'center' }]} adjustsFontSizeToFit >
                                     <IonIcon name={'calendar-outline'} size={20} color={Colors.blueAqua} />  {t('ScheduleTitle')}
                                 </Text>
                             </View>
                             <View style={{flex: 2}}>
                                 {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
-                                    <View key={index} style={{}}>
+                                    <View key={index} style={{alignItems: 'flex-end'}}>
                                         <View>
                                             <View style={styles.internalDayView}>
                                                 <Text style={{color: Colors.black}} adjustsFontSizeToFit>{day1}{' '}</Text>

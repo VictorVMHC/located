@@ -13,10 +13,10 @@ interface Props {
     mapViewRef: MutableRefObject<MapView | undefined>,
     carouselVisible: boolean,
     setCarouselVisible: React.Dispatch<React.SetStateAction<boolean>>
-    datosLocales: Local[]
+    dataLocal: Local[]
 }
 
-export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, datosLocales }: Props) => {
+export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, dataLocal }: Props) => {
 
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
@@ -80,7 +80,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     };
 
     useEffect(() => {
-        const selectedLocal = datosLocales[currentSlideIndex];
+        const selectedLocal = dataLocal[currentSlideIndex];
         if (selectedLocal) {
             const {location} = selectedLocal;
             mapViewRef.current?.animateCamera({
@@ -97,14 +97,13 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
         <>
             <Animated.View style={{...styles.carouselContainer, width, height: carouselHeight, ...slideInStyles }} {...panResponder.panHandlers}>
                 <View style={{marginTop: 5, backgroundColor: Colors.grayOpacity, position: 'absolute', height: 7, width: width/2, alignSelf: 'center', borderRadius: 15 }}>
-
                 </View>
                 <Carousel
                     ref={carouselRef}
                     loop
                     width={width}
                     height={carouselHeight}
-                    data={datosLocales}
+                    data={dataLocal}
                     mode='parallax'
                     scrollAnimationDuration={1000}
                     onSnapToItem={(index) => setCurrentSlideIndex(index)}
