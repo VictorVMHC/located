@@ -1,6 +1,6 @@
 import { Slider } from '@miblanchard/react-native-slider';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';

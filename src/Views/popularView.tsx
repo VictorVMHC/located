@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { PermissionsContext } from '../Context/PermissionsContext';
 import { LoadingView } from './LoadingView';
 import { LocationPermissionView } from './LocationPermissionsView';

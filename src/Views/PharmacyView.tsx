@@ -1,12 +1,13 @@
 import React, {useEffect, useState } from 'react'
 import { fetchData } from '../Utils/FetchFunctions';
 import { pharmacyTags } from '../Utils/ArraysTags';
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View, VirtualizedList } from 'react-native';
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
+import { CustomAlert } from '../Components/CustomAlert';
 
 interface Props {
     kilometers: number;
@@ -40,8 +41,20 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
                 }
                 setPage(page + 1);
             }      
-        } catch (error) {
-            console.error('Error fetching locales:', error);
+        } catch (error: any) {
+            if(error.response.status === 404){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                });
+            }
+            if(error.response.status === 500){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the locals, ¡Please try again!"
+                });
+            }
+            setTotalPage(0);
         }
     }
 
@@ -70,28 +83,54 @@ export const PharmacyView = ({kilometers, latitude, longitude}:Props) => {
                     range={dataRange().toString()}
                 />
             ) : (
-                <FlatList 
-                    numColumns={2}
-                    data={dataLocals}
-                    renderItem={({ item }) => {
-                    return (
-                        <CardCloseToMe 
-                            Img={item ? item.uriImage :'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
-                            like={false} 
-                            Name={item.name} 
-                            categories={item.tags[0]}
-                            navigation={navigation}
-                            id={item._id}
-                        />
-                    )
-                }}
-                    keyExtractor={(item) => item._id }
-                    onEndReached={fetchMoreLocales} 
-                    onEndReachedThreshold={0.1} 
-                    ListFooterComponent={() => (
-                        loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
-                    )}
-                />
+                <View style={styles.container}>
+                    <VirtualizedList
+                        data={dataLocals}
+                        initialNumToRender={4}
+                        refreshing={loading}
+                        getItemCount={(data) => Math.ceil(data.length / 2)} 
+                        getItem={(dataLocal, index) => [dataLocal[index * 2], dataLocal[index * 2 + 1]]} 
+                        renderItem={({ item }) => (
+                            <View style={styles.row}>
+                                {item[0] && (
+                                    <CardCloseToMe 
+                                        Img={item[0].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                                        like={false} 
+                                        Name={item[0].name} 
+                                        categories={item[0].tags[0]}
+                                        navigation={navigation}
+                                        id={item[0]._id}
+                                    />
+                                )}
+                                {item[1] && (
+                                    <CardCloseToMe 
+                                        Img={item[1].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                                        like={false} 
+                                        Name={item[1].name} 
+                                        categories={item[1].tags[0]}
+                                        navigation={navigation}
+                                        id={item[1]._id}
+                                    />
+                                )}
+                            </View>
+                        )}
+                        keyExtractor={(item) => {
+                            let key = '';
+                            if (item[0]) {
+                                key += item[0]._id;
+                            }
+                            if (item[1]) {
+                                key += item[1]._id;
+                            }
+                            return key;
+                        }}
+                        onEndReached={fetchMoreLocales}
+                        onEndReachedThreshold={0.3}
+                        ListFooterComponent={() => (
+                            loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
+                        )}
+                    />
+            </View>
             )}
         </SafeAreaView>
     )
@@ -101,9 +140,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    emptyLocalsContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
 });
