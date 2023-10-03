@@ -28,7 +28,7 @@ export const compareUsers = (user: User, updatedUser: User) => {
 };
 
 
-export const handleGoogleSignInErrors = (error: any) => {
+export const handleGoogleSignInErrorsEn = (error: any) => {
         
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         CustomAlert({
@@ -49,6 +49,31 @@ export const handleGoogleSignInErrors = (error: any) => {
         CustomAlert({
             title: 'Sorry we are experience some problems',
             desc: 'It looks that we are experiences som problems to sign up , !please try again¡'
+        });
+    }
+};
+
+export const handleGoogleSignInErrorsEs = (error: any) => {
+        
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        CustomAlert({
+            title: 'Registro cancelado',
+            desc: 'El inicio de sesión con Google fue cancelado. ¡Inténtalo de nuevo!'
+        });
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+        CustomAlert({
+            title: 'En proceso de verificación',
+            desc: 'El inicio de sesión de Google está verificando su cuenta. ¡Inténtelo de nuevo!'
+        });
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        CustomAlert({
+            title: 'Servicios no disponibles',
+            desc: 'tu teléfono no tiene los servicios de Google Play, trata de garantizarlos. ¡Inténtalo de nuevo!'
+        });
+    } else {
+        CustomAlert({
+            title: 'Estamos experimentando algunos problemas',
+            desc: 'Estamos experimentando algunos problemas para llevar a cabo el registro, ¡Inténtalo de nuevo mas tarde!'
         });
     }
 };

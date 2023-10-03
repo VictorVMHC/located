@@ -15,12 +15,13 @@ import { PickerButton } from '../Components/PickerButton';
 import { AuthContext } from '../Context/AuthContext';
 import { logInData } from '../Interfaces/UserInterface';
 import { Colors, FontStyles, Styles } from '../Themes/Styles';
-import { handleGoogleSignInErrors } from '../Utils/HandleUser';
+import { handleGoogleSignInErrorsEn, handleGoogleSignInErrorsEs } from '../Utils/HandleUser';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const LoginView = ({navigation}: Props) =>{
     const { t, i18n } = useTranslation();
+    const handleGoogleSignInErrors = i18n.language === 'es-MX' ? handleGoogleSignInErrorsEs : handleGoogleSignInErrorsEn;
 
     const { signIn, errorMessage, removeError, status, googleSignIn } = useContext( AuthContext );
 

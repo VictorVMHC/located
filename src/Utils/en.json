@@ -158,6 +158,18 @@
     "pets": "pets",
     "RecoveryPasswordTitle": "New Password",
     "RepeatPasswordText": "Repeat Password",
-    "ErrorTryAgain": "An error occurred while verifying the email, please try again"
+    "ErrorTryAgain": "An error occurred while verifying the email, please try again",
+    "NoPopularLocalsTitleText": "No popular locals found",
+    "NoPopularLocalsDescriptionText": "We don't have any popular local  to show you at the moment. Please check it again later",
+    "Step6ViewText": "Add an image of your local. This image will be used as a local profile photo.",
+    "WebPage": "Web page",
+    "SelectMarkerPosition": "Select marker Position",
+    "SelectUserPosition": "Select user position",
+    "step2PhAddress": "Address",
+    "LocalCreationSuccess": "Success",
+    "LocalCreationSuccessInfo":"The local was created successfully, you will be able to found it in your locals",
+    "ErrorToCreateLocalInfo": "Was not possible to create your local, Please try again!",
+    "ToExplore": "Explore",
+    "FailToCreateYourImage": "Was no possible to create your image, Please try again!"
   }
 }

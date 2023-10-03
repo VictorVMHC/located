@@ -8,6 +8,7 @@ import { ZoomModal } from '../Components/ZoomModal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../Themes/Styles';
 import { LocalContext } from '../Context/NewLocalContext';
+import { useTranslation } from 'react-i18next';
 
 interface Props{
     setCanGoNext: React.Dispatch<React.SetStateAction<boolean>>
@@ -20,6 +21,7 @@ export const Step6View = ({ setCanGoNext }:Props ) => {
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
     const { localState, updateLocal } = useContext(LocalContext);    
+    const { t } = useTranslation();
     
     useEffect(() => {
         if (localState.uriImage !== '') {
@@ -98,9 +100,7 @@ export const Step6View = ({ setCanGoNext }:Props ) => {
                         </View>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.text}>
-                            Add an image of your local. This image will be used as a local profile photo.
-                        </Text>
+                        <Text style={styles.text}>{t('Step6ViewText')}</Text>
                     </View>
                     <BottomModal
                         slideUp={slideUp}

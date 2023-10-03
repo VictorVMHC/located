@@ -93,9 +93,7 @@ export const Step3View = ({setCanGoNext}:Props) => {
                     onPress={() => handleSelectButtonPress('marker')}
                     disabled={!isMarkerSelected}
                 >
-                    <Text style={styles.buttonText}>
-                        Select marker position
-                    </Text>
+                    <Text style={styles.buttonText}>{t('SelectMarkerPosition')}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -105,9 +103,7 @@ export const Step3View = ({setCanGoNext}:Props) => {
                     ]}
                     onPress={() => handleSelectButtonPress('user')}
                 >
-                    <Text style={styles.buttonText}>
-                        Select user position
-                    </Text>
+                    <Text style={styles.buttonText}>{t('SelectUserPosition')}</Text>
                 </TouchableOpacity>
                 </View>
                 <Text style={styles.text} adjustsFontSizeToFit>
