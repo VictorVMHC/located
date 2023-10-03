@@ -103,7 +103,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                             ),
                         }} >
-                        {() => <FoodView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
+                        {() => <FoodView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude}/>}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Pharmacy"

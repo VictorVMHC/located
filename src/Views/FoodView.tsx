@@ -11,7 +11,7 @@ import { CustomAlert } from '../Components/CustomAlert';
 interface Props {
     kilometers: number;
     latitude: number,
-    longitude:number
+    longitude:number,
 };
 
 export const FoodView = ({kilometers, latitude, longitude}:Props) => {
