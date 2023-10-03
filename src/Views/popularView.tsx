@@ -6,10 +6,16 @@ import { useFocusEffect } from '@react-navigation/native';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { searchLocals } from '../Api/searchLocalsApi';
 import { useLocation } from '../Hooks/useLocation';
+import {NoPopularLocalsToShowAlertView} from './NoPopularLocalsToShowAlertView'
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
-export const PopularView = ({navigation}:Props) => {
+export const PopularView = ({navigation, route}:Props) => {
+    return(
+    <NoPopularLocalsToShowAlertView
+                navigation={navigation}
+                route={route}
+            />);
     const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
     const radioKm = 0.2
 

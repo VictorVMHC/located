@@ -11,13 +11,14 @@ export const NoPopularLocalsToShowAlertView = ({navigation}: Props) => {
     return (
         <View style={styles.container}>
             <View style={{...styles.boxImg, width: width * 0.8,  height: height * 0.69,}}>
-                <Image source={require('../Assets/Images/exclamationMark.png')} style={styles.img}  />
+                <Image source={require('../Assets/Images/local3D.png')} style={styles.img}  />
                 <Text style={styles.firstText} adjustsFontSizeToFit >{t('NoPopularLocalsTitleText')}</Text>
                 <Text style={styles.msgText} adjustsFontSizeToFit >{t('NoPopularLocalsDescriptionText')}</Text>
                 <View style={styles.btnView}>
                     <TouchableOpacity style={styles.btn}
+                        onPress={() => navigation.navigate("MapsView")}
                     >
-                        <Text style={styles.btnText}>{t('Okay')}</Text>
+                        <Text style={styles.btnText}>{t('ToExplore')}</Text>
                     </TouchableOpacity>
                 </View>
                 
