@@ -15,7 +15,6 @@ const deleteUser = (email: string) => {
 }
 
 const putUserPassword = async (updatedPassword: UpdateUserPassword) =>{
-    
     const {oldPassword, newPassword } = updatedPassword;
 
     return api.put("/api/users/changePassword", {

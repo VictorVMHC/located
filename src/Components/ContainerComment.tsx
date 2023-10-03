@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import { Image, Text, View, StyleSheet, TextInput, Button} from 'react-native';
+import { Image, Text, View, StyleSheet, TextInput, Button, VirtualizedList} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Colors } from '../Themes/Styles';
+import { Colors, Styles } from '../Themes/Styles';
 import { useTranslation } from 'react-i18next';
 
 interface Props{
@@ -17,18 +17,25 @@ interface Props{
     blocking?: boolean,
     answers?: boolean,
     NumberOfComments?: Number,
+    label: string,
     onCallback:  (value: number ) => void;
 }
 
+const firstPage = ["hola", "hola2", "hola3", "hola4", "hola5", "hola6","hola7", "hola8"]
+const secondPage = ["secondHola", "secondHola2", "secondHola3", "secondHola4", "secondHola5", "secondHola6","secondHola7", "secondHola8"]
 
-export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCallback ,likes ,dislikes,reply,blocking,answers}:Props) => {
-    const [expanded, setExpanded] = useState(false);
-    const [expandedComments, setExpandedComments] = useState(false);
+
+export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCallback ,likes ,dislikes,reply,blocking,answers: replies, label}:Props) => {
+    const [expandedReplies, setExpandedComments] = useState(false);
     const { t} = useTranslation();
     const [inputValue, setInputValue] = useState(0);
     const [like, setLike] = useState(likes);
     const [dislike, setDislike] = useState(dislikes);
+    const [pages, setPages] = useState(firstPage);
 
+    const handleLoadMore = () => {
+        setPages([...pages, ...secondPage]);
+    } 
 
     const handleSendValue = (idUser: number) => {
         setInputValue(idUser);
@@ -36,7 +43,7 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCa
     };
 
     const toggleExpandedComments = () => {
-        setExpandedComments(!expandedComments );
+        setExpandedComments(!expandedReplies );
     }
 
     const checkLike =() =>{
@@ -48,95 +55,112 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, Comment, score,onCa
         }
     }
 
-    const checkdislike =() =>{
-        if(dislike || like)
-        {
-            setDislike(false)
-        } else {
-            setDislike(true)
-        }
+    function renderItem({ item }: any) {
+        return <Text style={{ fontSize: 25, color: 'black' }}>hola{item}</Text>;
+    }
+    
+    function keyExtractor(index: string) {
+        return index.toString();
+    }
+    
+    function getItemCount() {
+        return pages.length; 
     }
 
     return (
-        <View style={[StyleContainerComment.Container]} >
-            <View style={StyleContainerComment.ContainerImgAndName}>
-                <View style={StyleContainerComment.ContainerImg}>
+        <View style={[styles.Container]} >
+            <View style={{
+                ...styles.ContainerComment, 
+                borderBottomColor: label === 'neutral' 
+                    ? Colors.Yellow 
+                    : label === 'positive' 
+                        ? Colors.greenSuccess 
+                        : Colors.red
+                }}
+            >
+                <View style={{...styles.ContainerImg}} >
                     <Image
-                    resizeMode='cover'
-                    style={StyleContainerComment.Img}
-                    source={{uri: ImgUser}}
-                    ></Image>
+                        resizeMode='cover'
+                        style={styles.Img}
+                        source={{uri: ImgUser}}
+                    />
                 </View>
-                <Text style={StyleContainerComment.Name}>{NameUser}</Text>
-            </View>
-            <ScrollView style={StyleContainerComment.ConteinerText}>
-                <Text style={StyleContainerComment.TextComment}>{Comment}</Text>
-            </ScrollView>
-            <View style={StyleContainerComment.ContainerLikeAndDeslike}>
+                <View style={{width: '75%'}}>
+                    <Text style={styles.Name}>{NameUser}</Text>
+                    <View style={styles.ContainerText}>
+                        <Text style={styles.TextComment}>{Comment}</Text>
+                    </View>
+                </View>
+                <View style={{width: '10%', alignItems: 'center', justifyContent: 'center'}} >
                     <TouchableOpacity onPress={()=>{checkLike()}}>
-                    {!like 
-                        ? <Icon name='thumbs-up' size={20} color={Colors.black}/>
-                        :  <Icon name='thumbs-up' size={20} color={Colors.Yellow}/>
-                    }
+                        <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
-                    <Text>{score}</Text>
-                    <TouchableOpacity style={{marginLeft: 15}}  onPress={()=>{checkdislike()}} >
-                    {!dislike 
-                        ? <Icon name='thumbs-down' size={20} color={Colors.black}/>
-                        :   <Icon name='thumbs-down' size={20} color={Colors.Yellow} />
-                    }
-                    </TouchableOpacity>
-
+                    <Text style={{color: 'black'}}>59</Text>
+                </View>
+            </View>
+            <View style={styles.ContainerReplies}>
+                <TouchableOpacity 
+                    disabled={blocking} 
+                    style={{margin: 5, alignSelf: 'flex-end' }} 
+                    onPress={()=>(handleSendValue(idUser))} 
+                >
+                    <Text style={{color: Colors.black}}>{t('Reply')} to {NameUser}</Text>
+                </TouchableOpacity>
                 {
-                    reply &&
-                    <TouchableOpacity disabled={blocking} style={{marginLeft: 10}} onPress={()=>(handleSendValue(idUser))} >
-                        <Text style={{color: Colors.black}}>{t('Reply')}</Text>
-                    </TouchableOpacity>
-                }
-                {
-                    answers &&
-                    <View style={{flexDirection: 'row'}}>
+                    replies && !expandedReplies &&
+                    <View style={{flexDirection: 'row', alignSelf: 'flex-end' }}>
                         <TouchableOpacity disabled={blocking} style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
-                            <Text style={{color: Colors.black}}>{t('Answers')}</Text>
+                            <Text style={{color: Colors.black}}>Ses {replies} {t('Answers')}</Text>
                         </TouchableOpacity>
                         <Icon style={{marginTop: 2, marginLeft: 2}} name='chevron-down' size={15} color='black' />
                     </View>
 
                 }
+                {
+                    expandedReplies &&
+                    <>
+                        <VirtualizedList
+                            data={pages}
+                            getItem={(pages, index) => pages[index]}
+                            getItemCount={getItemCount}
+                            keyExtractor={keyExtractor}
+                            renderItem={renderItem}
+                            ListFooterComponent={() => <TouchableOpacity>
+                                <Text>Load more replies</Text>
+                            </TouchableOpacity> 
+                            }
+                        />
+                        <TouchableOpacity onPress={handleLoadMore}>
+                            <Text style={{color: 'black'}}>Load more replies</Text>
+                        </TouchableOpacity>
+                    </>
+                }  
             </View>
-            {
-            expanded &&
-            <View style={{marginTop: 30}}>
-                <Text></Text>
-            </View>
-            } 
-            {
-                expandedComments &&
-                <View style={{backgroundColor: 'red'}}>
-                    <Text>Comentarios</Text>
-                </View>
-            }  
         </View>
     )
 }
 
-const StyleContainerComment = StyleSheet.create({
+const styles = StyleSheet.create({
     Container:{
         marginBottom: 30,
     },
-    ContainerImgAndName:{
+    ContainerComment:{
+        width: '100%', 
+        paddingBottom: 10,
         flexDirection: 'row',
-        marginTop: 10,
-        marginLeft: 10
+        justifyContent: 'center',
+        borderBottomWidth: 2, 
     },
     ContainerImg:{
-        width: 60,
+        width: '15%',
         height: 60,
+        alignItems: 'center'
     },
     Img:{
         width: '100%',
         height: '100%',
         resizeMode:'contain',
+        aspectRatio: 1,
         borderRadius: 50,
         
     },
@@ -147,19 +171,16 @@ const StyleContainerComment = StyleSheet.create({
         marginLeft: 10,
         color: Colors.black
     },
-    ConteinerText:{
-        marginHorizontal: 18,
-        marginTop: 10,
+    ContainerText:{
+        paddingLeft: 10,
     },
     TextComment:{
         fontSize: 16,
-        borderBottomWidth: 2, 
-        borderBottomColor: Colors.Yellow,
         color: Colors.black
     },
-    ContainerLikeAndDeslike:{
-        flexDirection: 'row',
-        marginHorizontal: 20,
-        marginTop: 5
+    ContainerReplies:{
+        alignSelf: 'flex-end',
+        paddingHorizontal: 20,
+        width:'85%',
     }
 });

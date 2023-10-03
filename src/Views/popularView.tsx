@@ -3,25 +3,18 @@ import { SafeAreaView, FlatList, StyleSheet } from 'react-native'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
 import { searchLocals } from '../Api/searchLocalsApi';
 import { useLocation } from '../Hooks/useLocation';
-import {NoPopularLocalsToShowAlertView} from './NoPopularLocalsToShowAlertView'
+import { Local } from '../Interfaces/DbInterfaces';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
-export const PopularView = ({navigation, route}:Props) => {
-    return(
-    <NoPopularLocalsToShowAlertView
-                navigation={navigation}
-                route={route}
-            />);
-    const [datosLocales, setDatosLocales] = useState<NewLocal[]>([]); 
+export const PopularView = ({navigation}:Props) => {
+    const [datosLocales, setDatosLocales] = useState<Local[]>([]); 
     const radioKm = 0.2
 
     const fetchData = async (latitude: number, longitude: number) => {
         try {
-            console.log('Obteniendo datos...');
             const resultados = await searchLocals(
                 latitude,
                 longitude,
@@ -36,10 +29,7 @@ export const PopularView = ({navigation, route}:Props) => {
 
     const {
         hasLocation,
-        initialPosition,
-        followUserLocation,
         userLocation,
-        stopFollowUserLocation
     } = useLocation();
 
     useEffect(() => {
@@ -62,12 +52,14 @@ export const PopularView = ({navigation, route}:Props) => {
                 data={datosLocales}
                 renderItem={ ( { item } ) => {
                     return(
-                        <Card like={false} newLocal={item} 
+                        <Card 
+                            like={false} 
+                            newLocal={item} 
                             routeToStore={() => navigation.navigate("StoreView")}
                         />
                     )
                 } }
-                keyExtractor={(item) => item.name.toString()}
+                keyExtractor={(item) => item._id }
             />
         </SafeAreaView>
     );

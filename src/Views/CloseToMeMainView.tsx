@@ -1,6 +1,6 @@
 import { Slider } from '@miblanchard/react-native-slider';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
@@ -12,21 +12,26 @@ import { PetsView } from './PetsView';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingOverlay } from '../Components/LoadingOverlay';
 import React from 'react';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
-interface Props extends NativeStackScreenProps<any, any>{};
 export const CloseToMeMainView = () => {    
     const {width, height} = useWindowDimensions();
     const [value, setValue] = useState(0.1);
     const { t } = useTranslation();
+    
 
     const {
         hasLocation,
         userLocation,
     } = useLocation();
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setValue(0.1);
+        }, [])
+    );
 
     const valueKilometers = () => {
         if(value >= 1){
@@ -63,13 +68,13 @@ export const CloseToMeMainView = () => {
                                 if(valueSlide < 0.5){
                                     setValue(0.1);
                                 }
-                                if(valueSlide >0.5 && valueSlide < 1.0){
+                                if(valueSlide >= 0.5 && valueSlide < 1.0){
                                     setValue(0.5);
                                 }
-                                if(valueSlide >1.0 && valueSlide < 1.5){
-                                    setValue(1);
+                                if(valueSlide >= 1.0 && valueSlide < 1.5){
+                                    setValue(1.0);
                                 }
-                                if(valueSlide >1.5 && valueSlide < 2.0){
+                                if(valueSlide >= 1.5 && valueSlide < 2.0){
                                     setValue(1.5);
                                 }
                                 if(valueSlide == 2.0){

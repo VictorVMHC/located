@@ -17,7 +17,7 @@ export const CustomMarker = ({uriImage}:Props) => {
             />
                 <Image
                     style={styles.markerImage}
-                    source={{ uri: uriImage }}
+                    source={{uri: uriImage}} 
                     resizeMode="cover"
                 />
         </Svg>
