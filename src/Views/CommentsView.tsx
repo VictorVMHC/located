@@ -96,7 +96,8 @@ export const CommentsView = ({ navigation }: Props) => {
                             blocking={buttonLocked}
                             answers={true}
                             label='neutral'
-                            onCallback={() => handleChildCallback(item.id)}
+                            onCallback={() => handleChildCallback(item.id)} 
+                            commentId={''}                        
                         />
                     )}
                     keyExtractor={(item) => item.id.toString()}

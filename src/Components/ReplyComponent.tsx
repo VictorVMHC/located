@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Colors } from '../Themes/Styles';
 
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const ReplyComponent = ({userImage, userName, reply, like, likes, label}:Props) => {
+    const { t } = useTranslation();
     const [liked, setLike] = useState(like);
 
     const isLiked = () => {
@@ -52,6 +54,12 @@ export const ReplyComponent = ({userImage, userName, reply, like, likes, label}:
                     <Text style={{color: 'black'}}>{likes}</Text>
                 </View>
             </View>
+            <TouchableOpacity 
+                style={{margin: 5, alignSelf: 'flex-end' }} 
+                onPress={()=> console.log('hola')} 
+            >
+                <Text style={{color: Colors.black}}>{t('Reply')} to {userName}</Text>
+            </TouchableOpacity>
         </View>
     )
 }

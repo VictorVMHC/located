@@ -1,5 +1,5 @@
+import { GoogleUser } from '../Interfaces/GoogleUserInterfaces';
 import api from "./api";
-import { LoginResponse, GoogleUser} from '../Interfaces/GoogleUserInterfaces'
 
 const createGoogleUser = (googleUser: GoogleUser, idToken: string) => {
     return api.post('/api/google/users', googleUser , {
@@ -12,4 +12,4 @@ const createGoogleUser = (googleUser: GoogleUser, idToken: string) => {
 
 export {
     createGoogleUser
-}
+};

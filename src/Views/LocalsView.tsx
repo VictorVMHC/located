@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     topContainer: {
+        top:0,
         flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
