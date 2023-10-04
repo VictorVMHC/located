@@ -65,12 +65,12 @@ export const LocalCreatorView = ({navigation}:Props) => {
             const response = await postImage(formData); 
 
             if(response.status !== 200 ){
-                throw new Error('Was no possible to create your image, Please try again!')
+                throw new Error(`${t('FailToCreateYourImage')}`)
             }
 
             return response.data.response.url;
         }catch(error){
-            throw new Error('Was no possible to create your image, Please try again!')
+            throw new Error(`${t('FailToCreateYourImage')}`)
         }
         
     }
@@ -90,8 +90,8 @@ export const LocalCreatorView = ({navigation}:Props) => {
 
             if(response.status === 200){                
                 CustomAlert({
-                    title: 'Success',
-                    desc: 'The local was created successfully, you will be able to found it in your locals'
+                    title: t('LocalCreationSuccess'),
+                    desc: t('LocalCreationSuccessInfo')
                 });
                 updateLocal(LocalInitialState);
                 navigation.pop();
@@ -101,7 +101,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
             setAttempt(0);
             CustomAlert({
                 title: 'Error',
-                desc: 'Was no possible to create you local, Please try again!'
+                desc: t('ErrorToCreateLocalInfo')
             });           
         }
     }

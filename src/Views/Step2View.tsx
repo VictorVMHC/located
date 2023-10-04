@@ -111,7 +111,7 @@ export const Step2View = ({setCanGoNext}:Props) => {
                     </View>
                     <Text style={styles.title}> {t('step2Address')} </Text>
                     <TextInput
-                        placeholder={'Address'}
+                        placeholder={`${t('step2PhAddress')}`}
                         placeholderTextColor={Colors.darkGray}
                         style={styles.textInputSty}
                         value={address}
