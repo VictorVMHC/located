@@ -5,16 +5,17 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
 import { foodTags } from '../Utils/ArraysTags';
 import { fetchData } from '../Utils/FetchFunctions';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 import { CustomAlert } from '../Components/CustomAlert';
 interface Props {
     kilometers: number;
     latitude: number,
     longitude:number,
+    setFoodViewValue: (newValue: boolean) => void
 };
 
-export const FoodView = ({kilometers, latitude, longitude}:Props) => {
+export const FoodView = ({kilometers, latitude, longitude, setFoodViewValue }:Props) => {
     const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
@@ -22,6 +23,10 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     const [noLocalsFound, setNoLocalsFound] = useState(false);
+
+    const valueInitial = () => {
+        return setFoodViewValue(true); // Enviamos el valor true a CloseToMeMainView
+    }
 
     const fetchMoreLocales  = async () =>{
         try {
@@ -57,6 +62,12 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
         }
     }
 
+    useFocusEffect(
+        React.useCallback(() => {
+            valueInitial();
+        }, [])
+    );
+
     useEffect(() => {
         setPage(1);
         setTotalPage(1);
@@ -72,6 +83,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
             return (kilometers * 1000) + 'M'
         }
     }
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -98,7 +110,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
                                         Name={item[0].name} 
                                         categories={item[0].tags[0]}
                                         navigation={navigation}
-                                        id={item[0]._id}
+                                        local={item[0]}
                                     />
                                 )}
                                 {item[1] && (
@@ -108,7 +120,7 @@ export const FoodView = ({kilometers, latitude, longitude}:Props) => {
                                         Name={item[1].name} 
                                         categories={item[1].tags[0]}
                                         navigation={navigation}
-                                        id={item[1]._id}
+                                        local={item[1]}
                                     />
                                 )}
                             </View>

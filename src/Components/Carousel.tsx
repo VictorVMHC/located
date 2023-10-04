@@ -110,12 +110,12 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                     renderItem={({ item }) => (
                         <View style={{marginTop: -15}}>
                             <Card 
-                            like={false} 
-                            newLocal={item} 
-                            cardHeight={-30} 
-                            routeToStore={()=>{}} 
-                            navigation={navigation}
-                            id={item._id}/>
+                                like={false} 
+                                cardHeight={-30} 
+                                routeToStore={()=>{}} 
+                                navigation={navigation}
+                                local={item}
+                            />
                         </View>
                     )}
                 />

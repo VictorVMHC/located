@@ -10,6 +10,7 @@ import {
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
+import { Local } from '../Interfaces/DbInterfaces';
 
 
 interface Props{
@@ -18,14 +19,14 @@ interface Props{
     categories: string,
     like: boolean,
     navigation?: any,
-    id?: string,
+    local: Local,
 }
 
-export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = false, navigation, id, }: Props ) => {
+export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = false, navigation, local }: Props ) => {
     const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
     return (
-    <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8} onPress={() => navigation.navigate('StoreView', {id})} >
+    <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8} onPress={() => navigation.navigate('StoreView', {local})} >
             <View style={styles.ChartImg}>
                 <Image 
                     style ={styles.image}

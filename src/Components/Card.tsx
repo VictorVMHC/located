@@ -5,8 +5,7 @@ import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { useTranslation } from 'react-i18next';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
-import { Schedule } from '../Interfaces/DbInterfaces';
+import { Schedule, Local } from '../Interfaces/DbInterfaces';
 
 
 
@@ -14,25 +13,25 @@ interface Props {
     cardWidth?: number,
     cardHeight?: number,
     like: boolean,
-    newLocal: NewLocal, 
+    likesCount?: number,
     routeToStore?: () => void 
     navigation?: any,
-    id?: string,
+    local: Local,
 }
 
 
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, routeToStore: routeToStore, navigation, id}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like = false,likesCount,  routeToStore: routeToStore, navigation, local}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
-    const {name, description, address, country, town, postalCode, schedules, tags, uriImage, rate, quantityRate} = newLocal;
+    const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
 
     return (
     <View style={styles.container} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
-            onPress={() => navigation.navigate('StoreView', {id})}
+            onPress={() => navigation.navigate('StoreView', { local})}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
@@ -43,9 +42,8 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{rate}</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{likesCount}</Text>
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit >{quantityRate}</Text>
                     </View>
                     <TouchableOpacity style={styles.heartBtn}
                             onPress={() => {check()} }
@@ -66,7 +64,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                     </View>
                     <View style={styles.locationStyles}>
                         <FontAwesome name={'map-marked-alt'} size={20} color={Colors.blueAqua} style={{marginHorizontal: 5}} />
-                        <Text style={FontStyles.SubTitles} adjustsFontSizeToFit>{address + ',' + postalCode +',' + town + ',' + country }</Text>
+                        <Text style={[FontStyles.SubTitles, {flexWrap: 'wrap', maxWidth: '90%'}]} adjustsFontSizeToFit numberOfLines={2}>{address + ',' + postalCode +',' + town + ',' + country }</Text>
                     </View>
                     <View style={styles.middleSection}>
                         <View style={{flex: 1}}>
@@ -184,7 +182,7 @@ const styles = StyleSheet.create({
     locationStyles:{
         flexDirection: 'row', 
         margin: 2, 
-        flex: 2,
+        flex: 3,
         alignItems: 'center',
     },
     middleSection:{

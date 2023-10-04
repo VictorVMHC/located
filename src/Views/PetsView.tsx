@@ -5,16 +5,17 @@ import { fetchData } from '../Utils/FetchFunctions';
 import { PetsTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 import { CustomAlert } from '../Components/CustomAlert';
 interface Props {
     kilometers: number;
     latitude: number,
-    longitude:number
+    longitude:number,
+    setFoodViewValue: (newValue: boolean) => void
 };
 
-export const PetsView = ({kilometers, latitude, longitude}:Props) => {
+export const PetsView = ({kilometers, latitude, longitude, setFoodViewValue}:Props) => {
     const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
@@ -57,6 +58,16 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
         }
     }
 
+    const valueInitial = () => {
+        return setFoodViewValue(true); // Enviamos el valor true a CloseToMeMainView
+    }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            valueInitial();
+        }, [])
+    );
+
     useEffect(() => {
         setPage(1);
         setTotalPage(1);
@@ -98,7 +109,7 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
                                         Name={item[0].name} 
                                         categories={item[0].tags[0]}
                                         navigation={navigation}
-                                        id={item[0]._id}
+                                        local={item[0]}
                                     />
                                 )}
                                 {item[1] && (
@@ -108,7 +119,7 @@ export const PetsView = ({kilometers, latitude, longitude}:Props) => {
                                         Name={item[1].name} 
                                         categories={item[1].tags[0]}
                                         navigation={navigation}
-                                        id={item[1]._id}
+                                        local={item[1]}
                                     />
                                 )}
                             </View>
