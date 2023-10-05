@@ -35,7 +35,7 @@ export type ViewStackParams = {
 	DrawerMenu: undefined,
 	EditUserView: undefined,
 	StoreView: undefined,
-	CommentsView: undefined,
+	CommentsView: {localId: string},
 	ChangePasswordView: undefined,
 	PrivacyPolicyView: undefined,
 	MyLocalsStoreView: {local: Local}

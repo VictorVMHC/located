@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View, VirtualizedList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 import { ReplyComponent } from './ReplyComponent';
 import { getReliesByCommentId } from '../Api/repliesApi';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props{
     idUser: number,
@@ -35,6 +36,7 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, commentId,Comment, 
     const [inputValue, setInputValue] = useState(0);
     const [like, setLike] = useState(likes);
     const [repliess, setReplies] = useState<string[]>([]);
+    const {user} = useContext(AuthContext);
 
     useEffect(() => {
         if(!repliesCount){

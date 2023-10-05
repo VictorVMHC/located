@@ -1,6 +1,16 @@
 export interface Comment{
-    userId: string,
-    localId: string
+    _id: string,
+    localId: string,
+    userId: {
+        _id: string,
+        name: string,
+        image: string
+    },
+    comment: string,
+    label: string,
+    countReplies: number,
+    likeCount: number,
+    liked: boolean
 }
 
 export interface CommentResponse{
@@ -8,4 +18,19 @@ export interface CommentResponse{
     userId: string,
     comment: string,
     replies: []
+}
+
+export interface Reply {
+    userReplied: string | null,
+    _id: string,
+    commentId: string,
+    userId:{
+        _id: string,
+        name:string,
+        image: string
+    },
+    replied: string,
+    label: string,
+    likes: number,
+    liked: boolean
 }
