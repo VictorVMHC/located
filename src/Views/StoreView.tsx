@@ -6,13 +6,10 @@ import MapView, { Marker } from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { getLocal } from '../Api/localApi';
-import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
 import { getProductsByLocalId } from '../Api/productsApi';
 import { Product } from '../Interfaces/ProductsInterfaces';
 import { CustomAlert } from '../Components/CustomAlert';
-import { CreateProductAlertView } from './CreateProductAlertView';
 import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 

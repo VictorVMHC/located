@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, StyleSheet, View, VirtualizedList  } from 'react-native'
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { fetchData } from '../Utils/FetchFunctions';
@@ -7,6 +7,7 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 import { CustomAlert } from '../Components/CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -24,12 +25,14 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude, setFoodVi
     const navigation = useNavigation();
     const [fetching, setFetching] = useState(false);
     const [noLocalsFound, setNoLocalsFound] = useState(false);
+    const { user}  = useContext(AuthContext);
 
     const fetchMoreLocales  = async () =>{
+        const userId = user?._id || 'null';
         try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers, ['.*'], page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers, ['.*'], userId, page);
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);

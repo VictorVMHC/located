@@ -1,13 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { searchLocals } from '../Api/searchLocalsApi';
+import { searchLocalWithLikes } from '../Api/searchLocalsApi';
 import { useFocusEffect } from '@react-navigation/native';
 import { Local } from '../Interfaces/DbInterfaces';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props {
     markers?: any,
@@ -40,15 +41,18 @@ export const Map = ({ markers }: Props) => {
     const radioKm = 0.5;
     const [dataLocals, setDataLocals] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
+    const {user}  = useContext(AuthContext);
     
 
 
     const fetchData = async (latitude: number, longitude: number) => {
+        const userId = user?._id || 'null';
             try {
-                const resultsLocals = await searchLocals(
+                const resultsLocals = await searchLocalWithLikes(
                     latitude,
                     longitude,
-                    radioKm
+                    radioKm,
+                    userId
                 );
                 const paginatedResults = resultsLocals.data.results;
                 setDataLocals(paginatedResults);

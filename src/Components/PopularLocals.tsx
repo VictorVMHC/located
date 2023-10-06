@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView, FlatList, StyleSheet, ActivityIndicator, Alert, View, Text  } from 'react-native'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -9,27 +9,27 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { ThereAreNoLocals } from './ThereAreNoLocals';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { CustomAlert } from './CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
 export const PopularLocals = ({navigation}:Props) => {
-    const [dataLocals, setDataLocals] = useState<[]>([]); 
+    const [dataLocals, setDataLocals] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false);
     const [emptyData, setEmptyData] = useState(false);
     const [loading, setLoading] = useState(true);
+    const {user}  = useContext(AuthContext);
     const radioKm = 2.0;
 
     const localSearch = async (latitude: number, longitude: number) =>{
+        const userId = user?._id || 'null';
         try {
-            const resultsLocals = await searchPopularLocals(latitude, longitude, radioKm);
+            const resultsLocals = await searchPopularLocals(latitude, longitude, radioKm, userId);
             const listLocals = resultsLocals.data.results;
-            if (listLocals.length !== 0) {
-                console.log(listLocals);
-                
+            if (listLocals.length !== 0) {             
                 setDataLocals(listLocals);
                 setHasFetchedData(true);
                 setLoading(false);
-                setLoading(true);
             } else {
                 setEmptyData(true);
             }
@@ -54,6 +54,7 @@ export const PopularLocals = ({navigation}:Props) => {
         React.useCallback(() => {
             setHasFetchedData(false);
             setEmptyData(false);
+            setLoading(true);
         }, [])
     );
 
@@ -77,15 +78,15 @@ export const PopularLocals = ({navigation}:Props) => {
             renderItem={ ( { item } ) => {
             return(
                 <Card 
-                    like={false} 
-                    likesCount={item.likeCount}
+                    like={item.liked} 
+                    likesCount={item.localLikes}
                     routeToStore={()=>{}} 
                     navigation={navigation}
-                    local={item.localData}
+                    local={item}
                 />
             )
         } }
-        keyExtractor={(item: any) => item.localData._id }
+        keyExtractor={(item) => item._id }
         ListFooterComponent={() => (
             loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
         )}

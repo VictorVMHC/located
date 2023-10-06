@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Image } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { useTranslation } from 'react-i18next';
 import { Schedule, Local } from '../Interfaces/DbInterfaces';
+import { AuthContext } from '../Context/AuthContext';
 
 
 
@@ -21,12 +22,13 @@ interface Props {
 
 
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false,likesCount,  routeToStore: routeToStore, navigation, local}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, like ,likesCount,  routeToStore: routeToStore, navigation, local}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
-    const {isActive, check} = useHeartHook(like);
-    const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage} = local;
+    const { user}  = useContext(AuthContext);
+    const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
+    const {isActive, check} = useHeartHook(liked);
 
     return (
     <View style={styles.container} >
@@ -42,11 +44,13 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false,likesCount,  
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{likesCount}</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{localLikes}</Text>
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
                     </View>
                     <TouchableOpacity style={styles.heartBtn}
-                            onPress={() => {check()} }
+                            onPress={() => { if (user?._id) {
+                                check(user._id, _id);
+                            }} }
                     >
                         {!isActive 
                             ? <IonIcon name='heart-outline' size={35} color={Colors.black} />

@@ -1,4 +1,4 @@
-import React, { MutableRefObject, Ref, useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, Ref, useContext, useEffect, useRef, useState } from 'react';
 import { Animated, PanResponder, StyleSheet, View, useWindowDimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import Carousel from 'react-native-reanimated-carousel';
@@ -7,6 +7,7 @@ import { Card } from './Card';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
@@ -21,6 +22,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+    const [searchLike, setSearchLike] = useState(false)
     const slideAnimation = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
 
@@ -110,7 +112,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                     renderItem={({ item }) => (
                         <View style={{marginTop: -15}}>
                             <Card 
-                                like={false} 
+                                like={searchLike} 
                                 cardHeight={-30} 
                                 routeToStore={()=>{}} 
                                 navigation={navigation}
