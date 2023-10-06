@@ -80,7 +80,7 @@ export const LocalsView = ({navigation}:Props) => {
                         keyExtractor={(item: any) => item._id }
                     />
                 ) : (
-                    <ErrorMessage message="Error: No se pudieron cargar los datos." />
+                    <ErrorMessage message="Error: Was not possible load data." />
                 )) : (
                     <LoadingOverlay />
             )}

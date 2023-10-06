@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Button, TextInput, Image, TouchableOpacity, Keyboard, KeyboardAvoidingView, VirtualizedList } from 'react-native';
-import { FlatList} from 'react-native-gesture-handler'
-import { Text } from 'react-native-paper'
-import { ContainerComment } from '../Components/ContainerComment';
-import { Colors, FontStyles } from '../Themes/Styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Comment } from '../Interfaces/CommentsInterfaces';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
+import { Text } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { getCommentsByLocalId } from '../Api/commentsApi';
-import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { ContainerComment } from '../Components/ContainerComment';
 import { CustomAlert } from '../Components/CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
+import { Comment } from '../Interfaces/CommentsInterfaces';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { Colors, FontStyles } from '../Themes/Styles';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CommentsView'>{};
 
@@ -25,8 +25,9 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const [buttonLocked, setButtonLocked] = useState(false);
     const [ comments, setComments ] = useState<Comment[]>([])
     const [ page, setPage ] = useState(1);
-    const [ totalPages, setTotalpages ] = useState(1);
+    const [ totalPages, setTotalPages ] = useState(1);
     const [ fetching, setFetching ] = useState(false);
+    const { user } = useContext(AuthContext); 
 
     const handleKeyboardDidShow = () => {
         setText('');
@@ -42,6 +43,8 @@ export const CommentsView = ({ navigation, route }: Props) => {
     };
 
     useEffect(() => {
+        console.log(localId);
+        
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
         return () =>{
@@ -62,9 +65,9 @@ export const CommentsView = ({ navigation, route }: Props) => {
         .then((response) =>{
             setComments(response.data.comments);
             setPage(page + 1);
-            setTotalpages(response.data.totalPages);
+            setTotalPages(response.data.totalPages);            
         })
-        .catch(() => {
+        .catch((err) => {            
             CustomAlert({
                 title: "Not Comments",
                 desc: "Sorry we could not been able to grab the comment for this local"
@@ -86,52 +89,58 @@ export const CommentsView = ({ navigation, route }: Props) => {
         fetchComments();
     }
 
+    
     const handleChildCallback = (value: number) => {
         setReceivedValue(value);
         inputRef.current?.focus();
     };
+    
+    const placeholderValue: any = receivedValue !== 0 ? receivedValue : "Add Comment";
+    
+    const renderHeader = () => {
+        return (
+            <View style={StylesCommentsView.containerText}>
+                <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
+                    {t('Comments')}
+                </Text>
+            </View>
+        );
+    }
 
-    const placeholderValue: any = receivedValue !== 0 ? receivedValue : "Añadir Comentario";
-
-    const renderComment = (comment: Comment) => {
+    const renderComment: ListRenderItem<Comment> = ({ item }) => {
         return(
             <ContainerComment
-                idUser={item._id}
-                ImgUser={item.}
-                NameUser={item.nameUser}
-                Comment={item.text}
-                likes={false}
-                dislikes={false}
-                reply={true}
+                commentItem={ item }   
                 blocking={buttonLocked}
-                answers={true}
-                label='neutral'
-                onCallback={() => handleChildCallback(item.id)} 
-                commentId={''}                        
+                onCallback={() => { console.log("hello") }}
             />
         )
+    }
+
+    const getKey = (item: Comment) => {
+        return item._id;
+    }
+
+    const getItemsCount = (data: Comment[]) => {
+        return data.length
+    }
+
+    const getComment = (data: Comment[], item: number) => {
+        return data[item]
     }
 
     return (
         <KeyboardAvoidingView style={StylesCommentsView.container}>
             <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
-                <View style={StylesCommentsView.containerFlatlist}>
+                <View style={StylesCommentsView.containerFlatList}>
                     <VirtualizedList
                         data={comments}
-                        getItemCount={(data) => data.length}
-                        getItem={(data, index) => data[index]}
+                        getItemCount={getItemsCount}
+                        getItem={getComment}
                         initialNumToRender={10}
-                        ListHeaderComponent={() => (
-                            <View style={StylesCommentsView.containerText}>
-                                <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
-                                    {t('Comments')}
-                                </Text>
-                            </View>
-                        )}
-                        renderItem={({ item }) => (
-                            
-                        )}
-                        keyExtractor={(item) => item.id.toString()}
+                        ListHeaderComponent={renderHeader}
+                        renderItem={renderComment}
+                        keyExtractor={getKey}
                         onEndReached={handleLoadMore}
                         onEndReachedThreshold={0.3}
                     />
@@ -143,11 +152,11 @@ export const CommentsView = ({ navigation, route }: Props) => {
                         <Image 
                             resizeMode='cover'
                             style={StylesCommentsView.Img}
-                            source={{uri: 'https://ih1.redbubble.net/image.1740228166.8974/flat,750x1000,075,f.jpg'}}
+                            source={ user?.image ? {uri:  user?.image } : require('../Assets/Images/Img_User.png')}
                             />
                     </View>
                     <View style={{...StylesCommentsView.containerTextComment, height: Math.max(35, textInputHeight)}}>
-                        <TextInput   
+                        <TextInput
                             ref={inputRef}  
                             style={{...StylesCommentsView.textInput, height: Math.max(35, textInputHeight) }}  
                             placeholder={placeholderValue} 
@@ -190,7 +199,7 @@ const StylesCommentsView = StyleSheet.create({
         marginLeft: 20,
         marginTop: 5
     },
-    containerFlatlist:{
+    containerFlatList:{
         flex: 7,
         alignItems: 'center'
     },

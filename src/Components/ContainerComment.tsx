@@ -7,53 +7,62 @@ import { Colors } from '../Themes/Styles';
 import { ReplyComponent } from './ReplyComponent';
 import { getReliesByCommentId } from '../Api/repliesApi';
 import { AuthContext } from '../Context/AuthContext';
+import { Comment } from '../Interfaces/CommentsInterfaces';
 
 interface Props{
-    idUser: number,
-    commentId: string,
-    repliesCount?: number,
-    ImgUser: string,
-    NameUser: string,
-    Comment: string,
-    likes?: boolean,
-    dislikes?: boolean,
-    score?: string,
-    reply?: boolean,
+    commentItem: Comment,
     blocking?: boolean,
-    answers?: boolean,
-    NumberOfComments?: Number,
-    label: string,
     onCallback:  (value: number ) => void;
 }
 
-const firstPage = ["hola", "hola2", "hola3", "hola4", "hola5", "hola6","hola7", "hola8"]
-const secondPage = ["secondHola", "secondHola2", "secondHola3", "secondHola4", "secondHola5", "secondHola6","secondHola7", "secondHola8"]
-
-
-export const ContainerComment = ({idUser, ImgUser, NameUser, commentId,Comment, repliesCount ,onCallback ,likes ,dislikes,reply,blocking,answers: replies, label}:Props) => {
+export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) => {
+    const {_id, countReplies, liked, label, userId, comment } = commentItem;
+    const {image, name} = userId;
     const [expandedReplies, setExpandedComments] = useState(false);
     const { t } = useTranslation();
     const [inputValue, setInputValue] = useState(0);
-    const [like, setLike] = useState(likes);
-    const [repliess, setReplies] = useState<string[]>([]);
+    const [like, setLike] = useState(liked);
+    const [replies, setReplies] = useState<string[]>([]);
     const {user} = useContext(AuthContext);
+    const [ page, setPage ] = useState(1);
+    const [ totalPages, setTotalPages ] = useState(1);
+    const [ fetching, setFetching ] = useState(false);
+    const [ error, setError ] = useState(false)
 
     useEffect(() => {
-        if(!repliesCount){
+        if(!countReplies){
             return;
         }
 
-        getReliesByCommentId(commentId).then((response) => {
-            setReplies(response.data.reply);
-        })
+        
+
     }, [])
 
+    const fetchReplies = () => {
+        if(page > totalPages || fetching){
+            return;
+        }
+
+        setFetching(true);
+
+        getReliesByCommentId(_id)
+        .then((response) => {
+            setReplies(response.data.reply);
+        })
+        .catch(() => {
+            setError(true);
+        })
+        .finally(() => {
+            setFetching(false);
+        });
+    };
+
     const handleLoadMore = () => {
-        
+        fetchReplies();
     } 
 
-    const handleSendValue = (idUser: number) => {
-        setInputValue(idUser);
+    const handleSendValue = (idUser: string) => {
+        setInputValue(parseInt(idUser));
         onCallback(inputValue);
     };
 
@@ -83,7 +92,7 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, commentId,Comment, 
     }
     
     function getItemCount() {
-        return repliess.length; 
+        return replies.length; 
     }
 
     const footerReplies = () => {
@@ -117,13 +126,13 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, commentId,Comment, 
                     <Image
                         resizeMode='cover'
                         style={styles.Img}
-                        source={{uri: ImgUser}}
+                        source={{uri: image}}
                     />
                 </View>
                 <View style={{width: '75%'}}>
-                    <Text style={styles.Name}>{NameUser}</Text>
+                    <Text style={styles.Name}>{ name }</Text>
                     <View style={styles.ContainerText}>
-                        <Text style={styles.TextComment}>{Comment}</Text>
+                        <Text style={styles.TextComment}>{ comment }</Text>
                     </View>
                 </View>
                 <View style={{width: '10%', alignItems: 'center', justifyContent: 'center'}} >
@@ -137,15 +146,15 @@ export const ContainerComment = ({idUser, ImgUser, NameUser, commentId,Comment, 
                 <TouchableOpacity 
                     disabled={blocking} 
                     style={{margin: 5, alignSelf: 'flex-end' }} 
-                    onPress={()=>(handleSendValue(idUser))} 
+                    onPress={()=>(handleSendValue(userId._id))} 
                 >
-                    <Text style={{color: Colors.black}}>{t('Reply')} to {NameUser}</Text>
+                    <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
                 </TouchableOpacity>
                 {
                     replies && !expandedReplies &&
                     <View style={{flexDirection: 'row', alignSelf: 'flex-end' }}>
                         <TouchableOpacity disabled={blocking} style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
-                            <Text style={{color: Colors.black}}>See { repliesCount } {t('Answers')}</Text>
+                            <Text style={{color: Colors.black}}> See { countReplies } {t('Answers')}</Text>
                         </TouchableOpacity>
                         <Icon style={{marginTop: 2, marginLeft: 2}} name='chevron-down' size={15} color='black' />
                     </View>

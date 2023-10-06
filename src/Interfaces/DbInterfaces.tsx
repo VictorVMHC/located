@@ -19,7 +19,9 @@ export interface Local {
     tags: string[],
     location: Location,
     open: string
-    businessType: string
+    businessType: string,
+    liked: string,
+    likeCount: string
 }
 
 export interface Locals {
