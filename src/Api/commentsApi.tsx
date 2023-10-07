@@ -10,6 +10,13 @@ const getCommentsByLocalId = (localId: string, page?: number, limit?: number) =>
     });
 }
 
+const comment = (localId: string, comment: string) => {
+    return api.post( "/api/comments/", {
+        localId,
+        comment
+    } );
+}
+
 export {
     getCommentsByLocalId
 };

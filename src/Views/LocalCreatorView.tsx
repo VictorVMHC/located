@@ -15,6 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CustomAlert } from '../Components/CustomAlert';
 import { LocalInitialState } from '../Interfaces/LocalInterfaces';
 import { postImage } from '../Api/imageApi';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -29,6 +30,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
     const [canGoNext, setCanGoNext] = useState(false);
     const { localState, updateLocal } = useContext(LocalContext);
     const [attempt, setAttempt] = useState(0);
+    const {updateUserAttribute} = useContext( AuthContext );
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -94,6 +96,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
                     desc: t('LocalCreationSuccessInfo')
                 });
                 updateLocal(LocalInitialState);
+                updateUserAttribute({haveLocals: true});
                 navigation.pop();
             }
             

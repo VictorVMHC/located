@@ -11,6 +11,8 @@ import { AuthContext } from '../Context/AuthContext';
 import { Comment } from '../Interfaces/CommentsInterfaces';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Colors, FontStyles } from '../Themes/Styles';
+import { CommentsAlertView } from './CommentsAlertView';
+import { LoadingOverlay } from '../Components/LoadingOverlay';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CommentsView'>{};
 
@@ -27,8 +29,8 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const [ page, setPage ] = useState(1);
     const [ totalPages, setTotalPages ] = useState(1);
     const [ fetching, setFetching ] = useState(false);
-    const { user } = useContext(AuthContext); 
-
+    const { user } = useContext(AuthContext);
+    const [haveComments, setHaveComments ] = useState(true);
     const handleKeyboardDidShow = () => {
         setText('');
         setButtonLocked(true);
@@ -55,31 +57,50 @@ export const CommentsView = ({ navigation, route }: Props) => {
 
     const fetchComments = () => {
 
-        if(page > totalPages || fetching ){
+        if(page > totalPages || fetching || !haveComments){
             return;
         }
 
         setFetching(true);
 
         getCommentsByLocalId(localId, page)
-        .then((response) =>{
-            setComments(response.data.comments);
-            setPage(page + 1);
-            setTotalPages(response.data.totalPages);            
-        })
-        .catch((err) => {            
-            CustomAlert({
-                title: "Not Comments",
-                desc: "Sorry we could not been able to grab the comment for this local"
+            .then((response) =>{
+                setComments(response.data.comments);
+                setPage(page + 1);
+                setTotalPages(response.data.totalPages);            
+                setHaveComments(true);
             })
-        })
-        .finally(() => {
-            setFetching(false);
-        });
+            .catch((error) => {
+                console.log(error.response.status );
+                if(error.response.status  === 404){
+                    setComments([]);
+                    setTotalPages(1);
+                    setPage(1);
+                    setHaveComments(false);
+                    return;
+                }
+
+                if(error.response.status  === 500){
+                    
+                    CustomAlert({
+                        title: "Not Comments",
+                        desc: "Sorry we could not been able to grab the comment for this local"
+                    })
+    
+                    navigation.goBack();
+                }
+                
+                
+            })
+            .finally(() => {
+                setFetching(false);
+            });
     }
 
     useEffect(() => {
-        if(comments.length > 0){
+        console.log("hola");
+        
+        if(comments.length > 0 || fetching){
             return;
         }
         fetchComments();
@@ -133,17 +154,22 @@ export const CommentsView = ({ navigation, route }: Props) => {
         <KeyboardAvoidingView style={StylesCommentsView.container}>
             <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
                 <View style={StylesCommentsView.containerFlatList}>
-                    <VirtualizedList
-                        data={comments}
-                        getItemCount={getItemsCount}
-                        getItem={getComment}
-                        initialNumToRender={10}
-                        ListHeaderComponent={renderHeader}
-                        renderItem={renderComment}
-                        keyExtractor={getKey}
-                        onEndReached={handleLoadMore}
-                        onEndReachedThreshold={0.3}
-                    />
+                    { fetching
+                        ?   <LoadingOverlay/>
+                        :   haveComments 
+                            ?   <VirtualizedList
+                                    data={comments}
+                                    getItemCount={getItemsCount}
+                                    getItem={getComment}
+                                    initialNumToRender={10}
+                                    ListHeaderComponent={renderHeader}
+                                    renderItem={renderComment}
+                                    keyExtractor={getKey}
+                                    onEndReached={handleLoadMore}
+                                    onEndReachedThreshold={0.3}
+                                />
+                            :   <CommentsAlertView/>
+                    }
                 </View>
             </View>
             <View style={{...StylesCommentsView.containerAddComments, height: textInputHeight + 50, backgroundColor: 'white'}}>
