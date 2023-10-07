@@ -2,9 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
-import { Text } from 'react-native-paper';
+import { ActivityIndicator, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { getCommentsByLocalId } from '../Api/commentsApi';
+import { addComment, getCommentsByLocalId } from '../Api/commentsApi';
 import { ContainerComment } from '../Components/ContainerComment';
 import { CustomAlert } from '../Components/CustomAlert';
 import { AuthContext } from '../Context/AuthContext';
@@ -21,7 +21,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const {t} = useTranslation();
     const [receivedValue, setReceivedValue] = useState(0);
     const inputRef = useRef<TextInput>(null);
-    const [text, setText] = useState('');
+    const [comment, setComment] = useState('');
     const [textInputHeight, setTextInputHeight] = useState(0);
     const [isKeyboardOpen, setKeyboardOpen] = useState(false);
     const [buttonLocked, setButtonLocked] = useState(false);
@@ -31,10 +31,12 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const [ fetching, setFetching ] = useState(false);
     const { user } = useContext(AuthContext);
     const [haveComments, setHaveComments ] = useState(true);
+    const [ sending, setSending ] = useState(false);
+
     const handleKeyboardDidShow = () => {
-        setText('');
+        setComment('');
         setButtonLocked(true);
-        setKeyboardOpen(true);  
+        setKeyboardOpen(true);
     };
 
     const handleKeyboardDidHide = () => {
@@ -44,9 +46,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
         setKeyboardOpen(false);
     };
 
-    useEffect(() => {
-        console.log(localId);
-        
+    useEffect(() => {        
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
         return () =>{
@@ -97,14 +97,12 @@ export const CommentsView = ({ navigation, route }: Props) => {
             });
     }
 
-    useEffect(() => {
-        console.log("hola");
-        
+    useEffect(() => {       
         if(comments.length > 0 || fetching){
             return;
         }
         fetchComments();
-    }, []);
+    }, [sending]);
 
     const handleLoadMore = () => {
         fetchComments();
@@ -150,6 +148,23 @@ export const CommentsView = ({ navigation, route }: Props) => {
         return data[item]
     }
 
+    const sendComment  = () => {
+        setSending(true);
+        addComment(localId, comment )
+        .then(() => {
+            setComment('');
+        })
+        .catch(() => {
+            CustomAlert({
+                title: "Comment not Delivery",
+                desc: "Try to send again your comment"
+            });
+        })
+        .finally(() => {
+            setSending(false);
+        })
+    }
+
     return (
         <KeyboardAvoidingView style={StylesCommentsView.container}>
             <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
@@ -187,16 +202,22 @@ export const CommentsView = ({ navigation, route }: Props) => {
                             style={{...StylesCommentsView.textInput, height: Math.max(35, textInputHeight) }}  
                             placeholder={placeholderValue} 
                             placeholderTextColor={Colors.black}  
-                            value={text} 
-                            onChange={({nativeEvent: { text }}) => setText(text)} 
+                            value={comment} 
+                            onChange={({nativeEvent: { text }}) => setComment(text)} 
                             maxLength={256} 
-                            multiline 
+                            multiline
                             onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)}
                         >
                         </TextInput>
-                        {text !== '' && (
-                            <TouchableOpacity >
-                                <Icon name='paper-plane' size={20} color="#8A8E9B" solid/>
+                        {comment !== '' && (
+                            <TouchableOpacity 
+                                onPress={sendComment}
+                            >
+                                {   sending 
+                                    ?   <ActivityIndicator color={Colors.Yellow} />
+                                    :   <Icon name='paper-plane' size={20} color="#8A8E9B" solid/>
+                                    
+                                }
                             </TouchableOpacity>
                         )}
                     </View>

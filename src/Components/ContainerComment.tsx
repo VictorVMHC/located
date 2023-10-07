@@ -16,7 +16,7 @@ interface Props{
 }
 
 export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) => {
-    const {_id, countReplies, liked, label, userId, comment } = commentItem;
+    const {_id, countReplies, liked, label, userId, comment, likeCount } = commentItem;
     const {image, name} = userId;
     const [expandedReplies, setExpandedComments] = useState(false);
     const { t } = useTranslation();
@@ -33,8 +33,6 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
         if(!countReplies){
             return;
         }
-
-        
 
     }, [])
 
@@ -126,7 +124,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
                     <Image
                         resizeMode='cover'
                         style={styles.Img}
-                        source={{uri: image}}
+                        source={ image ? {uri: image} : require('../Assets/Images/Img_User.png') }
                     />
                 </View>
                 <View style={{width: '75%'}}>
@@ -139,7 +137,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
                     <TouchableOpacity onPress={()=>{checkLike()}}>
                         <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
-                    <Text style={{color: 'black'}}>59</Text>
+                    <Text style={{color: 'black'}}>{likeCount}</Text>
                 </View>
             </View>
             <View style={styles.ContainerReplies}>
