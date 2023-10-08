@@ -8,8 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { Schedule, Local } from '../Interfaces/DbInterfaces';
 import { AuthContext } from '../Context/AuthContext';
 
-
-
 interface Props {
     cardWidth?: number,
     cardHeight?: number,
@@ -18,17 +16,23 @@ interface Props {
     routeToStore?: () => void 
     navigation?: any,
     local: Local,
+    updateLike: (localId: string, newLikedValue: boolean) => void; 
 }
 
-
-
-export const Card = ({  cardWidth = 0, cardHeight= 5, like ,likesCount,  routeToStore: routeToStore, navigation, local}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore, navigation, local, updateLike}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const { user}  = useContext(AuthContext);
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
     const {isActive, check} = useHeartHook(liked);
+
+    const handleLikePress = async () => {
+        if (user?._id) {
+            await check(user._id, _id);
+            updateLike(_id, !isActive); // Llamamos a la función del padre con el nuevo valor de "like"
+        }
+    };
 
     return (
     <View style={styles.container} >
@@ -48,9 +52,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like ,likesCount,  routeTo
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
                     </View>
                     <TouchableOpacity style={styles.heartBtn}
-                            onPress={() => { if (user?._id) {
-                                check(user._id, _id);
-                            }} }
+                            onPress={handleLikePress}
                     >
                         {!isActive 
                             ? <IonIcon name='heart-outline' size={35} color={Colors.black} />

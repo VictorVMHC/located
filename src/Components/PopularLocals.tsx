@@ -48,6 +48,18 @@ export const PopularLocals = ({navigation}:Props) => {
         }
     }
 
+    const updateLike = async (localId: string, newLikedValue: boolean) => {
+        try {
+            // Aquí deberías llamar a la API o realizar cualquier acción que actualice el estado de "like" en tu base de datos.
+            // Luego, puedes recargar los locales utilizando localSearch.
+            const updatedResultsLocals = await searchPopularLocals(userLocation.latitude, userLocation.longitude, radioKm, user?._id || 'null');
+            const updatedListLocals = updatedResultsLocals.data.results;
+            setDataLocals(updatedListLocals);
+        } catch (error: any) {
+            // Manejo de errores
+        }
+    }
+
     const { hasLocation, userLocation } = useLocation();
 
     useFocusEffect(
@@ -55,6 +67,7 @@ export const PopularLocals = ({navigation}:Props) => {
             setHasFetchedData(false);
             setEmptyData(false);
             setLoading(true);
+            setDataLocals([]);
         }, [])
     );
 
@@ -83,6 +96,7 @@ export const PopularLocals = ({navigation}:Props) => {
                     routeToStore={()=>{}} 
                     navigation={navigation}
                     local={item}
+                    updateLike={updateLike}
                 />
             )
         } }
@@ -95,14 +109,3 @@ export const PopularLocals = ({navigation}:Props) => {
     </SafeAreaView>
     );
 }; 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    item: {
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
-});

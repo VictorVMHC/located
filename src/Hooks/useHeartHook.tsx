@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {createLikeLocal, getLikeLocal,  deleteLikeLocal} from '../Api/likesApi'
 
-export const useHeartHook = (value: boolean) => {
+export const useHeartHook = (value: boolean,) => {
     const [isActive, setActive] = useState(value)
 
     const check = async (userId: string, localId: string)  =>{
@@ -22,6 +22,7 @@ export const useHeartHook = (value: boolean) => {
 
   return {
     isActive,
+    setActive,
     check
   }
 }

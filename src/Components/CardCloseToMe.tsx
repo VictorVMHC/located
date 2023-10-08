@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     Image , 
     StyleSheet , 
@@ -11,6 +11,7 @@ import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
+import { AuthContext } from '../Context/AuthContext';
 
 
 interface Props{
@@ -22,9 +23,11 @@ interface Props{
     local: Local,
 }
 
-export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = false, navigation, local }: Props ) => {
+export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like , navigation, local }: Props ) => {
     const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
+    const { user}  = useContext(AuthContext);
+    const {_id} = local;
     return (
     <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8} onPress={() => navigation.navigate('StoreView', {local})} >
             <View style={styles.ChartImg}>
@@ -38,7 +41,9 @@ export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like = fal
                 <Text numberOfLines={2} style={styles.categories}>{categories}</Text>
             </View>
             <TouchableOpacity style={styles.heartBtn}
-                onPress={() => {check()} }
+                onPress={() => { if (user?._id) {
+                    check(user._id, _id);
+                }} }
             >
                 {!isActive 
                     ? <IonIcon name='heart-outline' size={25} color={Colors.black} />

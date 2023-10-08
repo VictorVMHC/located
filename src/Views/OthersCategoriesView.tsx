@@ -110,7 +110,7 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude, setFoodVi
                             {item[0] && (
                                 <CardCloseToMe 
                                     Img={item[0].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
-                                    like={false} 
+                                    like={item[0].liked} 
                                     Name={item[0].name} 
                                     categories={item[0].tags[0]}
                                     navigation={navigation}
@@ -120,7 +120,7 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude, setFoodVi
                             {item[1] && (
                                 <CardCloseToMe 
                                     Img={item[1].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
-                                    like={false} 
+                                    like={item[1].liked} 
                                     Name={item[1].name} 
                                     categories={item[1].tags[0]}
                                     navigation={navigation}
