@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View, VirtualizedList } from 'react-native'
 import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { fetchData } from '../Utils/FetchFunctions';
 import { businessTags } from '../Utils/ArraysTags';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
+import { CustomAlert } from '../Components/CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
 interface Props {
     kilometers: number;
     latitude: number,
-    longitude:number
+    longitude:number,
+    setFoodViewValue: (newValue: boolean) => void
 };
 
-export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
+export const BusinessView = ({kilometers, latitude, longitude, setFoodViewValue}:Props) => {
     const [dataLocals, setDataLocals] = useState<Local[]>([]);
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1);
@@ -21,12 +24,14 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     const [noLocalsFound, setNoLocalsFound] = useState(false);
+    const { user}  = useContext(AuthContext);
     
     const fetchMoreLocales  = async () =>{
+        const userId = user?._id || 'null';
         try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,businessTags, page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,businessTags, userId, page);
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);
@@ -39,10 +44,32 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
                 }
                 setPage(page + 1);
             }      
-        } catch (error) {
-            console.error('Error fetching locales:', error);
+        } catch (error: any) {
+            if(error.response.status === 404){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                });
+            }
+            if(error.response.status === 500){
+                CustomAlert({
+                    title: "Error",
+                    desc: "Was not possible to retrieve the locals, ¡Please try again!"
+                });
+            }
+            setTotalPage(0);
         }
     }
+
+    const valueInitial = () => {
+        return setFoodViewValue(true); // Enviamos el valor true a CloseToMeMainView
+    }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            valueInitial();
+        }, [])
+    );
 
     useEffect(() => {
         setPage(1);
@@ -69,28 +96,54 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
                 range={dataRange().toString()}
                 />
             ):(
-                <FlatList 
-                    numColumns={2}
-                    data={dataLocals}
-                    renderItem={ ( { item } ) => {
-                        return(
-                            <CardCloseToMe 
-                                Img={item ? item.uriImage :'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
-                                like={false} 
-                                Name={item.name} 
-                                categories={item.tags[0]}
-                                navigation={navigation}
-                                id={item._id}
-                            />
-                        )
-                    } }
-                    keyExtractor={(item) => item._id}
-                    onEndReached={fetchMoreLocales} 
-                    onEndReachedThreshold={0.1} 
-                    ListFooterComponent={()=>(
-                        loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
-                    )}
-                />
+                <View style={styles.container}>
+                    <VirtualizedList
+                        data={dataLocals}
+                        initialNumToRender={4}
+                        refreshing={loading}
+                        getItemCount={(data) => Math.ceil(data.length / 2)} 
+                        getItem={(dataLocal, index) => [dataLocal[index * 2], dataLocal[index * 2 + 1]]} 
+                        renderItem={({ item }) => (
+                            <View style={styles.row}>
+                                {item[0] && (
+                                    <CardCloseToMe 
+                                        Img={item[0].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                                        like={item[0].liked} 
+                                        Name={item[0].name} 
+                                        categories={item[0].tags[0]}
+                                        navigation={navigation}
+                                        local={item[0]}
+                                    />
+                                )}
+                                {item[1] && (
+                                    <CardCloseToMe 
+                                        Img={item[1].uriImage || 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'} 
+                                        like={item[1].liked} 
+                                        Name={item[1].name} 
+                                        categories={item[1].tags[0]}
+                                        navigation={navigation}
+                                        local={item[1]}
+                                    />
+                                )}
+                            </View>
+                        )}
+                        keyExtractor={(item) => {
+                            let key = '';
+                            if (item[0]) {
+                                key += item[0]._id;
+                            }
+                            if (item[1]) {
+                                key += item[1]._id;
+                            }
+                            return key;
+                        }}
+                        onEndReached={fetchMoreLocales}
+                        onEndReachedThreshold={0.3}
+                        ListFooterComponent={() => (
+                            loading ? <ActivityIndicator size="large" color={Colors.orange} /> : null
+                        )}
+                    />
+            </View>
             )}
         </SafeAreaView>
     )
@@ -99,5 +152,10 @@ export const BusinessView = ({kilometers, latitude, longitude}:Props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
 });

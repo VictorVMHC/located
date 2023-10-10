@@ -1,38 +1,52 @@
-import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, Image } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { useTranslation } from 'react-i18next';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
-import { Schedule } from '../Interfaces/DbInterfaces';
-
-
+import { Schedule, Local } from '../Interfaces/DbInterfaces';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props {
     cardWidth?: number,
     cardHeight?: number,
     like: boolean,
-    newLocal: NewLocal, 
+    likesCount?: number,
     routeToStore?: () => void 
     navigation?: any,
-    id?: string,
+    local: Local,
+    updateLike: () => void,
 }
 
-
-
-export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, routeToStore: routeToStore, navigation, id}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore, navigation, local, updateLike}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
-    const {isActive, check} = useHeartHook(like);
-    const {name, description, address, country, town, postalCode, schedules, tags, uriImage, rate, quantityRate} = newLocal;
+    const { user}  = useContext(AuthContext);
+    const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
+    const {isActive, check} = useHeartHook(liked);
+    const [valueLocalLikes, setValueLocalLikes] = useState(localLikes);
+    const [isProcessingLike, setIsProcessingLike] = useState(false);
+
+    const handleLikePress = async () => {
+        if (user?._id && !isProcessingLike) {
+            setIsProcessingLike(true);
+            await check(user._id, _id);
+            updateLike();
+            if (!isActive) {
+                setValueLocalLikes(prevLikes => prevLikes + 1);
+            } else {
+                setValueLocalLikes(prevLikes => prevLikes - 1);
+            }
+            setIsProcessingLike(false);
+        }
+    };
 
     return (
     <View style={styles.container} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
-            onPress={() => navigation.navigate('StoreView', {id})}
+            onPress={() => navigation.navigate('StoreView', { local})}
         >
             <View style={{flex:4}}>                
                 <ImageBackground 
@@ -43,12 +57,13 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{rate}</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{valueLocalLikes}</Text>
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit >{quantityRate}</Text>
                     </View>
-                    <TouchableOpacity style={styles.heartBtn}
-                            onPress={() => {check()} }
+                    <TouchableOpacity 
+                        style={styles.heartBtn}
+                        onPress={handleLikePress}
+                        disabled={isProcessingLike}
                     >
                         {!isActive 
                             ? <IonIcon name='heart-outline' size={35} color={Colors.black} />
@@ -66,10 +81,10 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                     </View>
                     <View style={styles.locationStyles}>
                         <FontAwesome name={'map-marked-alt'} size={20} color={Colors.blueAqua} style={{marginHorizontal: 5}} />
-                        <Text style={FontStyles.SubTitles} adjustsFontSizeToFit>{address + ',' + postalCode +',' + town + ',' + country }</Text>
+                        <Text style={[FontStyles.SubTitles, {flexWrap: 'wrap', maxWidth: '90%'}]} adjustsFontSizeToFit numberOfLines={2}>{address + ',' + postalCode +',' + town + ',' + country }</Text>
                     </View>
                     <View style={styles.middleSection}>
-                        <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
+                        <View style={{flex: 1}}>
                             <View style={{flex: 1, alignSelf: 'stretch'}}>
                                 <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >{t('DescriptionText')}</Text>
                             </View>
@@ -79,13 +94,13 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, like = false, newLocal, ro
                         </View>
                         <View style={{flex: 1,justifyContent: 'center', alignItems: 'center',}}>
                             <View style={{flex: 1, alignSelf: 'stretch'}}>
-                                <Text style={FontStyles.SubTitles} adjustsFontSizeToFit >
+                                <Text style={[FontStyles.SubTitles, { textAlign: 'center' }]} adjustsFontSizeToFit >
                                     <IonIcon name={'calendar-outline'} size={20} color={Colors.blueAqua} />  {t('ScheduleTitle')}
                                 </Text>
                             </View>
                             <View style={{flex: 2}}>
                                 {schedules.map(({ day1, day2, open, close }: Schedule, index) => (
-                                    <View key={index} style={{}}>
+                                    <View key={index} style={{alignItems: 'flex-end'}}>
                                         <View>
                                             <View style={styles.internalDayView}>
                                                 <Text style={{color: Colors.black}} adjustsFontSizeToFit>{day1}{' '}</Text>
@@ -184,7 +199,7 @@ const styles = StyleSheet.create({
     locationStyles:{
         flexDirection: 'row', 
         margin: 2, 
-        flex: 2,
+        flex: 3,
         alignItems: 'center',
     },
     middleSection:{

@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
+import {createLikeLocal, deleteLikeLocal} from '../Api/likesApi'
 
-export const useHeartHook = (value: boolean) => {
+export const useHeartHook = (value: boolean,) => {
     const [isActive, setActive] = useState(value)
 
-    const check = ( )  =>{
+    const check = async (userId: string, localId: string)  =>{
       if(isActive)
       {
-        setActive(false)
+        deleteLikeLocal(userId,localId);
+        setActive(false); 
       }
       else
       {
-        setActive(true)
+        const likeLocal = await createLikeLocal({ userId: userId, localId: localId }); 
+        if(likeLocal.status === 200){
+          setActive(true)
+        }
       }
     }
 
   return {
     isActive,
+    setActive,
     check
   }
 }

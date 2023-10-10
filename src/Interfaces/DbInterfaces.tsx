@@ -20,8 +20,8 @@ export interface Local {
     location: Location,
     open: string
     businessType: string,
-    liked: string,
-    likeCount: string
+    localLikes: number,
+    liked: boolean
 }
 
 export interface Locals {

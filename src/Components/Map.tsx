@@ -1,14 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { useLocation } from '../Hooks/useLocation';
 import { LoadingView } from '../Views/LoadingView';
 import { CustomMarker } from './CustomMarker';
 import { CarouselComponent } from './Carousel';
 import { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { searchLocals } from '../Api/searchLocalsApi';
-import { NewLocal } from '../Interfaces/LocalInterfaces';
+import { searchLocalWithLikes } from '../Api/searchLocalsApi';
 import { useFocusEffect } from '@react-navigation/native';
 import { Local } from '../Interfaces/DbInterfaces';
+import { AuthContext } from '../Context/AuthContext';
+import { CustomAlert } from './CustomAlert';
 
 interface Props {
     markers?: any,
@@ -39,23 +40,37 @@ export const Map = ({ markers }: Props) => {
     const following = useRef<boolean>(true);
     const [carouselVisible, setCarouselVisible] = useState(false);
     const radioKm = 0.5;
-    const [datosLocales, setDatosLocales] = useState<Local[]>([]); 
+    const [dataLocals, setDataLocals] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
+    const {user}  = useContext(AuthContext);
     
 
 
     const fetchData = async (latitude: number, longitude: number) => {
+        const userId = user?._id || 'null';
             try {
-                const resultados = await searchLocals(
+                const resultsLocals = await searchLocalWithLikes(
                     latitude,
                     longitude,
-                    radioKm
+                    radioKm,
+                    userId
                 );
-                const paginatedResults = resultados.data.results;
-                setDatosLocales(paginatedResults);
+                const paginatedResults = resultsLocals.data.results;
+                setDataLocals(paginatedResults);
                 setHasFetchedData(true);
-            } catch (error) {
-                console.error(error);
+            } catch (error: any) {
+                if(error.response.status === 404){
+                    CustomAlert({
+                        title: "Error",
+                        desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                    });
+                }
+                if(error.response.status === 500){
+                    CustomAlert({
+                        title: "Error",
+                        desc: "Internal Server Error"
+                    });
+                }
             }
     };
 
@@ -70,6 +85,7 @@ export const Map = ({ markers }: Props) => {
     useFocusEffect(
         React.useCallback(() => {
             setHasFetchedData(false);
+            setDataLocals([]);
         }, [])
     );
 
@@ -81,11 +97,12 @@ export const Map = ({ markers }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log(hasFetchedData);
         if(!hasLocation){
             return ;
         }
         if (!hasFetchedData) {
+            console.log('entro');
+            
             fetchData(userLocation.latitude, userLocation.longitude);
         }
     },[userLocation, hasLocation, hasFetchedData]);
@@ -106,7 +123,6 @@ export const Map = ({ markers }: Props) => {
         }
     };
     return (
-        
         <>
             {
                 (!hasLocation)
@@ -126,7 +142,7 @@ export const Map = ({ markers }: Props) => {
                             zoomControlEnabled
                             onTouchStart={() => following.current = false}
                         > 
-                            {datosLocales.map(({ location, uriImage }: NewLocal, index: number) => {
+                            {dataLocals.map(({ location, uriImage }: Local, index: number) => {
                                 {
                                 }
                                 return (
@@ -147,7 +163,7 @@ export const Map = ({ markers }: Props) => {
                         <CarouselComponent
                             carouselRef={carouselRef}
                             mapViewRef={mapViewRef} carouselVisible={carouselVisible} setCarouselVisible={setCarouselVisible}    
-                            datosLocales={datosLocales}
+                            dataLocal={dataLocals}
                         />
                     </>
             }
