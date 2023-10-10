@@ -48,15 +48,23 @@ export const PopularLocals = ({navigation}:Props) => {
         }
     }
 
-    const updateLike = async (localId: string, newLikedValue: boolean) => {
+    const updateLike = async () => {
         try {
-            // Aquí deberías llamar a la API o realizar cualquier acción que actualice el estado de "like" en tu base de datos.
-            // Luego, puedes recargar los locales utilizando localSearch.
             const updatedResultsLocals = await searchPopularLocals(userLocation.latitude, userLocation.longitude, radioKm, user?._id || 'null');
             const updatedListLocals = updatedResultsLocals.data.results;
             setDataLocals(updatedListLocals);
         } catch (error: any) {
-            // Manejo de errores
+            if (error.response && error.response.status === 500) {
+                CustomAlert({
+                    title: "Error",
+                    desc: "An error occurred while trying to find popular locals"
+                });
+            } else {
+                CustomAlert({
+                    title: "Error",
+                    desc: 'Error: ' + error.message
+                });
+            }   
         }
     }
 

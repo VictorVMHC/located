@@ -27,7 +27,7 @@ export const FoodView = ({kilometers, latitude, longitude, setFoodViewValue }:Pr
     const { user}  = useContext(AuthContext);
 
     const valueInitial = () => {
-        return setFoodViewValue(true); // Enviamos el valor true a CloseToMeMainView
+        return setFoodViewValue(true); 
     }
 
     const fetchMoreLocales  = async () =>{
@@ -87,7 +87,6 @@ export const FoodView = ({kilometers, latitude, longitude, setFoodViewValue }:Pr
             return (kilometers * 1000) + 'M'
         }
     }
-
 
     return (
         <SafeAreaView style={styles.container}>

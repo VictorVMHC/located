@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {createLikeLocal, getLikeLocal,  deleteLikeLocal} from '../Api/likesApi'
+import {createLikeLocal, deleteLikeLocal} from '../Api/likesApi'
 
 export const useHeartHook = (value: boolean,) => {
     const [isActive, setActive] = useState(value)
@@ -14,7 +14,6 @@ export const useHeartHook = (value: boolean,) => {
       {
         const likeLocal = await createLikeLocal({ userId: userId, localId: localId }); 
         if(likeLocal.status === 200){
-          console.log('like dado');
           setActive(true)
         }
       }

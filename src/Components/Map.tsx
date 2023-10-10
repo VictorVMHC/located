@@ -9,6 +9,7 @@ import { searchLocalWithLikes } from '../Api/searchLocalsApi';
 import { useFocusEffect } from '@react-navigation/native';
 import { Local } from '../Interfaces/DbInterfaces';
 import { AuthContext } from '../Context/AuthContext';
+import { CustomAlert } from './CustomAlert';
 
 interface Props {
     markers?: any,
@@ -57,8 +58,19 @@ export const Map = ({ markers }: Props) => {
                 const paginatedResults = resultsLocals.data.results;
                 setDataLocals(paginatedResults);
                 setHasFetchedData(true);
-            } catch (error) {
-                console.error(error);
+            } catch (error: any) {
+                if(error.response.status === 404){
+                    CustomAlert({
+                        title: "Error",
+                        desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                    });
+                }
+                if(error.response.status === 500){
+                    CustomAlert({
+                        title: "Error",
+                        desc: "Internal Server Error"
+                    });
+                }
             }
     };
 

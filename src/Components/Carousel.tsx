@@ -8,6 +8,7 @@ import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../Context/AuthContext';
+import { searchPopularLocals } from '../Api/searchLocalsApi';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
@@ -22,9 +23,9 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-    const [searchLike, setSearchLike] = useState(false)
     const slideAnimation = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
+
 
     const handlePanResponderMove = (_: any, gestureState: any) => {
         const { dy } = gestureState;
@@ -94,6 +95,9 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
             });
         }
         }, [currentSlideIndex]);
+
+    const updateLocalLikes = async () => {
+    }
         
     return (
         <>
@@ -117,6 +121,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
                                 routeToStore={()=>{}} 
                                 navigation={navigation}
                                 local={item}
+                                updateLike={updateLocalLikes}
                             />
                         </View>
                     )}

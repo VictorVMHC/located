@@ -16,7 +16,7 @@ interface Props {
     routeToStore?: () => void 
     navigation?: any,
     local: Local,
-    updateLike: (localId: string, newLikedValue: boolean) => void; 
+    updateLike: () => void,
 }
 
 export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore, navigation, local, updateLike}: Props) => {
@@ -26,11 +26,20 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
     const {isActive, check} = useHeartHook(liked);
+    const [valueLocalLikes, setValueLocalLikes] = useState(localLikes);
+    const [isProcessingLike, setIsProcessingLike] = useState(false);
 
     const handleLikePress = async () => {
-        if (user?._id) {
+        if (user?._id && !isProcessingLike) {
+            setIsProcessingLike(true);
             await check(user._id, _id);
-            updateLike(_id, !isActive); // Llamamos a la función del padre con el nuevo valor de "like"
+            updateLike();
+            if (!isActive) {
+                setValueLocalLikes(prevLikes => prevLikes + 1);
+            } else {
+                setValueLocalLikes(prevLikes => prevLikes - 1);
+            }
+            setIsProcessingLike(false);
         }
     };
 
@@ -48,11 +57,13 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore
                     borderTopLeftRadius={20}
                 >
                     <View style={styles.ratingTag}>
-                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{localLikes}</Text>
+                        <Text style={FontStyles.Information} adjustsFontSizeToFit>{valueLocalLikes}</Text>
                         <IonIcon name='star' size={15} color={Colors.Yellow} style={{marginHorizontal:2}}/>
                     </View>
-                    <TouchableOpacity style={styles.heartBtn}
-                            onPress={handleLikePress}
+                    <TouchableOpacity 
+                        style={styles.heartBtn}
+                        onPress={handleLikePress}
+                        disabled={isProcessingLike}
                     >
                         {!isActive 
                             ? <IonIcon name='heart-outline' size={35} color={Colors.black} />

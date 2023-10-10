@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     Image , 
     StyleSheet , 
@@ -27,7 +27,16 @@ export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like , nav
     const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
     const { user}  = useContext(AuthContext);
+    const [isProcessingLike, setIsProcessingLike] = useState(false);
     const {_id} = local;
+
+    const handleLikePress = async () => {
+        if (user?._id && !isProcessingLike) {
+            setIsProcessingLike(true);
+            await check(user._id, _id);
+            setIsProcessingLike(false);
+        }
+    };
     return (
     <TouchableOpacity style={{...styles.chart, height: height - (height * 0.70)}}  activeOpacity={0.8} onPress={() => navigation.navigate('StoreView', {local})} >
             <View style={styles.ChartImg}>
@@ -40,10 +49,10 @@ export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like , nav
                 <Text numberOfLines={3} style={styles.textName}>{Name}</Text>
                 <Text numberOfLines={2} style={styles.categories}>{categories}</Text>
             </View>
-            <TouchableOpacity style={styles.heartBtn}
-                onPress={() => { if (user?._id) {
-                    check(user._id, _id);
-                }} }
+            <TouchableOpacity 
+                style={styles.heartBtn}
+                onPress={handleLikePress}
+                disabled={isProcessingLike}
             >
                 {!isActive 
                     ? <IonIcon name='heart-outline' size={25} color={Colors.black} />
