@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
@@ -12,7 +12,6 @@ import { Comment } from '../Interfaces/CommentsInterfaces';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { CommentsAlertView } from './CommentsAlertView';
-import { LoadingOverlay } from '../Components/LoadingOverlay';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CommentsView'>{};
 
@@ -64,37 +63,36 @@ export const CommentsView = ({ navigation, route }: Props) => {
         setFetching(true);
 
         getCommentsByLocalId(localId, page)
-            .then((response) =>{
-                setComments(response.data.comments);
-                setPage(page + 1);
-                setTotalPages(response.data.totalPages);            
-                setHaveComments(true);
-            })
-            .catch((error) => {
-                console.log(error.response.status );
-                if(error.response.status  === 404){
-                    setComments([]);
-                    setTotalPages(1);
-                    setPage(1);
-                    setHaveComments(false);
-                    return;
-                }
+        .then((response) => {
+            setComments([...comments, ...response.data.comments]);
+            setPage(page + 1);
+            setTotalPages(response.data.totalPages);            
+            setHaveComments(true);
+        })
+        .catch((error) => {
+            console.log(error.response.status );
+            if(error.response.status  === 404){
+                setComments([]);
+                setTotalPages(1);
+                setPage(1);
+                setHaveComments(false);
+                return;
+            }
 
-                if(error.response.status  === 500){
-                    
-                    CustomAlert({
-                        title: "Not Comments",
-                        desc: "Sorry we could not been able to grab the comment for this local"
-                    })
-    
-                    navigation.goBack();
-                }
+            if(error.response.status  === 500){
                 
-                
-            })
-            .finally(() => {
-                setFetching(false);
-            });
+                CustomAlert({
+                    title: "Not Comments",
+                    desc: "Sorry we could not been able to grab the comment for this local"
+                })
+
+                navigation.goBack();
+            }
+
+        })
+        .finally(() => {
+            setFetching(false);
+        });
     }
 
     useEffect(() => {       
@@ -102,7 +100,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
             return;
         }
         fetchComments();
-    }, [sending]);
+    }, [comments]);
 
     const handleLoadMore = () => {
         fetchComments();
@@ -122,37 +120,57 @@ export const CommentsView = ({ navigation, route }: Props) => {
                 <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
                     {t('Comments')}
                 </Text>
+                {
+                    fetching && <ActivityIndicator color={Colors.blueAqua} size={'small'}/>
+                }
             </View>
         );
     }
 
-    const renderComment: ListRenderItem<Comment> = ({ item }) => {
-        return(
+    const renderComment: ListRenderItem<Comment> = useMemo(() => {
+        return ({ item }) => (
             <ContainerComment
-                commentItem={ item }   
+                commentItem={item}
                 blocking={buttonLocked}
-                onCallback={() => { console.log("hello") }}
+                onCallback={() => {
+                    console.log("hello");
+                }}
             />
-        )
-    }
+        );
+    }, [buttonLocked]);
 
-    const getKey = (item: Comment) => {
-        return item._id;
-    }
+    const getKey = useMemo(() => {
+        return (item: Comment) => item._id;
+    }, []);
 
-    const getItemsCount = (data: Comment[]) => {
-        return data.length
-    }
+    const getItemsCount = useMemo(() => {
+        return (data: Comment[]) => data.length;
+    }, []);
 
-    const getComment = (data: Comment[], item: number) => {
-        return data[item]
-    }
+    const getComment = useMemo(() => {
+        return (data: Comment[], item: number) => data[item];
+    }, []);
 
     const sendComment  = () => {
         setSending(true);
         addComment(localId, comment )
-        .then(() => {
+        .then((response: any) => {
+            const newComment = {
+                ...response.data.newComment, 
+                likeCount: 0, 
+                liked: false, 
+                countReplies: 0, 
+                userId: { 
+                    _id: response.data.newComment.userId, 
+                    name: user?.name, 
+                    image: user?.image
+                },
+            };    
+
+            setComments([...comments, newComment])
             setComment('');
+            
+            Keyboard.dismiss();
         })
         .catch(() => {
             CustomAlert({
@@ -167,26 +185,26 @@ export const CommentsView = ({ navigation, route }: Props) => {
 
     return (
         <KeyboardAvoidingView style={StylesCommentsView.container}>
-            <View style={[StylesCommentsView.container, isKeyboardOpen && StylesCommentsView.overlay]}>
-                <View style={StylesCommentsView.containerFlatList}>
-                    { fetching
-                        ?   <LoadingOverlay/>
-                        :   haveComments 
-                            ?   <VirtualizedList
-                                    data={comments}
-                                    getItemCount={getItemsCount}
-                                    getItem={getComment}
-                                    initialNumToRender={10}
-                                    ListHeaderComponent={renderHeader}
-                                    renderItem={renderComment}
-                                    keyExtractor={getKey}
-                                    onEndReached={handleLoadMore}
-                                    onEndReachedThreshold={0.3}
-                                />
-                            :   <CommentsAlertView/>
-                    }
+                <View style={StylesCommentsView.containerText}>
+                    <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
+                        {t('Comments')}
+                    </Text>
+                    {fetching && <ActivityIndicator color={Colors.blueAqua} size={'small'} />}
                 </View>
-            </View>
+                <View style={StylesCommentsView.containerFlatList}>
+                    {haveComments ? (
+                        <VirtualizedList
+                            data={comments}
+                            getItemCount={getItemsCount}
+                            getItem={getComment}
+                            renderItem={renderComment}
+                            keyExtractor={getKey}
+                            onEndReached={handleLoadMore}
+                        />
+                    ) : (
+                        <CommentsAlertView />
+                    )}
+                </View>
             <View style={{...StylesCommentsView.containerAddComments, height: textInputHeight + 50, backgroundColor: 'white'}}>
                 <View style={{flex:1, flexDirection: 'row', paddingTop: 10, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={StylesCommentsView.ContainerImg}>
@@ -231,19 +249,20 @@ const StylesCommentsView = StyleSheet.create({
     container:{
         flex: 1,
     },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
     containerText:{
         marginTop:0,
-        backgroundColor: '#F7E091',
+        backgroundColor: Colors.YellowOpacity,
         marginBottom: 10,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     TextComments:{
         fontSize: 27,
         fontWeight: 'bold',
         fontFamily: 'Outfit-SemiBold',
         marginLeft: 20,
+        marginRight: 20,
         marginTop: 5
     },
     containerFlatList:{
