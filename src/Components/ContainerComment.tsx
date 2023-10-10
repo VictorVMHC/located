@@ -8,6 +8,8 @@ import { ReplyComponent } from './ReplyComponent';
 import { getReliesByCommentId } from '../Api/repliesApi';
 import { AuthContext } from '../Context/AuthContext';
 import { Comment } from '../Interfaces/CommentsInterfaces';
+import { deleteLikeComment, likeComment } from '../Api/likeCommentApi';
+import { CustomAlert } from './CustomAlert';
 
 interface Props{
     commentItem: Comment,
@@ -28,7 +30,8 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
     const [ totalPages, setTotalPages ] = useState(1);
     const [ fetching, setFetching ] = useState(false);
     const [ error, setError ] = useState(false)
-
+    const [likeable, setLikeable ] = useState(true);
+    const [likeCountState, setLikeCountState ] = useState(likeCount);
     useEffect(() => {
         if(!countReplies){
             return;
@@ -68,9 +71,43 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
         setExpandedComments(!expandedReplies );
     }
 
-    const checkLike =() =>{
-        setLike(!like)
-    }
+    const checkLike = () => {
+        
+        if(likeable === false){
+            return;
+        }
+
+        if (!like) {
+            setLikeable(false);
+            likeComment(_id, userId._id)
+            .then(() => {
+                setLikeCountState(likeCountState + 1);
+                setLike(true);
+                setTimeout(() => {
+                    setLikeable(true);
+                }, 10000); 
+            })
+            .catch(() => {
+                CustomAlert({
+                    title: 'Error',
+                    desc: 'Was not possible to un like the comment'
+                })
+            });
+
+        } else {
+            deleteLikeComment(_id)
+            .then(() => {
+                setLikeCountState(likeCountState - 1);
+                setLike(false);
+            })
+            .catch(() => {
+                CustomAlert({
+                    title: 'Error',
+                    desc: 'Was not possible to like the comment'
+                })
+            });
+        }
+    };
 
     function renderItem({ item }: any) {
         return (
@@ -137,19 +174,28 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
                     <TouchableOpacity onPress={()=>{checkLike()}}>
                         <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
-                    <Text style={{color: 'black'}}>{likeCount}</Text>
+                    <Text style={{color: 'black'}}>{ likeCountState }</Text>
                 </View>
             </View>
             <View style={styles.ContainerReplies}>
+                <View>
                 <TouchableOpacity 
-                    disabled={blocking} 
-                    style={{margin: 5, alignSelf: 'flex-end' }} 
-                    onPress={()=>(handleSendValue(userId._id))} 
-                >
-                    <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
-                </TouchableOpacity>
+                        disabled={blocking} 
+                        style={{margin: 5, alignSelf: 'flex-end' }} 
+                        onPress={()=>(handleSendValue(userId._id))} 
+                    >
+                        <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        disabled={blocking} 
+                        style={{margin: 5, alignSelf: 'flex-end' }} 
+                        onPress={()=>(handleSendValue(userId._id))} 
+                    >
+                        <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
+                    </TouchableOpacity>
+                </View>
                 {
-                    replies && !expandedReplies &&
+                    countReplies > 0 && !expandedReplies &&
                     <View style={{flexDirection: 'row', alignSelf: 'flex-end' }}>
                         <TouchableOpacity disabled={blocking} style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
                             <Text style={{color: Colors.black}}> See { countReplies } {t('Answers')}</Text>
