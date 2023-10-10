@@ -19,6 +19,7 @@ const Tab = createMaterialTopTabNavigator();
 export const CloseToMeMainView = () => {    
     const {width, height} = useWindowDimensions();
     const [value, setValue] = useState(0.1);
+    const [updateSliderValue, setUpdateSliderValue] = useState(false);
     const { t } = useTranslation();
     
 
@@ -40,6 +41,13 @@ export const CloseToMeMainView = () => {
             return (value * 1000);
         }
     }; 
+
+    useEffect(() => {
+        if(updateSliderValue){
+            setValue(0.1);
+            setUpdateSliderValue(false);
+        }
+    },[updateSliderValue]);
     
     return (
         <>
@@ -103,7 +111,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="utensils" size={20} color={'#CD5F28'} />
                             ),
                         }} >
-                        {() => <FoodView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
+                        {() => <FoodView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} setFoodViewValue={setUpdateSliderValue}/>}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Pharmacy"
@@ -114,7 +122,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="pills" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <PharmacyView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
+                        {() => <PharmacyView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} setFoodViewValue={setUpdateSliderValue} />}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Store"
@@ -125,7 +133,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="store-alt" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <BusinessView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
+                        {() => <BusinessView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} setFoodViewValue={setUpdateSliderValue} />}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Pets"
@@ -136,7 +144,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="paw" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <PetsView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude}/>}
+                        {() => <PetsView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} setFoodViewValue={setUpdateSliderValue}/>}
                     </Tab.Screen>
                     <Tab.Screen
                         name="Others"
@@ -147,7 +155,7 @@ export const CloseToMeMainView = () => {
                             <Ionicons name="ellipsis-v" size={20} color={'#CD5F28'} />
                             ),
                         }}>
-                        {() => <OthersCategoriesView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} />}
+                        {() => <OthersCategoriesView kilometers={value} latitude={userLocation.latitude} longitude={userLocation.longitude} setFoodViewValue={setUpdateSliderValue} />}
                     </Tab.Screen>
                 </Tab.Navigator>
             </View>

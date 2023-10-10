@@ -6,16 +6,14 @@ import MapView, { Marker } from 'react-native-maps';
 import { TopBar } from '../Components/TopBar';
 import { IconWithText } from '../Components/IconWithText';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { getLocal } from '../Api/localApi';
-import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
 import { getProductsByLocalId } from '../Api/productsApi';
 import { Product } from '../Interfaces/ProductsInterfaces';
 import { CustomAlert } from '../Components/CustomAlert';
-import { CreateProductAlertView } from './CreateProductAlertView';
 import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
 
-interface Props extends NativeStackScreenProps<any, any>{};
+interface Props extends NativeStackScreenProps<ViewStackParams, 'StoreView'>{};
 
 const mapStyle = [
     {
@@ -36,18 +34,19 @@ const mapStyle = [
     },
 ]
 export const StoreView = ({navigation, route}: Props) => {
-    const id = route.params?.id;
-
+    const {local} = route.params;
     const [ page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [ productsList, setProductsList ] = useState<Product[]>([]);
     const [ isLoadingMore, setIsLoadingMore ] = useState(false);
     const [ haveProducts, setHaveProducts ] = useState(true);
 
+    const {name, description, uriImage,_id, address, isVerify, country, state, town, 
+        postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
+
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-    const [dataLocals, setDataLocals] = useState<Local>();
 
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -73,7 +72,7 @@ export const StoreView = ({navigation, route}: Props) => {
 
     const fetchProducts = async () => {
         try{
-            const result = await getProductsByLocalId(id, page, 2);
+            const result = await getProductsByLocalId(_id, page, 2);
             const { products, totalPages } = result.data;
 
             if(products){
@@ -102,26 +101,13 @@ export const StoreView = ({navigation, route}: Props) => {
         }
     }
 
-    const fetchLocalData = async () => {
-        try {
-            const response = await getLocal(id);
-            setDataLocals(response.data.locals);    
-        } catch (error) {
-            console.error('Error fetching local data:', error);
-        }
-    };
-
-    useEffect(() => {
+    useEffect( () => {
         if(productsList.length !== 0 && page >= totalPage){
             return;
         }
         fetchProducts();
-        fetchLocalData();
-        console.log('name '+ dataLocals?.name);  
-    }, [id]);
-
+    }, [])
     
-
     const renderProductList = () => {
         return productsList.map((item) => (
             <CardCatalogue
@@ -134,9 +120,6 @@ export const StoreView = ({navigation, route}: Props) => {
             />
         ));
     };
-    console.log(dataLocals?.location?.latitude);
-    console.log(dataLocals?.location?.longitude);
-    
 
     return (
         <>
@@ -148,15 +131,15 @@ export const StoreView = ({navigation, route}: Props) => {
                 >
                 <View>
                     <ImgBusiness 
-                        Img = {dataLocals ? dataLocals.uriImage : 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'}
+                        Img = {uriImage ? uriImage : 'https://img.freepik.com/vector-gratis/apoye-diseno-ilustracion-negocio-local_23-2148587057.jpg?w=2000'}
                         open = {false}
                         like = {false}
                     />
                     <View style={StylesStore.valuesText}>
-                        <Text style={StylesStore.textName}>{dataLocals?.name}</Text>
-                        <Text style={{...StylesStore.textInformation}}>{dataLocals?.businessType}</Text>
-                        <Text style={{...StylesStore.textInformation, color: 'green'}}>{dataLocals?.open}</Text>
-                        <Text style={{...StylesStore.textInformation}}>{`${dataLocals?.town}(${dataLocals?.state})`}</Text> 
+                        <Text style={StylesStore.textName}>{name}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{businessType}</Text>
+                        <Text style={{...StylesStore.textInformation, color: 'green'}}>{open}</Text>
+                        <Text style={{...StylesStore.textInformation}}>{`${town}(${state})`}</Text> 
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
@@ -172,8 +155,8 @@ export const StoreView = ({navigation, route}: Props) => {
                         style={StylesStore.map}
                         showsUserLocation
                         initialRegion={{
-                            latitude: dataLocals?.location.latitude || 0,
-                            longitude: dataLocals?.location.longitude || 0,
+                            latitude: location.latitude ,
+                            longitude: location.longitude,
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         }}
@@ -181,10 +164,10 @@ export const StoreView = ({navigation, route}: Props) => {
                         minZoomLevel={13} 
                         >
                         <Marker
-                            key={id}
+                            key={_id}
                             coordinate={{
-                                latitude: dataLocals?.location?.latitude || 0,
-                                longitude: dataLocals?.location.longitude || 0,
+                                latitude: location.latitude,
+                                longitude: location.longitude,
                             }}
                             anchor={{ x: 0.5, y: 0.10 }}
                         /> 
@@ -194,46 +177,46 @@ export const StoreView = ({navigation, route}: Props) => {
                             NameIcon ={'directions'}
                             IconSize ={20}
                             ColorIcon={'#CD5F28'}
-                            text ={`${dataLocals?.address}, CP ${dataLocals?.postalCode} ${dataLocals?.town}, ${dataLocals?.state}. ${dataLocals?.country}  `}
+                            text ={`${address}, CP ${postalCode} ${town}, ${state}. ${country}  `}
                         />
                         {
-                            dataLocals?.contact['Facebook'] && <IconWithText 
+                            contact['Facebook'] && <IconWithText 
                                 NameIcon= {'facebook-f'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
-                                text= { dataLocals?.contact['Facebook'].info}
+                                text= {contact['Facebook'].info}
                             />
                         }
                         {
-                            dataLocals?.contact['Email'] && <IconWithText 
+                            contact['Email'] && <IconWithText 
                                 NameIcon= {'envelope'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
-                                text= { dataLocals?.contact['Email'].info}
+                                text= {contact['Email'].info}
                             />
                         }
                         {
-                            dataLocals?.contact['Instagram'] && <IconWithText 
+                            contact['Instagram'] && <IconWithText 
                                 NameIcon= {'globe'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
-                                text= { dataLocals?.contact['Instagram'].info}
+                                text= {contact['Instagram'].info}
                             />
                         }
                         {
-                            dataLocals?.contact['Web page'] && <IconWithText 
+                            contact['Web page'] && <IconWithText 
                                 NameIcon= {'globe'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
-                                text= { dataLocals?.contact['Web page'].info}
+                                text= {contact['Web page'].info}
                             />
                         }
                         {
-                            dataLocals?.contact['Whatsapp'] && <IconWithText 
+                            contact['Whatsapp'] && <IconWithText 
                                 NameIcon= {'whatsapp'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.orange}
-                                text= { dataLocals?.contact['Whatsapp'].info}
+                                text= {contact['Whatsapp'].info}
                             />
                         } 
                     </View>

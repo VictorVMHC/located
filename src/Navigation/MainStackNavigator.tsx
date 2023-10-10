@@ -34,7 +34,7 @@ export type ViewStackParams = {
 	SplashScreenView: undefined,
 	DrawerMenu: undefined,
 	EditUserView: undefined,
-	StoreView: undefined,
+	StoreView: {local: Local},
 	CommentsView: {localId: string},
 	ChangePasswordView: undefined,
 	PrivacyPolicyView: undefined,

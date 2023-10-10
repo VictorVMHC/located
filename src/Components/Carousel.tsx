@@ -1,4 +1,4 @@
-import React, { MutableRefObject, Ref, useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, Ref, useContext, useEffect, useRef, useState } from 'react';
 import { Animated, PanResponder, StyleSheet, View, useWindowDimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import Carousel from 'react-native-reanimated-carousel';
@@ -7,22 +7,25 @@ import { Card } from './Card';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../Context/AuthContext';
+import { searchPopularLocals } from '../Api/searchLocalsApi';
 
 interface Props {
     carouselRef: Ref<ICarouselInstance>,
     mapViewRef: MutableRefObject<MapView | undefined>,
     carouselVisible: boolean,
     setCarouselVisible: React.Dispatch<React.SetStateAction<boolean>>
-    datosLocales: Local[]
+    dataLocal: Local[]
 }
 
-export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, datosLocales }: Props) => {
+export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, setCarouselVisible, dataLocal }: Props) => {
 
     const { width, height} = useWindowDimensions();
     const carouselHeight = height * 0.35
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const slideAnimation = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
+
 
     const handlePanResponderMove = (_: any, gestureState: any) => {
         const { dy } = gestureState;
@@ -80,7 +83,7 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
     };
 
     useEffect(() => {
-        const selectedLocal = datosLocales[currentSlideIndex];
+        const selectedLocal = dataLocal[currentSlideIndex];
         if (selectedLocal) {
             const {location} = selectedLocal;
             mapViewRef.current?.animateCamera({
@@ -92,31 +95,34 @@ export const CarouselComponent = ({ carouselRef, mapViewRef, carouselVisible, se
             });
         }
         }, [currentSlideIndex]);
+
+    const updateLocalLikes = async () => {
+    }
         
     return (
         <>
             <Animated.View style={{...styles.carouselContainer, width, height: carouselHeight, ...slideInStyles }} {...panResponder.panHandlers}>
                 <View style={{marginTop: 5, backgroundColor: Colors.grayOpacity, position: 'absolute', height: 7, width: width/2, alignSelf: 'center', borderRadius: 15 }}>
-
                 </View>
                 <Carousel
                     ref={carouselRef}
                     loop
                     width={width}
                     height={carouselHeight}
-                    data={datosLocales}
+                    data={dataLocal}
                     mode='parallax'
                     scrollAnimationDuration={1000}
                     onSnapToItem={(index) => setCurrentSlideIndex(index)}
                     renderItem={({ item }) => (
                         <View style={{marginTop: -15}}>
                             <Card 
-                            like={false} 
-                            newLocal={item} 
-                            cardHeight={-30} 
-                            routeToStore={()=>{}} 
-                            navigation={navigation}
-                            id={item._id}/>
+                                like={item.liked} 
+                                cardHeight={-30} 
+                                routeToStore={()=>{}} 
+                                navigation={navigation}
+                                local={item}
+                                updateLike={updateLocalLikes}
+                            />
                         </View>
                     )}
                 />
