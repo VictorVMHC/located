@@ -14,6 +14,7 @@ interface Props{
 export const Step5View = ({ setCanGoNext }:Props) => {
     const { localState, updateLocal } = useContext(LocalContext);
     const { contact } = localState;
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (Object.keys(contact).length > 0) {
@@ -42,7 +43,7 @@ export const Step5View = ({ setCanGoNext }:Props) => {
                 />
                 <TextInputAndIcon
                     iconName='envelope'
-                    placeHolder='Email'
+                    placeHolder={t('Email')}
                     value={contact['Email']?.info}
                     action={handleAddContact}
                     height='45'
@@ -55,7 +56,7 @@ export const Step5View = ({ setCanGoNext }:Props) => {
                 />
                 <TextInputAndIcon
                     iconName='globe'
-                    placeHolder='Web page'
+                    placeHolder={t('WebPage')}
                     value={contact['Web page']?.info}
                     action={handleAddContact}
                 />

@@ -106,7 +106,7 @@
     "step2AlertErrDescGet": "Ocurrió un error al tratar de obtner los tipos de negocio",
     "step2AlertErrDescSave": "Ocurrió un error al tratar de guardar tu tipo de negocio",
     "step2BtnText": "Agregar",
-    "step3Instructions": "Arratra el marcador a la posicion exacta donde se encuentra tu local",
+    "step3Instructions": "Arrastra el marcador a la posicion exacta donde se encuentra tu local",
     "step3Instructions2": "Sí deseas reubicar el marcador manten unos segundos para moverlo",
     "PrivacySubtitle": "Información que Recopilamos",
     "privacySubtitle2": "Cómo Utilizamos su Información",
@@ -155,6 +155,18 @@
     "pets": "Mascotas",
     "RecoveryPasswordTitle": "Nueva Contraseña",
     "RepeatPasswordText": "Repite la contraseña",
-    "ErrorTryAgain": "ocurrio un error miestras verificabamos el crreo, intenta de nuevo"
+    "ErrorTryAgain": "ocurrio un error miestras verificabamos el crreo, intenta de nuevo",
+    "NoPopularLocalsTitleText":"No se encontraron negocios populares",
+    "NoPopularLocalsDescriptionText": "No tenemos ningún local popular para mostrar en este momento. Por favor, consulte nuevamente más tarde",
+    "Step6ViewText": "Añade una imagen de tu local. Esta imagen será usada como imagen de perfil de tu local.",
+    "WebPage": "Página web",
+    "SelectMarkerPosition": "Posición del marcador",
+    "SelectUserPosition": "Posición del usuario",
+    "step2PhAddress": "Dirección",
+    "LocalCreationSuccess": "Éxito",
+    "LocalCreationSuccessInfo":"El local fue creado exitosamente, podrás encontrarlo en tus locales",
+    "ErrorToCreateLocalInfo": "No fue posible crear tu local. ¡Inténtalo de nuevo!",
+    "ToExplore": "Explorar",
+    "FailToCreateYourImage": "No fue posible crear tu imagen. ¡Inténtalo de nuevo!"
   }
 }

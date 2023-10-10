@@ -6,7 +6,7 @@ const VerifyEmail = (email: string, lang: string) => {
 }
 
 const VerifiedEmail = (email: string, lang: string) => {
-    var route =`/api/verifyEmail/${email}/${lang}`
+    var route =`/api/verifyEmail/${email}/lang/${lang}`
     return api.get(route);
 }
 

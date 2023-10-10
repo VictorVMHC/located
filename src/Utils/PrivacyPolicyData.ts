@@ -8,13 +8,13 @@ export const PpDataEs: PrivacyPolicyInfo[] = [
     },
     {   
         id: 2,
-        title: '2. Inicios de Sesión con Google o Facebook:', 
-        info: 'Si decide iniciar sesión utilizando su cuenta de Google o Facebook, recopilaremos cierta información de su perfil, como su nombre y correo electrónico. Solo accederemos a esta información con su consentimiento.'
+        title: '2. Inicios de Sesión con Google:', 
+        info: 'Si decide iniciar sesión utilizando su cuenta de Google, recopilaremos cierta información de su perfil, como su nombre y correo electrónico. Solo accederemos a esta información con su consentimiento.'
     },
     { 
         id: 3, 
-        title: '3. Permisos de Google y Facebook:', 
-        info: 'Si concede permiso, nuestra aplicación puede acceder a datos específicos de su cuenta de Google o Facebook, como su lista de amigos o contactos, fotos y otra información relevante para mejorar su experiencia en la aplicación.'
+        title: '3. Permisos de Google:', 
+        info: 'Si concede permiso, nuestra aplicación puede acceder a datos específicos de su cuenta de Google, como fotos y otra información relevante para mejorar su experiencia en la aplicación.'
     },
     {   id: 4,
         title:   '4. Ubicación:',
@@ -131,13 +131,13 @@ export const PpDataEn :PrivacyPolicyInfo[]=[
     },
     {   
         id: 2,
-        title: '2. Login with Google or Facebook:', 
-        info: 'If you choose to log in using your Google or Facebook account, we will collect certain information from your profile, such as your name and email address. We will only access this information with your explicit consent.'
+        title: '2. Login with Google:', 
+        info: 'If you choose to log in using your Google account, we will collect certain information from your profile, such as your name and email address. We will only access this information with your explicit consent.'
     },
     { 
         id: 3, 
-        title: '3. Google and Facebook Permissions:', 
-        info: 'If you grant permission, our app may access specific data from your Google or Facebook account, such as your list of friends or contacts, photos, and other relevant information to enhance your experience within the app.'
+        title: '3. Google Permissions:', 
+        info: 'If you grant permission, our app may access specific data from your Google account, such as your photos, and other relevant information to enhance your experience within the app.'
     },
     {   id: 4,
         title:   '4. Location:',

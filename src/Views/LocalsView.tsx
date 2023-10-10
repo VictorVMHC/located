@@ -22,7 +22,8 @@ export const LocalsView = ({navigation}:Props) => {
     const [userLocals, setUserLocals] = useState([]);
     const [error, setError] = useState(false);
     const {width, height} = useWindowDimensions();
-
+    console.log(user?.image);
+    
     useFocusEffect(
         React.useCallback(() => {
             fetchLocals();
@@ -57,12 +58,14 @@ export const LocalsView = ({navigation}:Props) => {
                 <View style={styles.containerImgEdit}>
                     <Image
                         style={styles.img}
-                        source={user?.image !== '' ? { uri: user?.image } : require('../Assets/Images/Img_User.png')}
+                        source={(user?.image !== undefined && user?.image !== '' ) ? { uri: user?.image } : require('../Assets/Images/Img_User.png')}
                     />
                 </View>
-                <Text style={styles.textNameUser}>{user?.name}</Text>
-                <Text style={styles.textEmailUser}>{user?.email}</Text>
-                <Text style={{...FontStyles.Title, justifyContent: 'center', marginTop: 5}} >My locals</Text>
+                <View style={{height: '55%', backgroundColor: 'blue', padding: 5, alignItems: 'center'}}>
+                    <Text style={styles.textNameUser}>{user?.name}</Text>
+                    <Text style={styles.textEmailUser}>{user?.email}</Text>
+                    <Text style={{...FontStyles.Title, justifyContent: 'center'}} >My locals</Text>
+                </View>
             </View>
             <View style={styles.bottomContainer}>
             {!loading ? (!error ? (
@@ -80,7 +83,7 @@ export const LocalsView = ({navigation}:Props) => {
                         keyExtractor={(item: any) => item._id }
                     />
                 ) : (
-                    <ErrorMessage message="Error: No se pudieron cargar los datos." />
+                    <ErrorMessage message="Error: Was not possible load data." />
                 )) : (
                     <LoadingOverlay />
             )}
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderBottomColor: Colors.Yellow,
         borderRadius: 20,
+        backgroundColor: 'red',
     },
     bottomContainer: {
         flex: 6,
@@ -112,8 +116,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     containerImgEdit: {
-        width: windowWidth * 0.33,
-        height: windowWidth * 0.33,
+        width: '25%',
+        height: '45%',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'lightgray',

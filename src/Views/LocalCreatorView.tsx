@@ -15,6 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CustomAlert } from '../Components/CustomAlert';
 import { LocalInitialState } from '../Interfaces/LocalInterfaces';
 import { postImage } from '../Api/imageApi';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -29,6 +30,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
     const [canGoNext, setCanGoNext] = useState(false);
     const { localState, updateLocal } = useContext(LocalContext);
     const [attempt, setAttempt] = useState(0);
+    const {updateUserAttribute} = useContext( AuthContext );
 
     const steps: stepDto[] = [
         {name: t('localStep1'), component: <Step1View setCanGoNext={setCanGoNext} /> },
@@ -65,12 +67,12 @@ export const LocalCreatorView = ({navigation}:Props) => {
             const response = await postImage(formData); 
 
             if(response.status !== 200 ){
-                throw new Error('Was no possible to create your image, Please try again!')
+                throw new Error(`${t('FailToCreateYourImage')}`)
             }
 
             return response.data.response.url;
         }catch(error){
-            throw new Error('Was no possible to create your image, Please try again!')
+            throw new Error(`${t('FailToCreateYourImage')}`)
         }
         
     }
@@ -90,10 +92,11 @@ export const LocalCreatorView = ({navigation}:Props) => {
 
             if(response.status === 200){                
                 CustomAlert({
-                    title: 'Success',
-                    desc: 'The local was created successfully, you will be able to found it in your locals'
+                    title: t('LocalCreationSuccess'),
+                    desc: t('LocalCreationSuccessInfo')
                 });
                 updateLocal(LocalInitialState);
+                updateUserAttribute({haveLocals: true});
                 navigation.pop();
             }
             
@@ -101,7 +104,7 @@ export const LocalCreatorView = ({navigation}:Props) => {
             setAttempt(0);
             CustomAlert({
                 title: 'Error',
-                desc: 'Was no possible to create you local, Please try again!'
+                desc: t('ErrorToCreateLocalInfo')
             });           
         }
     }

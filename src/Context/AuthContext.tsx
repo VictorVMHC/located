@@ -26,6 +26,7 @@ type AuthContextProps = {
     updateUser: (user: User, token: string) => void;
     logOut: () => void;
     removeError: () => void;
+    updateUserAttribute: (updateAttribute: Partial<User>) => void;
 }
 
 const AuthInitialState: AuthState = {
@@ -324,7 +325,27 @@ export const AuthProvider = ({children}: any) => {
         });
     };
 
-
+    const updateUserAttribute = (updatedAttributes: Partial<User>) => {
+        try {
+            const { user, token } = state;
+    
+            if (!user || token === null) {
+                return; 
+            }
+    
+            dispatch({
+                type: 'updateUser',
+                payload: {
+                    token,
+                    user: { ...user, ...updatedAttributes },
+                },
+            });
+    
+        } catch (error) {
+            return;
+        }
+    };
+    
     return (
         <AuthContext.Provider value={{
             ...state,
@@ -335,10 +356,10 @@ export const AuthProvider = ({children}: any) => {
             logOut,
             removeError,
             googleSignUp,
-            googleSignIn
+            googleSignIn,
+            updateUserAttribute
         }}>
             {children}
         </AuthContext.Provider>
     )
-
 }
