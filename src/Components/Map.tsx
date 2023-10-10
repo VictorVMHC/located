@@ -85,6 +85,7 @@ export const Map = ({ markers }: Props) => {
     useFocusEffect(
         React.useCallback(() => {
             setHasFetchedData(false);
+            setDataLocals([]);
         }, [])
     );
 
@@ -100,6 +101,8 @@ export const Map = ({ markers }: Props) => {
             return ;
         }
         if (!hasFetchedData) {
+            console.log('entro');
+            
             fetchData(userLocation.latitude, userLocation.longitude);
         }
     },[userLocation, hasLocation, hasFetchedData]);
