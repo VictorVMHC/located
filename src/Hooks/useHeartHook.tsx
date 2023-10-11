@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {createLikeLocal, deleteLikeLocal} from '../Api/likesApi'
+import {createLikeLocal, deleteLikeLocal} from '../Api/likesLocalsApi'
 
 export const useHeartHook = (value: boolean,) => {
     const [isActive, setActive] = useState(value)
