@@ -148,7 +148,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
     }
 
     const handleDeleteComment   = () => {
-        
+        console.log("hola"); 
     }
     return (
         <View style={[styles.Container]} >
@@ -188,7 +188,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
                         ?   <TouchableOpacity 
                                 disabled={blocking} 
                                 style={{margin: 5, alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} 
-                                onPress={} 
+                                onPress={handleDeleteComment} 
                             >
                                 <Text style={{color: Colors.black, marginRight: 5 }}>Delete</Text>
                                 <Icon name='trash' color={'red'}/>
