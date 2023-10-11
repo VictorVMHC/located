@@ -8,7 +8,7 @@ export const useHeartHook = (value: boolean,) => {
     
       if(isActive)
       {
-        //deleteLikeLocal(,localId);
+        deleteLikeLocal(localId);
         setActive(false); 
       }
       else

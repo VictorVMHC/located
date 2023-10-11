@@ -22,7 +22,6 @@ interface Props {
 export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore, navigation, local, updateLike}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
-    const { user}  = useContext(AuthContext);
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
     const {isActive, check} = useHeartHook(liked);

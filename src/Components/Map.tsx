@@ -8,7 +8,6 @@ import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { searchLocalWithLikes } from '../Api/searchLocalsApi';
 import { useFocusEffect } from '@react-navigation/native';
 import { Local } from '../Interfaces/DbInterfaces';
-import { AuthContext } from '../Context/AuthContext';
 import { CustomAlert } from './CustomAlert';
 
 interface Props {
@@ -42,18 +41,15 @@ export const Map = ({ markers }: Props) => {
     const radioKm = 0.5;
     const [dataLocals, setDataLocals] = useState<Local[]>([]); 
     const [hasFetchedData, setHasFetchedData] = useState(false); 
-    const {user}  = useContext(AuthContext);
     
 
 
     const fetchData = async (latitude: number, longitude: number) => {
-        const userId = user?._id || 'null';
             try {
                 const resultsLocals = await searchLocalWithLikes(
                     latitude,
                     longitude,
                     radioKm,
-                    userId
                 );
                 const paginatedResults = resultsLocals.data.results;
                 setDataLocals(paginatedResults);

@@ -1,4 +1,3 @@
-import {Like} from '../Interfaces/likesInterface'
 import api from "./api";
 
 const createLikeLocal = (localId: string) => {
@@ -12,8 +11,8 @@ const getLikeLocal = (idUser: string, idLocal: string) => {
     return api.get(route);
 }
 
-const deleteLikeLocal = (idUser: string, idLocal: string) => {
-    const route =  `/api/like/local/${idUser}/${idLocal}`;
+const deleteLikeLocal = (idLocal: string) => {
+    const route =  `/api/like/local/${idLocal}`;
     return api.delete(route);
 }
 export {
