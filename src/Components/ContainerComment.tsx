@@ -80,7 +80,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
 
         if (!like) {
             setLikeable(false);
-            likeComment(_id, userId._id)
+            likeComment(_id)
             .then(() => {
                 setLikeCountState(likeCountState + 1);
                 setLike(true);
