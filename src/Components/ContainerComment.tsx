@@ -32,6 +32,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
     const [ error, setError ] = useState(false)
     const [likeable, setLikeable ] = useState(true);
     const [likeCountState, setLikeCountState ] = useState(likeCount);
+    
     useEffect(() => {
         if(!countReplies){
             return;
@@ -146,6 +147,9 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
         )
     }
 
+    const handleDeleteComment   = () => {
+        
+    }
     return (
         <View style={[styles.Container]} >
             <View style={{
@@ -171,27 +175,33 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
                     </View>
                 </View>
                 <View style={{width: '10%', alignItems: 'center', justifyContent: 'center'}} >
-                    <TouchableOpacity onPress={()=>{checkLike()}}>
+                    <TouchableOpacity onPress={checkLike}>
                         <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
                     <Text style={{color: 'black'}}>{ likeCountState }</Text>
                 </View>
             </View>
             <View style={styles.ContainerReplies}>
-                <View>
-                <TouchableOpacity 
-                        disabled={blocking} 
-                        style={{margin: 5, alignSelf: 'flex-end' }} 
-                        onPress={()=>(handleSendValue(userId._id))} 
-                    >
-                        <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
-                    </TouchableOpacity>
+                <View style={{flexDirection: 'row', alignSelf: 'flex-end' }}>
+                    {
+                        user?._id === userId._id  
+                        ?   <TouchableOpacity 
+                                disabled={blocking} 
+                                style={{margin: 5, alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} 
+                                onPress={} 
+                            >
+                                <Text style={{color: Colors.black, marginRight: 5 }}>Delete</Text>
+                                <Icon name='trash' color={'red'}/>
+                            </TouchableOpacity>
+                        : null
+                    }
+                    
                     <TouchableOpacity 
                         disabled={blocking} 
                         style={{margin: 5, alignSelf: 'flex-end' }} 
                         onPress={()=>(handleSendValue(userId._id))} 
                     >
-                        <Text style={{color: Colors.black}}>{t('Reply')} to { name }</Text>
+                        <Text style={{color: Colors.black}}>{t('Reply')} to { user?._id === userId._id ? "me" : name }</Text>
                     </TouchableOpacity>
                 </View>
                 {

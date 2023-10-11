@@ -17,7 +17,12 @@ const addComment = (localId: string, comment: string) => {
     } );
 }
 
+const deleteComment = ( commentId: string) => {
+    return api.delete(`/api/comments/${commentId}`);
+}
+
 export {
     getCommentsByLocalId,
-    addComment
+    addComment,
+    deleteComment
 };
