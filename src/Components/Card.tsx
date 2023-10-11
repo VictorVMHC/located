@@ -30,9 +30,9 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore
     const [isProcessingLike, setIsProcessingLike] = useState(false);
 
     const handleLikePress = async () => {
-        if (user?._id && !isProcessingLike) {
+        if (!isProcessingLike) {
             setIsProcessingLike(true);
-            await check(user._id, _id);
+            await check( _id);
             updateLike();
             if (!isActive) {
                 setValueLocalLikes(prevLikes => prevLikes + 1);

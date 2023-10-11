@@ -1,8 +1,10 @@
 import {Like} from '../Interfaces/likesInterface'
 import api from "./api";
 
-const createLikeLocal = (likeLocal: Like) => {
-    return api.post('/api/like/local/',  likeLocal );
+const createLikeLocal = (localId: string) => {
+    return api.post('/api/like/local/',{
+        localId
+    } );
 }
 
 const getLikeLocal = (idUser: string, idLocal: string) => {
