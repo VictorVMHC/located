@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { SafeAreaView, FlatList, StyleSheet, ActivityIndicator, Alert, View, Text  } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, FlatList, ActivityIndicator} from 'react-native'
 import { Card } from '../Components/Card'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,7 +9,6 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { ThereAreNoLocals } from './ThereAreNoLocals';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { CustomAlert } from './CustomAlert';
-import { AuthContext } from '../Context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -18,13 +17,11 @@ export const PopularLocals = ({navigation}:Props) => {
     const [hasFetchedData, setHasFetchedData] = useState(false);
     const [emptyData, setEmptyData] = useState(false);
     const [loading, setLoading] = useState(true);
-    const {user}  = useContext(AuthContext);
     const radioKm = 2.0;
 
     const localSearch = async (latitude: number, longitude: number) =>{
-        const userId = user?._id || 'null';
         try {
-            const resultsLocals = await searchPopularLocals(latitude, longitude, radioKm, userId);
+            const resultsLocals = await searchPopularLocals(latitude, longitude, radioKm);
             const listLocals = resultsLocals.data.results;
             if (listLocals.length !== 0) {             
                 setDataLocals(listLocals);
@@ -50,7 +47,7 @@ export const PopularLocals = ({navigation}:Props) => {
 
     const updateLike = async () => {
         try {
-            const updatedResultsLocals = await searchPopularLocals(userLocation.latitude, userLocation.longitude, radioKm, user?._id || 'null');
+            const updatedResultsLocals = await searchPopularLocals(userLocation.latitude, userLocation.longitude, radioKm);
             const updatedListLocals = updatedResultsLocals.data.results;
             setDataLocals(updatedListLocals);
         } catch (error: any) {
