@@ -10,28 +10,30 @@ import { AuthContext } from '../Context/AuthContext';
 import { Comment } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeComment, likeComment } from '../Api/likeCommentApi';
 import { CustomAlert } from './CustomAlert';
+import { deleteComment } from '../Api/commentsApi';
 
 interface Props{
     commentItem: Comment,
+    deleteAction: (id: string) => void,
     blocking?: boolean,
     onCallback:  (value: number ) => void;
 }
 
-export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) => {
+export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocking}:Props) => {
     const {_id, countReplies, liked, label, userId, comment, likeCount } = commentItem;
-    const {image, name} = userId;
-    const [expandedReplies, setExpandedComments] = useState(false);
+    const { image, name} = userId;
+    const [ expandedReplies, setExpandedComments] = useState(false);
     const { t } = useTranslation();
-    const [inputValue, setInputValue] = useState(0);
-    const [like, setLike] = useState(liked);
-    const [replies, setReplies] = useState<string[]>([]);
-    const {user} = useContext(AuthContext);
+    const [ inputValue, setInputValue] = useState(0);
+    const [ like, setLike] = useState(liked);
+    const [ replies, setReplies] = useState<string[]>([]);
+    const { user} = useContext(AuthContext);
     const [ page, setPage ] = useState(1);
     const [ totalPages, setTotalPages ] = useState(1);
     const [ fetching, setFetching ] = useState(false);
     const [ error, setError ] = useState(false)
-    const [likeable, setLikeable ] = useState(true);
-    const [likeCountState, setLikeCountState ] = useState(likeCount);
+    const [ likeable, setLikeable ] = useState(true);
+    const [ likeCountState, setLikeCountState ] = useState(likeCount);
     
     useEffect(() => {
         if(!countReplies){
@@ -148,7 +150,7 @@ export const ContainerComment = ({ commentItem, onCallback , blocking}:Props) =>
     }
 
     const handleDeleteComment   = () => {
-        console.log("hola"); 
+        deleteAction(_id);
     }
     return (
         <View style={[styles.Container]} >

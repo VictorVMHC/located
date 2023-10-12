@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { addComment, getCommentsByLocalId } from '../Api/commentsApi';
+import { addComment, deleteComment, getCommentsByLocalId } from '../Api/commentsApi';
 import { ContainerComment } from '../Components/ContainerComment';
 import { CustomAlert } from '../Components/CustomAlert';
 import { AuthContext } from '../Context/AuthContext';
@@ -31,7 +31,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const { user } = useContext(AuthContext);
     const [haveComments, setHaveComments ] = useState(true);
     const [ sending, setSending ] = useState(false);
-
+    
     const handleKeyboardDidShow = () => {
         setComment('');
         setButtonLocked(true);
@@ -55,7 +55,6 @@ export const CommentsView = ({ navigation, route }: Props) => {
     }, []);
 
     const fetchComments = () => {
-
         if(page > totalPages || fetching || !haveComments){
             return;
         }
@@ -105,7 +104,6 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const handleLoadMore = () => {
         fetchComments();
     }
-
     
     const handleChildCallback = (value: number) => {
         setReceivedValue(value);
@@ -113,31 +111,34 @@ export const CommentsView = ({ navigation, route }: Props) => {
     };
     
     const placeholderValue: any = receivedValue !== 0 ? receivedValue : "Add Comment";
-    
-    const renderHeader = () => {
-        return (
-            <View style={StylesCommentsView.containerText}>
-                <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
-                    {t('Comments')}
-                </Text>
-                {
-                    fetching && <ActivityIndicator color={Colors.blueAqua} size={'small'}/>
-                }
-            </View>
-        );
+
+    const handleDeleteComment = (id: string) => {
+        deleteComment(id)
+        .then(() => {            
+            const filteredArray = comments.filter(item => item._id !== id);
+
+            setComments([...filteredArray]);
+        })
+        .catch(() => {
+            CustomAlert({
+                title: 'Error',
+                desc: 'Was not possible to delete your comment'
+            })
+        })
     }
 
     const renderComment: ListRenderItem<Comment> = useMemo(() => {
         return ({ item }) => (
             <ContainerComment
                 commentItem={item}
+                deleteAction={handleDeleteComment}
                 blocking={buttonLocked}
                 onCallback={() => {
                     console.log("hello");
                 }}
             />
         );
-    }, [buttonLocked]);
+    }, [handleDeleteComment, comments]);
 
     const getKey = useMemo(() => {
         return (item: Comment) => item._id;
