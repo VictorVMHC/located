@@ -7,20 +7,22 @@ import { Reply } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeReply, likeReply } from '../Api/likeReplyApi';
 import { CustomAlert } from './CustomAlert';
 
-
-
 interface Props {
-    reply: Reply,  
+    reply: Reply,
+    handleReply: (userRepliedName: string, CommentId: string, userRepliedId: string) => void,
 }
 
-export const ReplyComponent = ({reply}:Props) => {
+export const ReplyComponent = ({reply, handleReply, }:Props) => {
     const { t } = useTranslation();
-    const {userRepliedId, replied, userId, likes, liked, label, _id} = reply;
+    const {userRepliedId, replied, userId, likes, liked, label, _id,commentId} = reply;
 
     const [like, setLike] = useState(liked);
     const [likeCountState, setLikeCountState ] = useState(likes);
     const [ likeable, setLikeable ] = useState(true);
 
+    const handleReplyTo = () => {
+        handleReply(userId.name, commentId, userId._id);
+    }
     const checkLike = () => {
     
         if(likeable === false){
@@ -29,8 +31,12 @@ export const ReplyComponent = ({reply}:Props) => {
 
         if (!like) {
             setLikeable(false);
+            console.log(_id);
+            
             likeReply(_id)
             .then(() => {
+                console.log('holaaa');
+                
                 setLikeCountState(likeCountState + 1);
                 setLike(true);
                 setTimeout(() => {
@@ -87,15 +93,15 @@ export const ReplyComponent = ({reply}:Props) => {
                     </View>
                 </View>
                 <View style={{width: '10%', alignItems: 'center', justifyContent: 'center'}} >
-                    <TouchableOpacity onPress={() => checkLike }>
-                        <Icon name='thumbs-up' size={20} color={!liked ? Colors.black : Colors.Yellow} />                    
+                    <TouchableOpacity onPress={ checkLike }>
+                        <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
-                    <Text style={{color: 'black'}}>{likes}</Text>
+                    <Text style={{color: 'black'}}>{likeCountState}</Text>
                 </View>
             </View>
             <TouchableOpacity 
                 style={{margin: 5, alignSelf: 'flex-end' }} 
-                onPress={()=> console.log('hola')} 
+                onPress={ handleReplyTo } 
             >
                 <Text style={{color: Colors.black}}>{t('Reply')} to {(userId.name.length / 2 < 15 ? userId.name : userId.name.substring(0,userId.name.length / 2) + '...' )}</Text>
             </TouchableOpacity>

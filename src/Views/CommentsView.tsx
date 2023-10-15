@@ -99,7 +99,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
         setReplyCommentId(CommentId);
         setUserRepliedName(userName);
         setUserRepliedId(userRepliedId);
-        setComment(`${userName}: `);        
+        setComment(`${userName}: `);            
         inputRef.current?.focus();
     };
     

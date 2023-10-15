@@ -11,7 +11,7 @@ const addReply = (commentId: string, userRepliedId: string, reply: string) => {
     );
 }
 
-const getReliesByCommentId= (commentId: string, page?: number, limit?: number) => {
+const getRepliesByCommentId= (commentId: string, page?: number, limit?: number) => {
     const route = `/api/reply/byCommentId/${commentId}`
     return api.get( route , {
         params:{
@@ -22,6 +22,6 @@ const getReliesByCommentId= (commentId: string, page?: number, limit?: number) =
 }
 
 export {
-    getReliesByCommentId,
+    getRepliesByCommentId,
     addReply
 };

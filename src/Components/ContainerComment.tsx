@@ -5,12 +5,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 import { ReplyComponent } from './ReplyComponent';
-import { getReliesByCommentId } from '../Api/repliesApi';
+import { getRepliesByCommentId } from '../Api/repliesApi';
 import { AuthContext } from '../Context/AuthContext';
 import { Comment, Reply } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeComment, likeComment } from '../Api/likeCommentApi';
 import { CustomAlert } from './CustomAlert';
 import { deleteComment } from '../Api/commentsApi';
+import { ActivityIndicator } from 'react-native-paper';
+import { deleteLikeReply } from '../Api/likeReplyApi';
 
 interface Props{
     commentItem: Comment,
@@ -26,7 +28,7 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
 
     const {_id, countReplies, liked, label, userId, comment, likeCount } = commentItem;
     const { image, name} = userId;
-    const [ expandedReplies, setExpandedComments] = useState(false);
+    const [ expandedReplies, setExpandedReplies] = useState(false);
     const { t } = useTranslation();
     const [ inputValue, setInputValue] = useState(0);
     const [ like, setLike] = useState(liked);
@@ -52,11 +54,16 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
 
         setFetching(true);
 
-        getReliesByCommentId(_id)
+        getRepliesByCommentId(_id, page)
         .then((response) => {
-            setReplies(_id, response.data.reply);
+
+            setReplies(_id, [...replies, ...response.data.reply]);
             setPage(page + 1);
-            setTotalPages(response.data.totalPages)
+            setTotalPages(response.data.totalPages);
+            console.log(totalPages);
+            console.log(page);
+            
+            
         })
         .catch(() => {
             setError(true);
@@ -75,7 +82,7 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
     };
 
     const toggleExpandedComments = () => {
-        setExpandedComments(!expandedReplies );
+        setExpandedReplies(!expandedReplies );
     }
 
     const checkLike = () => {
@@ -102,7 +109,7 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
             });
 
         } else {
-            deleteLikeComment(_id)
+            deleteLikeReply(_id)
             .then(() => {
                 setLikeCountState(likeCountState - 1);
                 setLike(false);
@@ -119,7 +126,8 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
     function renderItem({ item }: any) {
         return (
             <ReplyComponent 
-                reply={item}                
+                reply={item}
+                handleReply={handleReply}              
             />
         )
     }
@@ -134,14 +142,30 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
 
     const footerReplies = () => {
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <TouchableOpacity
-                    onPress={handleLoadMore}
+            <View 
+                style={{ 
+                        flexDirection: 'row', 
+                        justifyContent: 
+                            page <= totalPages 
+                                ? 'space-between' 
+                                : 'flex-end', 
+                        alignContent: 'flex-end' 
+                    }
+                }>
+                {page <= totalPages &&
+                    <TouchableOpacity
+                        onPress={handleLoadMore}
+                        style={{flexDirection: 'row', alignContent: 'center', justifyContent: 'center'}}
+                    >
+                        <Text style={{ color: 'black' }}>Load more replies  </Text>
+                        {fetching && <ActivityIndicator color={Colors.blueAqua} size={'small'} />}
+                    </TouchableOpacity>
+                }
+                <TouchableOpacity 
+                    style={{ flexDirection: 'row', alignContent: 'flex-end'}}
+                    onPress={() => setExpandedReplies(false)}
                 >
-                    <Text style={{ color: 'black' }}>Load more replies</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row'}} >
-                    <Text style={{ color: 'black' }}>Close replies</Text>
+                    <Text style={{ color: 'black' }}>Hide replies</Text>
                     <Icon style={{marginLeft: 5, alignSelf: 'center'}} name='chevron-up' color='black' />
                 </TouchableOpacity> 
             </View>
@@ -151,6 +175,7 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
     const handleDeleteComment   = () => {
         deleteAction(_id);
     }
+
     return (
         <View style={[styles.Container]} >
             <View style={{
@@ -234,9 +259,10 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
                             getItemCount={getItemCount}
                             keyExtractor={keyExtractor}
                             renderItem={renderItem}
+                            ListFooterComponent={footerReplies}
                         />
                     )
-                }  
+                }
             </View>
         </View>
     )
