@@ -21,13 +21,16 @@ export interface CommentResponse{
 }
 
 export interface Reply {
-    userReplied: string | null,
     _id: string,
     commentId: string,
     userId:{
         _id: string,
         name:string,
         image: string
+    },
+    userRepliedId:{
+        _id: string,
+        name:string,
     },
     replied: string,
     label: string,

@@ -1,5 +1,16 @@
 import api from "./api";
 
+const addReply = (commentId: string, userRepliedId: string, reply: string) => {
+    console.log(commentId, reply, userRepliedId);
+    
+    return api.post( "/api/reply", {
+            commentId,
+            userRepliedId,
+            reply
+        }
+    );
+}
+
 const getReliesByCommentId= (commentId: string, page?: number, limit?: number) => {
     const route = `/api/reply/byCommentId/${commentId}`
     return api.get( route , {
@@ -11,5 +22,6 @@ const getReliesByCommentId= (commentId: string, page?: number, limit?: number) =
 }
 
 export {
-    getReliesByCommentId
+    getReliesByCommentId,
+    addReply
 };

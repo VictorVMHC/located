@@ -7,7 +7,7 @@ import { Colors } from '../Themes/Styles';
 import { ReplyComponent } from './ReplyComponent';
 import { getReliesByCommentId } from '../Api/repliesApi';
 import { AuthContext } from '../Context/AuthContext';
-import { Comment } from '../Interfaces/CommentsInterfaces';
+import { Comment, Reply } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeComment, likeComment } from '../Api/likeCommentApi';
 import { CustomAlert } from './CustomAlert';
 import { deleteComment } from '../Api/commentsApi';
@@ -17,16 +17,19 @@ interface Props{
     deleteAction: (id: string) => void,
     blocking?: boolean,
     onCallback:  (value: number ) => void;
+    replies: Reply[];
+    setReplies: (commentId: string, replies: Reply[]) => void;
+    handleReply: (userRepliedName: string, CommentId: string, userRepliedId: string) => void
 }
 
-export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocking}:Props) => {
+export const ContainerComment = ({ commentItem, deleteAction, blocking, replies, setReplies, handleReply}:Props) => {
+
     const {_id, countReplies, liked, label, userId, comment, likeCount } = commentItem;
     const { image, name} = userId;
     const [ expandedReplies, setExpandedComments] = useState(false);
     const { t } = useTranslation();
     const [ inputValue, setInputValue] = useState(0);
     const [ like, setLike] = useState(liked);
-    const [ replies, setReplies] = useState<string[]>([]);
     const { user} = useContext(AuthContext);
     const [ page, setPage ] = useState(1);
     const [ totalPages, setTotalPages ] = useState(1);
@@ -39,9 +42,9 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
         if(!countReplies){
             return;
         }
-
-    }, [])
-
+        fetchReplies();
+    }, [replies])
+    
     const fetchReplies = () => {
         if(page > totalPages || fetching){
             return;
@@ -51,7 +54,9 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
 
         getReliesByCommentId(_id)
         .then((response) => {
-            setReplies(response.data.reply);
+            setReplies(_id, response.data.reply);
+            setPage(page + 1);
+            setTotalPages(response.data.totalPages)
         })
         .catch(() => {
             setError(true);
@@ -65,9 +70,8 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
         fetchReplies();
     } 
 
-    const handleSendValue = (idUser: string) => {
-        setInputValue(parseInt(idUser));
-        onCallback(inputValue);
+    const handleReplyTo = () => {
+        handleReply(name, _id, userId._id);
     };
 
     const toggleExpandedComments = () => {
@@ -88,7 +92,7 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
                 setLike(true);
                 setTimeout(() => {
                     setLikeable(true);
-                }, 10000); 
+                }, 5000); 
             })
             .catch(() => {
                 CustomAlert({
@@ -115,18 +119,13 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
     function renderItem({ item }: any) {
         return (
             <ReplyComponent 
-                userImage={'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80'} 
-                userName={item} 
-                reply={'hola amigos de youtube'} 
-                like={false} 
-                likes={10} 
-                label={'negative'}                
+                reply={item}                
             />
         )
     }
     
-    function keyExtractor(index: string) {
-        return index.toString();
+    function keyExtractor(item: Reply) {
+        return item._id;
     }
     
     function getItemCount() {
@@ -201,33 +200,42 @@ export const ContainerComment = ({ commentItem, deleteAction, onCallback, blocki
                     <TouchableOpacity 
                         disabled={blocking} 
                         style={{margin: 5, alignSelf: 'flex-end' }} 
-                        onPress={()=>(handleSendValue(userId._id))} 
+                        onPress={handleReplyTo} 
                     >
                         <Text style={{color: Colors.black}}>{t('Reply')} to { user?._id === userId._id ? "me" : name }</Text>
                     </TouchableOpacity>
                 </View>
                 {
-                    countReplies > 0 && !expandedReplies &&
+                    countReplies > 0  &&
                     <View style={{flexDirection: 'row', alignSelf: 'flex-end' }}>
-                        <TouchableOpacity disabled={blocking} style={{ marginLeft: 10}}  onPress={toggleExpandedComments} >
-                            <Text style={{color: Colors.black}}> See { countReplies } {t('Answers')}</Text>
-                        </TouchableOpacity>
-                        <Icon style={{marginTop: 2, marginLeft: 2}} name='chevron-down' size={15} color='black' />
+                        <TouchableOpacity 
+                            disabled={blocking} 
+                            style={{ marginLeft: 10, flexDirection: 'row'}}  
+                            onPress={toggleExpandedComments} 
+                        >
+                            <Text style={{ color: Colors.black }}>
+                                {expandedReplies ? "Hide" : "See"} {countReplies} {t("Answers")}
+                            </Text>                            
+                            <Icon
+                                style={{ marginTop: 2, marginLeft: 2 }}
+                                name={expandedReplies ? "chevron-up" : "chevron-down"}
+                                size={15}
+                                color="black"
+                            />
+                            </TouchableOpacity>
                     </View>
 
                 }
                 {
-                    expandedReplies &&
-                    <>
+                    expandedReplies && replies.length > 0  && (
                         <VirtualizedList
                             data={replies}
                             getItem={(pages, index) => pages[index]}
                             getItemCount={getItemCount}
                             keyExtractor={keyExtractor}
                             renderItem={renderItem}
-                            ListFooterComponent={ footerReplies }
                         />
-                    </>
+                    )
                 }  
             </View>
         </View>
