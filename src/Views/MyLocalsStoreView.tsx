@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react'
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, ScrollViewProps, StyleSheet, Text, View} from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, ScrollViewProps, StyleSheet, Text, View, Button } from 'react-native';
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView, { Marker } from 'react-native-maps';
@@ -12,6 +12,10 @@ import { getProductsByLocalId } from '../Api/productsApi';
 import { Product } from '../Interfaces/ProductsInterfaces';
 import { CustomAlert } from '../Components/CustomAlert';
 import { CreateProductAlertView } from './CreateProductAlertView';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useWindowDimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
@@ -22,8 +26,9 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [ productsList, setProductsList ] = useState<Product[]>([]);
     const [ isLoadingMore, setIsLoadingMore ] = useState(false);
     const [ haveProducts, setHaveProducts ] = useState(true);
+    const { width ,height } = useWindowDimensions();
 
-    const {name, description, uriImage,_id, address, isVerify, country, state, town, 
+    const {name, description, uriImage, _id, address, isVerify, country, state, town, 
             postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
 
     const scrollViewRef = useRef<ScrollView>(null);
@@ -84,11 +89,14 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     }
 
     useEffect( () => {
-        if(productsList.length !== 0 && page >= totalPage){
-            return;
-        }
-        fetchProducts();
-    }, [])
+        const refreshedList = navigation.addListener('focus', () => {
+            if(productsList.length !== 0 && page >= totalPage){
+                return;
+            }
+            fetchProducts();
+        });
+        return refreshedList;
+    }, [navigation])
 
     const renderProductList = () => {
         return productsList.map((item) => (
@@ -204,10 +212,19 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                         <View style={StylesStore.containerList} ref={catalogueRef}>
                             {haveProducts 
                                 ? renderProductList()
-                                : <CreateProductAlertView navigation={navigation} route={route}/>
+                                : <CreateProductAlertView navigation={navigation}  local={local}/>
                             }
+                            {productsList.length > 0 && (
+                                <View style={{alignItems: 'flex-end',padding: '2%', width: '100%', height: (height * (0.15 / 2) ) }}>
+                                    <TouchableOpacity 
+                                        style={{...StylesStore.buttonCreateProduct, width: (width * 0.15), height: (height * 0.07 ),}}
+                                        onPress={()=>navigation.navigate("CreateProductView",{localId: _id})}>
+                                        <Icon name='plus' size={25}  light color={Colors.white}/>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
                         </View>
-                    </View>
+                </View>
             </ScrollView>
         </>
     )
@@ -245,5 +262,16 @@ const StylesStore = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center', 
         marginVertical: 20
+    },
+    buttonCreateProduct:{
+    backgroundColor: Colors.Yellow, 
+    borderRadius: 50, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
     }
 });

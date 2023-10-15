@@ -14,11 +14,15 @@ import { useTranslation } from 'react-i18next';
 import { Product } from '../Interfaces/ProductsInterfaces'; 
 import * as Yup from 'yup';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { postProduct } from '../Api/productsApi';
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
 
 const windowWidth = Dimensions.get('window').width;
-interface Props extends NativeStackScreenProps<any, any> {};
+interface Props extends NativeStackScreenProps<ViewStackParams, 'CreateProductView'>{};
 
-export const CreateProductView = ({navigation}: Props) => {
+
+export const CreateProductView = ({navigation, route}: Props) => {
+    const { localId } = route.params;
     const { t } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
     const slideAnimation = new Animated.Value(0);
@@ -111,9 +115,34 @@ export const CreateProductView = ({navigation}: Props) => {
     }
 
     const handleSubmit = async (dataProduct:Product) => {
-        
+        try{
+            if(imageFlag == true){
+                const urlImg = await  urlCloudinary(url);
+                dataProduct.img = urlImg;
+            }
+            console.log(dataProduct);
+            const productResponse = await postProduct(dataProduct);
+            if (productResponse.status === 200) {
+                CustomAlert({
+                    title: t('UserPasswordUpdatedTitle'),
+                    desc: t('UserPasswordUpdated'),
+                })
+                return navigation.goBack();
+            }
+        }catch (error: any){
+            if (error.response && error.response.status === 500) {
+                CustomAlert({
+                    title: "Error",
+                    desc: "An error occurred while trying to find popular locals"
+                });
+            } else {
+                CustomAlert({
+                    title: "Error",
+                    desc: 'Error: ' + error.message
+                });
+            }
+        }
     };
-
     return (
         <ScrollView>
             <View style={StyleCreateProduct.topContainer}>
@@ -135,10 +164,9 @@ export const CreateProductView = ({navigation}: Props) => {
                 <Formik
                     initialValues={{
                         productName:"",
+                        localId:localId,
                         price: null,
                         description: "",
-                        tag:"",
-                    
                     }}
                     onSubmit={(product)=>{handleSubmit(product)}}
                     validationSchema={validationSchema}
@@ -151,7 +179,7 @@ export const CreateProductView = ({navigation}: Props) => {
                                     style={StyleCreateProduct.textInput} 
                                     onChangeText={handleChange('productName')}
                                     value={values.productName}
-                                    onEndEditing={handleSubmit}>
+                                >
                                 </TextInput>
                                 {errors.productName && 
                             <IconWithText 
@@ -194,14 +222,6 @@ export const CreateProductView = ({navigation}: Props) => {
                                 IconSize={15} 
                                 textStyle={{color: Colors.Yellow, fontSize:17,}}
                             />}
-                            </View>
-                            <View style={StyleCreateProduct.containerTextInput}>
-                                <Text style={StyleCreateProduct.text}>{t('Tag')}</Text>
-                                <TextInput 
-                                    style={StyleCreateProduct.textInput} 
-                                    value={values.tag}
-                                    onChangeText={handleChange('tag')}>
-                                </TextInput>
                             </View>
                             <View style={StyleCreateProduct.containerTextInput}>
                                 <TouchableHighlight style={StyleCreateProduct.button} underlayColor= 'gray' onPress={handleSubmit}>

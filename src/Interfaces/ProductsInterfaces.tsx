@@ -5,5 +5,4 @@ export interface Product {
     price?: number | null,
     img?: string,
     description?: string,
-    tags?:[]
 }

@@ -3,9 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-interface Props extends NativeStackScreenProps<any, any>{};
+import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { Local } from '../Interfaces/DbInterfaces';
 
-export const CreateProductAlertView = ({navigation}: Props) => {
+interface Props{
+    navigation?: any,
+    local: Local,
+}
+
+export const CreateProductAlertView = ({navigation, local}: Props) => {
+    const {_id} = local;
     const {height, width} = useWindowDimensions();
     const {t} = useTranslation();
     return (
@@ -16,7 +23,7 @@ export const CreateProductAlertView = ({navigation}: Props) => {
                 <Text style={styles.msgText} adjustsFontSizeToFit >{t('NoProductsInfo2')}</Text>
                 <View style={styles.btnView}>
                     <TouchableOpacity style={styles.btn}
-                        onPress={() => navigation.navigate("LocalCreatorView")}
+                        onPress={() => navigation.navigate("CreateProductView", {localId: _id})}
                     >
                         <Text style={styles.btnText}>{t('ToCreateProduct')}</Text>
                     </TouchableOpacity>

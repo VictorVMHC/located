@@ -4,7 +4,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '../Context/AuthContext';
 import { LoginToAccessView } from './LoginToAccessView';
 import { LocalsView } from './LocalsView';
-import { CreateProductView } from './CreateProductView';
 
 interface Props extends NativeStackScreenProps<any, any> {};
 
@@ -13,7 +12,7 @@ export const MyLocalsView = ({ navigation, route }: Props) => {
     
     if (!user?.haveLocals && !guestUser) {
         return (
-            <CreateProductView
+            <CreateLocalAlertView
                 navigation={navigation}
                 route={route}
             />
