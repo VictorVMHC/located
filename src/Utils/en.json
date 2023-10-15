@@ -170,6 +170,16 @@
     "LocalCreationSuccessInfo":"The local was created successfully, you will be able to found it in your locals",
     "ErrorToCreateLocalInfo": "Was not possible to create your local, Please try again!",
     "ToExplore": "Explore",
-    "FailToCreateYourImage": "Was no possible to create your image, Please try again!"
+    "FailToCreateYourImage": "Was no possible to create your image, Please try again!",
+    "NoProductsInfo": "It looks that your local don't have any products yet",
+    "NoProductsInfo2": "Your local do not have products registered yet, but you are able to add products by clicking create button",
+    "ToCreateProduct": "Create a new product",
+    "ProductName": "Product name",
+    "price": "Price",
+    "ProductDescription": "Description",
+    "RequirePrice":"The price must be more than 0",
+    "Tag": "Tag",
+    "CreateProductTitle": "Create product",
+    "Image":"Image of the product"
   }
 }

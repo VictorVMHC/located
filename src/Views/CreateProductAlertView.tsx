@@ -12,13 +12,13 @@ export const CreateProductAlertView = ({navigation}: Props) => {
         <View style={styles.container}>
             <View style={{...styles.boxImg, width: width * 0.8,  height: height * 0.69,}}>
                 <Image source={require('../Assets/Images/local3D.png')} style={styles.img}  />
-                <Text style={styles.firstText} adjustsFontSizeToFit >It looks that your local don't have products yet</Text>
-                <Text style={styles.msgText} adjustsFontSizeToFit >Your local do not have local registered yet, but you are able to add products by clicking create button </Text>
+                <Text style={styles.firstText} adjustsFontSizeToFit >{t('NoProductsInfo')}</Text>
+                <Text style={styles.msgText} adjustsFontSizeToFit >{t('NoProductsInfo2')}</Text>
                 <View style={styles.btnView}>
                     <TouchableOpacity style={styles.btn}
                         onPress={() => navigation.navigate("LocalCreatorView")}
                     >
-                        <Text style={styles.btnText}>Create new product</Text>
+                        <Text style={styles.btnText}>{t('ToCreateProduct')}</Text>
                     </TouchableOpacity>
                 </View>
                 

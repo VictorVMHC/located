@@ -20,6 +20,7 @@ import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 import { LocalCreatorView } from '../Views/LocalCreatorView';
 import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
+import { CreateProductView} from '../Views/CreateProductView';
 import { NoPopularLocalsToShowAlertView } from '../Views/NoPopularLocalsToShowAlertView';
 import { MyLocalsStoreView } from '../Views/MyLocalsStoreView';
 import { Local } from '../Interfaces/DbInterfaces';
@@ -34,6 +35,7 @@ export type ViewStackParams = {
 	SplashScreenView: undefined,
 	DrawerMenu: undefined,
 	EditUserView: undefined,
+	CreateProductView: undefined,
 	StoreView: {local: Local},
 	CommentsView: {localId: string},
 	ChangePasswordView: undefined,
@@ -82,6 +84,7 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="CreateLocalAlertView" options={screenOptions} component={CreateLocalAlertView} />
 						<Stack.Screen name="NoPopularLocalsToShowAlertView" options={screenOptions} component={NoPopularLocalsToShowAlertView} />
 						<Stack.Screen name="MyLocalsStoreView" options={screenOptions} component={MyLocalsStoreView} />
+						<Stack.Screen name="CreateProductView" options={screenOptions} component={CreateProductView} />
 
 					</>
 				)			

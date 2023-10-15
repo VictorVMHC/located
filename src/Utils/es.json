@@ -167,6 +167,16 @@
     "LocalCreationSuccessInfo":"El local fue creado exitosamente, podrás encontrarlo en tus locales",
     "ErrorToCreateLocalInfo": "No fue posible crear tu local. ¡Inténtalo de nuevo!",
     "ToExplore": "Explorar",
-    "FailToCreateYourImage": "No fue posible crear tu imagen. ¡Inténtalo de nuevo!"
+    "FailToCreateYourImage": "No fue posible crear tu imagen. ¡Inténtalo de nuevo!",
+    "NoProductsInfo": "Parece que tu local aún no tiene ninguno producto",
+    "NoProductsInfo2":"Tu local aún no tiene productos registrados, pero puedes agregar productos haciendo clic en el botón crear",
+    "ToCreateProduct":"Crear un nuevo producto",
+    "ProductName": "Nombre del producto",
+    "price": "Precio",
+    "ProductDescription": "Descripción",
+    "RequirePrice":"El precio debe de ser mayor a 0",
+    "Tag": "Categoria",
+    "CreateProductTitle": "Creación del producto",
+    "Image":"Imagen del producto"
   }
 }
