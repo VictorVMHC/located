@@ -21,7 +21,12 @@ const getRepliesByCommentId= (commentId: string, page?: number, limit?: number) 
     });
 }
 
+const deleteReply = ( replyId: string) => {
+    return api.delete(`/api/reply/${replyId}`);
+}
+
 export {
     getRepliesByCommentId,
-    addReply
+    addReply,
+    deleteReply
 };

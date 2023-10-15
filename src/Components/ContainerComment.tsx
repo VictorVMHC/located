@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
 import { ReplyComponent } from './ReplyComponent';
-import { getRepliesByCommentId } from '../Api/repliesApi';
+import { deleteReply, getRepliesByCommentId } from '../Api/repliesApi';
 import { AuthContext } from '../Context/AuthContext';
 import { Comment, Reply } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeComment, likeComment } from '../Api/likeCommentApi';
@@ -39,6 +39,20 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
     const [ error, setError ] = useState(false)
     const [ likeable, setLikeable ] = useState(true);
     const [ likeCountState, setLikeCountState ] = useState(likeCount);
+    
+    const handleDeleteReply = (replyId: string) => {
+        deleteReply(replyId)
+        .then(() => {
+            var repliesUpdated = replies.filter(item => item._id !== replyId);
+            setReplies(_id,repliesUpdated)
+        })
+        .catch(() => {
+            CustomAlert({
+                title: 'Error',
+                desc: 'Was not possible to delete the comment'
+            })
+        })
+    }
     
     useEffect(() => {
         if(!countReplies){
@@ -127,7 +141,8 @@ export const ContainerComment = ({ commentItem, deleteAction, blocking, replies,
         return (
             <ReplyComponent 
                 reply={item}
-                handleReply={handleReply}              
+                handleReply={handleReply}
+                deleteReplyAction={handleDeleteReply}           
             />
         )
     }

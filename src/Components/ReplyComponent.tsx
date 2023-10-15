@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -6,15 +6,18 @@ import { Colors } from '../Themes/Styles';
 import { Reply } from '../Interfaces/CommentsInterfaces';
 import { deleteLikeReply, likeReply } from '../Api/likeReplyApi';
 import { CustomAlert } from './CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props {
     reply: Reply,
     handleReply: (userRepliedName: string, CommentId: string, userRepliedId: string) => void,
+    deleteReplyAction: (replyId: string) => void
 }
 
-export const ReplyComponent = ({reply, handleReply, }:Props) => {
+export const ReplyComponent = ({reply, handleReply, deleteReplyAction}:Props) => {
     const { t } = useTranslation();
-    const {userRepliedId, replied, userId, likes, liked, label, _id,commentId} = reply;
+    const {userRepliedId, replied, userId, likes, liked, label, _id, commentId} = reply;
+    const {user} = useContext( AuthContext )
 
     const [like, setLike] = useState(liked);
     const [likeCountState, setLikeCountState ] = useState(likes);
@@ -65,6 +68,9 @@ export const ReplyComponent = ({reply, handleReply, }:Props) => {
         }
     };
 
+    const handleDeleteReply = () => {
+        deleteReplyAction(_id);
+    }
     return (
         <View style={styles.container} >
             <View
@@ -103,6 +109,17 @@ export const ReplyComponent = ({reply, handleReply, }:Props) => {
                 style={{margin: 5, alignSelf: 'flex-end' }} 
                 onPress={ handleReplyTo } 
             >
+                {
+                    user?._id === userId._id  
+                    ?   <TouchableOpacity 
+                            style={{margin: 5, alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} 
+                            onPress={handleDeleteReply} 
+                        >
+                            <Text style={{color: Colors.black, marginRight: 5 }}>Delete</Text>
+                            <Icon name='trash' color={'red'}/>
+                        </TouchableOpacity>
+                    : null
+                }
                 <Text style={{color: Colors.black}}>{t('Reply')} to {(userId.name.length / 2 < 15 ? userId.name : userId.name.substring(0,userId.name.length / 2) + '...' )}</Text>
             </TouchableOpacity>
         </View>
