@@ -15,7 +15,7 @@ import { CreateProductAlertView } from './CreateProductAlertView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useFocusEffect } from '@react-navigation/native';
+
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
@@ -27,6 +27,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [ isLoadingMore, setIsLoadingMore ] = useState(false);
     const [ haveProducts, setHaveProducts ] = useState(true);
     const { width ,height } = useWindowDimensions();
+    const [refreshLocalView, setRefreshLocalView] = useState(false);
 
     const {name, description, uriImage, _id, address, isVerify, country, state, town, 
             postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
@@ -34,6 +35,12 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
+
+    useEffect(() => {
+        if(refreshLocalView){
+            setRefreshLocalView(false);
+        }
+    },[refreshLocalView]);
     
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -102,12 +109,14 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
         return productsList.map((item) => (
             <CardCatalogue
                 key={item._id}
-                ProductName={item.productName}
+                ProductName={item.productName || ''}
                 Price={`${item.price}`}
-                Img={item.img}
+                Img={item.img || ''}
                 Description={item.description}
                 showLike={false}
                 flagEdit={true}
+                productId={item._id}
+                setRefreshedList={setRefreshLocalView}
                 Action={() => navigation.navigate('EditProductView', {product: item})}
             />
         ));

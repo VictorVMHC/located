@@ -5,6 +5,9 @@ import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 import { DescriptionBox } from './DescriptionBox';
+import { deleteProduct } from '../Api/productsApi';
+import { CustomAlert } from './CustomAlert';
+import { useTranslation } from 'react-i18next';
 
 const windowWidth = Dimensions.get('window').width;
 interface Props {
@@ -17,14 +20,17 @@ interface Props {
     buttonIcon?: () => void,
     Action: () => void,
     showLike: boolean,
-    flagEdit?: boolean
+    flagEdit?: boolean,
+    setRefreshedList?: (newValue: boolean) => void,
+    productId?: string
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, setRefreshedList }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
     const viewRef = useRef(null);
+    const { t } = useTranslation();
 
     const toggle = () => {
         if(Description != ''){
@@ -32,9 +38,20 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
         }
     }
 
+    const deleteProducts = async (id: string) => {
+        const product = await deleteProduct(id);
+        setRefreshedList(true)
+        if(product.status === 200){
+            CustomAlert({
+                title: t('UserPasswordUpdatedTitle'),
+                desc: t('UserPasswordUpdated'),
+            })
+        }
+    }
+
     return (
     <View style={styles.ContainerCard}>
-         <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
+         <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.82)}} >
             <View style={styles.ChartImg}>
                 <Image
                 style={styles.CardImg}
@@ -61,8 +78,12 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
                 ?<View></View>
                 :<View>
                     <TouchableOpacity onPress={()=>{Action();}}>
-                        <Icon name='edit' size={35} color={Colors.black} />
-                    </TouchableOpacity></View>
+                        <Icon name='edit' size={33} color={Colors.black} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginTop: windowWidth*0.03}} onPress={()=>{deleteProducts(productId || '');}}>
+                        <Icon name='trash-alt' size={33} color={Colors.red} />
+                    </TouchableOpacity>
+                </View>
             }
         </TouchableOpacity>
         {

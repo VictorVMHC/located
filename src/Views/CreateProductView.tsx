@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions, TouchableOpacity, Modal } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions, TouchableOpacity, Modal, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Formik } from 'formik';
 import { BottomModal } from '../Components/BottomModal';
@@ -18,7 +18,7 @@ import { postProduct } from '../Api/productsApi';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { productsTagsEs, productsTagsEn} from '../Utils/ArraysProductsTags';
 import i18n from '../Utils/i18n';
-import { tags } from 'react-native-svg/lib/typescript/xml';
+
 
 const windowWidth = Dimensions.get('window').width;
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CreateProductView'>{};
@@ -64,6 +64,7 @@ export const CreateProductView = ({navigation, route}: Props) => {
             }
         }
     }
+    
 
     const isSelected = (tag: string) => {
         return selectedTags.includes(tag);
@@ -71,16 +72,12 @@ export const CreateProductView = ({navigation, route}: Props) => {
     
     const handleConfirmSelection = () => {
         setModalTagVisible(false);
-        console.log("Elementos seleccionados:", selectedTags);
     }
 
     const validationSchema = Yup.object().shape({
         productName: Yup.string().required(t('RequireField').toString()),
         price: Yup.number().moreThan(0,t('RequirePrice').toString()).required(t('RequireField').toString()),
         description: Yup.string().required(t('RequireField').toString()),
-        tags: Yup.array().test('tags', t('RequireTagSelection').toString(), (tags) => {
-            return tags && tags.length > 0;
-        }),
     });
     
     const permissions = () => {
@@ -143,6 +140,10 @@ export const CreateProductView = ({navigation, route}: Props) => {
     }
 
     const handleSubmit = async (dataProduct:Product) => {
+        if(selectedTags.length === 0){
+            Alert.alert('Alerta', 'Por favor selecciona al menos una etiqueta');
+            return;
+        }
         dataProduct.tags = selectedTags
         try{
             if(imageFlag == true){
@@ -264,15 +265,6 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            {typeof errors.tags === 'string' && (
-                                <IconWithText 
-                                    NameIcon='exclamation-circle' 
-                                    text={Array.isArray(errors.tags)? errors.tags[0] : errors.tags} 
-                                    ColorIcon={Colors.Yellow} 
-                                    IconSize={15} 
-                                    textStyle={{color: Colors.Yellow, fontSize:17}}
-                                />
-                            )}
                             <Modal
                                 animationType="slide"
                                 transparent={true}

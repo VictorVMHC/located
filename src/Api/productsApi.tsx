@@ -18,9 +18,14 @@ const putProduct = async ({ productId, updatedProduct }: { productId: string, up
     return api.put(`/api/products/${productId}`, updatedProduct);
 }
 
+const deleteProduct = (productId: string) => {
+    return api.delete(`/api/products/${productId}`);
+};
+
 
 export {
     getProductsByLocalId,
     postProduct,
-    putProduct
+    putProduct,
+    deleteProduct
 }
