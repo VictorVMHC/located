@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions, TouchableOpacity, Modal } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Formik } from 'formik';
 import { BottomModal } from '../Components/BottomModal';
@@ -7,7 +7,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { IconWithText } from '../Components/IconWithText';
 import { ZoomModal } from '../Components/ZoomModal';
 import { PermissionsContext } from '../Context/PermissionsContext';
-import { Colors } from '../Themes/Styles';
+import { Colors, FontStyles } from '../Themes/Styles';
 import { CustomAlert } from '../Components/CustomAlert';
 import { postImage } from '../Api/imageApi';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ import * as Yup from 'yup';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { postProduct } from '../Api/productsApi';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { productsTagsEs, productsTagsEn} from '../Utils/ArraysProductsTags';
+import i18n from '../Utils/i18n';
 
 const windowWidth = Dimensions.get('window').width;
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CreateProductView'>{};
@@ -25,6 +27,7 @@ export const CreateProductView = ({navigation, route}: Props) => {
     const { localId } = route.params;
     const { t } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalTagVisible, setModalTagVisible] = useState(false);
     const slideAnimation = new Animated.Value(0);
     const { height } = useWindowDimensions();
     const [enableSee, setEnableSee] = useState(false);
@@ -32,6 +35,9 @@ export const CreateProductView = ({navigation, route}: Props) => {
     const [url, setUrl] = useState('');
     const [imageFlag, setImageFlag] = useState(false);
     const {askCameraPermission } = useContext( PermissionsContext );
+    const listArray = i18n.language === 'es-MX' ? productsTagsEs : productsTagsEn;
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const textTags = selectedTags.join(',');
 
     useEffect(() => {
         if (modalVisible) {
@@ -48,11 +54,33 @@ export const CreateProductView = ({navigation, route}: Props) => {
             }).start();
         }
     }, []);
+    const handleTagSelection = (tag: string) => {
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
+        } else {
+            if (selectedTags.length < 3) {
+                setSelectedTags([...selectedTags, tag]);
+            }
+        }
+    }
+
+    const isSelected = (tag: string) => {
+        return selectedTags.includes(tag);
+    }
+    
+    const handleConfirmSelection = () => {
+        if(selectedTags.length === 0){
+            
+        }
+        setModalTagVisible(false);
+        console.log("Elementos seleccionados:", selectedTags);
+    }
 
     const validationSchema = Yup.object().shape({
         productName: Yup.string().required(t('RequireField').toString()),
         price: Yup.number().moreThan(0,t('RequirePrice').toString()).required(t('RequireField').toString()),
         description: Yup.string().required(t('RequireField').toString()),
+        tags: Yup.array().required(t('RequireField').toString()),
     });
     
     const permissions = () => {
@@ -115,6 +143,8 @@ export const CreateProductView = ({navigation, route}: Props) => {
     }
 
     const handleSubmit = async (dataProduct:Product) => {
+        console.log('esto se mandara' + selectedTags);
+        dataProduct.tags = selectedTags
         try{
             if(imageFlag == true){
                 const urlImg = await  urlCloudinary(url);
@@ -167,6 +197,7 @@ export const CreateProductView = ({navigation, route}: Props) => {
                         localId:localId,
                         price: null,
                         description: "",
+                        tags: [],
                     }}
                     onSubmit={(product)=>{handleSubmit(product)}}
                     validationSchema={validationSchema}
@@ -224,7 +255,38 @@ export const CreateProductView = ({navigation, route}: Props) => {
                             />}
                             </View>
                             <View style={StyleCreateProduct.containerTextInput}>
-                                <TouchableHighlight style={StyleCreateProduct.button} underlayColor= 'gray' onPress={handleSubmit}>
+                                <TouchableOpacity onPress={() => setModalTagVisible(true)} style={StyleCreateProduct.button}>
+                                <Text style={{color: Colors.black, fontSize: 15}}>{textTags ? textTags : 'Texto alternativo si textTags está vacío'}</Text>
+                                    <View style={{alignItems: 'flex-end', bottom: windowWidth* 0.01}}>
+                                        <Icon name='sort-down' size={30} color="black" light/>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={modalTagVisible}
+                            >
+                                <View style={StyleCreateProduct.modalContainer}>
+                                    <ScrollView style={StyleCreateProduct.modalContent}>
+                                        {listArray.map((tag: string, index) => ( 
+                                            <TouchableOpacity
+                                                key={index}
+                                                onPress={() => handleTagSelection(tag)}
+                                            >
+                                                <Text style={StyleCreateProduct.modalTag}>
+                                                    {tag} {isSelected(tag) && <Text style={{ color: Colors.greenSuccess, fontSize: 25 }}>✓</Text>}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </ScrollView>
+                                    <TouchableOpacity style={StyleCreateProduct.modalButton} onPress={handleConfirmSelection}>
+                                        <Text style={StyleCreateProduct.modalTextBtn}>{t('Confirm')}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Modal>
+                            <View style={StyleCreateProduct.containerTextInput}>
+                                <TouchableHighlight style={StyleCreateProduct.buttonSubmit} underlayColor= 'gray' onPress={handleSubmit}>
                                     <Text style={StyleCreateProduct.textButton}>{t('Create')}</Text>
                                 </TouchableHighlight>
                             </View>
@@ -332,15 +394,66 @@ const StyleCreateProduct = StyleSheet.create({
     },
     button:{
         width: windowWidth * 0.85,
-        height: windowWidth * 0.12,
-        backgroundColor: Colors.Yellow,
-        justifyContent: 'center',
-        borderRadius: 11
+        height: (windowWidth * 0.50)/3,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        borderRadius: 11,
+        flexDirection: 'row',
+        borderColor: Colors.black,
+        borderWidth: 1
     },
     textButton:{
         color: Colors.white,
         textAlign: 'center',
         fontFamily: 'Outfit.SemiBold',
         fontSize: 23
+    },
+    buttonTag: {
+        flex:1,
+    },
+    buttonView:{
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    selectedOption: {
+        ...FontStyles.Text,
+        padding: 5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        padding: 10,
+        alignItems: 'center',
+    },
+    modalContent: {
+        width: '100%',
+    },
+    modalTag:{
+        color: Colors.white,
+        textAlign: 'center',
+        fontSize: 22
+    },
+    modalButton:{
+        backgroundColor: Colors.greenSuccess,
+        width: windowWidth * 0.7,
+        height: windowWidth * 0.1,
+        borderRadius: 20,
+        justifyContent: 'center'
+    },
+    modalTextBtn:{
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: Colors.white
+    },
+    buttonSubmit:{
+        width: windowWidth * 0.85,
+        height: windowWidth * 0.12,
+        backgroundColor: Colors.Yellow,
+        justifyContent: 'center',
+        borderRadius: 11
     }
 });
