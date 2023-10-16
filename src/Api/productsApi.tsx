@@ -14,7 +14,13 @@ const getProductsByLocalId = (localId: string, page?: number, limit?: number) =>
     } );
 };
 
+const putProduct = async ({ productId, updatedProduct }: { productId: string, updatedProduct: Product }) => {
+    return api.put(`/api/products/${productId}`, updatedProduct);
+}
+
+
 export {
     getProductsByLocalId,
-    postProduct
+    postProduct,
+    putProduct
 }

@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 import { DescriptionBox } from './DescriptionBox';
 
+const windowWidth = Dimensions.get('window').width;
 interface Props {
     ProductName: string,
     Price: string,
@@ -13,11 +14,13 @@ interface Props {
     children ?: any,
     Description ?: string,
     like?: boolean,
-    action?: () => {},
+    buttonIcon?: () => void,
+    Action: () => void,
     showLike: boolean,
+    flagEdit?: boolean
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '', action, children, like = false, showLike }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -54,6 +57,13 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
             <View style={styles.ChartQualification}>
             <Icon name='star' size={20} color="#FF5C28" solid/>
             </View>
+            {!flagEdit
+                ?<View></View>
+                :<View>
+                    <TouchableOpacity onPress={()=>{Action();}}>
+                        <Icon name='edit' size={35} color={Colors.black} />
+                    </TouchableOpacity></View>
+            }
         </TouchableOpacity>
         {
             expanded &&

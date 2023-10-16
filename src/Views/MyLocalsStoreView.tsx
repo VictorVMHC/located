@@ -107,6 +107,8 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                 Img={item.img}
                 Description={item.description}
                 showLike={false}
+                flagEdit={true}
+                Action={() => navigation.navigate('EditProductView', {product: item})}
             />
         ));
     };

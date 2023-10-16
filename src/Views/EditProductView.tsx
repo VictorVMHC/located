@@ -14,18 +14,18 @@ import { useTranslation } from 'react-i18next';
 import { Product } from '../Interfaces/ProductsInterfaces'; 
 import * as Yup from 'yup';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { postProduct } from '../Api/productsApi';
+import { putProduct } from '../Api/productsApi';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { productsTagsEs, productsTagsEn} from '../Utils/ArraysProductsTags';
+import { compareProducts } from '../Utils/handleProduct';
 import i18n from '../Utils/i18n';
-import { tags } from 'react-native-svg/lib/typescript/xml';
 
 const windowWidth = Dimensions.get('window').width;
-interface Props extends NativeStackScreenProps<ViewStackParams, 'CreateProductView'>{};
+interface Props extends NativeStackScreenProps<ViewStackParams, 'EditProductView'>{};
 
 
-export const CreateProductView = ({navigation, route}: Props) => {
-    const { localId } = route.params;
+export const EditProductView = ({navigation, route}: Props) => {
+    const { product } = route.params;
     const { t } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalTagVisible, setModalTagVisible] = useState(false);
@@ -33,12 +33,14 @@ export const CreateProductView = ({navigation, route}: Props) => {
     const { height } = useWindowDimensions();
     const [enableSee, setEnableSee] = useState(false);
     const [zoomModalVisible, setZoomModalVisible] = useState(false);
-    const [url, setUrl] = useState('');
     const [imageFlag, setImageFlag] = useState(false);
     const {askCameraPermission } = useContext( PermissionsContext );
     const listArray = i18n.language === 'es-MX' ? productsTagsEs : productsTagsEn;
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const {_id, productName, price, description, tags, img}= product 
+    const [url, setUrl] = useState(img || '');
+    const [selectedTags, setSelectedTags] = useState<string[]>(tags);
     const textTags = selectedTags.join(',');
+    const isTagSelected = (tag: string) => selectedTags.includes(tag);
 
     useEffect(() => {
         if (modalVisible) {
@@ -78,9 +80,13 @@ export const CreateProductView = ({navigation, route}: Props) => {
         productName: Yup.string().required(t('RequireField').toString()),
         price: Yup.number().moreThan(0,t('RequirePrice').toString()).required(t('RequireField').toString()),
         description: Yup.string().required(t('RequireField').toString()),
-        tags: Yup.array().test('tags', t('RequireTagSelection').toString(), (tags) => {
-            return tags && tags.length > 0;
-        }),
+        tags: Yup.array()
+        .when([], (tags, schema) => {
+            return schema.test({
+                test: (value) => value && value.length > 0,
+                message: t('RequireTagSelection').toString(),
+            });
+        })
     });
     
     const permissions = () => {
@@ -143,20 +149,28 @@ export const CreateProductView = ({navigation, route}: Props) => {
     }
 
     const handleSubmit = async (dataProduct:Product) => {
+        console.log(dataProduct)
         dataProduct.tags = selectedTags
         try{
-            if(imageFlag == true){
-                const urlImg = await  urlCloudinary(url);
-                dataProduct.img = urlImg;
+            const partialProduct = compareProducts(product, dataProduct);
+            console.log(partialProduct)
+            if (Object.keys(partialProduct).length > 0) {   
+                if(imageFlag == true){
+                    const urlImg = await  urlCloudinary(url);
+                    partialProduct.img = urlImg;
+                }
+                if (_id) {
+                const dataProduct = await putProduct({productId: _id, updatedProduct: partialProduct as Product });
+                if (dataProduct.status === 200) {
+                    setImageFlag(false);
+                    CustomAlert({
+                        title: t('ProductUpdatedTitle'), 
+                        desc: t('ProductUpdated'),
+                    })
+                    return navigation.goBack();
+                }
             }
-            console.log(dataProduct);
-            const productResponse = await postProduct(dataProduct);
-            if (productResponse.status === 200) {
-                CustomAlert({
-                    title: t('UserPasswordUpdatedTitle'),
-                    desc: t('UserPasswordUpdated'),
-                })
-                return navigation.goBack();
+            } else {
             }
         }catch (error: any){
             if (error.response && error.response.status === 500) {
@@ -193,11 +207,11 @@ export const CreateProductView = ({navigation, route}: Props) => {
             <View  style={StyleCreateProduct.centerContainer}>
                 <Formik
                     initialValues={{
-                        productName:"",
-                        localId:localId,
-                        price: null,
-                        description: "",
-                        tags:[] ,
+                        _id: _id,
+                        productName: productName,
+                        price: price,
+                        description: description,
+                        tags: tags ,
                     }}
                     onSubmit={(product)=>{handleSubmit(product)}}
                     validationSchema={validationSchema}
@@ -208,8 +222,10 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                 <Text style={StyleCreateProduct.text}>{t('ProductName')}</Text>
                                 <TextInput
                                     style={StyleCreateProduct.textInput} 
+                                    placeholder={productName}
                                     onChangeText={handleChange('productName')}
                                     value={values.productName}
+                                    onEndEditing={handleSubmit}
                                 >
                                 </TextInput>
                                 {errors.productName && 
@@ -227,7 +243,9 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                     style={StyleCreateProduct.textInput}
                                     keyboardType='number-pad'
                                     value={values.price || ''}
-                                    onChangeText={handleChange('price')}>
+                                    onChangeText={handleChange('price')}
+                                    
+                                    >
                                 </TextInput>
                                 {errors.price && 
                             <IconWithText 
@@ -242,8 +260,11 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                 <Text style={StyleCreateProduct.text}>{t('ProductDescription')}</Text>
                                 <TextInput 
                                     style={StyleCreateProduct.textInput} 
+                                    placeholder={description}
                                     value={values.description}
-                                    onChangeText={handleChange('description')}>
+                                    onChangeText={handleChange('description')}
+                                    onEndEditing={handleSubmit}
+                                    >    
                                 </TextInput>
                                 {errors.description && 
                             <IconWithText 
@@ -264,15 +285,6 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            {typeof errors.tags === 'string' && (
-                                <IconWithText 
-                                    NameIcon='exclamation-circle' 
-                                    text={Array.isArray(errors.tags)? errors.tags[0] : errors.tags} 
-                                    ColorIcon={Colors.Yellow} 
-                                    IconSize={15} 
-                                    textStyle={{color: Colors.Yellow, fontSize:17}}
-                                />
-                            )}
                             <Modal
                                 animationType="slide"
                                 transparent={true}
@@ -280,14 +292,17 @@ export const CreateProductView = ({navigation, route}: Props) => {
                             >
                                 <View style={StyleCreateProduct.modalContainer}>
                                     <ScrollView style={StyleCreateProduct.modalContent}>
-                                        {listArray.map((tag: string, index) => ( 
+                                        {listArray.map((tag: string, index) => (
                                             <TouchableOpacity
                                                 key={index}
                                                 onPress={() => handleTagSelection(tag)}
                                             >
-                                                <Text style={StyleCreateProduct.modalTag}>
-                                                    {tag} {isSelected(tag) && <Text style={{ color: Colors.greenSuccess, fontSize: 25 }}>✓</Text>}
-                                                </Text>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <Text style={StyleCreateProduct.modalTag}>
+                                                        {tag}
+                                                    </Text>
+                                                    {isTagSelected(tag) && <Text style={{ color: Colors.greenSuccess, fontSize: 25 }}>✓</Text>}
+                                                </View>
                                             </TouchableOpacity>
                                         ))}
                                     </ScrollView>
@@ -337,7 +352,6 @@ const StyleCreateProduct = StyleSheet.create({
         height: windowWidth * 0.82,
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     containerEditIcon:{
         width: windowWidth * 0.12,
