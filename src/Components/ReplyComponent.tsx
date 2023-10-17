@@ -1,27 +1,76 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors } from '../Themes/Styles';
-
+import { Reply } from '../Interfaces/CommentsInterfaces';
+import { deleteLikeReply, likeReply } from '../Api/likeReplyApi';
+import { CustomAlert } from './CustomAlert';
+import { AuthContext } from '../Context/AuthContext';
 
 interface Props {
-    userImage: string,
-    userName: string,
-    reply: string,
-    like: boolean,
-    likes: number,
-    label: string,    
+    reply: Reply,
+    handleReply: (userRepliedName: string, CommentId: string, userRepliedId: string) => void,
+    deleteReplyAction: (replyId: string) => void
 }
 
-export const ReplyComponent = ({userImage, userName, reply, like, likes, label}:Props) => {
+export const ReplyComponent = ({reply, handleReply, deleteReplyAction}:Props) => {
     const { t } = useTranslation();
-    const [liked, setLike] = useState(like);
+    const {userRepliedId, replied, userId, likes, liked, label, _id, commentId} = reply;
+    const {user} = useContext( AuthContext )
 
-    const isLiked = () => {
-        setLike(!like);
+    const [like, setLike] = useState(liked);
+    const [likeCountState, setLikeCountState ] = useState(likes);
+    const [ likeable, setLikeable ] = useState(true);
+
+    const handleReplyTo = () => {
+        handleReply(userId.name, commentId, userId._id);
     }
+    const checkLike = () => {
+    
+        if(likeable === false){
+            return;
+        }
 
+        if (!like) {
+            setLikeable(false);
+            console.log(_id);
+            
+            likeReply(_id)
+            .then(() => {
+                console.log('holaaa');
+                
+                setLikeCountState(likeCountState + 1);
+                setLike(true);
+                setTimeout(() => {
+                    setLikeable(true);
+                }, 5000); 
+            })
+            .catch(() => {
+                CustomAlert({
+                    title: 'Error',
+                    desc: 'Was not possible to un like the comment'
+                })
+            });
+
+        } else {
+            deleteLikeReply(_id)
+            .then(() => {
+                setLikeCountState(likeCountState - 1);
+                setLike(false);
+            })
+            .catch(() => {
+                CustomAlert({
+                    title: 'Error',
+                    desc: 'Was not possible to like the comment'
+                })
+            });
+        }
+    };
+
+    const handleDeleteReply = () => {
+        deleteReplyAction(_id);
+    }
     return (
         <View style={styles.container} >
             <View
@@ -38,27 +87,40 @@ export const ReplyComponent = ({userImage, userName, reply, like, likes, label}:
                     <Image
                         resizeMode='cover'
                         style={styles.Img}
-                        source={{uri: userImage}}
+                        source={{uri: userId.image}}
                     />
                 </View>
-                <View style={{width: '75%'}}>
-                    <Text style={styles.Name}>{userName}</Text>
+                <View style={{width: '75%', justifyContent: 'center',  alignContent: 'center'}}>
+                    <View style={{flexDirection: 'row', width: '100%'}}>
+                        <Text style={styles.Name} ellipsizeMode='middle' adjustsFontSizeToFit >{(userId.name.length / 2 < 10 ? userId.name : userId.name.substring(0,userId.name.length / 2 ) + '...' )} <Icon name='chevron-right' light color={'red'}/> {(userRepliedId.name.length / 2 < 10 ? userRepliedId.name : userRepliedId.name.substring(0,userRepliedId.name.length / 2) + '...' )} </Text>
+                    </View>
                     <View style={styles.ContainerText}>
-                        <Text style={styles.TextComment}>{reply}</Text>
+                        <Text style={styles.TextComment}>{replied}</Text>
                     </View>
                 </View>
                 <View style={{width: '10%', alignItems: 'center', justifyContent: 'center'}} >
-                    <TouchableOpacity onPress={()=> isLiked }>
-                        <Icon name='thumbs-up' size={20} color={!liked ? Colors.black : Colors.Yellow} />                    
+                    <TouchableOpacity onPress={ checkLike }>
+                        <Icon name='thumbs-up' size={20} color={!like ? Colors.black : Colors.Yellow} />                    
                     </TouchableOpacity>
-                    <Text style={{color: 'black'}}>{likes}</Text>
+                    <Text style={{color: 'black'}}>{likeCountState}</Text>
                 </View>
             </View>
             <TouchableOpacity 
                 style={{margin: 5, alignSelf: 'flex-end' }} 
-                onPress={()=> console.log('hola')} 
+                onPress={ handleReplyTo } 
             >
-                <Text style={{color: Colors.black}}>{t('Reply')} to {userName}</Text>
+                {
+                    user?._id === userId._id  
+                    ?   <TouchableOpacity 
+                            style={{margin: 5, alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} 
+                            onPress={handleDeleteReply} 
+                        >
+                            <Text style={{color: Colors.black, marginRight: 5 }}>Delete</Text>
+                            <Icon name='trash' color={'red'}/>
+                        </TouchableOpacity>
+                    : null
+                }
+                <Text style={{color: Colors.black}}>{t('Reply')} to {(userId.name.length / 2 < 15 ? userId.name : userId.name.substring(0,userId.name.length / 2) + '...' )}</Text>
             </TouchableOpacity>
         </View>
     )

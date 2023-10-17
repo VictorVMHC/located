@@ -1,11 +1,11 @@
 import api from "./api";
 
-const likeComment = (commentId: string, userId: string ) => {
-    return api.post('/api/like/comment/',  {commentId, userId} );
+const likeComment = (commentId: string ) => {
+    return api.post('/api/like/comment/',  {commentId} );
 }
 
-const deleteLikeComment = (id: string) => {
-    const route =  `/api/like/comment/${id}`;
+const deleteLikeComment = (commentId: string) => {
+    const route =  `/api/like/comment/${commentId}`;
     return api.delete(route);
 }
 

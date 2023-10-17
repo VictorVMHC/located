@@ -22,7 +22,6 @@ export const LocalsView = ({navigation}:Props) => {
     const [userLocals, setUserLocals] = useState([]);
     const [error, setError] = useState(false);
     const {width, height} = useWindowDimensions();
-    console.log(user?.image);
     
     useFocusEffect(
         React.useCallback(() => {
@@ -61,7 +60,7 @@ export const LocalsView = ({navigation}:Props) => {
                         source={(user?.image !== undefined && user?.image !== '' ) ? { uri: user?.image } : require('../Assets/Images/Img_User.png')}
                     />
                 </View>
-                <View style={{height: '55%', backgroundColor: 'blue', padding: 5, alignItems: 'center'}}>
+                <View style={{height: '55%', padding: 5, alignItems: 'center'}}>
                     <Text style={styles.textNameUser}>{user?.name}</Text>
                     <Text style={styles.textEmailUser}>{user?.email}</Text>
                     <Text style={{...FontStyles.Title, justifyContent: 'center'}} >My locals</Text>
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderBottomColor: Colors.Yellow,
         borderRadius: 20,
-        backgroundColor: 'red',
     },
     bottomContainer: {
         flex: 6,

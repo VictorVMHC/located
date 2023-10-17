@@ -4,58 +4,45 @@ import { useTranslation } from 'react-i18next';
 import { Image, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { addComment, getCommentsByLocalId } from '../Api/commentsApi';
+import { addComment, deleteComment, getCommentsByLocalId } from '../Api/commentsApi';
 import { ContainerComment } from '../Components/ContainerComment';
 import { CustomAlert } from '../Components/CustomAlert';
 import { AuthContext } from '../Context/AuthContext';
-import { Comment } from '../Interfaces/CommentsInterfaces';
+import { Comment, Reply } from '../Interfaces/CommentsInterfaces';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Colors, FontStyles } from '../Themes/Styles';
 import { CommentsAlertView } from './CommentsAlertView';
+import { addReply } from '../Api/repliesApi';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'CommentsView'>{};
 
 export const CommentsView = ({ navigation, route }: Props) => {
     const { localId } = route.params;
-    const {t} = useTranslation();
-    const [receivedValue, setReceivedValue] = useState(0);
+
+    const { t } = useTranslation();
+
+    const { user } = useContext(AuthContext);
     const inputRef = useRef<TextInput>(null);
-    const [comment, setComment] = useState('');
-    const [textInputHeight, setTextInputHeight] = useState(0);
-    const [isKeyboardOpen, setKeyboardOpen] = useState(false);
-    const [buttonLocked, setButtonLocked] = useState(false);
-    const [ comments, setComments ] = useState<Comment[]>([])
+    const [ textInputHeight, setTextInputHeight] = useState(0);
+    const [ isKeyboardOpen, setKeyboardOpen] = useState(false);
+    const [ buttonLocked, setButtonLocked] = useState(false);
+
+    const [ comment, setComment] = useState('');
+    const [ comments, setComments ] = useState<Comment[]>([]);
     const [ page, setPage ] = useState(1);
     const [ totalPages, setTotalPages ] = useState(1);
     const [ fetching, setFetching ] = useState(false);
-    const { user } = useContext(AuthContext);
-    const [haveComments, setHaveComments ] = useState(true);
+    const [ haveComments, setHaveComments ] = useState(true);
+
     const [ sending, setSending ] = useState(false);
 
-    const handleKeyboardDidShow = () => {
-        setComment('');
-        setButtonLocked(true);
-        setKeyboardOpen(true);
-    };
-
-    const handleKeyboardDidHide = () => {
-        setReceivedValue(0);
-        Keyboard.dismiss();
-        setButtonLocked(false);
-        setKeyboardOpen(false);
-    };
-
-    useEffect(() => {        
-        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
-        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-        return () =>{
-            keyboardDidHideListener.remove();
-            keyboardDidShowListener.remove();
-        }
-    }, []);
+    const [ isReplying, setIsReplying ] = useState(false);
+    const [ replyCommentId, setReplyCommentId ] = useState("");
+    const [ commentReplies, setCommentReplies ] = useState<{ [commentId: string]: Reply[] }>({});
+    const [ userRepliedId, setUserRepliedId ] = useState("");
+    const [ userRepliedName, setUserRepliedName ] = useState("");
 
     const fetchComments = () => {
-
         if(page > totalPages || fetching || !haveComments){
             return;
         }
@@ -105,39 +92,54 @@ export const CommentsView = ({ navigation, route }: Props) => {
     const handleLoadMore = () => {
         fetchComments();
     }
-
     
-    const handleChildCallback = (value: number) => {
-        setReceivedValue(value);
+    const handleReplyComment = (userName: string, CommentId: string, userRepliedId: string) => {
+        setComment("");
+        setIsReplying(true);
+        setReplyCommentId(CommentId);
+        setUserRepliedName(userName);
+        setUserRepliedId(userRepliedId);
+        setComment(`${userName}: `);            
         inputRef.current?.focus();
     };
     
-    const placeholderValue: any = receivedValue !== 0 ? receivedValue : "Add Comment";
-    
-    const renderHeader = () => {
-        return (
-            <View style={StylesCommentsView.containerText}>
-                <Text style={{ ...StylesCommentsView.TextComments, ...FontStyles.SubTitles }}>
-                    {t('Comments')}
-                </Text>
-                {
-                    fetching && <ActivityIndicator color={Colors.blueAqua} size={'small'}/>
-                }
-            </View>
-        );
+    const placeholderValue: any = comment !== "" ? comment : "Add Comment";
+
+    const handleDeleteComment = (id: string) => {
+        deleteComment(id)
+        .then(() => {            
+            const filteredArray = comments.filter(item => item._id !== id);
+
+            setComments([...filteredArray]);
+        })
+        .catch(() => {
+            CustomAlert({
+                title: 'Error',
+                desc: 'Was not possible to delete your comment'
+            })
+        })
     }
 
     const renderComment: ListRenderItem<Comment> = useMemo(() => {
         return ({ item }) => (
             <ContainerComment
                 commentItem={item}
+                deleteAction={handleDeleteComment}
                 blocking={buttonLocked}
                 onCallback={() => {
                     console.log("hello");
                 }}
+                replies={commentReplies[item._id] || []}
+                setReplies={(commentId, updatedReplies: Reply[]) => {
+                    setCommentReplies((prevReplies) => ({
+                        ...prevReplies,
+                        [commentId]: updatedReplies,
+                    }));
+                }}
+                handleReply={handleReplyComment}
             />
         );
-    }, [buttonLocked]);
+    }, [handleDeleteComment, comments]);
 
     const getKey = useMemo(() => {
         return (item: Comment) => item._id;
@@ -151,8 +153,7 @@ export const CommentsView = ({ navigation, route }: Props) => {
         return (data: Comment[], item: number) => data[item];
     }, []);
 
-    const sendComment  = () => {
-        setSending(true);
+    const handleSendComment = () => {
         addComment(localId, comment )
         .then((response: any) => {
             const newComment = {
@@ -183,6 +184,70 @@ export const CommentsView = ({ navigation, route }: Props) => {
         })
     }
 
+    const handleSendReply = () => {
+        console.log('in send reply');
+        console.log(userRepliedId);
+        
+
+        addReply(replyCommentId, userRepliedId, comment )
+        .then((response: any) => {
+            const newReply = {
+                ...response.data.replyResponse, 
+                likes: 0, 
+                liked: false, 
+                countReplies: 0, 
+                userId: { 
+                    _id: response.data.replyResponse.userId, 
+                    name: user?.name, 
+                    image: user?.image
+                },
+                userRepliedId: {
+                    _id: userRepliedId,
+                    name: userRepliedName
+                }
+
+            };
+            const updatedReplies = commentReplies[replyCommentId] || [];
+                updatedReplies.push(newReply);
+            setCommentReplies((prevReplies) => {
+                return {
+                    ...prevReplies,
+                    [replyCommentId]: updatedReplies
+                };
+            });
+
+            setComment('');
+            console.log(commentReplies);
+            
+            console.log(' all ok');
+            Keyboard.dismiss();
+            console.log(commentReplies);
+            
+        })
+        .catch(() => {
+            CustomAlert({
+                title: "Reply not Delivery",
+                desc: "Try to send again your reply"
+            });
+        })
+        .finally(() => {
+            console.log('finished');
+            setComment('');
+            setUserRepliedId('');
+            setIsReplying(false);
+            setReplyCommentId("");
+            setUserRepliedName('');
+            setSending(false);
+        })
+    }
+
+    const send  = () => {
+        setSending(true);
+        console.log(isReplying);
+        
+        isReplying ? handleSendReply() : handleSendComment();
+    }
+    
     return (
         <KeyboardAvoidingView style={StylesCommentsView.container}>
                 <View style={StylesCommentsView.containerText}>
@@ -215,21 +280,24 @@ export const CommentsView = ({ navigation, route }: Props) => {
                             />
                     </View>
                     <View style={{...StylesCommentsView.containerTextComment, height: Math.max(35, textInputHeight)}}>
-                        <TextInput
-                            ref={inputRef}  
-                            style={{...StylesCommentsView.textInput, height: Math.max(35, textInputHeight) }}  
-                            placeholder={placeholderValue} 
-                            placeholderTextColor={Colors.black}  
-                            value={comment} 
-                            onChange={({nativeEvent: { text }}) => setComment(text)} 
-                            maxLength={256} 
-                            multiline
-                            onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)}
-                        >
-                        </TextInput>
+                    <TextInput
+                        ref={inputRef}  
+                        style={{ ...StylesCommentsView.textInput, height: Math.max(35, textInputHeight) }}  
+                        placeholder={placeholderValue} 
+                        placeholderTextColor={Colors.black}  
+                        onChange={({ nativeEvent: { text } }) => setComment(text)}
+                        maxLength={256} 
+                        multiline
+                        onContentSizeChange={(event) => setTextInputHeight(event.nativeEvent.contentSize.height)}
+                    >
+                        <Text>
+                            <Text style={{ color: Colors.blueAqua }}>{userRepliedName}</Text>
+                            {comment.substring(userRepliedName.length)}
+                        </Text>
+                    </TextInput>
                         {comment !== '' && (
                             <TouchableOpacity 
-                                onPress={sendComment}
+                                onPress={send}
                             >
                                 {   sending 
                                     ?   <ActivityIndicator color={Colors.Yellow} />
