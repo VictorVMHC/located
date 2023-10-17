@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react'
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, ScrollViewProps, StyleSheet, Text, View, Button } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, ScrollViewProps, StyleSheet, Text, View, Button, Dimensions } from 'react-native';
 import { CardCatalogue } from '../Components/CardCatalogue';
 import { ImgBusiness } from '../Components/ImgBusiness';
 import MapView, { Marker } from 'react-native-maps';
@@ -15,8 +15,10 @@ import { CreateProductAlertView } from './CreateProductAlertView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { ModalUpdateLocal } from '../Components/ModalUpdateLocal';
 
 
+const windowWidth = Dimensions.get('window').width;
 interface Props extends NativeStackScreenProps<ViewStackParams, 'MyLocalsStoreView'>{};
 
 export const MyLocalsStoreView = ({navigation, route}: Props) => {
@@ -27,7 +29,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [ isLoadingMore, setIsLoadingMore ] = useState(false);
     const [ haveProducts, setHaveProducts ] = useState(true);
     const { width ,height } = useWindowDimensions();
-    const [refreshLocalView, setRefreshLocalView] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const {name, description, uriImage, _id, address, isVerify, country, state, town, 
             postalCode, contact, schedules, rate, quantityRate, tags, location, open , businessType} = local
@@ -35,12 +37,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
-
-    useEffect(() => {
-        if(refreshLocalView){
-            setRefreshLocalView(false);
-        }
-    },[refreshLocalView]);
+    const [updateListProducts, setUpdateListProducts] = useState(false);
     
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -78,7 +75,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
             if(err.response.status === 404){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the local products, ¡Please try again!",
+                    desc: "Was not possible to retrieve the local products, ¡Please try again2!",
                     action: () =>  setHaveProducts(false)
                 });
             }
@@ -95,15 +92,22 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         const refreshedList = navigation.addListener('focus', () => {
-            if(productsList.length !== 0 && page >= totalPage){
+            if (productsList.length !== 0 && page >= totalPage) {
                 return;
             }
             fetchProducts();
         });
         return refreshedList;
-    }, [navigation])
+    }, [navigation]);
+    
+    useEffect(() => {
+        if (updateListProducts) {
+            fetchProducts();
+            setUpdateListProducts(false);
+        }
+    }, [updateListProducts]);
 
     const renderProductList = () => {
         return productsList.map((item) => (
@@ -116,8 +120,8 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                 showLike={false}
                 flagEdit={true}
                 productId={item._id}
-                setRefreshedList={setRefreshLocalView}
                 Action={() => navigation.navigate('EditProductView', {product: item})}
+                setUpdateListProducts={setUpdateListProducts} 
             />
         ));
     };
@@ -136,11 +140,24 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                         Img = {uriImage}
                         open = {false}
                         like = {false}
+                        editButton = {true}
                     />
                     <View style={StylesStore.valuesText}>
                         <Text style={StylesStore.textName}>{name}</Text>
                         <Text style={{...StylesStore.textInformation}}>{businessType}</Text>
                         <Text style={{...StylesStore.textInformation}}>{town}({country})</Text> 
+                        <View style={StylesStore.buttonOpen}>
+                            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                                <Icon name='edit' size={25}  light color={Colors.black}/>
+                            </TouchableOpacity>
+                        </View>
+                        <ModalUpdateLocal
+                            flagValue={'1'}
+                            _id= {_id}
+                            name={name}
+                            isVisible={isModalVisible}
+                            onClose={() => setIsModalVisible(false)}
+                        />
                     </View>
                 </View>
                 <View style={StylesStore.tobBar}>
@@ -219,6 +236,11 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                                 text= {contact['Whatsapp'].info}
                             />
                         }
+                        <View style={StylesStore.buttonOpen}>
+                            <TouchableOpacity>
+                                <Icon name='edit' size={25}  light color={Colors.black}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                         <View style={StylesStore.containerList} ref={catalogueRef}>
                             {haveProducts 
@@ -262,7 +284,8 @@ const StylesStore = StyleSheet.create({
     },
     valuesText:{
         paddingLeft: 10,
-        marginBottom: 15
+        marginBottom: 15,
+        backgroundColor: 'pink'
     },
     textInformation:{
         fontWeight: '500',
@@ -284,5 +307,15 @@ const StylesStore = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5
-    }
+    },
+    buttonOpen: {
+        width: windowWidth*0.12,
+        height: windowWidth*0.12,
+        borderRadius: 30,
+        position: 'absolute',
+        bottom: windowWidth*-0.020, 
+        left: windowWidth* 0.87, 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

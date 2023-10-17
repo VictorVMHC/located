@@ -2,8 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { FontStyles } from '../Themes/Styles';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ViewStackParams } from '../Navigation/MainStackNavigator';
 import { Local } from '../Interfaces/DbInterfaces';
 
 interface Props{

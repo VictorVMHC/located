@@ -21,11 +21,11 @@ interface Props {
     Action: () => void,
     showLike: boolean,
     flagEdit?: boolean,
-    setRefreshedList?: (newValue: boolean) => void,
-    productId?: string
+    productId?: string,
+    setUpdateListProducts: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, setRefreshedList }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, setUpdateListProducts }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -40,12 +40,12 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
 
     const deleteProducts = async (id: string) => {
         const product = await deleteProduct(id);
-        setRefreshedList(true)
         if(product.status === 200){
             CustomAlert({
                 title: t('UserPasswordUpdatedTitle'),
                 desc: t('UserPasswordUpdated'),
-            })
+            });
+            setUpdateListProducts(true); 
         }
     }
 
