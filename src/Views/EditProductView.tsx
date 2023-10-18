@@ -73,7 +73,6 @@ export const EditProductView = ({navigation, route}: Props) => {
     
     const handleConfirmSelection = () => {
         setModalTagVisible(false);
-        console.log("Elementos seleccionados:", selectedTags);
     }
 
     const validationSchema = Yup.object().shape({
@@ -176,7 +175,7 @@ export const EditProductView = ({navigation, route}: Props) => {
             if (error.response && error.response.status === 500) {
                 CustomAlert({
                     title: "Error",
-                    desc: "An error occurred while trying to find popular locals"
+                    desc: t('ProductUpdatedError'),
                 });
             } else {
                 CustomAlert({
@@ -197,6 +196,7 @@ export const EditProductView = ({navigation, route}: Props) => {
                         <Image
                             style={StyleCreateProduct.img}
                             source={url !== '' ? { uri: url } : require('../Assets/Images/No_Image.png')}
+                            resizeMode="cover"
                         />
                     </View>
                         <TouchableHighlight  style={StyleCreateProduct.containerEditIcon} underlayColor="lightgray" onPress={permissions}>
@@ -242,7 +242,7 @@ export const EditProductView = ({navigation, route}: Props) => {
                                 <TextInput 
                                     style={StyleCreateProduct.textInput}
                                     keyboardType='number-pad'
-                                    value={values.price || ''}
+                                    value={(typeof values.price === 'number' ? values.price.toString() : '')} 
                                     onChangeText={handleChange('price')}
                                     
                                     >
@@ -307,13 +307,13 @@ export const EditProductView = ({navigation, route}: Props) => {
                                         ))}
                                     </ScrollView>
                                     <TouchableOpacity style={StyleCreateProduct.modalButton} onPress={handleConfirmSelection}>
-                                        <Text style={StyleCreateProduct.modalTextBtn}>{t('Confirm')}</Text>
+                                        <Text style={StyleCreateProduct.modalTextBtn}>{t('ConfirmTagBtn')}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </Modal>
                             <View style={StyleCreateProduct.containerTextInput}>
                                 <TouchableHighlight style={StyleCreateProduct.buttonSubmit} underlayColor= 'gray' onPress={handleSubmit}>
-                                    <Text style={StyleCreateProduct.textButton}>{t('Create')}</Text>
+                                    <Text style={StyleCreateProduct.textButton}>{t('Update')}</Text>
                                 </TouchableHighlight>
                             </View>
                         </View>

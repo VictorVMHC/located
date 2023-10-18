@@ -16,6 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ModalUpdateLocal } from '../Components/ModalUpdateLocal';
+import { t } from 'i18next';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -75,14 +76,14 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
             if(err.response.status === 404){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the local products, ¡Please try again2!",
+                    desc: t('ProductsListError'),
                     action: () =>  setHaveProducts(false)
                 });
             }
             if(err.response.status === 500){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the local products, ¡Please try again!"
+                    desc: t('ProductsListError2'),
                 });
             }
             setTotalPage(0);

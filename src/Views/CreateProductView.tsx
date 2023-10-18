@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions, TouchableOpacity, Modal, Alert } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableHighlight, View, ScrollView, Animated, useWindowDimensions, TouchableOpacity, Modal} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Formik } from 'formik';
 import { BottomModal } from '../Components/BottomModal';
@@ -141,7 +141,10 @@ export const CreateProductView = ({navigation, route}: Props) => {
 
     const handleSubmit = async (dataProduct:Product) => {
         if(selectedTags.length === 0){
-            Alert.alert('Alerta', 'Por favor selecciona al menos una etiqueta');
+            CustomAlert({
+                title: t('AlertSelectTagTitle'),
+                desc: t('AlertSelectTagInfo'),
+            })
             return;
         }
         dataProduct.tags = selectedTags
@@ -154,21 +157,21 @@ export const CreateProductView = ({navigation, route}: Props) => {
             const productResponse = await postProduct(dataProduct);
             if (productResponse.status === 200) {
                 CustomAlert({
-                    title: t('UserPasswordUpdatedTitle'),
-                    desc: t('UserPasswordUpdated'),
+                    title: t('ProductCreatedTitle'),
+                    desc: t('ProductCreatedInfo'),
                 })
                 return navigation.goBack();
             }
         }catch (error: any){
             if (error.response && error.response.status === 500) {
                 CustomAlert({
-                    title: "Error",
-                    desc: "An error occurred while trying to find popular locals"
-                });
-            } else {
-                CustomAlert({
-                    title: "Error",
-                    desc: 'Error: ' + error.message
+                    title: t('Error'),
+                    desc: t('ProductCreatedError'),
+            })
+            }else {
+                    CustomAlert({
+                        title: "Error",
+                        desc: 'Error: ' + error.message
                 });
             }
         }
@@ -184,6 +187,7 @@ export const CreateProductView = ({navigation, route}: Props) => {
                         <Image
                             style={StyleCreateProduct.img}
                             source={url !== '' ? { uri: url } : require('../Assets/Images/No_Image.png')}
+                            resizeMode="cover"
                         />
                     </View>
                         <TouchableHighlight  style={StyleCreateProduct.containerEditIcon} underlayColor="lightgray" onPress={permissions}>
@@ -226,6 +230,7 @@ export const CreateProductView = ({navigation, route}: Props) => {
                                 <Text style={StyleCreateProduct.text}>{t('price')}</Text>
                                 <TextInput 
                                     style={StyleCreateProduct.textInput}
+                                    placeholder='50'
                                     keyboardType='number-pad'
                                     value={values.price || ''}
                                     onChangeText={handleChange('price')}>

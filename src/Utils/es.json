@@ -177,6 +177,21 @@
     "RequirePrice":"El precio debe de ser mayor a 0",
     "Tag": "Categoria",
     "CreateProductTitle": "Creación del producto",
-    "Image":"Imagen del producto"
+    "Image":"Imagen del producto",
+    "ConfirmTagBtn": "Confirmar",
+    "AlertSelectTagTitle": "Alerta de etiqueta",
+    "AlertSelectTagInfo": "Por favor selecciona al menos una etiqueta",
+    "ProductCreatedError": "Se produjo un error al intentar crear su producto",
+    "ProductCreatedTitle": "Producto creado",
+    "ProductCreatedInfo": "Tu producto fue creado exitosamente",
+    "ProductUpdatedTitle": "Producto actualizado",
+    "ProductUpdated": "Tu producto fue actualizado exitosamente",
+    "ProductUpdatedError": "Se produjo un error al intentar actualizar su producto",
+    "ProductsListError": "No fue posible cargar los productos del los locales. ¡Por favor, inténtalo de nuevo!",
+    "ProductsListError2": "Ha ocurrido un error interno del servidor. ¡Por favor, inténtalo de nuevo!",
+    "NoLocalsFound": "Ningun local fue encontrado",
+    "NoLocalsFoundInfo": "No fue posible cargar tus locales. ¡Por favor, inténtalo de nuevo!",
+    "ProductDeletedTitle": "Producto eliminado",
+    "ProductDeleted": "tu producto ha sido eliminado exitosamente"
   }
 }

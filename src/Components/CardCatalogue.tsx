@@ -42,8 +42,8 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
         const product = await deleteProduct(id);
         if(product.status === 200){
             CustomAlert({
-                title: t('UserPasswordUpdatedTitle'),
-                desc: t('UserPasswordUpdated'),
+                title: t('ProductDeletedTitle'),
+                desc: t('ProductDeleted'),
             });
             setUpdateListProducts(true); 
         }

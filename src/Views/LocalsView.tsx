@@ -11,6 +11,7 @@ import { CardLocalView } from '../Components/CardLocalView';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
+import { t } from 'i18next';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -43,8 +44,8 @@ export const LocalsView = ({navigation}:Props) => {
         .catch(() => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             CustomAlert({
-                title: 'No locals were found',
-                desc: 'Was not possible to retrieve your locals. Please try again!'
+                title: t('NoLocalsFound'),
+                desc: t('NoLocalsFoundInfo')
             });
             setError(true);
             setLoading(false);
@@ -58,6 +59,7 @@ export const LocalsView = ({navigation}:Props) => {
                     <Image
                         style={styles.img}
                         source={(user?.image !== undefined && user?.image !== '' ) ? { uri: user?.image } : require('../Assets/Images/Img_User.png')}
+                        resizeMode="cover"
                     />
                 </View>
                 <View style={{height: '55%', padding: 5, alignItems: 'center'}}>
