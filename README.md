@@ -65,7 +65,7 @@ If you are having, because the BASE_URL is not updating, try this
 | 27017 | Mongo db (in docker compose)     | MongodB        |
 | 8082  | Located                          | Metro          |
 
-# Diagrama Google
+# Diagram Google
 
 ```mermaid
 sequenceDiagram
@@ -87,3 +87,4 @@ sequenceDiagram
 
 
 
+```
