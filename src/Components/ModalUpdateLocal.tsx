@@ -23,7 +23,6 @@ interface Props {
 }
 
 export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, onUpdate }: Props) {
-    let modalContent;
 
     const urlCloudinary = async (image: string) => {
         try{
@@ -89,11 +88,11 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                         town: local.town ||'',
                         postalCode: local.postalCode ||'',
                         contact: {
-                            Facebook: { info: local.contact.Facebook.info || '' },
-                            Email: { info: local.contact.Email.info ||  '' },
-                            Instagram: { info: local.contact.Instagram.info ||  '' },
+                            Facebook: { info: (local.contact && local.contact.Facebook && local.contact.Facebook.info) ||  '' },
+                            Email: { info: (local.contact && local.contact.Email && local.contact.Email.info) ||  '' },
+                            Instagram: { info: (local.contact && local.contact.Instagram && local.contact.Instagram.info) ||  ''},
                         /* webPageInfo : { info:local.contact['Web page'] ? local.contact['Web page'].info :'' },*/
-                            Whatsapp: { info: local.contact.Whatsapp.info ||  '' },
+                            Whatsapp: { info: (local.contact && local.contact.Whatsapp && local.contact.Whatsapp.info) ||  '' },
                         },
                         schedules: local.schedules || [],
                         rate: local.rate ||0,

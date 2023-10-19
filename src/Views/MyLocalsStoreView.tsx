@@ -154,6 +154,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                 setProductsList([...productsList, ...products]);
                 setTotalPage(totalPages);
             }
+            
         }catch(err: any){
             
             if(err.response.status === 404){

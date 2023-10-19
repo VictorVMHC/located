@@ -12,7 +12,6 @@ interface Props {
 
 export const ThereAreNoLocals = ({text, information, range}:Props) => {
     const {height, width} = useWindowDimensions();
-    const {t} = useTranslation();
     return (
         <View style={styles.container}>
             <View style={{...styles.boxImg, width: width * 0.8,  height: height * 0.69,}}>
