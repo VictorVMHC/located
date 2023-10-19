@@ -202,6 +202,15 @@
     "AddressData": "Datos de Dirección",
     "Address": "Dirección",
     "State": "Estado",
-    "Contacts": "Contacto y redes sociales"
+    "Contacts": "Contacto y redes sociales",
+    "ErrorNoProductsInfoStoreView": "Was not possible to retrieve the local products, ¡Please try again!",
+    "ErrorNoProductsInfoStoreView2": "Was not possible to retrieve the local products",
+    "ThereAreNoProducts": "No hay productos",
+    "ThereAreNoProductsInfo": "Por el momento el local no tiene productos",
+    "NoLocalHasBeenFound": "No se ha encontrado local",
+    "NoLocalHasBeenFoundInfo": "Al parecer no se pudo encontrar ningún local en el rango de",
+    "NoPopularLocalHasBeenFound": "No se ha encontrado ningún local",
+    "NoPopularLocalInfo":"Al parecer no se pudo encontrar ningún local calificado por tu zona",
+    "ErrorPopularLocalInfo": "Se produjo un error al intentar encontrar locales populares"
   }
 }

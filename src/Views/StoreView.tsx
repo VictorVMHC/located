@@ -12,6 +12,7 @@ import { Product } from '../Interfaces/ProductsInterfaces';
 import { CustomAlert } from '../Components/CustomAlert';
 import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
 import { ViewStackParams } from '../Navigation/MainStackNavigator';
+import { t } from 'i18next';
 
 interface Props extends NativeStackScreenProps<ViewStackParams, 'StoreView'>{};
 
@@ -84,14 +85,14 @@ export const StoreView = ({navigation, route}: Props) => {
             if(err.response.status === 404){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the local products, ¡Please try again!",
+                    desc: t('ErrorNoProductsInfoStoreView'),
                     action: () =>  setHaveProducts(false)
                 });
             }
             if(err.response.status === 500){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the local products, ¡Please try again!"
+                    desc: t('ErrorNoProductsInfoStoreView2')
                 });
             }
             setTotalPage(0);
@@ -225,7 +226,7 @@ export const StoreView = ({navigation, route}: Props) => {
                     <View style={StylesStore.containerList} ref={catalogueRef}>
                             {haveProducts 
                                 ? renderProductList()
-                                : <ThereAreNoLocals text={'No hay productos'} information={'El local en cuestión no cuenta con productos en el momento'}/>
+                                : <ThereAreNoLocals text={`${t('ThereAreNoProducts')}`} information={`${t('ThereAreNoProductsInfo')}`}/>
                             }
                     </View>
                 </View>

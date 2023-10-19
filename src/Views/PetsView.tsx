@@ -8,6 +8,7 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
 import { PetsTags } from '../Utils/ArraysTags';
 import { fetchData } from '../Utils/FetchFunctions';
+import { t } from 'i18next';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -45,13 +46,13 @@ export const PetsView = ({kilometers, latitude, longitude, setFoodViewValue}:Pro
             if(error.response.status === 404){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                    desc: t('ErrorNoProductsInfoStoreView'),
                 });
             }
             if(error.response.status === 500){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the locals, ¡Please try again!"
+                    desc: t('ErrorNoProductsInfoStoreView2')
                 });
             }
             setTotalPage(0);
@@ -88,8 +89,8 @@ export const PetsView = ({kilometers, latitude, longitude, setFoodViewValue}:Pro
         <SafeAreaView style={styles.container}>
             {noLocalsFound ? (
                 <ThereAreNoLocals
-                text={'No se ha encontrado ningún local'}
-                information={'Al parecer no se pudo encontrar ningún local en el rango de'}
+                text={`${t('NoLocalHasBeenFound')}`} 
+                information={`${t('NoLocalHasBeenFoundInfo')}`}
                 range={dataRange().toString()}
                 />
             ):(

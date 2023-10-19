@@ -9,6 +9,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
 import { CustomAlert } from '../Components/CustomAlert';
 import { AuthContext } from '../Context/AuthContext';
+import { t } from 'i18next';
 interface Props {
     kilometers: number;
     latitude: number,
@@ -48,13 +49,13 @@ export const BusinessView = ({kilometers, latitude, longitude, setFoodViewValue}
             if(error.response.status === 404){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the locals, ¡Please try again!",
+                    desc: t('ErrorNoProductsInfoStoreView'),
                 });
             }
             if(error.response.status === 500){
                 CustomAlert({
                     title: "Error",
-                    desc: "Was not possible to retrieve the locals, ¡Please try again!"
+                    desc: t('ErrorNoProductsInfoStoreView2')
                 });
             }
             setTotalPage(0);
@@ -91,8 +92,8 @@ export const BusinessView = ({kilometers, latitude, longitude, setFoodViewValue}
         <SafeAreaView style={styles.container}>
             {noLocalsFound? (
                 <ThereAreNoLocals
-                text={'No se ha encontrado ningún local'}
-                information={'Al parecer no se pudo encontrar ningún local en el rango de'}
+                text={`${t('NoLocalHasBeenFound')}`} 
+            information={`${t('NoLocalHasBeenFoundInfo')}`}
                 range={dataRange().toString()}
                 />
             ):(

@@ -9,6 +9,7 @@ import { Local } from '../Interfaces/DbInterfaces';
 import { ThereAreNoLocals } from './ThereAreNoLocals';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { CustomAlert } from './CustomAlert';
+import { t } from 'i18next';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -34,7 +35,7 @@ export const PopularLocals = ({navigation}:Props) => {
             if (error.response && error.response.status === 500) {
                 CustomAlert({
                     title: "Error",
-                    desc: "An error occurred while trying to find popular locals"
+                    desc: t('ErrorPopularLocalInfo')
                 });
             } else {
                 CustomAlert({
@@ -54,7 +55,7 @@ export const PopularLocals = ({navigation}:Props) => {
             if (error.response && error.response.status === 500) {
                 CustomAlert({
                     title: "Error",
-                    desc: "An error occurred while trying to find popular locals"
+                    desc: t('ErrorPopularLocalInfo2')
                 });
             } else {
                 CustomAlert({
@@ -87,8 +88,8 @@ export const PopularLocals = ({navigation}:Props) => {
         <SafeAreaView style={{ flex: 1 }}>
         {loading && emptyData ? (
             <ThereAreNoLocals
-                text={'No se ha encontrado ningún local'}
-                information={'Al parecer no se pudo encontrar ningún local calificado por tu zona'}
+                text={`${t('NoPopularLocalHasBeenFound')}`}
+                information={`${t('NoPopularLocalInfo')}`}
             />
         ) : (
             <FlatList

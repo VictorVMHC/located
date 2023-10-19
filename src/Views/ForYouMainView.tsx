@@ -6,6 +6,7 @@ import { Card } from '../Components/Card';
 import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
 import { Local } from '../Interfaces/DbInterfaces';
 import { Colors } from '../Themes/Styles';
+import { t } from 'i18next';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -40,8 +41,8 @@ export const ForYouMainView = ({ navigation }: Props) => {
         {loading 
             ? (
                 <ThereAreNoLocals
-                    text={'No recommendations were found'}
-                    information={'It looks like you do not have enough interactions'}
+                text={`${t('NoLocalHasBeenFound')}`} 
+                information={`${t('NoLocalHasBeenFoundInfo')}`}
                 />
             ) 
             
