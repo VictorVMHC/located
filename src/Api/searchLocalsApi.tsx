@@ -1,7 +1,7 @@
 import api from "./api"
 
-const searchLocalWithLikes = (latitude: number, longitude: number, kilometers: number, userId: string) => {
-    const route = `/api/searchLocals/searchLocalsAndLikes/${latitude}/${longitude}/${kilometers}/${userId}`
+const searchLocalWithLikes = (latitude: number, longitude: number, kilometers: number) => {
+    const route = `/api/searchLocals/searchLocalsAndLikes/${latitude}/${longitude}/${kilometers}`
     return api.get(route);
 }
 
@@ -15,8 +15,8 @@ const searchByTags = (latitude: number, longitude: number, kilometers: number, t
     } );
 }
 
-const searchPopularLocals = (latitude: number, longitude: number, kilometers: number, userId: string) => {
-    const route = `/api/searchLocals/localsPopular/${latitude}/${longitude}/${kilometers}/${userId}`;
+const searchPopularLocals = (latitude: number, longitude: number, kilometers: number) => {
+    const route = `/api/searchLocals/localsPopular/${latitude}/${longitude}/${kilometers}`;
     return api.get(route);
 }
 

@@ -66,7 +66,8 @@ export const AuthProvider = ({children}: any) => {
             }
     
             await AsyncStorage.setItem( 'x-token', response.data.token );
-    
+
+            console.log(token)
             dispatch({
                 type: 'signUp',
                 payload: {
