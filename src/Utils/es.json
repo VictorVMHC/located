@@ -192,6 +192,7 @@
     "NoLocalsFound": "Ningun local fue encontrado",
     "NoLocalsFoundInfo": "No fue posible cargar tus locales. ¡Por favor, inténtalo de nuevo!",
     "ProductDeletedTitle": "Producto eliminado",
-    "ProductDeleted": "tu producto ha sido eliminado exitosamente"
+    "ProductDeleted": "tu producto ha sido eliminado exitosamente",
+    "EditProductTitle": "Editar producto"
   }
 }

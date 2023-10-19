@@ -186,7 +186,7 @@ export const EditProductView = ({navigation, route}: Props) => {
     return (
         <ScrollView>
             <View style={StyleCreateProduct.topContainer}>
-                <Text style={StyleCreateProduct.textTitle}>{t('CreateProductTitle')}</Text>
+                <Text style={StyleCreateProduct.textTitle}>{t('EditProductTitle')}</Text>
                 <View style={StyleCreateProduct.containerImgEdit}>
                 <Text style={StyleCreateProduct.textI}>{t('Image')}</Text>
                     <View style={StyleCreateProduct.containerImg}>
@@ -239,7 +239,7 @@ export const EditProductView = ({navigation, route}: Props) => {
                                 <TextInput 
                                     style={StyleCreateProduct.textInput}
                                     keyboardType='number-pad'
-                                    value={(typeof values.price === 'number' ? values.price.toString() : '')} 
+                                    value={values.price || ''}
                                     onChangeText={handleChange('price')}
                                     
                                     >
