@@ -21,7 +21,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateL
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
-    const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
+    const [url, setUrl] = useState( );
     const {isActive, check} = useHeartHook(liked);
     const [valueLocalLikes, setValueLocalLikes] = useState(localLikes);
     const [isProcessingLike, setIsProcessingLike] = useState(false);
@@ -47,7 +47,7 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateL
         >
             <View style={{flex:4}}>
                 <ImageBackground 
-                    source={{ uri: url }}
+                    source={{ uri: uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg' }}
                     style={styles.imageBackground} 
                     resizeMode='cover'
                     borderTopRightRadius={20} 

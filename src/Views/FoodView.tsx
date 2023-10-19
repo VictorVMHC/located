@@ -31,11 +31,10 @@ export const FoodView = ({kilometers, latitude, longitude, setFoodViewValue }:Pr
     }
 
     const fetchMoreLocales  = async () =>{
-        const userId = user?._id || 'null';
         try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, userId, page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,foodTags, page);
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);

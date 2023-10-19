@@ -26,9 +26,12 @@ export const ForYouMainView = ({ navigation }: Props) => {
         })
     }, [locals])
 
+    const noting = () => {
+
+    }
     return (
         <SafeAreaView style={{ flex: 1 }}>
-        {loading && emptyData 
+        {loading 
             ? (
                 <ThereAreNoLocals
                     text={'No recommendations were found'}
@@ -45,6 +48,7 @@ export const ForYouMainView = ({ navigation }: Props) => {
                                 like={false} 
                                 navigation={navigation}
                                 local={item}
+                                updateLike={noting}
                             />
                         )
                     }}

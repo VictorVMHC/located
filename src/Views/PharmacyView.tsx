@@ -28,11 +28,10 @@ export const PharmacyView = ({kilometers, latitude, longitude, setFoodViewValue}
     const { user}  = useContext(AuthContext);
 
     const fetchMoreLocales  = async () =>{
-        const userId = user?._id || 'null';
         try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,pharmacyTags, userId,  page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers,pharmacyTags,  page);
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);

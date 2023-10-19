@@ -28,11 +28,10 @@ export const OthersCategoriesView = ({kilometers, latitude, longitude, setFoodVi
     const { user}  = useContext(AuthContext);
 
     const fetchMoreLocales  = async () =>{
-        const userId = user?._id || 'null';
         try {
             if(page <= totalPage && !fetching){
                 setFetching(true)    
-                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers, ['.*'], userId, page);
+                const {locals, totalPages} = await fetchData(latitude, longitude, kilometers, ['.*'], page);
                 if (locals) {
                     setDataLocals([...dataLocals, ...locals]);
                     setTotalPage(totalPages);

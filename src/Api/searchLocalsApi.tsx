@@ -5,8 +5,9 @@ const searchLocalWithLikes = (latitude: number, longitude: number, kilometers: n
     return api.get(route);
 }
 
-const searchByTags = (latitude: number, longitude: number, kilometers: number, tags: string[], userId: string, page?: number, limit?:number) => {
-    const route = `/api/searchLocals/byTags/${latitude}/${longitude}/${kilometers}/${tags}/${userId}`;
+const searchByTags = (latitude: number, longitude: number, kilometers: number, tags: string[], page?: number, limit?:number) => {
+    
+    const route = `/api/searchLocals/byTags/${latitude}/${longitude}/${kilometers}/${tags}/`;
     return api.get(route, {
         params:{
             page,
