@@ -44,9 +44,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
     const handleSubmit = async (localUpdate: Local) => {
         try {
             const partialLocal = compareLocal(local, localUpdate);
-            console.log(partialLocal);
             if (Object.keys(partialLocal).length > 0) {   
-                    console.log(local.uriImage);
                     if(local.uriImage !== img){
                         const urlImg = await  urlCloudinary(img);
                         partialLocal.uriImage = urlImg;
