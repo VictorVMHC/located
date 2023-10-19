@@ -1,14 +1,11 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useContext, useEffect, useState } from 'react'
-import {ActivityIndicator, FlatList, SafeAreaView, Text, View } from 'react-native'
-import { LoadingView } from './LoadingView';
-import { PermissionsContext } from '../Context/PermissionsContext';
-import { LocationPermissionView } from './LocationPermissionsView';
-import { Local } from '../Interfaces/DbInterfaces';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useLayoutEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, SafeAreaView } from 'react-native';
 import { getRecommendation } from '../Api/recommendationsApi';
-import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
-import { Colors } from '../Themes/Styles';
 import { Card } from '../Components/Card';
+import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
+import { Local } from '../Interfaces/DbInterfaces';
+import { Colors } from '../Themes/Styles';
 
 interface Props extends NativeStackScreenProps<any, any>{};
 
@@ -16,19 +13,28 @@ export const ForYouMainView = ({ navigation }: Props) => {
     const [locals, setLocals] = useState<Local[]>([]);
     const [loading, setLoading ] = useState<Boolean>(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        setLoading(true);
+        if(locals.length >0 && loading){
+            return;
+        }
+
         getRecommendation()
-        .then(() => {
-            console.log("hola");
+        .then((response) => {
+            setLocals(response.data.localsRecommended)
         })
         .catch(() => {
             console.log("hola err");
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }, [locals])
 
     const noting = () => {
 
     }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
         {loading 

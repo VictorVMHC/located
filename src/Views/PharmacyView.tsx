@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState } from 'react'
-import { fetchData } from '../Utils/FetchFunctions';
-import { pharmacyTags } from '../Utils/ArraysTags';
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View, VirtualizedList } from 'react-native';
-import { CardCloseToMe } from '../Components/CardCloseToMe';
-import { Colors } from '../Themes/Styles';
-import { Local } from '../Interfaces/DbInterfaces';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {ThereAreNoLocals} from '../Components/ThereAreNoLocals'
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, SafeAreaView, StyleSheet, View, VirtualizedList } from 'react-native';
+import { CardCloseToMe } from '../Components/CardCloseToMe';
 import { CustomAlert } from '../Components/CustomAlert';
-import { AuthContext } from '../Context/AuthContext';
+import { ThereAreNoLocals } from '../Components/ThereAreNoLocals';
+import { Local } from '../Interfaces/DbInterfaces';
+import { Colors } from '../Themes/Styles';
+import { pharmacyTags } from '../Utils/ArraysTags';
+import { fetchData } from '../Utils/FetchFunctions';
 
 interface Props {
     kilometers: number;
@@ -25,7 +24,6 @@ export const PharmacyView = ({kilometers, latitude, longitude, setFoodViewValue}
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     const [noLocalsFound, setNoLocalsFound] = useState(false);
-    const { user}  = useContext(AuthContext);
 
     const fetchMoreLocales  = async () =>{
         try {

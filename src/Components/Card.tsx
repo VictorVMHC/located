@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-import { AuthContext } from '../Context/AuthContext';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Local, Schedule } from '../Interfaces/DbInterfaces';
 import { Colors, FontStyles } from '../Themes/Styles';
@@ -21,7 +20,6 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateL
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
-    const [url, setUrl] = useState( );
     const {isActive, check} = useHeartHook(liked);
     const [valueLocalLikes, setValueLocalLikes] = useState(localLikes);
     const [isProcessingLike, setIsProcessingLike] = useState(false);
