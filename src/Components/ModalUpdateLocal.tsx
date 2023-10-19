@@ -9,6 +9,8 @@ import { t } from 'i18next';
 import { putLocal } from '../Api/localApi';
 import { postImage } from '../Api/imageApi';
 import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { boolean } from 'yup';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,9 +22,10 @@ interface Props {
     children?:ReactNode,
     onClose: () => void;
     onUpdate: (localUpdate: Local) => void;
+    flagsImg:boolean
 }
 
-export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, onUpdate }: Props) {
+export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, onUpdate, flagsImg }: Props) {
 
     const urlCloudinary = async (image: string) => {
         try{
@@ -34,8 +37,12 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
             });
             const response = await postImage(formData); 
             return response.data.response.url;
-        }catch(error){
-            console.error(error);
+        }catch(error: any){
+            CustomAlert({
+                title: "Error",
+                desc: 'Error: ' + error.message
+            });
+            throw new Error('upload failed')
         }
         
     }
@@ -44,7 +51,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
         try {
             const partialLocal = compareLocal(local, localUpdate);
             if (Object.keys(partialLocal).length > 0) {   
-                    if(local.uriImage !== img){
+                    if(flagsImg == true){
                         const urlImg = await  urlCloudinary(img);
                         partialLocal.uriImage = urlImg;
                     }
@@ -111,6 +118,11 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                 >
                     {({ handleChange, handleBlur, handleSubmit, values }) => (
                         <View style={StyleModal.containerTextInput}>
+                            <View style={{justifyContent: 'center', alignItems: 'flex-end', width: windowWidth*1, padding: windowWidth*0.02}}>
+                                <TouchableOpacity onPress={()=>onClose()}>
+                                    <Icon name='times' size={30}  light color={Colors.white}/>
+                                </TouchableOpacity>
+                            </View>
                             {flagValue === '1' && (
                                 <View style={{justifyContent: 'center', alignItems: 'center', width: windowWidth*0.8, height: windowWidth*1 }} >
                                     <View style={StyleModal.viewTextInput}>

@@ -150,7 +150,7 @@ export const StoreView = ({navigation, route}: Props) => {
                         actionStart={() =>handleScrollTo(scrollViewRef)}
                         actionAddress={() =>handleScrollTo(addressRef)}
                         actionCatalogue={() =>handleScrollTo(catalogueRef)}
-                        routeComments={() => navigation.navigate("CommentsView")}
+                        routeComments={() => navigation.navigate("CommentsView",{localId: _id})}
                     />
                 </View>
                 <View ref={addressRef}>
