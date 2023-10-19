@@ -11,7 +11,6 @@ import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 import { Local } from '../Interfaces/DbInterfaces';
-import { AuthContext } from '../Context/AuthContext';
 
 
 interface Props{
@@ -26,14 +25,13 @@ interface Props{
 export const CardCloseToMe = ({ Img = '', Name = '', categories = '', like , navigation, local }: Props ) => {
     const {height} = useWindowDimensions();
     const {isActive, check} = useHeartHook(like);
-    const { user}  = useContext(AuthContext);
     const [isProcessingLike, setIsProcessingLike] = useState(false);
     const {_id} = local;
 
     const handleLikePress = async () => {
-        if (user?._id && !isProcessingLike) {
+        if (!isProcessingLike) {
             setIsProcessingLike(true);
-            await check(user._id, _id);
+            await check(_id);
             setIsProcessingLike(false);
         }
     };

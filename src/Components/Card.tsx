@@ -14,13 +14,12 @@ interface Props {
     like: boolean,
     navigation?: any,
     local: Local,
-    updateLike?: () => void,
+    updateLike: () => void,
 }
 
 export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateLike}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
-    const { user}  = useContext(AuthContext);
     const {_id, name, description, address, country, town, postalCode, schedules, tags, uriImage, localLikes, liked} = local;
     const [url, setUrl] = useState( uriImage || 'https://www.creaxid.com.mx/blog/wp-content/uploads/2017/12/Local-Marketing.jpg');
     const {isActive, check} = useHeartHook(liked);
@@ -28,9 +27,10 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateL
     const [isProcessingLike, setIsProcessingLike] = useState(false);
 
     const handleLikePress = async () => {
-        if (user?._id && !isProcessingLike) {
+        if (!isProcessingLike) {
             setIsProcessingLike(true);
-            await check(user._id, _id);
+            await check( _id);
+            updateLike();
             if (!isActive) {
                 setValueLocalLikes(prevLikes => prevLikes + 1);
             } else {
