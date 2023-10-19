@@ -57,6 +57,7 @@ export const EditProductView = ({navigation, route}: Props) => {
             }).start();
         }
     }, []);
+    
     const handleTagSelection = (tag: string) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter(selectedTag => selectedTag !== tag));
@@ -65,10 +66,6 @@ export const EditProductView = ({navigation, route}: Props) => {
                 setSelectedTags([...selectedTags, tag]);
             }
         }
-    }
-
-    const isSelected = (tag: string) => {
-        return selectedTags.includes(tag);
     }
     
     const handleConfirmSelection = () => {
@@ -158,17 +155,17 @@ export const EditProductView = ({navigation, route}: Props) => {
                     const urlImg = await  urlCloudinary(url);
                     partialProduct.img = urlImg;
                 }
-                if (_id) {
-                const dataProduct = await putProduct({productId: _id, updatedProduct: partialProduct as Product });
-                if (dataProduct.status === 200) {
-                    setImageFlag(false);
-                    CustomAlert({
-                        title: t('ProductUpdatedTitle'), 
-                        desc: t('ProductUpdated'),
-                    })
-                    return navigation.goBack();
+                if (_id) {  
+                    const dataProduct = await putProduct({productId: _id, updatedProduct: partialProduct as Product });
+                    if (dataProduct.status === 200) {
+                        setImageFlag(false);
+                        CustomAlert({
+                            title: t('ProductUpdatedTitle'), 
+                            desc: t('ProductUpdated'),
+                        })
+                        return navigation.goBack();
+                    }
                 }
-            }
             } else {
             }
         }catch (error: any){
@@ -312,7 +309,7 @@ export const EditProductView = ({navigation, route}: Props) => {
                                 </View>
                             </Modal>
                             <View style={StyleCreateProduct.containerTextInput}>
-                                <TouchableHighlight style={StyleCreateProduct.buttonSubmit} underlayColor= 'gray' onPress={handleSubmit}>
+                                <TouchableHighlight style={StyleCreateProduct.buttonSubmit} underlayColor= 'gray' onPress={()=>handleSubmit()}>
                                     <Text style={StyleCreateProduct.textButton}>{t('Update')}</Text>
                                 </TouchableHighlight>
                             </View>

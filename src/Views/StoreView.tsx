@@ -112,11 +112,13 @@ export const StoreView = ({navigation, route}: Props) => {
         return productsList.map((item) => (
             <CardCatalogue
                 key={item._id}
-                ProductName={item.productName}
+                ProductName={item.productName || ''}
                 Price={`${item.price}`}
-                Img={item.img}
+                Img={item.img || ''}
                 Description={item.description}
                 showLike={false}
+                Action={()=>{}}
+                deleteAction={()=>{}}
             />
         ));
     };

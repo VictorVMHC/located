@@ -27,5 +27,5 @@ export {
     getProductsByLocalId,
     postProduct,
     putProduct,
-    deleteProduct
+    deleteProduct   
 }

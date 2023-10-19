@@ -18,7 +18,7 @@ export interface Local {
     quantityRate: number,
     tags: string[],
     location: Location,
-    open: string
+    open: boolean,
     businessType: string,
     localLikes: number,
     liked: boolean

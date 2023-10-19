@@ -22,10 +22,10 @@ interface Props {
     showLike: boolean,
     flagEdit?: boolean,
     productId?: string,
-    setUpdateListProducts: React.Dispatch<React.SetStateAction<boolean>>
+    deleteAction: (productId: string) => void 
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, setUpdateListProducts }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, deleteAction }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
@@ -39,14 +39,7 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
     }
 
     const deleteProducts = async (id: string) => {
-        const product = await deleteProduct(id);
-        if(product.status === 200){
-            CustomAlert({
-                title: t('ProductDeletedTitle'),
-                desc: t('ProductDeleted'),
-            });
-            setUpdateListProducts(true); 
-        }
+        deleteAction(id)
     }
 
     return (
