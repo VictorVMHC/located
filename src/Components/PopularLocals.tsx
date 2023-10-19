@@ -100,8 +100,6 @@ export const PopularLocals = ({navigation}:Props) => {
             return(
                 <Card 
                     like={item.liked} 
-                    likesCount={item.localLikes}
-                    routeToStore={()=>{}} 
                     navigation={navigation}
                     local={item}
                     updateLike={updateLike}

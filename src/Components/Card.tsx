@@ -1,25 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { default as FontAwesome } from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
-import { Colors, FontStyles } from '../Themes/Styles';
-import { useHeartHook } from '../Hooks/useHeartHook';
-import { useTranslation } from 'react-i18next';
-import { Schedule, Local } from '../Interfaces/DbInterfaces';
 import { AuthContext } from '../Context/AuthContext';
+import { useHeartHook } from '../Hooks/useHeartHook';
+import { Local, Schedule } from '../Interfaces/DbInterfaces';
+import { Colors, FontStyles } from '../Themes/Styles';
 
 interface Props {
     cardWidth?: number,
     cardHeight?: number,
     like: boolean,
-    likesCount?: number,
-    routeToStore?: () => void 
     navigation?: any,
     local: Local,
-    updateLike: () => void,
+    updateLike?: () => void,
 }
 
-export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore, navigation, local, updateLike}: Props) => {
+export const Card = ({  cardWidth = 0, cardHeight= 5, navigation, local, updateLike}: Props) => {
     const {t} = useTranslation();
     const { width, height} = useWindowDimensions();
     const { user}  = useContext(AuthContext);
@@ -33,7 +31,6 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore
         if (user?._id && !isProcessingLike) {
             setIsProcessingLike(true);
             await check(user._id, _id);
-            updateLike();
             if (!isActive) {
                 setValueLocalLikes(prevLikes => prevLikes + 1);
             } else {
@@ -46,9 +43,9 @@ export const Card = ({  cardWidth = 0, cardHeight= 5, routeToStore: routeToStore
     return (
     <View style={styles.container} >
         <TouchableOpacity style={{width: width - (width/15) + cardWidth, height: height - (height/1.8) + cardHeight , ...styles.touchableCard}}
-            onPress={() => navigation.navigate('StoreView', { local})}
+            onPress={() => navigation.navigate('StoreView', { local })}
         >
-            <View style={{flex:4}}>                
+            <View style={{flex:4}}>
                 <ImageBackground 
                     source={{ uri: url }}
                     style={styles.imageBackground} 
