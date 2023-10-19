@@ -1,11 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { default as IonIcon } from 'react-native-vector-icons/Ionicons';
 import { useHeartHook } from '../Hooks/useHeartHook';
 import { Colors } from '../Themes/Styles';
 import { DescriptionBox } from './DescriptionBox';
+import { deleteProduct } from '../Api/productsApi';
+import { CustomAlert } from './CustomAlert';
+import { useTranslation } from 'react-i18next';
 
+const windowWidth = Dimensions.get('window').width;
 interface Props {
     ProductName: string,
     Price: string,
@@ -13,15 +17,20 @@ interface Props {
     children ?: any,
     Description ?: string,
     like?: boolean,
-    action?: () => {},
+    buttonIcon?: () => void,
+    Action: () => void,
     showLike: boolean,
+    flagEdit?: boolean,
+    productId?: string,
+    deleteAction: (productId: string) => void 
 }
 
-export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '', action, children, like = false, showLike }: Props) => {
+export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Description = '',Action, children, like = false, showLike, flagEdit = false, productId, deleteAction }: Props) => {
     const {width, height} = useWindowDimensions();
     const [expanded, setExpanded] = useState(false);
     const {isActive, check} = useHeartHook(like);
     const viewRef = useRef(null);
+    const { t } = useTranslation();
 
     const toggle = () => {
         if(Description != ''){
@@ -29,9 +38,13 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
         }
     }
 
+    const deleteProducts = async (id: string) => {
+        deleteAction(id)
+    }
+
     return (
     <View style={styles.ContainerCard}>
-         <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.85)}} >
+         <TouchableOpacity ref={viewRef} activeOpacity={1} onPress={toggle} style={{...styles.ChartCard, borderTopStartRadius: expanded ? 15 : 15, borderTopEndRadius: expanded ? 15 : 15, borderBottomEndRadius: expanded ? 0 : 15, borderBottomStartRadius: expanded ? 0 : 15 ,borderBottomWidth: expanded ? 0 : 1, width: width - (width * 0.1), height: height - (height * 0.82)}} >
             <View style={styles.ChartImg}>
                 <Image
                 style={styles.CardImg}
@@ -54,6 +67,17 @@ export const CardCatalogue = ({ ProductName = '', Price = '', Img = '', Descript
             <View style={styles.ChartQualification}>
             <Icon name='star' size={20} color="#FF5C28" solid/>
             </View>
+            {!flagEdit
+                ?<View></View>
+                :<View>
+                    <TouchableOpacity onPress={()=>{Action();}}>
+                        <Icon name='edit' size={33} color={Colors.black} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginTop: windowWidth*0.03}} onPress={()=>{deleteProducts(productId || '');}}>
+                        <Icon name='trash-alt' size={33} color={Colors.red} />
+                    </TouchableOpacity>
+                </View>
+            }
         </TouchableOpacity>
         {
             expanded &&

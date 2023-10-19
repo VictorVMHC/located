@@ -1,3 +1,4 @@
+import { Local } from '../Interfaces/DbInterfaces';
 import { NewLocal } from '../Interfaces/LocalInterfaces';
 import api from "./api";
 
@@ -10,7 +11,12 @@ const getLocal = (id: number) => {
     return api.get(route);
 }
 
+const putLocal = async ({ localId, updatedLocal }: { localId: string, updatedLocal: Local }) => {
+    return api.put(`/api/locals/${localId}`, updatedLocal);
+}
+
 export {
     createLocal,
-    getLocal
+    getLocal,
+    putLocal
 }

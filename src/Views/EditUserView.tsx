@@ -140,6 +140,7 @@ export const EditUserView = () => {
                         <Image
                             style={StyleEditUser.img}
                             source={url !== '' ? { uri: url } : require('../Assets/Images/Img_User.png')}
+                            resizeMode="cover"
                         />
                     </View>
                         <TouchableHighlight  style={StyleEditUser.containerEditIcon} underlayColor="lightgray" onPress={permissions}>

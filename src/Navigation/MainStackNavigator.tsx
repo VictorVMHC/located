@@ -20,9 +20,12 @@ import { Image, StyleSheet } from 'react-native';
 import { Colors } from '../Themes/Styles';
 import { LocalCreatorView } from '../Views/LocalCreatorView';
 import { CreateLocalAlertView } from '../Views/CreateLocalAlertView';
+import { CreateProductView} from '../Views/CreateProductView';
 import { NoPopularLocalsToShowAlertView } from '../Views/NoPopularLocalsToShowAlertView';
 import { MyLocalsStoreView } from '../Views/MyLocalsStoreView';
 import { Local } from '../Interfaces/DbInterfaces';
+import { EditProductView } from '../Views/EditProductView';
+import { Product } from '../Interfaces/ProductsInterfaces';
 
 export type ViewStackParams = {
 	RecoveryPasswordView: { email?: string }
@@ -34,11 +37,13 @@ export type ViewStackParams = {
 	SplashScreenView: undefined,
 	DrawerMenu: undefined,
 	EditUserView: undefined,
+	CreateProductView: {localId: string},
 	StoreView: {local: Local},
 	CommentsView: {localId: string},
 	ChangePasswordView: undefined,
 	PrivacyPolicyView: undefined,
 	MyLocalsStoreView: {local: Local}
+	EditProductView: {product: Product}
 }
 const Stack = createStackNavigator<ViewStackParams>();
 
@@ -82,6 +87,8 @@ export const MainStackNavigator = () => {
 						<Stack.Screen name="CreateLocalAlertView" options={screenOptions} component={CreateLocalAlertView} />
 						<Stack.Screen name="NoPopularLocalsToShowAlertView" options={screenOptions} component={NoPopularLocalsToShowAlertView} />
 						<Stack.Screen name="MyLocalsStoreView" options={screenOptions} component={MyLocalsStoreView} />
+						<Stack.Screen name="CreateProductView" options={screenOptions} component={CreateProductView} />
+						<Stack.Screen name="EditProductView" options={screenOptions} component={EditProductView} />
 
 					</>
 				)			

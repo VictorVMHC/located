@@ -2,6 +2,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Image, StyleSheet, Text } from 'react-native';
 
+
 interface Props {
     uri:string,
     name: string
