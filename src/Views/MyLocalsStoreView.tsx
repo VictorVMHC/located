@@ -270,6 +270,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             isVisible={isModalVisible}
                             onClose={closeModal}
                             onUpdate={handleUpdateLocal}
+                            flagsImg={imageFlag}
                         />
                     </View>
                 </View>
