@@ -46,9 +46,11 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
             const partialLocal = compareLocal(local, localUpdate);
             console.log(partialLocal);
             if (Object.keys(partialLocal).length > 0) {   
-                    console.log(img);
-                    const urlImg = await  urlCloudinary(img);
-                    partialLocal.uriImage = urlImg;
+                    console.log(local.uriImage);
+                    if(local.uriImage !== img){
+                        const urlImg = await  urlCloudinary(img);
+                        partialLocal.uriImage = urlImg;
+                    }
                 if (local._id) {  
                     const dataLocal = await putLocal({localId: local._id, updatedLocal: partialLocal as Local });
                     if (dataLocal && dataLocal.status === 200) {
@@ -113,7 +115,10 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                     {({ handleChange, handleBlur, handleSubmit, values }) => (
                         <View style={StyleModal.containerTextInput}>
                             {flagValue === '1' && (
-                                <View>
+                                <View style={{justifyContent: 'center', alignItems: 'center', width: windowWidth*0.8, height: windowWidth*1 }} >
+                                    <View style={StyleModal.viewTextInput}>
+                                    
+                                    </View>
                                     
                                 </View>
                             )}
@@ -154,11 +159,6 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                             onBlur={handleBlur('country')}
                                             value={values.country}
                                         />
-                                    </View>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
-                                            <Text style={StyleModal.textButtonModal}>{t('Update')}</Text>
-                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             )}
@@ -251,13 +251,13 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                                 />
                                         </View>
                                     </View>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
-                                            <Text style={StyleModal.textButtonModal}>{t('Update')}</Text>
-                                        </TouchableOpacity>
-                                    </View>
                                 </View>
-                            )}     
+                            )} 
+                            <View style={StyleModal.viewTextInput}>
+                                <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
+                                    <Text style={StyleModal.textButtonModal}>{t('Update')}</Text>
+                                </TouchableOpacity>
+                            </View>    
                         </View>
                     )}
                 </Formik>
@@ -283,7 +283,7 @@ const StyleModal = StyleSheet.create({
     },
     viewTextInput:{
         justifyContent:'space-between',
-        padding: windowWidth*0.03
+        padding: windowWidth*0.03,
     },
     textInput:{
         color: Colors.white,
@@ -307,7 +307,7 @@ const StyleModal = StyleSheet.create({
         height: windowWidth*0.12,
         borderRadius: 15,
         backgroundColor: Colors.Yellow,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     textButtonModal:{
         color: Colors.white,

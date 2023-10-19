@@ -248,7 +248,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             like = {false}
                         />
                         <View style={StylesStore.buttonOpenImg}>
-                            <TouchableOpacity   onPress={permissions}>
+                            <TouchableOpacity   onPress={()=>openModal('1')}>
                                 <Icon name='edit' size={25}  light color={Colors.Yellow}/>
                             </TouchableOpacity>
                         </View>
