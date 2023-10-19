@@ -9,7 +9,6 @@ import { t } from 'i18next';
 import { putLocal } from '../Api/localApi';
 import { postImage } from '../Api/imageApi';
 import { ScrollView } from 'react-native-gesture-handler';
-import { LocalContext } from '../Context/NewLocalContext'
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -24,8 +23,6 @@ interface Props {
 }
 
 export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, onUpdate }: Props) {
-    const { localState, updateLocal } = useContext(LocalContext);
-    const { contact } = localState;
     let modalContent;
 
     const urlCloudinary = async (image: string) => {
@@ -44,19 +41,12 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
         
     }
 
-    const handleAddContact = (type: string, value: string) => {
-        const updatedContact = { ...contact };
-        updatedContact[type] = { info: value };
-        updateLocal({ contact: updatedContact });
-    }
-    
-
     const handleSubmit = async (localUpdate: Local) => {
         try {
             const partialLocal = compareLocal(local, localUpdate);
             console.log(partialLocal);
             if (Object.keys(partialLocal).length > 0) {   
-                    console.log('entro');
+                    console.log(img);
                     const urlImg = await  urlCloudinary(img);
                     partialLocal.uriImage = urlImg;
                 if (local._id) {  
@@ -102,6 +92,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                             Facebook: { info: local.contact.Facebook.info || '' },
                             Email: { info: local.contact.Email.info ||  '' },
                             Instagram: { info: local.contact.Instagram.info ||  '' },
+                        /* webPageInfo : { info:local.contact['Web page'] ? local.contact['Web page'].info :'' },*/
                             Whatsapp: { info: local.contact.Whatsapp.info ||  '' },
                         },
                         schedules: local.schedules || [],
@@ -127,7 +118,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                 </View>
                             )}
                             {flagValue === '2' && (
-                                <View style={StyleModal.centeredContainer}>
+                                <View style={{...StyleModal.centeredContainer,...StyleModal.viewsContainer}}>
                                     <View style={StyleModal.viewTextInput}>
                                         <Text style={StyleModal.textInput}>{t('EditLocalName')}</Text>
                                         <TextInput
