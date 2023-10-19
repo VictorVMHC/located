@@ -102,7 +102,6 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                             Facebook: { info: local.contact.Facebook.info || '' },
                             Email: { info: local.contact.Email.info ||  '' },
                             Instagram: { info: local.contact.Instagram.info ||  '' },
-                           /* webPageInfo : { info:local.contact['Web page'] ? local.contact['Web page'].info :'' },*/
                             Whatsapp: { info: local.contact.Whatsapp.info ||  '' },
                         },
                         schedules: local.schedules || [],
@@ -130,7 +129,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                             {flagValue === '2' && (
                                 <View style={StyleModal.centeredContainer}>
                                     <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>Nombre del Local</Text>
+                                        <Text style={StyleModal.textInput}>{t('EditLocalName')}</Text>
                                         <TextInput
                                             style={StyleModal.textInputModal}
                                             onChangeText={handleChange('name')}
@@ -139,7 +138,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                         />
                                     </View>
                                     <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>Tipo de negocio</Text>
+                                        <Text style={StyleModal.textInput}>{t('BusinessType')}</Text>
                                         <TextInput
                                             style={StyleModal.textInputModal}
                                             onChangeText={handleChange('businessType')}
@@ -148,7 +147,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                         />
                                     </View>
                                     <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>Ciudad</Text>
+                                        <Text style={StyleModal.textInput}>{t('Town')}</Text>
                                         <TextInput
                                             style={StyleModal.textInputModal}
                                             onChangeText={handleChange('town')}
@@ -157,7 +156,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                         />
                                     </View>
                                     <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>Pais</Text>
+                                        <Text style={StyleModal.textInput}>{t('Country')}</Text>
                                         <TextInput
                                             style={StyleModal.textInputModal}
                                             onChangeText={handleChange('country')}
@@ -167,7 +166,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                     </View>
                                     <View style={StyleModal.viewTextInput}>
                                         <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
-                                            <Text style={StyleModal.textButtonModal}>Submit</Text>
+                                            <Text style={StyleModal.textButtonModal}>{t('Update')}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -175,9 +174,9 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                             {flagValue === '3' && (
                                 <View>
                                     <View style={{...StyleModal.viewDirection,...StyleModal.viewsContainer}}>
-                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>Datos de Direccion</Text>
+                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('AddressData')}</Text>
                                         <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>Direccion</Text>
+                                            <Text style={StyleModal.textInput}>{t('Address')}</Text>
                                             <TextInput
                                                 style={StyleModal.textInputModal}
                                                 onChangeText={handleChange('address')}
@@ -186,7 +185,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                             />
                                         </View>
                                         <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>Ciudad</Text>
+                                            <Text style={StyleModal.textInput}>{t('Town')}</Text>
                                             <TextInput
                                                 style={StyleModal.textInputModal}
                                                 onChangeText={handleChange('town')}
@@ -195,7 +194,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                             />
                                         </View>
                                         <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>Estado</Text>
+                                            <Text style={StyleModal.textInput}>{t('State')}</Text>
                                             <TextInput
                                                 style={StyleModal.textInputModal}
                                                 onChangeText={handleChange('state')}
@@ -204,7 +203,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                             />
                                         </View>
                                         <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>Pais</Text>
+                                            <Text style={StyleModal.textInput}>{t('Country')}</Text>
                                             <TextInput
                                                 style={StyleModal.textInputModal}
                                                 onChangeText={handleChange('country')}
@@ -214,7 +213,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                         </View>
                                     </View>
                                     <View style={{...StyleModal.viewContact,...StyleModal.viewsContainer}}>
-                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>Contactos</Text>
+                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('Contacts')}</Text>
                                         <View style={StyleModal.viewTextInput}>
                                                 <Text style={StyleModal.textInput}>Facebook</Text>
                                                 <TextInput
@@ -225,7 +224,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                                 />
                                         </View>
                                         <View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>Email</Text>
+                                                <Text style={StyleModal.textInput}>{t('Email')}</Text>
                                                 <TextInput
                                                     style={StyleModal.textInputModal}
                                                     onChangeText={(value) => handleChange('contact.Email.info')(value)}
@@ -243,7 +242,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                                 />
                                         </View>
                                         {/*<View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>Web page</Text>
+                                                <Text style={StyleModal.textInput}>{t('WebPage')}</Text>
                                                 <TextInput
                                                     style={StyleModal.textInputModal}
                                                     onChangeText={handleChange('country')}
@@ -263,7 +262,7 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                     </View>
                                     <View style={StyleModal.viewTextInput}>
                                         <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
-                                            <Text style={StyleModal.textButtonModal}>Submit</Text>
+                                            <Text style={StyleModal.textButtonModal}>{t('Update')}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

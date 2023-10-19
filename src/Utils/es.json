@@ -193,6 +193,15 @@
     "NoLocalsFoundInfo": "No fue posible cargar tus locales. ¡Por favor, inténtalo de nuevo!",
     "ProductDeletedTitle": "Producto eliminado",
     "ProductDeleted": "tu producto ha sido eliminado exitosamente",
-    "EditProductTitle": "Editar producto"
+    "EditProductTitle": "Editar producto",
+    "ErrorDeleteInfo": "No fue posible eliminar el producto",
+    "EditLocalName": "Nombre del local",
+    "BusinessType": "Tipo de negocio",
+    "Town": "Ciudad",
+    "Country": "Pais",
+    "AddressData": "Datos de Dirección",
+    "Address": "Dirección",
+    "State": "Estado",
+    "Contacts": "Contacto y redes sociales"
   }
 }

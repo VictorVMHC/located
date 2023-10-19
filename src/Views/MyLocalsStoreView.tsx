@@ -191,9 +191,9 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
         console.log(productId);  
         deleteProduct(productId)
         .then((result: any)=>{
-                CustomAlert({
-                    title: t('UserPasswordUpdatedTitle'),
-                    desc: t('UserPasswordUpdated'),
+            CustomAlert({
+                title: t('ProductDeletedTitle'),
+                desc: t('ProductDeleted'),
                 });
                 const filteredArray = productsList.filter(item => item._id !== productId);
                 setProductsList([...filteredArray]);
@@ -201,12 +201,11 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
         )
         .catch((result: any)=>{
             CustomAlert({
-                title: 'entro en cath',
-                desc: 'entro en cath',
+                title: 'error',
+                desc: t('ErrorDeleteInfo'),
             });
         })
         .finally(()=>{
-            console.log('Hola');
         })
     }
 
