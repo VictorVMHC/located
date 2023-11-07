@@ -25,19 +25,23 @@ interface Props {
     flagsImg:boolean
 }
 
-export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, onUpdate, flagsImg }: Props) {
+export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, onUpdate, flagsImg }: Props) =>{
 
     const urlCloudinary = async (image: string) => {
         try{
+            console.log(image)
             const formData = new FormData();
             formData.append('image',{
                 uri: image,
                 type: 'image/jpeg', 
                 name: 'uploaded_image.jpg',
             });
-            const response = await postImage(formData); 
+            const response = await postImage(formData);
+            console.log(response) 
             return response.data.response.url;
         }catch(error: any){
+            console.log(JSON.stringify(error));
+            
             CustomAlert({
                 title: "Error",
                 desc: 'Error: ' + error.message
@@ -52,7 +56,9 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
             const partialLocal = compareLocal(local, localUpdate);
             if (Object.keys(partialLocal).length > 0) {   
                     if(flagsImg == true){
+                        console.log(img)
                         const urlImg = await  urlCloudinary(img);
+                        console.log(urlImg)
                         partialLocal.uriImage = urlImg;
                     }
                 if (local._id) {  
@@ -75,6 +81,151 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
         }     
     }
     
+    const viewUpdateImg = () => {
+        return(
+            <View style={{justifyContent: 'center', alignItems: 'center', width: windowWidth*0.8, height: windowWidth*1 }} >
+                <View style={StyleModal.viewTextInput}>
+                </View>
+            </View>
+        );
+    }
+
+    const viewUpdateDataLocal = ( values: any, handleChange: any, handleBlur: any) => {
+        return(
+            <View style={{...StyleModal.centeredContainer,...StyleModal.viewsContainer}}>
+                <View style={StyleModal.viewTextInput}>
+                    <Text style={StyleModal.textInput}>{t('EditLocalName')}</Text>
+                    <TextInput
+                        style={StyleModal.textInputModal}
+                        onChangeText={handleChange('name')}
+                        onBlur={handleBlur('name')}
+                        value={values.name}
+                    />
+                </View>
+                <View style={StyleModal.viewTextInput}>
+                    <Text style={StyleModal.textInput}>{t('BusinessType')}</Text>
+                    <TextInput
+                        style={StyleModal.textInputModal}
+                        onChangeText={handleChange('businessType')}
+                        onBlur={handleBlur('businessType')}
+                        value={values.businessType}
+                    />
+                </View>
+                <View style={StyleModal.viewTextInput}>
+                    <Text style={StyleModal.textInput}>{t('Town')}</Text>
+                    <TextInput
+                        style={StyleModal.textInputModal}
+                        onChangeText={handleChange('town')}
+                        onBlur={handleBlur('town')}
+                        value={values.town}
+                    />
+                </View>
+                <View style={StyleModal.viewTextInput}>
+                    <Text style={StyleModal.textInput}>{t('Country')}</Text>
+                    <TextInput
+                        style={StyleModal.textInputModal}
+                        onChangeText={handleChange('country')}
+                        onBlur={handleBlur('country')}
+                        value={values.country}
+                    />
+                </View>
+            </View>
+        );
+    }
+
+    const viewUpdateDirectionLocal = ( values: any, handleChange: any, handleBlur: any) => {
+        return(
+            <View>
+                <View style={{...StyleModal.viewDirection,...StyleModal.viewsContainer}}>
+                    <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('AddressData')}</Text>
+                    <View style={StyleModal.viewTextInput}>
+                        <Text style={StyleModal.textInput}>{t('Address')}</Text>
+                        <TextInput
+                            style={StyleModal.textInputModal}
+                            onChangeText={handleChange('address')}
+                            onBlur={handleBlur('address')}
+                            value={values.address}
+                        />
+                    </View>
+                    <View style={StyleModal.viewTextInput}>
+                        <Text style={StyleModal.textInput}>{t('Town')}</Text>
+                        <TextInput
+                            style={StyleModal.textInputModal}
+                            onChangeText={handleChange('town')}
+                            onBlur={handleBlur('town')}
+                            value={values.town}
+                        />
+                    </View>
+                    <View style={StyleModal.viewTextInput}>
+                        <Text style={StyleModal.textInput}>{t('State')}</Text>
+                        <TextInput
+                            style={StyleModal.textInputModal}
+                            onChangeText={handleChange('state')}
+                            onBlur={handleBlur('state')}
+                            value={values.state}
+                        />
+                    </View>
+                    <View style={StyleModal.viewTextInput}>
+                        <Text style={StyleModal.textInput}>{t('Country')}</Text>
+                        <TextInput
+                            style={StyleModal.textInputModal}
+                            onChangeText={handleChange('country')}
+                            onBlur={handleBlur('country')}
+                            value={values.country}
+                        />
+                    </View>
+                </View>
+                <View style={{...StyleModal.viewContact,...StyleModal.viewsContainer}}>
+                    <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('Contacts')}</Text>
+                    <View style={StyleModal.viewTextInput}>
+                            <Text style={StyleModal.textInput}>Facebook</Text>
+                            <TextInput
+                                style={StyleModal.textInputModal}
+                                onChangeText={(value) => handleChange('contact.Facebook.info')(value)}
+                                onBlur={(value) => handleBlur('contact.Facebook.info')(value)}
+                                value={values.contact['Facebook'].info}
+                            />
+                    </View>
+                    <View style={StyleModal.viewTextInput}>
+                            <Text style={StyleModal.textInput}>{t('Email')}</Text>
+                            <TextInput
+                                style={StyleModal.textInputModal}
+                                onChangeText={(value) => handleChange('contact.Email.info')(value)}
+                                onBlur={(value) => handleBlur('contact.Email.info')(value)}
+                                value={values.contact['Email'].info}
+                            />
+                    </View>
+                    <View style={StyleModal.viewTextInput}>
+                            <Text style={StyleModal.textInput}>Instagram</Text>
+                            <TextInput
+                                style={StyleModal.textInputModal}
+                                onChangeText={(value) => handleChange('contact.Instagram.info')(value)}
+                                onBlur={(value) => handleBlur('contact.Instagram.info')(value)}
+                                value={values.contact['Instagram'].info}
+                            />
+                    </View>
+                    {/*<View style={StyleModal.viewTextInput}>
+                            <Text style={StyleModal.textInput}>{t('WebPage')}</Text>
+                            <TextInput
+                                style={StyleModal.textInputModal}
+                                onChangeText={handleChange('country')}
+                                onBlur={handleBlur('country')}
+                                value={local.contact['Web page'].info}
+                            />
+                    </View>*/}
+                    <View style={StyleModal.viewTextInput}>
+                            <Text style={StyleModal.textInput}>Whatsapp</Text>
+                            <TextInput
+                                style={StyleModal.textInputModal}
+                                onChangeText={(value) => handleChange('contact.Whatsapp.info')(value)}
+                                onBlur={(value) => handleBlur('contact.Whatsapp.info')(value)}
+                                value={values.contact['Whatsapp'].info}
+                            />
+                    </View>
+                </View>
+            </View>
+        );
+    }
     return (
         <Modal
             animationType="slide"
@@ -124,143 +275,13 @@ export function ModalUpdateLocal({ flagValue, local, img, isVisible, onClose, on
                                 </TouchableOpacity>
                             </View>
                             {flagValue === '1' && (
-                                <View style={{justifyContent: 'center', alignItems: 'center', width: windowWidth*0.8, height: windowWidth*1 }} >
-                                    <View style={StyleModal.viewTextInput}>
-                                    
-                                    </View>
-                                    
-                                </View>
+                                viewUpdateImg()
                             )}
                             {flagValue === '2' && (
-                                <View style={{...StyleModal.centeredContainer,...StyleModal.viewsContainer}}>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>{t('EditLocalName')}</Text>
-                                        <TextInput
-                                            style={StyleModal.textInputModal}
-                                            onChangeText={handleChange('name')}
-                                            onBlur={handleBlur('name')}
-                                            value={values.name}
-                                        />
-                                    </View>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>{t('BusinessType')}</Text>
-                                        <TextInput
-                                            style={StyleModal.textInputModal}
-                                            onChangeText={handleChange('businessType')}
-                                            onBlur={handleBlur('businessType')}
-                                            value={values.businessType}
-                                        />
-                                    </View>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>{t('Town')}</Text>
-                                        <TextInput
-                                            style={StyleModal.textInputModal}
-                                            onChangeText={handleChange('town')}
-                                            onBlur={handleBlur('town')}
-                                            value={values.town}
-                                        />
-                                    </View>
-                                    <View style={StyleModal.viewTextInput}>
-                                        <Text style={StyleModal.textInput}>{t('Country')}</Text>
-                                        <TextInput
-                                            style={StyleModal.textInputModal}
-                                            onChangeText={handleChange('country')}
-                                            onBlur={handleBlur('country')}
-                                            value={values.country}
-                                        />
-                                    </View>
-                                </View>
+                                viewUpdateDataLocal(values,  handleChange, handleBlur)
                             )}
                             {flagValue === '3' && (
-                                <View>
-                                    <View style={{...StyleModal.viewDirection,...StyleModal.viewsContainer}}>
-                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('AddressData')}</Text>
-                                        <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>{t('Address')}</Text>
-                                            <TextInput
-                                                style={StyleModal.textInputModal}
-                                                onChangeText={handleChange('address')}
-                                                onBlur={handleBlur('address')}
-                                                value={values.address}
-                                            />
-                                        </View>
-                                        <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>{t('Town')}</Text>
-                                            <TextInput
-                                                style={StyleModal.textInputModal}
-                                                onChangeText={handleChange('town')}
-                                                onBlur={handleBlur('town')}
-                                                value={values.town}
-                                            />
-                                        </View>
-                                        <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>{t('State')}</Text>
-                                            <TextInput
-                                                style={StyleModal.textInputModal}
-                                                onChangeText={handleChange('state')}
-                                                onBlur={handleBlur('state')}
-                                                value={values.state}
-                                            />
-                                        </View>
-                                        <View style={StyleModal.viewTextInput}>
-                                            <Text style={StyleModal.textInput}>{t('Country')}</Text>
-                                            <TextInput
-                                                style={StyleModal.textInputModal}
-                                                onChangeText={handleChange('country')}
-                                                onBlur={handleBlur('country')}
-                                                value={values.country}
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={{...StyleModal.viewContact,...StyleModal.viewsContainer}}>
-                                        <Text style={{color: Colors.white, fontSize: windowWidth*0.07, textAlign: 'center'}}>{t('Contacts')}</Text>
-                                        <View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>Facebook</Text>
-                                                <TextInput
-                                                    style={StyleModal.textInputModal}
-                                                    onChangeText={(value) => handleChange('contact.Facebook.info')(value)}
-                                                    onBlur={(value) => handleBlur('contact.Facebook.info')(value)}
-                                                    value={values.contact['Facebook'].info}
-                                                />
-                                        </View>
-                                        <View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>{t('Email')}</Text>
-                                                <TextInput
-                                                    style={StyleModal.textInputModal}
-                                                    onChangeText={(value) => handleChange('contact.Email.info')(value)}
-                                                    onBlur={(value) => handleBlur('contact.Email.info')(value)}
-                                                    value={values.contact['Email'].info}
-                                                />
-                                        </View>
-                                        <View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>Instagram</Text>
-                                                <TextInput
-                                                    style={StyleModal.textInputModal}
-                                                    onChangeText={(value) => handleChange('contact.Instagram.info')(value)}
-                                                    onBlur={(value) => handleBlur('contact.Instagram.info')(value)}
-                                                    value={values.contact['Instagram'].info}
-                                                />
-                                        </View>
-                                        {/*<View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>{t('WebPage')}</Text>
-                                                <TextInput
-                                                    style={StyleModal.textInputModal}
-                                                    onChangeText={handleChange('country')}
-                                                    onBlur={handleBlur('country')}
-                                                    value={local.contact['Web page'].info}
-                                                />
-                                        </View>*/}
-                                        <View style={StyleModal.viewTextInput}>
-                                                <Text style={StyleModal.textInput}>Whatsapp</Text>
-                                                <TextInput
-                                                    style={StyleModal.textInputModal}
-                                                    onChangeText={(value) => handleChange('contact.Whatsapp.info')(value)}
-                                                    onBlur={(value) => handleBlur('contact.Whatsapp.info')(value)}
-                                                    value={values.contact['Whatsapp'].info}
-                                                />
-                                        </View>
-                                    </View>
-                                </View>
+                                viewUpdateDirectionLocal(values,  handleChange, handleBlur)
                             )} 
                             <View style={StyleModal.viewTextInput}>
                                 <TouchableOpacity style={StyleModal.buttonModal} onPress={()=>{handleSubmit()}}>
