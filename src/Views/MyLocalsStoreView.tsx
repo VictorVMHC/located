@@ -39,7 +39,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [ isLoadingMore, setIsLoadingMore ] = useState(false);
     const [ haveProducts, setHaveProducts ] = useState(true);
     const { width ,height } = useWindowDimensions();
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalUpdateLocalFlag, setModalUpdateLocalFlag] = useState(false);
     const scrollViewRef = useRef<ScrollView>(null);
     const addressRef = useRef<View>(null);
     const catalogueRef = useRef<View>(null);
@@ -52,7 +52,14 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const [zoomModalVisible, setZoomModalVisible] = useState(false);
     const [imageFlag, setImageFlag] = useState(false);
     
-    
+    useEffect(() => {
+        if (url !== uriImage) {
+            setTimeout(() => {
+                setModalUpdateLocalFlag(true);
+            }, 1000);
+        }
+    }, [url]);
+
     useEffect(() => {
         if (modalVisibleCam) {
             Animated.timing(slideAnimation, {
@@ -115,13 +122,14 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
     const openModal = (flagValue: string) => {
         if(flagValue === '1'){
             permissions();
+        }else{
+            setModalUpdateLocalFlag(true);
         }
-        setIsModalVisible(true); 
         setModalFlagValue(flagValue);
     }
 
     const closeModal = () => {
-        setIsModalVisible(false);
+        setModalUpdateLocalFlag(false);
     }
     const handleScrollTo = (targetElement: any ) => {
         if (scrollViewRef.current && targetElement.current) {
@@ -212,7 +220,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
 
     const handleUpdateLocal = (updatedLocal: Local) => {
         setLocalInfo(updatedLocal)
-        setIsModalVisible(false); 
+        //setModalUpdateLocalFlag(false); 
     }
 
     const renderProductList = () => {
@@ -267,7 +275,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             flagValue={modalFlagValue}
                             local={localInfo}
                             img={url}
-                            isVisible={isModalVisible}
+                            isVisible={modalUpdateLocalFlag}
                             onClose={closeModal}
                             onUpdate={handleUpdateLocal}
                             flagsImg={imageFlag}
@@ -311,7 +319,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             text ={`${address}, ${town}, ${state}, ${country}`}
                         />
                         {
-                            contact['Facebook'] && <IconWithText 
+                            contact['Facebook']?.info && <IconWithText 
                                 NameIcon= {'facebook-f'}
                                 IconSize= {20}
                                 ColorIcon= {Colors.blue}
@@ -319,7 +327,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             />
                         }
                         {
-                            contact['Email'] && <IconWithText 
+                            contact['Email']?.info && <IconWithText 
                                 NameIcon= {'envelope'}
                                 IconSize= {20}
                                 ColorIcon= {'#CD5F28'}
@@ -327,7 +335,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             />
                         }
                         {
-                            contact['Instagram'] && <IconWithText 
+                            contact['Instagram']?.info && <IconWithText 
                                 NameIcon= {'instagram'}
                                 IconSize= {20}
                                 ColorIcon= {'#CD5F28'}
@@ -335,7 +343,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             />
                         }
                         {
-                            contact['Web page'] && <IconWithText 
+                            contact['Web page']?.info && <IconWithText 
                                 NameIcon= {'globe'}
                                 IconSize= {20}
                                 ColorIcon= {'#CD5F28'}
@@ -343,7 +351,7 @@ export const MyLocalsStoreView = ({navigation, route}: Props) => {
                             />
                         }
                         {
-                            contact['Whatsapp'] && <IconWithText 
+                            contact['Whatsapp']?.info && <IconWithText 
                                 NameIcon= {'whatsapp'}
                                 IconSize= {20}
                                 ColorIcon= {'#CD5F28'}

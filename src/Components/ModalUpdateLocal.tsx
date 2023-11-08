@@ -10,7 +10,6 @@ import { putLocal } from '../Api/localApi';
 import { postImage } from '../Api/imageApi';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { boolean } from 'yup';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -29,7 +28,6 @@ export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, on
 
     const urlCloudinary = async (image: string) => {
         try{
-            console.log(image)
             const formData = new FormData();
             formData.append('image',{
                 uri: image,
@@ -37,11 +35,8 @@ export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, on
                 name: 'uploaded_image.jpg',
             });
             const response = await postImage(formData);
-            console.log(response) 
             return response.data.response.url;
         }catch(error: any){
-            console.log(JSON.stringify(error));
-            
             CustomAlert({
                 title: "Error",
                 desc: 'Error: ' + error.message
@@ -73,7 +68,6 @@ export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, on
                 }
             }
         } catch (error: any) {
-            console.error(error);
             CustomAlert({
                 title: "Error",
                 desc: 'Error: ' + error.message
@@ -204,15 +198,6 @@ export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, on
                                 value={values.contact['Instagram'].info}
                             />
                     </View>
-                    {/*<View style={StyleModal.viewTextInput}>
-                            <Text style={StyleModal.textInput}>{t('WebPage')}</Text>
-                            <TextInput
-                                style={StyleModal.textInputModal}
-                                onChangeText={handleChange('country')}
-                                onBlur={handleBlur('country')}
-                                value={local.contact['Web page'].info}
-                            />
-                    </View>*/}
                     <View style={StyleModal.viewTextInput}>
                             <Text style={StyleModal.textInput}>Whatsapp</Text>
                             <TextInput

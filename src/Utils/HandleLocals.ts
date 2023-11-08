@@ -30,9 +30,6 @@ export const compareLocal= (local: Local, updateLocal: Local) => {
     if (local.postalCode !== updateLocal.postalCode && updateLocal.postalCode !== undefined) {
         updatedFields.postalCode = updateLocal.postalCode;
     }
-    if (local.contact !== updateLocal.contact && updateLocal.contact !== undefined) {
-        updatedFields.contact = updateLocal.contact;
-    }
     if (local.schedules !== updateLocal.schedules && updateLocal.schedules !== undefined) {
         updatedFields.schedules = updateLocal.schedules;
     }
@@ -53,6 +50,9 @@ export const compareLocal= (local: Local, updateLocal: Local) => {
     }
     if (local.open !== updateLocal.open && updateLocal.open !== undefined) {
         updatedFields.open = updateLocal.open;
+    }
+    if (local.businessType !== updateLocal.businessType && updateLocal.businessType !== undefined) {
+        updatedFields.businessType = updateLocal.businessType;
     }
     if (local.businessType !== updateLocal.businessType && updateLocal.businessType !== undefined) {
         updatedFields.businessType = updateLocal.businessType;
