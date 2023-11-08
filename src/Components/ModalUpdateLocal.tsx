@@ -60,8 +60,8 @@ export const  ModalUpdateLocal= ({ flagValue, local, img, isVisible, onClose, on
                     const dataLocal = await putLocal({localId: local._id, updatedLocal: partialLocal as Local });
                     if (dataLocal && dataLocal.status === 200) {
                         CustomAlert({
-                            title: t('ProductUpdatedTitle'), 
-                            desc: t('ProductUpdated'),
+                            title: t('LocalUpdatedTitle'), 
+                            desc: t('LocalImageUpdatedInfo'),
                         });
                         onUpdate(localUpdate);
                     }

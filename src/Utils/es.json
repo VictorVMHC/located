@@ -211,6 +211,8 @@
     "NoLocalHasBeenFoundInfo": "Al parecer no se pudo encontrar ningún local en el rango de",
     "NoPopularLocalHasBeenFound": "No se ha encontrado ningún local",
     "NoPopularLocalInfo":"Al parecer no se pudo encontrar ningún local calificado por tu zona",
-    "ErrorPopularLocalInfo": "Se produjo un error al intentar encontrar locales populares"
+    "ErrorPopularLocalInfo": "Se produjo un error al intentar encontrar locales populares",
+    "LocalUpdatedTitle": "Imagen del local actualizada",
+    "LocalImageUpdatedInfo": "La imagen del local fue actualizada exitosamente"
   }
 }

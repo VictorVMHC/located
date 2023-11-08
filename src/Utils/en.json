@@ -214,6 +214,8 @@
     "NoLocalHasBeenFoundInfo": "Apparently no local could be found in the range of",
     "NoPopularLocalHasBeenFound": "No local has been found",
     "NoPopularLocalInfo":"Apparently couldn't find any qualified place in your area",
-    "ErrorPopularLocalInfo": "An error occurred while trying to find popular locals"
+    "ErrorPopularLocalInfo": "An error occurred while trying to find popular locals",
+    "LocalUpdatedTitle": "Local image updated",
+    "LocalImageUpdatedInfo": "The image of the local was successfully updated"
   }
 }
