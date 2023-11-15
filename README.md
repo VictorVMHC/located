@@ -65,7 +65,7 @@ If you are having, because the BASE_URL is not updating, try this
 | 27017 | Mongo db (in docker compose)     | MongodB        |
 | 8082  | Located                          | Metro          |
 
-# Diagram Google
+# `Diagram Google Sing up`
 
 ```mermaid
 sequenceDiagram
@@ -86,6 +86,62 @@ sequenceDiagram
 
 ```
 
+# `Log in user Flow`
+
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant App as Application
+    participant Server as Server
+    participant Database as Database
+
+    User->>App: Enter credentials
+    App->>App: Encrypt password
+    App->>Server: Send encrypted credentials
+    Server->>Database: Query user data
+    Database-->>Server: User data
+
+    alt Valid credentials
+        Server-->>Server: Verify if encrypted password matches stored password
+        alt Password valid
+            Server-->>App: Send success response
+            App->>User: Successful login
+            Server-->>Server: Generate session token
+            Server-->>App: Send session token
+            App->>App: Store session token
+        else Invalid password
+            Server-->>App: Send error response
+            App->>User: Display error message
+        end
+    else Invalid credentials
+        Server-->>App: Send error response
+        App->>User: Display error message
+    end
+```
+
+# `Register user Flow`
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant Server
+    participant Database
+
+    User->>App: Enter registration details
+    App->>Server: Send registration data
+    Server->>Database: Create new user
+    Database-->>Server: User created successfully
+
+    alt User created
+        Server-->>App: Send success response
+        App->>User: Registration successful
+    else User already exists
+        Server-->>App: Send error response
+        App->>User: Display error message
+    end
+```
+
 # Módulo 1: **`Sistemas de Información`**
 
 Este módulo está implícito en todo el proyecto, ya que abarca toda la parte de **`programación`** y **`bases de datos`**, además de **`estructuras de datos`**. En todo el proyecto, se distribuye este conocimiento, ya que utilizamos una gran variedad de estructuras de datos y principios básicos de programación.
@@ -101,3 +157,17 @@ En este módulo, se desarrolló una aplicación **`cliente-servidor`**. Por el l
 # Módulo 4: **`Cómputo Flexible`**
 
 Para este módulo, decidimos incluir un clasificador de comentarios que analiza los **`sentimientos`** transmitidos en un comentario, ya sea **`positivo`**, **`negativo`** o **`neutro`**, utilizando el algoritmo de **`Naive Bayes`**. Realizamos un proceso de **`ETL`** en un conjunto de datos para lograr una clasificación precisa. Además, se agregó un algoritmo para realizar **`recomendaciones de locales`**, teniendo en cuenta la interacción del usuario con la aplicación y utilizando el **`Coeficiente de Jaccard`** para extraer usuarios más parecidos.
+
+# Formulas
+
+## Naive Bayes
+
+![Naive Bayes](./docs/Naive%20Bayes.jpeg)
+
+## Jaccard
+
+![jaccard](./docs/Jaccard.png)
+
+## Haversine
+
+![Haversine](./docs/Haversine.jpeg)
