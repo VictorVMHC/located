@@ -84,7 +84,20 @@ sequenceDiagram
     A->>A: Almacena los datos del usuario autenticado
     A->>A: Muestra la interfaz de la aplicación con el usuario autenticado
 
-
-
-
 ```
+
+# Módulo 1: **`Sistemas de Información`**
+
+Este módulo está implícito en todo el proyecto, ya que abarca toda la parte de **`programación`** y **`bases de datos`**, además de **`estructuras de datos`**. En todo el proyecto, se distribuye este conocimiento, ya que utilizamos una gran variedad de estructuras de datos y principios básicos de programación.
+
+# Módulo 2: **`Gestión de la Tecnología`**
+
+Para este módulo, se implementaron diversas técnicas de **`ingeniería de datos`** y **`control de proyectos`** para realizar toda la **`planificación`** y **`seguimiento del desarrollo`**. Por ejemplo, se utilizó la metodología **`SCRUM`**, con **`historias de usuario`**, para definir tareas, bugs y epics. Además, para la **`gestión del desarrollo`**, utilizamos un **`SVC (System Version Control)`** llamado **`Git`**, para crear ramificaciones por historia, tarea y bug, y así mantener la integridad de los proyectos.
+
+# Módulo 3: **`Sistemas Robustos, Paralelos y Distribuidos`**
+
+En este módulo, se desarrolló una aplicación **`cliente-servidor`**. Por el lado del cliente, utilizamos **`React Native`** para desarrollar una aplicación móvil para **`Android`**, y por el lado del servidor, implementamos un servidor **`Node.js Express`**. También desarrollamos una página en **`React.js`** para las descargas del **`APK`**. El servidor se alojó en una **`PaaS`** que nos dio la oportunidad de configurar los puertos por los que escucharía nuestro servidor.
+
+# Módulo 4: **`Cómputo Flexible`**
+
+Para este módulo, decidimos incluir un clasificador de comentarios que analiza los **`sentimientos`** transmitidos en un comentario, ya sea **`positivo`**, **`negativo`** o **`neutro`**, utilizando el algoritmo de **`Naive Bayes`**. Realizamos un proceso de **`ETL`** en un conjunto de datos para lograr una clasificación precisa. Además, se agregó un algoritmo para realizar **`recomendaciones de locales`**, teniendo en cuenta la interacción del usuario con la aplicación y utilizando el **`Coeficiente de Jaccard`** para extraer usuarios más parecidos.

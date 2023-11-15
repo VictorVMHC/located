@@ -38,7 +38,7 @@ export const ForYouMainView = ({ navigation }: Props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-        {loading 
+        {loading || locals.length === 0
             ? (
                 <ThereAreNoLocals
                 text={`${t('NoLocalHasBeenFound')}`} 

@@ -9,8 +9,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
     
+    
     async(config) => {
-        
+        console.log(BASE_URL);
         const token = await AsyncStorage.getItem('x-token');
         
         if ( token && !config.headers['x-token']) {
